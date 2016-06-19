@@ -1,0 +1,40 @@
+/* here you can put your own css to customize and override the theme */
+
+/***
+Rounded Portlets
+***/
+/*
+.portlet {
+	border-radius: 4px !important;
+}
+
+.portlet .portlet-title {
+	border-radius: 4px 4px 0px 0px !important;
+}
+
+.portlet .portlet-body,
+.portlet .portlet-body .form-actions  {
+	border-radius: 0px 0px 4px 4px !important;
+}
+*/
+
+@media (max-width: 480px) {
+    /* 480px */
+    .page-header.navbar {
+        height: 68px !important;
+        /* Top menu */
+    }
+}
+
+@media (max-width: 991px) {
+    /* 991px */
+        .page-header.navbar .page-top {
+            display: none !important;
+        }
+    .page-header.navbar .menu-toggler.responsive-toggler {
+        background-image: url(../img/sidebar-toggler.png);
+    }
+      .page-boxed .page-header.navbar > .container {
+        background-color: #14B9D6 !important;
+  }
+}

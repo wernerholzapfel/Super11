@@ -1,0 +1,10 @@
+package.json
+//A configuration file that contains metadata about your application.
+//Also, when there is a package.json file in the root directory of the project, Heroku will use the Node.js buildpack.
+
+
+app.json
+//A manifest format for describing web apps.
+//It declares environment variables, add-ons, and other information required to run an app on Heroku.
+//It is required to create a “Deploy to Heroku” button.
+

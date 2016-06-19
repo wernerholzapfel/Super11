@@ -1,0 +1,156 @@
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title ng-scope">
+    Hall of Fame
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#/dashboard.html">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#/halloffame.html">Hall of Fame</a>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row" ng-controller="ParticipantApiController">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet box blue-hoki">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-bar-chart"></i>Winnaars Eindstand
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Jaar</th>
+                        <th>Nr. 1</th>
+                        <th>Nr. 2</th>
+                        <th>Nr. 3</th>
+                        <th>Deelnemers</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>WK 2014</td>
+                        <td>Tamar Vloedgraven (Nijmegen)</td>
+                        <td>Peer Donders (Arnhem)</td>
+                        <td>Frank Buis (Diemen)</td>
+                        <td>168</td>
+                    </tr>
+                    <tr>
+                        <td>EK 2012</td>
+                        <td>Rogier Alarm (Meppel)</td>
+                        <td>Renske Praamstra (Arnhem)</td>
+                        <td>Marvin de Ruiter (Velp Gld)</td>
+                        <td>154</td>
+                    </tr>
+                    <tr>
+                        <td>WK 2010</td>
+                        <td>Chantal Garstenveld (Lievelde)</td>
+                        <td>Dimitri Fioole (Arnhem)</td>
+                        <td>Michelle Wijsman (Nijmegen)</td>
+                        <td>147</td>
+                    </tr>
+                    <tr>
+                        <td>EK 2008</td>
+                        <td>Anne Knoef (Vorden)</td>
+                        <td>Emiel Maarschalkerweerd (Hoevelaken)</td>
+                        <td>Niek Leemreize (Lievelde)</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>WK 2006</td>
+                        <td>Tom Luttikhold (Beltrum)</td>
+                        <td>Frank Letteboer (Enschede)</td>
+                        <td>Ronald Eitens (Lochem)</td>
+                        <td>116</td>
+                    </tr>
+                    <tr>
+                        <td>EK 2004</td>
+                        <td>Maikel Staring (Lichtenvoorde)</td>
+                        <td>Rene van Hoorn (Amsterdam)</td>
+                        <td>Harm groot Wesseldijk (Laren (Gld))</td>
+                        <td>85</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet box blue-hoki">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-bar-chart"></i>Winnaars na de groepswedstrijden
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped">
+
+                    <thead>
+                    <tr>
+                        <th>Jaar</th>
+                        <th>Nr. 1</th>
+                        <th>Nr. 2</th>
+                        <th>Nr. 3</th>
+                        <th>Deelnemers</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>WK 2014</td>
+                        <td>Wim Holzapfel (Lochem)</td>
+                        <td>Paul Meijerink (Diemen)</td>
+                        <td>Patrick Speijers (Arnhem)</td>
+                        <td>168</td>
+                    </tr>
+                    <tr>
+                        <td>EK 2012</td>
+                        <td>Maikel Staring (Nijmegen)</td>
+                        <td>Renske Praamstra (Arnhem) en <br>Hermien Koers (Ijsselmuiden)</td>
+                        <td></td>
+                        <td>154</td>
+                    </tr>
+                    <tr>
+                        <td>WK 2010</td>
+                        <td>Justin Kuipers (Haarlem)</td>
+                        <td>Jasper van Maanen (Groningen) en <br>Maurice Berndsen (Nijmegen)</td>
+                        <td></td>
+                        <td>147</td>
+                    </tr>
+                    <tr>
+                        <td>EK 2008</td>
+                        <td>Michelle Wijsman (Brummen)</td>
+                        <td>Werner Holzapfel (Amsterdam)</td>
+                        <td>Eduardo Serrano (Weesp)</td>
+                        <td>120</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS -->
+<script>
+	function AdvancedDatatablesDemoCtrl($scope) {
+		TableAdvanced.init();
+	}
+
+</script>
+<!-- END MAIN JS -->

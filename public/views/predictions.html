@@ -1,0 +1,203 @@
+<!-- BEGIN PAGE HEADER-->
+<div ng-controller="PredictionApiController">
+    <h3 class="page-title ng-scope">
+        De Voorspellingen {{ predictions[1].ParticipantName }}
+    </h3>
+
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#/dashboard.html">Home</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <a href="#/predictions.html">Voorspellingen</a>
+            </li>
+        </ul>
+        <div class="page-toolbar">
+        </div>
+    </div>
+    <!-- END PAGE HEADER-->
+    <!-- BEGIN MAIN CONTENT -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue-hoki" ng-repeat="poule in poules">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa icon-puzzle"></i>Poule {{poule.poule}} uitslagen
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="reload" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Thuis
+                            </th>
+                            <th>
+                                Uit
+                            </th>
+                            <th>
+                                Voorspelling
+                            </th>
+                            <th>
+                                Uitslag
+                            </th>
+                            <th>
+                                Punten
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="prediction in predictions | filter : ({Poule:poule.poule, PredictionTypeId:1})">
+                            <td>
+                                {{ prediction.Id }}
+                            </td>
+                            <td>
+                                {{ prediction.HomeTeam }}
+                            </td>
+                            <td>
+                                {{ prediction.AwayTeam }}
+                            </td>
+                            <td>
+                                {{ prediction.HomePrediction }} - {{ prediction.AwayPrediction }}
+                            </td>
+                            <td>
+                                {{ prediction.HomeScore }} - {{ prediction.AwayScore }}
+                            </td>
+                            <td>
+                                {{ prediction.Points }}
+                            </td>
+
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE  -->
+            <div class="portlet box blue-hoki" ng-repeat="poule in poules">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa icon-puzzle"></i>Poule {{poule.poule}} stand
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="reload" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>
+                                Positie
+                            </th>
+                            <th>
+                                Team
+                            </th>
+                            <th>
+                                Uitslag
+                            </th>
+                            <th>
+                                Punten
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="prediction in predictions | filter : ({Poule:poule.poule, PredictionTypeId:2}) | orderBy:orderByField:reverseSort ">
+                            <td ng-name="TablePosition">
+                                {{ prediction.TablePosition }}
+                            </td>
+                            <td ng-name="Team">
+                                {{ prediction.Team }}
+                            </td>
+
+                            <td ng-name="Result">
+                                nnb
+                            </td>
+                            <td ng-name="Points">
+                                {{ prediction.Points }}
+                            </td>
+
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE  -->
+            <div class="portlet box blue-hoki" ng-repeat="predictionType in predictionTypes">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa icon-puzzle"></i>{{predictionType.Title}}
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="reload" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>
+                                Team
+                            </th>
+                            <th>
+                                Uitslag
+                            </th>
+                            <th>
+                                Punten
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="prediction in predictions |  filter  : ({PredictionTypeId:predictionType.Id})">
+                            <td>
+                                {{ prediction.Team }}
+                            </td>
+                            <td>
+                                nnb
+                            </td>
+                            <td>
+                                {{ prediction.Points }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS -->
+<script>
+	function AdvancedDatatablesDemoCtrl($scope) {
+		TableAdvanced.init();
+	}
+
+</script>
+<!-- END MAIN JS -->

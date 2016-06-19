@@ -1,0 +1,83 @@
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title ng-scope">
+    De Deelnemers
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#/dashboard.html">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#/participants.html">Deelnemers</a>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row" ng-controller="ParticipantApiController">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet box blue-hoki">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-user"></i>Super 11 heeft {{ participants.length }} deelnemers
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="reload" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Naam
+                        </th>
+                        <th>
+                            Plaats
+                        </th>
+                        <th>
+                            Geslacht
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="participant in participants">
+                        <td>
+                            {{ participant.Id }}
+                        </td>
+                        <td>
+                            {{ participant.Name }}
+                        </td>
+                        <td>
+                            {{ participant.Location }}
+                        </td>
+                        <td>
+                            {{ participant.Gender }}
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS -->
+<script>
+	function AdvancedDatatablesDemoCtrl($scope) {
+		TableAdvanced.init();
+	}
+
+</script>
+<!-- END MAIN JS -->

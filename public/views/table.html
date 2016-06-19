@@ -1,0 +1,82 @@
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title ng-scope">
+    Super 11 Stand
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#/dashboard.html">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#/games.html">Speelschema</a>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row" ng-controller="GamesApiController">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet box blue-hoki" ng-repeat="poule in poules">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-calendar"></i>Poule {{poule.poule}}
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            Datum
+                        </th>
+                        <th>
+                            Stad
+                        </th>
+                        <th>
+                            Wedstrijd
+                        </th>
+                        <th>
+                            Uitslag
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="game in games | filter : ({Poule:poule.poule, GameTypeId:1}) ">
+                        <td>
+                            {{ game.Date | date : "EEEE d MMMM H:mm" }}
+                        </td>
+                        <td>
+                            {{ game.City }}
+                        </td>
+                        <td>
+                            {{ game.HomeTeam }} - {{ game.AwayTeam}}
+                        </td>
+                        <td>
+                            {{ game.HomeScore }} - {{ game.AwayScore}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS -->
+<script>
+	function AdvancedDatatablesDemoCtrl($scope) {
+		TableAdvanced.init();
+	}
+
+</script>
+<!-- END MAIN JS -->
