@@ -45,7 +45,7 @@ function handleError(res, reason, message, code) {
 
 app.post("/predictions", function(req, res) {
   var newPrediction = req.body;
-  newContact.createDate = new Date();
+  newPrediction.createDate = new Date();
 
   db.collection(PREDICTIONS_COLLECTION).insertOne(newPrediction, function(err, doc) {
     if (err) {
