@@ -147,6 +147,58 @@
                 </div>
 
                 <button value="Previous" ng-click="participantView()" ng-show="showTable">Terug</button>
+                <button value="Next" ng-hide="poulesForm.$invalid" ng-click="teamView()">Volgende</button>
+            </form>
+
+            <form name="teamForm" class="form-horizontal form-bordered" ng-show="showTeam">
+                <alert type="success" ng-show="tableForm.$invalid" close="closeAlert()">{{teamMsg}}</alert>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box blue-hoki">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Kies je team
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+
+                                <table class="table table-striped">
+                                    <thead>
+
+                                    </thead>
+                                    <tbody ng-repeat="pos in playerPositions">
+
+                                    <tr>
+                                        <td>{{pos.Position}}</td>
+                                    </tr>
+                                    <tr ng-repeat="player in data.Team | filter : {Position:pos.Position}">
+                                        <td>
+                                            <select ng-name="SelectedPlayerId" required
+                                                    ng-model="SelectedPlayerId"
+                                                    ng-click="unSelectPlayersOfThisTeam(SelectedPlayerId,player)"
+                                                    ng-blur="selectPlayersOfThisTeam(SelectedPlayerId,player)"
+                                                    ng-change="updateTeamPrediction(SelectedPlayerId,player)"
+                                                    >
+                                                <option ng-model="players" ng-value="player.Id"
+                                                        ng-repeat="player in players | filter : {Position:pos.Position} | orderBy:['Team','Name'] "
+                                                        ng-hide="player.Selected">{{player.Name}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button value="Previous" ng-click="tableView()" ng-show="showTeam">Terug</button>
                 <button value="Next" ng-hide="poulesForm.$invalid" ng-click="secondRoundView()">Werkt nog niet</button>
             </form>
         </div>
@@ -161,6 +213,7 @@
             function AdvancedDatatablesDemoCtrl($scope) {
                 TableAdvanced.init();
             }
+
 
 
 </script>
