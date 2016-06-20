@@ -10,9 +10,11 @@ MetronicApp.filter('team', function () {
 MetronicApp.controller('RegistrationApiController', function ($scope, registrationService, teamFilter) {
 
     $scope.alerts = [];
-    $scope.participantMsg = 'Leuk dat je je wilt inschrijven. Vul alle velden in, er zal dan een volgende-knop verschijnen';
+    $scope.participantMsg = 'Leuk dat je je wilt inschrijven. Vul alle velden in. Daarna kan je op volgende klikken om de rest van je voorspellingen in te vullen';
     $scope.tableMsg = 'Net zoals alle andere jaren voorspel je de eindstand van de eredivisie.';
     $scope.teamMsg = 'Kies je team';
+    $scope.questionMsg = 'Met deze vragen kan je extra bonuspunten verdienen'
+
     $scope.predictionTypes = [{ Id: 4, Title: "Halve Finale" }, { Id: 5, Title: "Finale" }];
 	  $scope.playerPositions = [{ Id: 1, Position: "GK" }, { Id: 2, Position: "DF" }, { Id: 3, Position: "MF" }, { Id: 4, Position: "FW" }];
 
@@ -1149,10 +1151,10 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
     $scope.orderByField = 'ts';
     $scope.reverseSort = true;
 
-    $scope.showParticipant = false;
+    $scope.showParticipant = true;
     $scope.showTable = false;
     $scope.showTeam = false;
-    $scope.showQuestions = true;
+    $scope.showQuestions = false;
 
     $scope.participantView = function () {
         $scope.showParticipant = true;
