@@ -26,4 +26,3 @@ MetronicApp.factory('registrationApi', function ($http) {
     };
     return myService;
 });
-   

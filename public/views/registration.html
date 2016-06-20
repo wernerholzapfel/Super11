@@ -127,10 +127,8 @@
 
                                         <td>{{table.Position}}</td>
                                         <td>
-                                            <select ng-name="SelectedTeamId" required
-                                                    ng-model="SelectedTeamId"
-                                                    ng-change="updateTablePrediction(SelectedTeamId,table.Position)"
-                                                    >
+                                            <select ng-name="SelectedTeamId" required ng-model="SelectedTeamId"
+                                                    ng-change="updateTablePrediction(SelectedTeamId,table.Position)">
                                                 <!--ng-options="team as team.Team disable when team.Selected for (Id, team.Id) in team"-->
                                                 <!--ng-options="team as (team.Team) disable when team.Selected for team in teams track by team.Id"-->
                                                 <option ng-model="team" ng-value="team.Id" ng-repeat="team in teams"
@@ -171,8 +169,7 @@
                                     <thead>
                                     <tr>
                                         <td>Formatie:
-                                            <select ng-name="selectedFormation" required
-                                                    ng-model="selectedFormation"
+                                            <select ng-name="selectedFormation" required ng-model="selectedFormation"
                                                     ng-change="setFormation(selectedFormation)">
                                                 <option ng-model="formations" ng-repeat="formation in formations"
                                                         ng-model="formations.Formation" ng-value="formation.Formation">
@@ -190,12 +187,10 @@
                                     </tr>
                                     <tr ng-repeat="teamPlayer in data.Team | filter : {Position:pos.Position}">
                                         <td>
-                                            <select ng-name="SelectedPlayerId" required
-                                                    ng-model="SelectedPlayerId"
+                                            <select ng-name="SelectedPlayerId" required ng-model="SelectedPlayerId"
                                                     ng-click="unSelectPlayersOfThisTeam(SelectedPlayerId,teamPlayer)"
                                                     ng-blur="selectPlayersOfThisTeam(SelectedPlayerId,teamPlayer)"
-                                                    ng-change="updateTeamPrediction(SelectedPlayerId,teamPlayer)"
-                                                    >
+                                                    ng-change="updateTeamPrediction(SelectedPlayerId,teamPlayer)">
                                                 <!--ng-options='player.Id as (player.Name + " (" + player.Team +")") disable when player.Selected for player in players |filter : {Position:pos.Position} track by player.Id'-->
                                                 <!--ng-options="player.Id as player.Name disable when player.Selected for player in players |filter : {Position:pos.Position} track by player.Id"-->
 
@@ -247,8 +242,7 @@
                                         <td>
                                             {{question.Question}}
                                         </td>
-                                        <td><input type="text" name="Location" required
-                                                   ng-model="question.Answer"/>
+                                        <td><input type="text" name="Location" required ng-model="question.Answer"/>
                                         </td>
                                     </tr>
 
