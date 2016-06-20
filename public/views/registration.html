@@ -175,17 +175,21 @@
                                     <tr>
                                         <td>{{pos.Position}}</td>
                                     </tr>
-                                    <tr ng-repeat="player in data.Team | filter : {Position:pos.Position}">
+                                    <tr ng-repeat="teamPlayer in data.Team | filter : {Position:pos.Position}">
                                         <td>
                                             <select ng-name="SelectedPlayerId" required
                                                     ng-model="SelectedPlayerId"
-                                                    ng-click="unSelectPlayersOfThisTeam(SelectedPlayerId,player)"
-                                                    ng-blur="selectPlayersOfThisTeam(SelectedPlayerId,player)"
-                                                    ng-change="updateTeamPrediction(SelectedPlayerId,player)"
+                                                    ng-click="unSelectPlayersOfThisTeam(SelectedPlayerId,teamPlayer)"
+                                                    ng-blur="selectPlayersOfThisTeam(SelectedPlayerId,teamPlayer)"
+                                                    ng-change="updateTeamPrediction(SelectedPlayerId,teamPlayer)"
                                                     >
+                                                <!--ng-options='player.Id as (player.Name + " (" + player.Team +")") disable when player.Selected for player in players |filter : {Position:pos.Position} track by player.Id'-->
+                                                <!--ng-options="player.Id as player.Name disable when player.Selected for player in players |filter : {Position:pos.Position} track by player.Id"-->
+
                                                 <option ng-model="players" ng-value="player.Id"
                                                         ng-repeat="player in players | filter : {Position:pos.Position} | orderBy:['Team','Name'] "
-                                                        ng-hide="player.Selected">{{player.Name}}
+                                                        ng-hide="player.Selected"
+                                                        value="{{player.Id}}">{{player.Name}} ({{player.Team}})
                                                 </option>
                                             </select>
                                         </td>
