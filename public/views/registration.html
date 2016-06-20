@@ -128,11 +128,12 @@
                                         <td>{{table.Position}}</td>
                                         <td>
                                             <select ng-name="SelectedTeamId" required ng-model="SelectedTeamId"
-                                                    ng-change="updateTablePrediction(SelectedTeamId,table.Position)">
+                                                    ng-change="updateTablePrediction(SelectedTeamId,table.Position)"
+                                                    >
+                                                <!--ng-options="team.Id as (team.Team) disable when team.Selected for team in teams track by team.Id"-->
                                                 <!--ng-options="team as team.Team disable when team.Selected for (Id, team.Id) in team"-->
-                                                <!--ng-options="team as (team.Team) disable when team.Selected for team in teams track by team.Id"-->
                                                 <option ng-model="team" ng-value="team.Id" ng-repeat="team in teams"
-                                                        ng-hide="team.Selected">{{team.Team}}
+                                                        ng-disabled="team.Selected">{{team.Team}}
                                                 </option>
                                             </select>
                                         </td>

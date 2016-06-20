@@ -1170,8 +1170,8 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
 
   $scope.formationChosen = false;
 
-  $scope.showParticipant = true;
-  $scope.showTable = false;
+  $scope.showParticipant = false;
+  $scope.showTable = true;
   $scope.showTeam = false;
   $scope.showQuestions = false;
 
