@@ -3,7 +3,7 @@
 
     //Create new record
     this.post = function (registrationForm) {
-        var req = $http.post('http://thetotogamesapi.apphb.com/api/registrationforms/', registrationForm);
+        var req = $http.post('https://safe-oasis-58234.herokuapp.com/predictions', registrationForm);
         return req;
 
     }
