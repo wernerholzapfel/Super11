@@ -8,7 +8,7 @@ var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
 
-//var CONTACTS_COLLECTION = "contacts";
+var PREDICTIONS_COLLECTION = "predictions";
 
 var app = express();
 app.use(express.static(__dirname + "/public"));
@@ -36,3 +36,22 @@ mongodb.MongoClient.connect('mongodb://heroku_kxnktwsj:9cbcg3g2r9defoist09f3vduu
 });
 
 // CONTACTS API ROUTES BELOW
+
+// Generic error handler used by all endpoints.
+function handleError(res, reason, message, code) {
+  console.log("ERROR: " + reason);
+  res.status(code || 500).json({"error": message});
+}
+
+app.post("/predictions", function(req, res) {
+  var newPrediction = req.body;
+  newContact.createDate = new Date();
+
+  db.collection(PREDICTIONS_COLLECTION).insertOne(newPrediction, function(err, doc) {
+    if (err) {
+      handleError(res, err.message, "Failed to create new contact.");
+    } else {
+      res.status(201).json(doc.ops[0]);
+    }
+  });
+});
