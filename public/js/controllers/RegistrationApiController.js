@@ -1137,7 +1137,7 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
         var registration = registrationService.post($scope.data);
 
         registration.success(function () {
-            $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt! Veel plezier met het Ek Spel ' + $scope.data.Participant.Name });
+            $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt! Veel plezier met Super 11 ' + $scope.data.Participant.Name });
         });
         registration.error(function () {
             $scope.showConfirm = false;
