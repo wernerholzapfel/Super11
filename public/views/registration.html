@@ -166,11 +166,24 @@
                             </div>
                             <div class="portlet-body form">
 
+
                                 <table class="table table-striped">
                                     <thead>
+                                    <tr>
+                                        <td>Formatie:
+                                            <select ng-name="selectedFormation" required
+                                                    ng-model="selectedFormation"
+                                                    ng-change="setFormation(selectedFormation)">
+                                                <option ng-model="formations" ng-repeat="formation in formations"
+                                                        ng-model="formations.Formation" ng-value="formation.Formation">
+                                                    {{formation.Formation}}
+                                                </option>
 
+                                            </select>
+                                        </td>
+                                    </tr>
                                     </thead>
-                                    <tbody ng-repeat="pos in playerPositions">
+                                    <tbody ng-repeat="pos in playerPositions" ng-show="formationChosen">
 
                                     <tr>
                                         <td>{{pos.Position}}</td>

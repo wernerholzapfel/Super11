@@ -17,6 +17,8 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
 
     $scope.predictionTypes = [{ Id: 4, Title: "Halve Finale" }, { Id: 5, Title: "Finale" }];
 	  $scope.playerPositions = [{ Id: 1, Position: "GK" }, { Id: 2, Position: "DF" }, { Id: 3, Position: "MF" }, { Id: 4, Position: "FW" }];
+    $scope.formations = [{Id : 1, Formation: "433"}, {Id : 2,Formation : "442"}]
+
 
 	$scope.players = [
                     {
@@ -1059,6 +1061,45 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
 			PlayerSelected: false
 		}]
 
+      $scope.setFormation = function (formation) {
+      console.log(formation)
+      switch (formation) {
+          case "433":
+        $scope.data.Team[8].Position = "FW";
+        $scope.data.Team[8].PlayerId = "";
+        $scope.data.Team[8].PlayerName = "";
+        $scope.formationChosen = true;
+              break;
+          case "442":
+       $scope.data.Team[8].Position = "MF";
+          $scope.data.Team[8].PlayerId = "";
+               $scope.data.Team[8].PlayerName = "";
+             $scope.formationChosen = true;
+              break;
+          default:
+
+                          $scope.data.Team[8].Position = "FW";
+                          $scope.data.Team[8].PlayerId = "";
+                          $scope.data.Team[8].PlayerName = "";
+                          $scope.formationChosen = true;
+
+      }
+
+//        if (formation == "433")
+//        {
+//        $scope.data.Team[8].Position = "FW";
+//        $scope.data.Team[8].PlayerId = "";
+//        $scope.data.Team[8].PlayerName = "";
+//
+//        $scope.formationChosen = true;
+//      }else {
+//       $scope.data.Team[8].Position = "MF";
+//          $scope.data.Team[8].PlayerId = "";
+//               $scope.data.Team[8].PlayerName = "";
+//             $scope.formationChosen = true;
+//           }
+      }
+
 	$scope.updateTablePrediction = function (newId, position) {
 
 		var oldId = $scope.data.Table[position - 1].SelectedTeamId
@@ -1147,13 +1188,16 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
         });
     };
 
+
+
     $scope.hide = false;
     $scope.orderByField = 'ts';
     $scope.reverseSort = true;
 
-    $scope.showParticipant = true;
+    $scope.formationChosen = false
+    $scope.showParticipant = false;
     $scope.showTable = false;
-    $scope.showTeam = false;
+    $scope.showTeam = true;
     $scope.showQuestions = false;
 
     $scope.participantView = function () {
