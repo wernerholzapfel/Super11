@@ -18,13 +18,13 @@ app.use(bodyParser.json());
 var db;
 
 // Connect to the database before starting the application server.
-mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
+mongodb.MongoClient.connect('mongodb://heroku_kxnktwsj:9cbcg3g2r9defoist09f3vduu1@ds023902.mlab.com:23902/heroku_kxnktwsj', function (err, database) {
   if (err) {
     console.log(err);
     process.exit(1);
   }
 
-//  // Save database object from the callback for reuse.
+  // Save database object from the callback for reuse.
   db = database;
   console.log("Database connection ready");
 
@@ -36,26 +36,3 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
 });
 
 // CONTACTS API ROUTES BELOW
-
-// Generic error handler used by all endpoints.
-function handleError(res, reason, message, code) {
-  console.log("ERROR: " + reason);
-  res.status(code || 500).json({"error": message});
-}
-
-app.post("/predictions", function(req, res) {
-  var newPrediction = req.body;
-  newPrediction.createDate = new Date();
-
-//  if (!(req.body.firstName || req.body.lastName)) {
-//    handleError(res, "Invalid user input", "Must provide a first or last name.", 400);
-//  }
-
-  db.collection(PREDICTION_COLLECTION).insertOne(newPrediction, function(err, doc) {
-    if (err) {
-      handleError(res, err.message, "Failed to create new contact.");
-    } else {
-      res.status(201).json(doc.ops[0]);
-    }
-  });
-});
