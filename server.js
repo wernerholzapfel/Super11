@@ -49,9 +49,20 @@ app.post("/predictions", function(req, res) {
 
   db.collection(PREDICTIONS_COLLECTION).insertOne(newPrediction, function(err, doc) {
     if (err) {
-      handleError(res, err.message, "Failed to create new contact.");
+      handleError(res, err.message, "Failed to create new prediction.");
     } else {
       res.status(201).json(doc.ops[0]);
+    }
+  });
+});
+
+
+app.get("/predictions", function(req, res) {
+  db.collection(PREDICTIONS_COLLECTION).find({},{ Participant : 1, _id : 0}).toArray(function(err, docs) {
+    if (err) {
+      handleError(res, err.message, "Failed to get predictions.");
+    } else {
+      res.status(200).json(docs);
     }
   });
 });
