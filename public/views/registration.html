@@ -96,7 +96,7 @@
                         </table>
                     </div>
                 </div>
-                <button value="Next" ng-hide="participantForm.$invalid" ng-click="tableView()">Volgende</button>
+                <button value="Next" ng-disabled="participantForm.$invalid" ng-click="tableView()">Volgende</button>
             </form>
 
             <form name="tableForm" class="form-horizontal form-bordered" ng-show="showTable">
@@ -147,7 +147,7 @@
                 </div>
 
                 <button value="Previous" ng-click="participantView()" ng-show="showTable">Terug</button>
-                <button value="Next" ng-hide="poulesForm.$invalid" ng-click="teamView()">Volgende</button>
+                <button value="Next" ng-disabled="tableForm.$invalid" ng-click="teamView()">Volgende</button>
             </form>
 
             <form name="teamForm" class="form-horizontal form-bordered" ng-show="showTeam">
@@ -203,8 +203,55 @@
                 </div>
 
                 <button value="Previous" ng-click="tableView()" ng-show="showTeam">Terug</button>
-                <button value="Next" ng-hide="poulesForm.$invalid" ng-click="secondRoundView()">Werkt nog niet</button>
+                <button value="Next" ng-disabled="poulesForm.$invalid" ng-click="questionsView()">Volgende</button>
             </form>
+
+            <form name="questionsForm" class="form-horizontal form-bordered" ng-show="showQuestions">
+                <alert type="success" ng-show="tableForm.$invalid" close="closeAlert()">{{questionMsg}}</alert>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box blue-hoki">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Nog {{data.Questions.length}} vragen!
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <td>Vraag</td>
+                                        <td>Antwoord</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="question in data.Questions">
+                                        <td>
+                                            {{question.Question}}
+                                        </td>
+                                        <td><input type="text" name="Location" required
+                                                   ng-model="question.Answer"/>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button value="Previous" ng-click="teamView()" ng-show="showQuestions">Terug</button>
+                <button value="Next" ng-disabled="questionsForm.$invalid" ng-click="save()">Save (werkt nog niet)
+                </button>
+            </form>
+
+
         </div>
         <!-- END TABLE PORTLET-->
     </div>
@@ -217,6 +264,7 @@
             function AdvancedDatatablesDemoCtrl($scope) {
                 TableAdvanced.init();
             }
+
 
 
 

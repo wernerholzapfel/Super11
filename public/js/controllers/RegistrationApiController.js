@@ -1149,10 +1149,10 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
     $scope.orderByField = 'ts';
     $scope.reverseSort = true;
 
-    $scope.showParticipant = true;
+    $scope.showParticipant = false;
     $scope.showTable = false;
     $scope.showTeam = false;
-    $scope.showQuestions = false;
+    $scope.showQuestions = true;
 
     $scope.participantView = function () {
         $scope.showParticipant = true;
