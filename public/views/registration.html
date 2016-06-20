@@ -132,7 +132,8 @@
                                                     >
                                                 <!--ng-options="team.Id as (team.Team) disable when team.Selected for team in teams track by team.Id"-->
                                                 <!--ng-options="team as team.Team disable when team.Selected for (Id, team.Id) in team"-->
-                                                <option ng-model="team" ng-value="team.Id" ng-repeat="team in teams"
+                                                <option ng-model="team" ng-value="team.Id"
+                                                        ng-repeat="team in teams | orderBy : 'Selected'"
                                                         ng-disabled="team.Selected">{{team.Team}}
                                                 </option>
                                             </select>
@@ -196,8 +197,8 @@
                                                 <!--ng-options="player.Id as player.Name disable when player.Selected for player in players |filter : {Position:pos.Position} track by player.Id"-->
 
                                                 <option ng-model="players" ng-value="player.Id"
-                                                        ng-repeat="player in players | filter : {Position:pos.Position} | orderBy:['Team','Name'] "
-                                                        ng-hide="player.Selected"
+                                                        ng-repeat="player in players | filter : {Position:pos.Position} | orderBy:['Selected','Team','Name'] "
+                                                        ng-disabled="player.Selected"
                                                         value="{{player.Id}}">{{player.Name}} ({{player.Team}})
                                                 </option>
                                             </select>

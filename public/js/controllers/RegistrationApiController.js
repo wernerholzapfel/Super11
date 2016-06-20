@@ -908,7 +908,7 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
       "Team": "GRA",
       "TeamId": 5,
       "Selected": false,
-      "Position": "FW"
+      "Position": "MF"
     },
     {
       "Id": 113,
@@ -916,7 +916,7 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
       "Team": "GRA",
       "TeamId": 5,
       "Selected": false,
-      "Position": "FW"
+      "Position": "MF"
     },
     {
       "Id": 114,
@@ -924,7 +924,7 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
       "Team": "GRA",
       "TeamId": 5,
       "Selected": false,
-      "Position": "FW"
+      "Position": "MF"
     },
     {
       "Id": 115,
@@ -932,7 +932,7 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
       "Team": "GRA",
       "TeamId": 5,
       "Selected": false,
-      "Position": "FW"
+      "Position": "MF"
     },
     {
       "Id": 116,
@@ -940,7 +940,7 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
       "Team": "GRA",
       "TeamId": 5,
       "Selected": false,
-      "Position": "FW"
+      "Position": "MF"
     },
     {
       "Id": 117,
@@ -1170,8 +1170,8 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
 
   $scope.formationChosen = false;
 
-  $scope.showParticipant = false;
-  $scope.showTable = true;
+  $scope.showParticipant = true;
+  $scope.showTable = false;
   $scope.showTeam = false;
   $scope.showQuestions = false;
 
