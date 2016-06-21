@@ -134,7 +134,7 @@
                                                 <!--ng-options="team as team.Team disable when team.Selected for (Id, team.Id) in team"-->
                                                 <option ng-model="team" ng-value="team.Id"
                                                         ng-repeat="team in teams | orderBy : 'Selected'"
-                                                        ng-disabled="team.Selected">{{team.Team}}
+                                                        ng-hide="team.Selected">{{team.Team}}
                                                 </option>
                                             </select>
                                         </td>
@@ -198,7 +198,7 @@
 
                                                 <option ng-model="players" ng-value="player.Id"
                                                         ng-repeat="player in players | filter : {Position:pos.Position} | orderBy:['Selected','Team','Name'] "
-                                                        ng-disabled="player.Selected"
+                                                        ng-hide="player.Selected"
                                                         value="{{player.Id}}">{{player.Name}} ({{player.Team}})
                                                 </option>
                                             </select>
