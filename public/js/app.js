@@ -168,7 +168,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                                 '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
 
                                 '../../../assets/admin/pages/scripts/profile.js',
-
+                                    'js/services/playerListService.js',
+                                    'js/services/teamListService.js',
                                     'js/controllers/RegistrationController.js',
                                     'js/controllers/RegistrationApiController.js',
 
