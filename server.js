@@ -11,6 +11,7 @@ var ObjectID = mongodb.ObjectID;
 var PREDICTIONS_COLLECTION = "predictions";
 
 var app = express();
+app.use(allowCrossDomain)
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 
@@ -18,10 +19,8 @@ app.use(bodyParser.json());
 var db;
 var uri = process.env.MONGOLAB_GOLD_URI;
 
-console.log("url: " + uri);
-
 // Connect to the database before starting the application server.
-mongodb.MongoClient.connect(process.env.MONGOLAB_GOLD_URI, function (err, database) {
+mongodb.MongoClient.connect('mongodb://heroku_kxnktwsj:9cbcg3g2r9defoist09f3vduu1@ds023902.mlab.com:23902/heroku_kxnktwsj', function (err, database) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -71,3 +70,7 @@ app.get("/predictions", function(req, res) {
     }
   });
 });
+//var berekenStand = require("./berekenStand");
+//var myBerekenStand = berekenStand(); //functie invoking
+//
+//myBerekenStand.calculateTeamPredictionsPerRound(2);
