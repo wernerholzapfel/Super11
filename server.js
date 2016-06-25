@@ -75,7 +75,7 @@ app.post("/api/predictions", function (req, res) {
 
 app.get("/api/predictions", function (req, res) {
   console.log("db in server is: " + db)
-  db.collection(PREDICTIONS_COLLECTION).find({}, { Participant: 1, _id: 0 }).toArray(function (err, docs) {
+  predictions.find({}, { Participant: 1, _id: 0 }).toArray(function (err, docs) {
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {
