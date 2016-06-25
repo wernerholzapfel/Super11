@@ -7,7 +7,7 @@ var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
 var assert = require("assert");
-var Predictions = require("./berekenstand.js")
+var Predictions = require("./predictionModel.js")
 
 var PREDICTIONS_COLLECTION = "predictions";
 
@@ -63,9 +63,8 @@ function handleError(res, reason, message, code) {
 
 app.post("api/predictions", function (req, res) {
   var newPrediction = req.body;
-  newPrediction.createDate = new Date();
 
-  db.collection(PREDICTIONS_COLLECTION).insertOne(newPrediction, function (err, doc) {
+  predictions.save(function (err, newPrediction) {
     if (err) {
       handleError(res, err.message, "Failed to create new prediction.");
     } else {

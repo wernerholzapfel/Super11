@@ -19,10 +19,10 @@ var predictions = db.model('predictions', {
 		SelectedTeamId: { type: String, required: true }
 	}],
 	Team: [{
-		Id: { type: Number, required: true },
-		Position: { type: String, required: true },
-		PlayerId: { type: String, required: true },
-		PlayerName: { type: String, required: true },
+		Id: { type: Number, required: false },
+		Position: { type: String, required: false },
+		PlayerId: { type: String, required: false },
+		PlayerName: { type: String, required: false },
 		TeamId: { type: String, required: false },
 	}],
 	Questions: [{
