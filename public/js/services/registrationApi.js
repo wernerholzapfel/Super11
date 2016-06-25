@@ -3,7 +3,7 @@
 
     //Create new record
     this.post = function (registrationForm) {
-        var req = $http.post('https://localhost:80808/api/predictions', registrationForm);
+        var req = $http.post('https://safe-oasis-58234.herokuapp.com/api/predictions', registrationForm);
         return req;
 
     }
