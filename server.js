@@ -64,7 +64,7 @@ function handleError(res, reason, message, code) {
 app.post("/api/predictions", function (req, res) {
   var newPrediction = req.body;
 
-  Predictions.save(function (err, newPrediction) {
+  newPrediction.save(function (err, newPrediction) {
     if (err) {
       handleError(res, err.message, "Failed to create new prediction.");
     } else {
