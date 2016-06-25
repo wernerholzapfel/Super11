@@ -4,7 +4,6 @@
 var express = require("express");
 var path = require("path");
 var bodyParser = require("body-parser");
-var ObjectID = mongodb.ObjectID;
 var assert = require("assert");
 var Predictions = require("./predictionModel.js")
 
