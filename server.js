@@ -5,7 +5,9 @@ var express = require("express");
 var path = require("path");
 var bodyParser = require("body-parser");
 var assert = require("assert");
-var Predictions = require("./predictionModel.js")
+var Predictions = require("./predictionModel")
+var Players = require("./playersModel")
+var calculateTable = require("./calculate")
 
 var app = express();
 
@@ -49,6 +51,18 @@ app.post("/api/predictions", function (req, res) {
       handleError(res, err.message, "Failed to create new prediction.");
     } else {
       res.status(201).json(predictions);
+    }
+  });
+});
+
+app.post("/api/players", function (req, res) {
+  var players = new Players(req.body);
+
+  players.save(function (err, newPlayers) {
+    if (err) {
+      handleError(res, err.message, "Failed to create new players.");
+    } else {
+      res.status(201).json(players);
     }
   });
 });
@@ -115,15 +129,3 @@ app.post('/api/boeken/', function (req, res, next) {
   })
 });
 
-
-var calculateTeamPredictionsPerRound = function () {
-
-  Predictions.find(function (err, predictions) {
-    if (err) return console.error(err);
-    console.log(predictions);
-  })
-
-
-};
-
-calculateTeamPredictionsPerRound();

@@ -1,9 +1,6 @@
 console.log("berekenstand is ingeladen")
 var db = require("./db.js");
 
-var PREDICTIONS_COLLECTION = "predictions";
-
-
 var predictions = db.model('predictions', {
 	Participant: {
 		Name: { type: String, required: true },
