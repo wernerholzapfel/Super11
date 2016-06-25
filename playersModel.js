@@ -2,6 +2,7 @@ console.log("players is ingeladen")
 var db = require("./db.js");
 
 var players = db.model('players', {
+	RoundId: { type: Number, required: false },
 	Player: [{
 		Id: { type: Number, required: true },
         Name: { type: String, required: true },
@@ -9,7 +10,6 @@ var players = db.model('players', {
         TeamId: { type: Number, required: true },
         Selected: { type: Boolean, required: true },
         Position: { type: String, required: true },
-		RoundId: { type: Number, required: false },
 		Played: { type: Boolean, required: false },
 		Win: { type: Boolean, required: false },
 		Draw: { type: Boolean, required: false },

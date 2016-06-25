@@ -1,7 +1,11 @@
-MetronicApp.controller('ScoreFormApiController', function ($scope, playerListService,saveScoreFormService) {
+MetronicApp.controller('ScoreFormApiController', function ($scope, playerListService,saveScoreFormService,getScoreFormService) {
   $scope.alerts = [];
 
-  $scope.players = playerListService;
+  $scope.newScoreFormList = playerListService;
+  $scope.oldScoreForms = getScoreFormService;
+  $scope.newScoreFormList.RoundId = $scope.oldScoreForm.length + 1;
+  $scope.showRoundScoreForm = false;
+  $scope.showNewScoreForm = true;
 
  $scope.save = function () {
     $scope.showConfirm = true;

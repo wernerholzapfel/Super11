@@ -62,7 +62,17 @@ app.post("/api/players", function (req, res) {
     if (err) {
       handleError(res, err.message, "Failed to create new players.");
     } else {
-      res.status(201).json(players);
+      res.status(201).json(newPlayers);
+    }
+  });
+});
+
+app.get("/api/players", function (req, res, next) {
+  Players.find( function (err, playersList) {
+    if (err) {
+      handleError(res, err.message, "Failed to get predictions.");
+    } else {
+      res.status(200).json(playersList);
     }
   });
 });

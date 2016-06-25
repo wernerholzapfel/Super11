@@ -22,7 +22,7 @@
     <div class="col-md-12">
         <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
         <div ng-hide="showConfirm">
-            <form name="scoreForm" class="form-horizontal form-bordered">
+            <form name="showNewScoreForm" ng-show="showNewScoreForm" class="form-horizontal form-bordered">
                 <!-- BEGIN TABLE PORTLET-->
                 <div class="portlet box blue-hoki">
                     <div class="portlet-title">
@@ -75,7 +75,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="player in players">
+                            <tr ng-repeat="player in newScoreFormList.Player">
                                 <td>
                                     {{ player.Name }}
                                 </td>
