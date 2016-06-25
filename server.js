@@ -64,7 +64,7 @@ function handleError(res, reason, message, code) {
 app.post("/api/predictions", function (req, res) {
   var newPrediction = req.body;
 
-  predictions.save(function (err, newPrediction) {
+  Predictions.save(function (err, newPrediction) {
     if (err) {
       handleError(res, err.message, "Failed to create new prediction.");
     } else {
@@ -73,13 +73,12 @@ app.post("/api/predictions", function (req, res) {
   });
 });
 
-app.get("/api/predictions", function (req, res) {
-  console.log("db in server is: " + db)
-  predictions.find({}, { Participant: 1, _id: 0 }).toArray(function (err, docs) {
+app.get("/api/predictions", function (req, res,next) {
+  Predictions.find({}, { Participant: 1, _id: 0 }, function (err,predictionsList) {
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {
-      res.status(200).json(docs);
+      res.status(200).json(predictionsList);
     }
   });
 });
