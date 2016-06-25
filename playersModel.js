@@ -22,3 +22,5 @@ var players = db.model('players', {
 
 	}]
 });
+
+module.exports = players;
