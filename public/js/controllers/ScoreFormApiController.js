@@ -3,7 +3,6 @@ MetronicApp.controller('ScoreFormApiController', function ($scope, playerListSer
 
   $scope.newScoreFormList = playerListService;
   $scope.oldScoreForms = getScoreFormService;
-  $scope.newScoreFormList.RoundId = $scope.oldScoreForm.length + 1;
   $scope.showRoundScoreForm = false;
   $scope.showNewScoreForm = true;
 
@@ -12,7 +11,7 @@ MetronicApp.controller('ScoreFormApiController', function ($scope, playerListSer
    
     $scope.alerts.push({ type: 'warning', msg: "Bezig met opslaan"});
 
-    var playerList = saveScoreFormService.post($scope.players);
+    var playerList = saveScoreFormService.post($scope.newScoreFormList);
 
     playerList.success(function () {
       $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt!'});

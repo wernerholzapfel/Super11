@@ -1,6 +1,5 @@
 MetronicApp.service('saveScoreFormService', function ($http) {
 
-
     //Create new record
     this.post = function (playerList) {
         var req = $http.post('https://safe-oasis-58234.herokuapp.com/api/players', playerList);

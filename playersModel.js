@@ -1,5 +1,6 @@
 console.log("players is ingeladen")
 var db = require("./db.js");
+var autoIncrement = require('mongoose-auto-increment');
 
 var players = db.model('players', {
 	RoundId: { type: Number, required: false },
@@ -22,5 +23,9 @@ var players = db.model('players', {
 
 	}]
 });
+autoIncrement.initialize(db);
+
+db.plugin(autoIncrement.plugin, { model: 'players', field: 'RoundId' });
+
 
 module.exports = players;
