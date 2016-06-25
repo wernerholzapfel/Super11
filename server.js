@@ -68,7 +68,7 @@ app.post("/api/predictions", function (req, res) {
     if (err) {
       handleError(res, err.message, "Failed to create new prediction.");
     } else {
-      res.status(201).json(doc.ops[0]);
+      res.status(201).json(predictions);
     }
   });
 });
