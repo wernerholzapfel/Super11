@@ -20,7 +20,7 @@ MetronicApp.controller('ScoreFormApiController', function ($scope, playerListSer
 
         $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
 
-        var playerList = findAndUpdatePlayerList.put($scope.NewList, selectedRound._Id,);
+        var playerList = findAndUpdatePlayerList.put($scope.NewList, selectedRound._id);
 
         playerList.success(function () {
             $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
