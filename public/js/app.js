@@ -88,7 +88,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
         .state('dashboard', {
             url: "/dashboard.html",
             templateUrl: "views/dashboard.html",
-            data: { pageTitle: 'Het EK Spel 2016' },
+            data: { pageTitle: 'Super 11 2016/2017' },
             controller: "DashboardController",
             resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
