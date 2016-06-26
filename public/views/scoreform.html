@@ -22,12 +22,12 @@
     <div class="col-md-12">
         <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
         <div ng-hide="showConfirm">
-            <form name="showNewScoreForm" ng-show="showNewScoreForm" class="form-horizontal form-bordered">
+            <form name="newScoreForm" ng-show="showNewScoreForm" class="form-horizontal form-bordered">
                 <!-- BEGIN TABLE PORTLET-->
                 <div class="portlet box blue-hoki">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-user"></i>Scores voor ronde {{newScoreFormList.RoundId}}
+                            <i class="fa fa-user"></i>Scores voor nieuwe ronde {{newScoreFormList.RoundId}}
                         </div>
                         <div class="tools">
                             <a href="javascript:;" class="reload" data-original-title="" title="">
@@ -37,7 +37,7 @@
                     <div class="portlet-body">
                         <table class="table table-striped">
                             <thead>
-                            <button value="Next" ng-click="save()">Save
+                            <button value="Next" ng-click="saveNewScoreFormList()">Save nieuwe ronde
                                 <tr>
                                     <th>
                                         Speler
@@ -83,31 +83,145 @@
                                     {{ player.Team}}
                                 </td>
                                 <td>
-                                    <input type="checkbox" ng-model=Played></input>
+                                    <input type="checkbox" ng-model="player.Played" ng-value="player.Played"></input>
                                 </td>
                                 <td>
-                                    <input type="checkbox" ng-model=Win></input>
+                                    <input type="checkbox" ng-model="player.Win" ng-value="player.Win"></input>
                                 </td>
                                 <td>
-                                    <input type="checkbox" ng-model=Draw></input>
+                                    <input type="checkbox" ng-model="player.Draw" ng-value="player.Draw"></input>
                                 </td>
                                 <td>
-                                    <input type="checkbox" ng-model=CleanSheet></input>
+                                    <input type="checkbox" ng-model="player.CleanSheet"
+                                           ng-value="player.CleanSheet"></input>
                                 </td>
                                 <td>
-                                    <input type="number" ng-model=Goals size="1" min="0" max="9"></input>
+                                    <input type="number" ng-model="player.Goals" size="1" min="0" max="9"
+                                           ng-value="player.Goals"></input>
                                 </td>
                                 <td>
-                                    <input type="number" ng-model=Assists size="1" min="0" max="9"> </input>
+                                    <input type="number" ng-model="player.Assists" size="1" min="0" max="9"
+                                           ng-value="player.Assists">                                        </input>
                                 </td>
                                 <td>
-                                    <input type="number" ng-model=OwnGoal size="1" min="0" max="9">  </input>
+                                    <input type="number" ng-model="player.OwnGoal" size="1" min="0" max="9"
+                                           ng-value="player.OwnGoal"></input>
                                 </td>
                                 <td>
-                                    <input type="number" ng-model=Yellow size="1" min="0" max="2">  </input>
+                                    <input type="number" ng-model="player.Yellow" size="1" min="0" max="2"
+                                           ng-value="player.Yellow">                                        </input>
                                 </td>
                                 <td>
-                                    <input type="number" ng-model=Red size="1" min="0" max="1"></input>
+                                    <input type="number" ng-model="player.Red" size="1" min="0" max="1"
+                                           ng-value="player.Red"></input>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+
+            <form name="roundScoreForm" ng-show="showRoundScoreForm" class="form-horizontal form-bordered">
+                <!-- BEGIN TABLE PORTLET-->
+                <div class="portlet box blue-hoki">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-user"></i>Kies de speelronde
+
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="reload" data-original-title="" title="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <button value="Next" ng-click="updateScoreForm(selectedRound)">Update</button>
+                        <select ng-name="roundSelector" required ng-model="selectedRound" ng-value="form.RoundId"
+                                ng-options="form.RoundId for form in oldScoreForms">
+                        </select>
+                        <button value="Add" ng-click="addNewRound()">Nieuw ronde</button>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Speler
+                                </th>
+                                <th>
+                                    Club
+                                </th>
+                                <th>
+                                    P
+                                </th>
+                                <th>
+                                    W
+                                </th>
+                                <th>
+                                    D
+                                </th>
+                                <th>
+                                    CS
+                                </th>
+                                <th>
+                                    G
+                                </th>
+                                <th>
+                                    A
+                                </th>
+                                <th>
+                                    OG
+                                </th>
+                                <th>
+                                    Y
+                                </th>
+                                <th>
+                                    R
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody ng-repeat="form in oldScoreForms | filter: {RoundId:selectedRound.RoundId}">
+                            <tr>
+                                <td>Voorspellingen Ronde {{form.RoundId}}</td>
+                            </tr>
+                            <tr ng-repeat="player in form.Player">
+                                <td>
+                                    {{ player.Name }}
+                                </td>
+                                <td>
+                                    {{ player.Team}}
+                                </td>
+                                <td>
+                                    <input type="checkbox" ng-model="player.Played" ng-value="player.Played"></input>
+                                </td>
+                                <td>
+                                    <input type="checkbox" ng-model="player.Win" ng-value="player.Win"></input>
+                                </td>
+                                <td>
+                                    <input type="checkbox" ng-model="player.Draw" ng-value="player.Draw"></input>
+                                </td>
+                                <td>
+                                    <input type="checkbox" ng-model="player.CleanSheet"
+                                           ng-value="player.CleanSheet"></input>
+                                </td>
+                                <td>
+                                    <input type="number" ng-model="player.Goals" size="1" min="0" max="9"
+                                           ng-value="player.Goals"></input>
+                                </td>
+                                <td>
+                                    <input type="number" ng-model="player.Assists" size="1" min="0" max="9"
+                                           ng-value="player.Assists">                                        </input>
+                                </td>
+                                <td>
+                                    <input type="number" ng-model="player.OwnGoal" size="1" min="0" max="9"
+                                           ng-value="player.OwnGoal"></input>
+                                </td>
+                                <td>
+                                    <input type="number" ng-model="player.Yellow" size="1" min="0" max="2"
+                                           ng-value="player.Yellow">                                        </input>
+                                </td>
+                                <td>
+                                    <input type="number" ng-model="player.Red" size="1" min="0" max="1"
+                                           ng-value="player.Red"></input>
                                 </td>
                             </tr>
                             </tbody>

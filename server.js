@@ -77,6 +77,13 @@ app.get("/api/players", function (req, res, next) {
   });
 });
 
+app.put("/api/players", function (req,res,next) {
+  Players.findByIdAndUpdate(req._id, { $set: { roundId: req.roundId, Player : req.player }}, function (err, playersList) {
+  if (err) return handleError(res, err.message, "Failed to Update Players");
+   res.status(200).json(playersList);
+});
+})
+
 app.get("/api/predictions", function (req, res, next) {
   Predictions.find({}, { Participant: 1, _id: 0 }, function (err, predictionsList) {
     if (err) {

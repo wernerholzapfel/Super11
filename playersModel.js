@@ -19,7 +19,7 @@ var players = db.model('players', {
 		Yellow: { type: Number, required: false },
 		Red: { type: Number, required: false },
 		CleanSheet: { type: Boolean, required: false },
-		OwnGoal: { type: Boolean, required: false }
+		OwnGoal: { type: Number, required: false }
 
 	}]
 });

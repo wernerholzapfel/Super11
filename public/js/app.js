@@ -171,10 +171,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
                             '../../../assets/admin/pages/scripts/profile.js',
 
+                            'js/services/playerListService.js',
+                            'js/services/scoreform.js',
+                            
                             'js/controllers/ScoreFormController.js',
-                            'js/controllers/ScoreFormApiController.js',
+                            'js/controllers/ScoreFormApiController.js'
 
-                            'js/services/playerListService.js'
+                            
 
 
                         ]
