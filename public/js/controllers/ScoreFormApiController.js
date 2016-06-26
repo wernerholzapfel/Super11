@@ -12,9 +12,14 @@ MetronicApp.controller('ScoreFormApiController', function ($scope, playerListSer
 $scope.updateScoreForm = function(selectedRound) {
         $scope.showConfirm = true;
 
+        $scope.NewList = {RoundId : selectedRound.RoundId,
+            Player: selectedRound.Player};
+
+            console.log($scope.NewList);
+
         $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
 
-        var playerList = findAnUpdatePlayerList.put(selectedRound);
+        var playerList = findAnUpdatePlayerList.put($scope.NewList);
 
         playerList.success(function () {           
             $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
