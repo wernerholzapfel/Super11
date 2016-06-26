@@ -68,7 +68,7 @@ app.post("/api/players", function (req, res) {
 });
 
 app.get("/api/players", function (req, res, next) {
-  Players.find( function (err, playersList) {
+  Players.find(function (err, playersList) {
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {
@@ -77,12 +77,11 @@ app.get("/api/players", function (req, res, next) {
   });
 });
 
-app.put("/api/players", function (req,res) {
-  console.log("update rquest body: " + req.body)
-  Players.findByIdAndUpdate(req.body._id, {$set:req.body}, function (err, playersList) {
-  if (err) return handleError(res, err.message, "Failed to Update Players");
-   res.status(200).json(playersList);
-});
+app.put("/api/players/:id", function (req, res) { 
+  Players.findByIdAndUpdate(req.params.id, req.body, function (err, playersList) {
+    if (err) return handleError(res, err.message, "Failed to Update Players");
+    res.status(200).json(playersList);
+  });
 })
 
 app.get("/api/predictions", function (req, res, next) {

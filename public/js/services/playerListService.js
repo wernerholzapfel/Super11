@@ -8,12 +8,12 @@ MetronicApp.service('saveScoreFormService', function ($http) {
     }
 });
 
-MetronicApp.service('findAnUpdatePlayerList', function($http) {
-  this.put = function(playerList) {
-    var req = $http.put('https://safe-oasis-58234.herokuapp.com/api/players', playerList);
+MetronicApp.service('findAndUpdatePlayerList', function($http) {
+  this.put = function(playerList,id) {
+    var req = $http.put('https://safe-oasis-58234.herokuapp.com/api/players/'+id, playerList);
         return req;
   }
-})
+});
 
 MetronicApp.factory('playerListService', function ($http) {
   

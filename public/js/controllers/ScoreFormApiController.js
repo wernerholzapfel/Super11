@@ -1,27 +1,28 @@
-MetronicApp.controller('ScoreFormApiController', function ($scope, playerListService, saveScoreFormService, getScoreFormService,findAnUpdatePlayerList) {
+MetronicApp.controller('ScoreFormApiController', function ($scope, playerListService, saveScoreFormService, getScoreFormService, findAndUpdatePlayerList) {
     $scope.alerts = [];
 
     $scope.newScoreFormList = playerListService;
 
     getScoreFormService.async().then(function (data) {
         $scope.oldScoreForms = data;
-        $scope.newScoreFormList.RoundId = $scope.oldScoreForms.length+1;
+        $scope.newScoreFormList.RoundId = $scope.oldScoreForms.length + 1;
     });
-        
 
-$scope.updateScoreForm = function(selectedRound) {
+    $scope.updateScoreForm = function (selectedRound) {
         $scope.showConfirm = true;
 
-        $scope.NewList = {RoundId : selectedRound.RoundId,
-            Player: selectedRound.Player};
+        $scope.NewList = {
+            RoundId: selectedRound.RoundId,
+            Player: selectedRound.Player
+        };
 
-            console.log($scope.NewList);
+        console.log("het bericht dat gepost wordt: " + $scope.NewList);
 
         $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
 
-        var playerList = findAnUpdatePlayerList.put($scope.NewList);
+        var playerList = findAndUpdatePlayerList.put($scope.NewList, selectedRound._Id,);
 
-        playerList.success(function () {           
+        playerList.success(function () {
             $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
         });
         playerList.error(function () {
@@ -30,8 +31,8 @@ $scope.updateScoreForm = function(selectedRound) {
             //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
             $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
         });
-   
-};
+
+    };
 
     $scope.saveNewScoreFormList = function () {
         $scope.showConfirm = true;
