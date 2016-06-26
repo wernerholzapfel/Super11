@@ -36,7 +36,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":2,
@@ -54,7 +54,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":3,
@@ -72,7 +72,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":4,
@@ -90,7 +90,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":5,
@@ -108,7 +108,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":6,
@@ -126,7 +126,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":7,
@@ -144,7 +144,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":8,
@@ -162,7 +162,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":9,
@@ -180,7 +180,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":10,
@@ -198,7 +198,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":11,
@@ -216,7 +216,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":12,
@@ -234,7 +234,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":13,
@@ -252,7 +252,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":14,
@@ -270,7 +270,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":15,
@@ -288,7 +288,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":16,
@@ -306,7 +306,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":17,
@@ -324,7 +324,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":18,
@@ -342,7 +342,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":19,
@@ -360,7 +360,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":20,
@@ -378,7 +378,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":21,
@@ -396,7 +396,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":22,
@@ -414,7 +414,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":23,
@@ -432,7 +432,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":24,
@@ -450,7 +450,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":25,
@@ -468,7 +468,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":26,
@@ -486,7 +486,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":27,
@@ -504,7 +504,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":28,
@@ -522,7 +522,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":29,
@@ -540,7 +540,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":30,
@@ -558,7 +558,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":31,
@@ -576,7 +576,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":32,
@@ -594,7 +594,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":33,
@@ -612,7 +612,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":34,
@@ -630,7 +630,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":35,
@@ -648,7 +648,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":36,
@@ -666,7 +666,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":37,
@@ -684,7 +684,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":38,
@@ -702,7 +702,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":39,
@@ -720,7 +720,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":40,
@@ -738,7 +738,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":41,
@@ -756,7 +756,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":42,
@@ -774,7 +774,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":43,
@@ -792,7 +792,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":44,
@@ -810,7 +810,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":45,
@@ -828,7 +828,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":46,
@@ -846,7 +846,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":47,
@@ -864,7 +864,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":48,
@@ -882,7 +882,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":49,
@@ -900,7 +900,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":50,
@@ -918,7 +918,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":51,
@@ -936,7 +936,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":52,
@@ -954,7 +954,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":53,
@@ -972,7 +972,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":54,
@@ -990,7 +990,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":55,
@@ -1008,7 +1008,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":56,
@@ -1026,7 +1026,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":57,
@@ -1044,7 +1044,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":58,
@@ -1062,7 +1062,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":59,
@@ -1080,7 +1080,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":60,
@@ -1098,7 +1098,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":61,
@@ -1116,7 +1116,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":62,
@@ -1134,7 +1134,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":63,
@@ -1152,7 +1152,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":64,
@@ -1170,7 +1170,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":65,
@@ -1188,7 +1188,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":66,
@@ -1206,7 +1206,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":67,
@@ -1224,7 +1224,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":68,
@@ -1242,7 +1242,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":69,
@@ -1260,7 +1260,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":70,
@@ -1278,7 +1278,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":71,
@@ -1296,7 +1296,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":72,
@@ -1314,7 +1314,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":73,
@@ -1332,7 +1332,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":74,
@@ -1350,7 +1350,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":75,
@@ -1368,7 +1368,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":76,
@@ -1386,7 +1386,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":77,
@@ -1404,7 +1404,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":78,
@@ -1422,7 +1422,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":79,
@@ -1440,7 +1440,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":80,
@@ -1458,7 +1458,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":81,
@@ -1476,7 +1476,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":82,
@@ -1494,7 +1494,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":83,
@@ -1512,7 +1512,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":84,
@@ -1530,7 +1530,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":85,
@@ -1548,7 +1548,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":86,
@@ -1566,7 +1566,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":87,
@@ -1584,7 +1584,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":88,
@@ -1602,7 +1602,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":89,
@@ -1620,7 +1620,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":90,
@@ -1638,7 +1638,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":91,
@@ -1656,7 +1656,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":92,
@@ -1674,7 +1674,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":93,
@@ -1692,7 +1692,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":94,
@@ -1710,7 +1710,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":95,
@@ -1728,7 +1728,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":96,
@@ -1746,7 +1746,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":97,
@@ -1764,7 +1764,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":98,
@@ -1782,7 +1782,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":99,
@@ -1800,7 +1800,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":100,
@@ -1818,7 +1818,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":101,
@@ -1836,7 +1836,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":102,
@@ -1854,7 +1854,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":103,
@@ -1872,7 +1872,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":104,
@@ -1890,7 +1890,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":105,
@@ -1908,7 +1908,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":106,
@@ -1926,7 +1926,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":107,
@@ -1944,7 +1944,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":108,
@@ -1962,7 +1962,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":109,
@@ -1980,7 +1980,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":110,
@@ -1998,7 +1998,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":111,
@@ -2016,7 +2016,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":112,
@@ -2034,7 +2034,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":113,
@@ -2052,7 +2052,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":114,
@@ -2070,7 +2070,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":115,
@@ -2088,7 +2088,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":116,
@@ -2106,7 +2106,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":117,
@@ -2124,7 +2124,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":118,
@@ -2142,7 +2142,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":119,
@@ -2160,7 +2160,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":120,
@@ -2178,7 +2178,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":121,
@@ -2196,7 +2196,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":122,
@@ -2214,7 +2214,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  },
  {
    "Id":123,
@@ -2232,7 +2232,7 @@ MetronicApp.factory('playerListService', function ($http) {
    "Yellow":0,
    "Red":0,
    "CleanSheet":false,
-   "OwnGoal":false
+   "OwnGoal": 0
  }
 ]}
 });

@@ -20,7 +20,6 @@ var players = db.model('players', {
 		Red: { type: Number, required: false },
 		CleanSheet: { type: Boolean, required: false },
 		OwnGoal: { type: Number, required: false }
-
 	}]
 });
 autoIncrement.initialize(db);
@@ -29,3 +28,4 @@ db.plugin(autoIncrement.plugin, { model: 'players', field: 'RoundId' });
 
 
 module.exports = players;
+

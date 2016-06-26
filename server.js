@@ -77,8 +77,9 @@ app.get("/api/players", function (req, res, next) {
   });
 });
 
-app.put("/api/players", function (req,res,next) {
-  Players.findByIdAndUpdate(req._id, { $set: { roundId: req.roundId, Player : req.player }}, function (err, playersList) {
+app.put("/api/players", function (req,res) {
+  console.log(req.body)
+  Players.findByIdAndUpdate(req.body._id, { $set: { roundId: req.body.roundId, Player : req.body.player }}, function (err, playersList) {
   if (err) return handleError(res, err.message, "Failed to Update Players");
    res.status(200).json(playersList);
 });

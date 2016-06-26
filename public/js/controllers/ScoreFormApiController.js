@@ -1,11 +1,11 @@
-MetronicApp.controller('ScoreFormApiController', function ($scope, playerListService, saveScoreFormService, getScoreFormService) {
+MetronicApp.controller('ScoreFormApiController', function ($scope, playerListService, saveScoreFormService, getScoreFormService,findAnUpdatePlayerList) {
     $scope.alerts = [];
 
     $scope.newScoreFormList = playerListService;
 
     getScoreFormService.async().then(function (data) {
         $scope.oldScoreForms = data;
-        $scope.newScoreFormList.RoundId = $scope.oldScoreForms.length;
+        $scope.newScoreFormList.RoundId = $scope.oldScoreForms.length+1;
     });
         
 
@@ -14,11 +14,10 @@ $scope.updateScoreForm = function(selectedRound) {
 
         $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
 
-        var playerList = saveScoreFormService.post($scope.selectedRoundId);
+        var playerList = findAnUpdatePlayerList.put(selectedRound);
 
-        playerList.success(function () {
-            $scope.showConfirm = false;            
-            $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt!' });
+        playerList.success(function () {           
+            $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
         });
         playerList.error(function () {
             $scope.showConfirm = false;
