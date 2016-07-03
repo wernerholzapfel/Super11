@@ -145,4 +145,3 @@ app.post('/api/boeken/', function (req, res, next) {
     res.send(201).json(predictions);
   })
 });
-
