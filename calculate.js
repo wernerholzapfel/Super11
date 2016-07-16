@@ -1,7 +1,8 @@
-var teamScore = require("./playersModel");
-var TeamTable = require("./teamTableModel");
+var teamRoundScore = require("./playersModel");
+var teamStand = require("./teamStandModel");
 var predictions = require("./predictionModel");
 var async = require("async");
+var _ = require('lodash');
 
 var playedScore = 1;
 var goalForGKScore = 10;
@@ -21,38 +22,69 @@ var ownGoalScore = -4;
 var redCardScore = -6;
 var yellowCardScore = -2;
 
+
 var calculateTeamPredictionsPerRound = function (roundId) {
-  //todo get all players
-  var roundScores = [];
 
-  predictions.find({}, {}).exec(function (err, voorspellingen) {
-    if (err) return console.error(err);
-    voorspellingen.forEach(function (voorspelling, index, array) {
-      var teamScores = [];
-      voorspelling.Team.forEach(function (speler, index, array) {
+  async.waterfall([
+    function (callback) {
+      //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
+      teamRoundScore.find({ RoundId: roundId }, { Player: 1 }).exec(function (err, playerRoundScore) {
+        if (err) return console.error(err);
+        callback(null, playerRoundScore[0].Player);
+      })
+    },
+    function (playerRoundScore, callback) {
+      //hier worden alle voorspellingen ophgehaald van de deelnemers
+      // console.log("playerRoundScore 2e lenght: " + playerRoundScore.length)
+      predictions.find({}, {}).exec(function (err, predictions) {
+        // console.log("predictions length: " + predictions.length)
+        if (err) return console.error(err);
+        callback(null, playerRoundScore, predictions);
+      })
+    },
+    function (playerRoundScore, predictions, callback) {
+      async.each(predictions, function (prediction, callback) {
+        var stand = new teamStand;
+        stand.RoundId = roundId;
+        stand.Participant = prediction.Participant;
+        stand.TeamScores = []
 
-        var playerScore = new Object;
+        async.each(prediction.Team, function (player, callback) {
+          var teamPlayer = _.find(playerRoundScore, function (o) { return o.Id === parseInt(player.PlayerId); });
 
-        var playerAchievement = getPlayerForRound(speler.Id, roundId);
+          if (teamPlayer) {
+            var playerScore = new Object;
+            playerScore.Name = teamPlayer.Name;
+            playerScore.Team = teamPlayer.Team;
+            playerScore.Won = setWinScore(teamPlayer);
+            playerScore.Draw = setDrawScore(teamPlayer);
+            playerScore.Played = setPlayedScore(teamPlayer);
+            playerScore.RedCard = setRedCardScore(teamPlayer);
+            playerScore.YellowCard = setYellowCardScore(teamPlayer);
+            playerScore.Assist = setAssistScore(teamPlayer);
+            playerScore.Goals = setGoalScore(teamPlayer);
+            playerScore.OwnGoal = setOwnGoalScore(teamPlayer);
+            playerScore.TotalScore = playerScore.Won + playerScore.Draw + playerScore.Played + playerScore.RedCard + playerScore.YellowCard + playerScore.Assist + playerScore.OwnGoal + playerScore.Goals;
 
-        playerAchievement.then(function (player) {
-          // console.log(player.Player);
-          playerScore.Name = player.Player[0].Name;
-          playerScore.Team = player.Player[0].Team;
-          playerScore.Won = setWinScore(player.Player[0]);
-          playerScore.Draw = setDrawScore(player.Player[0]);
-          playerScore.Played = setPlayedScore(player.Player[0]);
-          playerScore.RedCard = setRedCardScore(player.Player[0]);
-          playerScore.YellowCard = setYellowCardScore(player.Player[0]);
-          playerScore.Assist = setAssistScore(player.Player[0]);
-          playerScore.Goals = setGoalScore(player.Player[0]);
-          playerScore.OwnGoal = setOwnGoalScore(player.Player[0]);
-          playerScore.TotalScore = playerScore.Won + playerScore.Draw + playerScore.Played + playerScore.RedCard + playerScore.YellowCard + playerScore.Assist + playerScore.OwnGoal + playerScore.Goals;
-          teamScores.push(playerScore);
+            stand.TeamScores.push(playerScore);
+          };
+        },
+          function (err) {
+            console.log("err: " + err);
+          }
+        );
+
+        stand.save(function (err, stand) {
+          if (err) return console.error(err);
+          console.log("saved stand for round: " + roundId);
         });
+
+
+      }, function (err) {
+        console.log("err" + err)
       });
-    });
-  });
+    }
+  ]);
 };
 
 var setPlayedScore = function (player) {
@@ -77,7 +109,7 @@ var setGoalScore = function (player) {
         return 0;
     }
   }
-    return 0;    
+  return 0;
 };
 
 var setAssistScore = function (player) {
@@ -95,7 +127,7 @@ var setAssistScore = function (player) {
         return 0;
     }
   }
-    return 0;  
+  return 0;
 };
 
 var setWinScore = function (player) {
@@ -151,10 +183,4 @@ function getPredictionsForRound(roundId) {
   return promise;
 };
 
-function getPlayerForRound(playerId, roundId) {
-  var promise = teamScore.findOne({ RoundId: roundId, 'Player.Id': playerId }, { Player: { $elemMatch: { Id: playerId } } }).exec();
-  return promise;
-};
-
-calculateTeamPredictionsPerRound(1);
-
+// calculateTeamPredictionsPerRound(1);

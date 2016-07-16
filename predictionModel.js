@@ -1,7 +1,7 @@
 console.log("berekenstand is ingeladen")
-var db = require("./db.js");
+var mongoose = require( 'mongoose' );
 
-var predictions = db.model('predictions', {
+var predictionsSchema = new mongoose.Schema({
 	Participant: {
 		Name: { type: String, required: true },
 		Email: { type: String, required: true },
@@ -29,4 +29,4 @@ var predictions = db.model('predictions', {
 	}]
 });
 
-module.exports = predictions;
+var predictions = module.exports = mongoose.model('predictions', predictionsSchema);

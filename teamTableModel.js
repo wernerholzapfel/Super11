@@ -1,7 +1,9 @@
-console.log("berekenstand is ingeladen")
-var db = require("./db.js");
+console.log("teamtable is ingeladen")
 
-var teamTable = db.model('teamTable', {
+var mongoose = require( 'mongoose' );
+
+
+var teamTableSchema = new mongoose.Schema({
     RoundId : {type: Number, required: true},
 	Participant: {
 		Name: { type: String, required: true },
@@ -20,4 +22,5 @@ var teamTable = db.model('teamTable', {
 	}]
 });
 
-module.exports = teamTable;
+var teamTable = module.exports = mongoose.model('teamTable', teamTableSchema);
+

@@ -5,11 +5,11 @@ var express = require("express");
 var path = require("path");
 var bodyParser = require("body-parser");
 var assert = require("assert");
-var Predictions = require("./predictionModel")
-var Players = require("./playersModel")
-var calculateTable = require("./calculate")
-
+var db = require("./db.js");
+var calculate = require("./calculate.js");
 var app = express();
+var Predictions = require("./predictionModel");
+var Players = require("./playersModel");
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -43,6 +43,7 @@ function handleError(res, reason, message, code) {
   res.status(code || 500).json({ "error": message });
 }
 
+
 app.post("/api/predictions", function (req, res) {
   var predictions = new Predictions(req.body);
 
@@ -69,6 +70,7 @@ app.post("/api/players", function (req, res) {
 
 app.get("/api/players", function (req, res, next) {
   Players.find(function (err, playersList) {
+    console.log("hoi tom de get wordt uitgevoerd");
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {
@@ -93,7 +95,6 @@ app.get("/api/predictions", function (req, res, next) {
     }
   });
 });
-
 
 app.post('/api/boeken/', function (req, res, next) {
   var predictions = new Predictions({
