@@ -45,6 +45,7 @@ var calculateTeamPredictionsPerRound = function (roundId) {
     function (playerRoundScore, predictions, callback) {
       async.each(predictions, function (prediction, callback) {
         var stand = new teamStand;
+
         stand.RoundId = roundId;
         stand.Participant = prediction.Participant;
         stand.TeamScores = []
@@ -74,8 +75,17 @@ var calculateTeamPredictionsPerRound = function (roundId) {
           }
         );
 
-        stand.save(function (err, stand) {
-          if (err) return console.error(err);
+        // teamStand.find({ RoundId: roundId, 'Participant.Email' : prediction.Participant.Email}).exec(function(err,result){
+        // console.log("result" + result);
+        // });
+
+        var standToUpdate = {};
+        standToUpdate = Object.assign(standToUpdate, stand._doc);
+        delete standToUpdate._id;
+
+        teamStand.findOneAndUpdate({ RoundId: roundId, 'Participant.Email': prediction.Participant.Email }, standToUpdate, ({ upsert: true }), function (err, stand) {
+          //        stand.save(function (err, stand) {
+          if (err) return console.error("error: " + err);
           console.log("saved stand for round: " + roundId);
         });
 
@@ -183,4 +193,4 @@ function getPredictionsForRound(roundId) {
   return promise;
 };
 
-// calculateTeamPredictionsPerRound(1);
+calculateTeamPredictionsPerRound(1);
