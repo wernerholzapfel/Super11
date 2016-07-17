@@ -38,3 +38,5 @@ process.on('SIGINT', function() {
 require("./predictionModel");
 require("./playersModel");
 require("./calculate");
+require("./teamStandModel");
+

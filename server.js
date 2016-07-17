@@ -10,6 +10,8 @@ var calculate = require("./calculate.js");
 var app = express();
 var Predictions = require("./predictionModel");
 var Players = require("./playersModel");
+var teamStand = require("./teamStandModel");
+
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -80,15 +82,26 @@ app.get("/api/players", function (req, res, next) {
 
 app.put("/api/players/:id", function (req, res) {
 
-
   Players.findOneAndUpdate({ RoundId: req.params.id }, req.body, ({ upsert: true }), function (err, playersList) {
     if (err) return handleError(res, err.message, "Failed to Update Players");
     res.status(200).json(playersList);
     console.log("put for roundId " + req.params.id)
-    
+
     calculate.calculateTeamPredictionsPerRound(req.params.id);
   });
-})
+});
+
+app.get("api/roundtable", function (req, res, next) {
+  console.log("log api call roundTable/");
+  teamStand.find(function (err, roundTable) {
+    if (err) {
+      handleError(res, error.message, "failed tot get roundTable");
+    }
+    else {
+      res.status(200).json(roundTable);
+    }
+  });
+});
 
 app.get("/api/predictions", function (req, res, next) {
   Predictions.find({}, { Participant: 1, _id: 0 }, function (err, predictionsList) {
@@ -100,59 +113,8 @@ app.get("/api/predictions", function (req, res, next) {
   });
 });
 
-app.post('/api/boeken/', function (req, res, next) {
-  var predictions = new Predictions({
-    Participant: {
-      Name: "naam",
-      Email: "email",
-      Location: "location",
-      Gender: "Male",
-      PhoneNumber: "06123"
-    },
-    Table: [
-      {
-        Position: 1,
-        SelectedTeam: "Aja",
-        SelectedTeamId: 2
-      },
-      {
-        Position: 2,
-        SelectedTeam: "ADO",
-        SelectedTeamId: 1
-      },
-    ],
-    Team: [
-      {
-        Id: 1,
-        Position: "GK",
-        PlayerId: "27",
-        PlayerName: "Cillessen",
-        TeamId: ""
-      },
-      {
-        Id: 2,
-        Position: "DF",
-        PlayerId: "11",
-        PlayerName: "Derijck",
-        TeamId: ""
-      }],
-    Questions: [{
-      Id: 1,
-      Question: "Wie wordt er kampioen in de premier league?",
-      Answer: "Arsenal"
-    }]
-  });
-
-  predictions.save(function (err, predictions) {
-    if (err) {
-      return next(err)
-    }
-    res.send(201).json(predictions);
-  })
-});
 
 
 //todo remove this
-    calculate.calculateTeamPredictionsPerRound(1);
-    calculate.calculateTeamPredictionsPerRound(2);
-    
+// calculate.calculateTeamPredictionsPerRound(1);
+// calculate.calculateTeamPredictionsPerRound(2);
