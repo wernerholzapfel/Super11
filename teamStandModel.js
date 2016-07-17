@@ -11,6 +11,7 @@ var teamStandSchema = new mongoose.Schema({
 	},
 	TeamScores: [{
 		Name: { type: String, required: false },
+		Position: { type: String, required: false},
 		Team: { type: String, required: false },
         Won : { type: Number, required: false},
         Draw : { type: Number, required: false},
@@ -20,8 +21,11 @@ var teamStandSchema = new mongoose.Schema({
         Assist : { type: Number, required: false},
         Goals : { type: Number, required: false},
         OwnGoals : { type: Number, required: false},
+		CleanSheetScore : { type: Number, required: true},
         TotalScore : { type: Number, required: false}
-	}]
+	}],
+        TotalTeamScore : { type: Number, required: true}
+	
 });
 
 var teamStand = module.exports = mongoose.model('teamStand', teamStandSchema);

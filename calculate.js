@@ -22,13 +22,14 @@ var ownGoalScore = -4;
 var redCardScore = -6;
 var yellowCardScore = -2;
 
+var exports = module.exports = {};
 
-var calculateTeamPredictionsPerRound = function (roundId) {
+exports.calculateTeamPredictionsPerRound = function (roundId) {
 
   async.waterfall([
     function (callback) {
       //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
-      teamRoundScore.find({ RoundId: roundId }, { Player: 1 }).exec(function (err, playerRoundScore) {
+      teamRoundScore.find({ RoundId: roundId }).exec(function (err, playerRoundScore) {
         if (err) return console.error(err);
         callback(null, playerRoundScore[0].Player);
       })
@@ -45,7 +46,7 @@ var calculateTeamPredictionsPerRound = function (roundId) {
     function (playerRoundScore, predictions, callback) {
       async.each(predictions, function (prediction, callback) {
         var stand = new teamStand;
-
+        stand.TotalTeamScore = 0;
         stand.RoundId = roundId;
         stand.Participant = prediction.Participant;
         stand.TeamScores = []
@@ -57,6 +58,7 @@ var calculateTeamPredictionsPerRound = function (roundId) {
             var playerScore = new Object;
             playerScore.Name = teamPlayer.Name;
             playerScore.Team = teamPlayer.Team;
+            playerScore.Position = teamPlayer.Position;
             playerScore.Won = setWinScore(teamPlayer);
             playerScore.Draw = setDrawScore(teamPlayer);
             playerScore.Played = setPlayedScore(teamPlayer);
@@ -65,8 +67,30 @@ var calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.Assist = setAssistScore(teamPlayer);
             playerScore.Goals = setGoalScore(teamPlayer);
             playerScore.OwnGoal = setOwnGoalScore(teamPlayer);
-            playerScore.TotalScore = playerScore.Won + playerScore.Draw + playerScore.Played + playerScore.RedCard + playerScore.YellowCard + playerScore.Assist + playerScore.OwnGoal + playerScore.Goals;
-
+            playerScore.CleanSheetScore = setCleanSheetScore(teamPlayer);
+            playerScore.TotalScore = playerScore.Won + playerScore.Draw + playerScore.Played + playerScore.RedCard + playerScore.YellowCard + playerScore.Assist + playerScore.OwnGoal + playerScore.Goals + playerScore.CleanSheetScore;
+            
+            //todo test possible eachseries ipv each
+            stand.TotalTeamScore =  stand.TotalTeamScore +  playerScore.TotalScore;
+            stand.TeamScores.push(playerScore);
+          }
+          else {
+            var playerScore = new Object;
+            playerScore.Name = player.PlayerName;
+            playerScore.Team = player.Team;
+            playerScore.Position = player.Position;            
+            playerScore.Won = 0;
+            playerScore.Draw = 0;
+            playerScore.Played = 0;
+            playerScore.RedCard = 0;
+            playerScore.YellowCard = 0;
+            playerScore.Assist = 0;
+            playerScore.Goals = 0;
+            playerScore.OwnGoal = 0;
+            playerScore.CleanSheetScore = 0;
+            
+            playerScore.TotalScore = 0;
+            
             stand.TeamScores.push(playerScore);
           };
         },
@@ -169,7 +193,7 @@ var setRedCardScore = function (player) {
 };
 
 var setCleanSheetScore = function (player) {
-  if (player.cleanSheet) {
+  if (player.CleanSheet) {
     switch (player.Position) {
       case "GK":
         return cleanSheetGKScore;
@@ -179,6 +203,7 @@ var setCleanSheetScore = function (player) {
         return 0;
     }
   }
+   return 0;
 };
 
 var setOwnGoalScore = function (player) {
@@ -193,4 +218,4 @@ function getPredictionsForRound(roundId) {
   return promise;
 };
 
-calculateTeamPredictionsPerRound(1);
+

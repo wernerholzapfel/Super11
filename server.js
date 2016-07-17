@@ -70,7 +70,6 @@ app.post("/api/players", function (req, res) {
 
 app.get("/api/players", function (req, res, next) {
   Players.find(function (err, playersList) {
-    console.log("hoi tom de get wordt uitgevoerd");
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {
@@ -79,10 +78,15 @@ app.get("/api/players", function (req, res, next) {
   });
 });
 
-app.put("/api/players/:id", function (req, res) { 
-  Players.findByIdAndUpdate(req.params.id, req.body, function (err, playersList) {
+app.put("/api/players/:id", function (req, res) {
+
+
+  Players.findOneAndUpdate({ RoundId: req.params.id }, req.body, ({ upsert: true }), function (err, playersList) {
     if (err) return handleError(res, err.message, "Failed to Update Players");
     res.status(200).json(playersList);
+    console.log("put for roundId " + req.params.id)
+    
+    calculate.calculateTeamPredictionsPerRound(req.params.id);
   });
 })
 
@@ -146,3 +150,9 @@ app.post('/api/boeken/', function (req, res, next) {
     res.send(201).json(predictions);
   })
 });
+
+
+//todo remove this
+    calculate.calculateTeamPredictionsPerRound(1);
+    calculate.calculateTeamPredictionsPerRound(2);
+    
