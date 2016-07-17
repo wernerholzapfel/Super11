@@ -138,7 +138,7 @@
                     <div class="portlet-body">
                         <button value="Next" ng-click="updateScoreForm(selectedRound)">Update</button>
                         <select ng-name="roundSelector" required ng-model="selectedRound" ng-value="form.RoundId"
-                                ng-options="form.RoundId for form in oldScoreForms">
+                                ng-options="form.RoundId for form in oldScoreForms | orderBy:'-RoundId'">
                         </select>
                         <button value="Add" ng-click="addNewRound()">Nieuw ronde</button>
                         <table class="table table-striped">
