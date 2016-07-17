@@ -91,7 +91,19 @@ app.put("/api/players/:id", function (req, res) {
   });
 });
 
-app.get("api/roundtable", function (req, res, next) {
+app.get("/api/teamStand/:roundId", function (req, res, next) {
+  console.log("log api call roundTable/" + req.params.roundId);
+  teamStand.find({RoundId : req.params.roundId},function (err, roundTable) {
+    if (err) {
+      handleError(res, error.message, "failed tot get roundTable");
+    }
+    else {
+      res.status(200).json(roundTable);
+    }
+  });
+});
+
+app.get("/api/teamStand/", function (req, res, next) {
   console.log("log api call roundTable/");
   teamStand.find(function (err, roundTable) {
     if (err) {

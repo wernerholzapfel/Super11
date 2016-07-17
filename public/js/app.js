@@ -221,14 +221,14 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                 }]
             }
         })
-        // games
-        .state('table', {
-            url: "/table.html",
-            templateUrl: "views/table.html",
+        // Stand
+        .state('teamtable', {
+            url: "/teamtable.html",
+            templateUrl: "views/teamtable.html",
             data: {
                 pageTitle: 'De Stand'
             },
-            controller: "GamesController",
+            controller: "TeamTableController",
             resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -244,10 +244,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
                             '../../../assets/admin/pages/scripts/profile.js',
 
-                            'js/controllers/GamesController.js',
-                            'js/controllers/GamesApiController.js',
+                            'js/controllers/TeamTableController.js',
+                            'js/controllers/TeamTableApiController.js',
 
-                            'js/services/gamesApi.js'
+                            'js/services/teamTableApi.js'
 
 
                         ]
