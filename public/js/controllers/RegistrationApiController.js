@@ -1,6 +1,6 @@
 ﻿/*global GetPouleIndex, GetTeamIndex,GetSecondRoundIndex */
 
-MetronicApp.controller('RegistrationApiController', function ($scope, registrationService, playerListService, teamListService) {
+MetronicApp.controller('RegistrationApiController', function ($scope, registrationService, teamListService,eredivisiePlayersApi) {
 
   $scope.alerts = [];
   $scope.participantMsg = 'Leuk dat je je wilt inschrijven. Vul alle velden in. Daarna kan je op volgende klikken om de rest van je voorspellingen in te vullen';
@@ -12,7 +12,7 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
   $scope.playerPositions = [{ Id: 1, Position: "GK" }, { Id: 2, Position: "DF" }, { Id: 3, Position: "MF" }, { Id: 4, Position: "FW" }];
   $scope.formations = [{ Id: 1, Formation: "433" }, { Id: 2, Formation: "442" }]
 
-  $scope.players = playerListService;
+  $scope.players = eredivisiePlayersApi;
 
   $scope.teams =  teamListService;
 
