@@ -10,6 +10,7 @@ var calculate = require("./calculate.js");
 var app = express();
 var Predictions = require("./predictionModel");
 var Players = require("./playersModel");
+var EredivisiePlayers = require("./eredivisiePlayersModel");
 var teamStand = require("./teamStandModel");
 
 
@@ -93,7 +94,7 @@ app.put("/api/players/:id", function (req, res) {
 
 app.get("/api/teamStand/:roundId", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
-  teamStand.find({RoundId : req.params.roundId},function (err, roundTable) {
+  teamStand.find({ RoundId: req.params.roundId }, function (err, roundTable) {
     if (err) {
       handleError(res, error.message, "failed tot get roundTable");
     }
@@ -125,6 +126,15 @@ app.get("/api/predictions", function (req, res, next) {
   });
 });
 
+app.get("/api/eredivisieplayers", function (req, res, next) {
+  EredivisiePlayers.find(function (err, eredivisieplayersList) {
+    if (err) {
+      handleError(res, err.message, "Failed to get predictions.");
+    } else {
+      res.status(200).json(eredivisieplayersList);
+    }
+  });
+});
 
 
 //todo remove this
