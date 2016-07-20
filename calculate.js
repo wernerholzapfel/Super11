@@ -99,16 +99,12 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
           }
         );
 
-        // teamStand.find({ RoundId: roundId, 'Participant.Email' : prediction.Participant.Email}).exec(function(err,result){
-        // console.log("result" + result);
-        // });
-
+       //necessary to overwrite teamStand
         var standToUpdate = {};
         standToUpdate = Object.assign(standToUpdate, stand._doc);
         delete standToUpdate._id;
 
         teamStand.findOneAndUpdate({ RoundId: roundId, 'Participant.Email': prediction.Participant.Email }, standToUpdate, ({ upsert: true }), function (err, stand) {
-          //        stand.save(function (err, stand) {
           if (err) return console.error("error: " + err);
           console.log("saved stand for round: " + roundId);
         });

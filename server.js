@@ -7,12 +7,12 @@ var bodyParser = require("body-parser");
 var assert = require("assert");
 var db = require("./db.js");
 var calculate = require("./calculate.js");
+var determineifplayerisselected = require("./determineifplayerisselected");
 var app = express();
 var Predictions = require("./predictionModel");
 var Players = require("./playersModel");
 var EredivisiePlayers = require("./eredivisiePlayersModel");
 var teamStand = require("./teamStandModel");
-
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -139,4 +139,6 @@ app.get("/api/eredivisieplayers", function (req, res, next) {
 
 //todo remove this
 // calculate.calculateTeamPredictionsPerRound(1);
+determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
+
 // calculate.calculateTeamPredictionsPerRound(2);
