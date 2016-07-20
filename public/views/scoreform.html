@@ -75,7 +75,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="player in newScoreFormList.Player">
+                            <tr ng-repeat="player in newScoreFormList.Player | filter:{Selected:true}">
                                 <td>
                                     {{ player.Name }}
                                 </td>
