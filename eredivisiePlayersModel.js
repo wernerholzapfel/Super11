@@ -13,6 +13,7 @@ var eredivisiePlayersSchema = new mongoose.Schema({
         TeamId: { type: Number, required: true },
 		RoundId: { type: Number, required: false},
         Selected: { type: Boolean, required: true },
+        PRESelected: { type: Boolean, required: true },
         Position: { type: String, required: true },
 		Played: { type: Boolean, required: false },
 		Win: { type: Boolean, required: false },

@@ -1,6 +1,7 @@
 MetronicApp.controller('ScoreFormApiController', function ($scope, eredivisiePlayersApi, saveScoreFormService, getScoreFormService, findAndUpdatePlayerList) {
     $scope.alerts = [];
 
+//    $scope.selectedRound = 0;
 
     eredivisiePlayersApi.async().then(function (data) {
         $scope.newScoreFormList = data[0];

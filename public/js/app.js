@@ -211,10 +211,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             '../../../assets/admin/pages/scripts/profile.js',
                             'js/services/playerListService.js',
                             'js/services/teamListService.js',
-                            'js/controllers/RegistrationController.js',
-                            'js/controllers/RegistrationApiController.js',
+                            'js/services/registrationApi.js',
+                            'js/services/eredivisiePlayersApi.js',
 
-                            'js/services/registrationApi.js'
+                            'js/controllers/RegistrationController.js',
+                            'js/controllers/RegistrationApiController.js'
+
 
 
                         ]

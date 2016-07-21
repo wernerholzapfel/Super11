@@ -1,6 +1,6 @@
 ﻿/*global GetPouleIndex, GetTeamIndex,GetSecondRoundIndex */
 
-MetronicApp.controller('RegistrationApiController', function ($scope, registrationService, teamListService,eredivisiePlayersApi) {
+MetronicApp.controller('RegistrationApiController', function ($scope, registrationService, teamListService, eredivisiePlayersApi) {
 
   $scope.alerts = [];
   $scope.participantMsg = 'Leuk dat je je wilt inschrijven. Vul alle velden in. Daarna kan je op volgende klikken om de rest van je voorspellingen in te vullen';
@@ -12,7 +12,9 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
   $scope.playerPositions = [{ Id: 1, Position: "GK" }, { Id: 2, Position: "DF" }, { Id: 3, Position: "MF" }, { Id: 4, Position: "FW" }];
   $scope.formations = [{ Id: 1, Formation: "433" }, { Id: 2, Formation: "442" }]
 
-  $scope.players = eredivisiePlayersApi;
+ eredivisiePlayersApi.async().then(function (data) {
+        $scope.players = data[0].Player;
+    });
 
   $scope.teams =  teamListService;
 
@@ -73,7 +75,7 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
         var TeamId = $scope.players[(playerId - 1)].TeamId
         for (var i = 0; i < $scope.players.length; i += 1) {
           if ($scope.players[i].TeamId === TeamId) {
-            $scope.players[i].Selected = false;
+            $scope.players[i].PreSelected = false;
           }
         }
       }
@@ -94,7 +96,7 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
         var TeamId = $scope.players[(playerId - 1)].TeamId
         for (var i = 0; i < $scope.players.length; i += 1) {
           if ($scope.players[i].TeamId === TeamId) {
-            $scope.players[i].Selected = true;
+            $scope.players[i].PreSelected = true;
           }
         }
       }

@@ -196,13 +196,13 @@
                                                     ng-click="unSelectPlayersOfThisTeam(SelectedPlayerId,teamPlayer)"
                                                     ng-blur="selectPlayersOfThisTeam(SelectedPlayerId,teamPlayer)"
                                                     ng-change="updateTeamPrediction(SelectedPlayerId,teamPlayer)">
-                                                <!--ng-options='player.Id as (player.Name + " (" + player.Team +")") disable when player.Selected for player in players |filter : {Position:pos.Position} track by player.Id'-->
-                                                <!--ng-options="player.Id as player.Name disable when player.Selected for player in players |filter : {Position:pos.Position} track by player.Id"-->
+                                                <!--ng-options='player.Id as (player.Name + " (" + player.Team +")") disable when player.PreSelected for player in players |filter : {Position:pos.Position} track by player.Id'-->
+                                                <!--ng-options="player.Id as player.Name disable when player.PreSelected for player in players |filter : {Position:pos.Position} track by player.Id"-->
 
                                                 <option ng-model="players" ng-value="player.Id"
-                                                        ng-repeat="player in players.Player | filter : {Position:pos.Position} | orderBy:['Selected','Team','Name'] "
-                                                        ng-hide="player.Selected"
-                                                        ng-disabled="player.Selected"
+                                                        ng-repeat="player in players | filter : {Position:pos.Position} | orderBy:['Selected','Team','Name'] "
+                                                        ng-hide="player.PreSelected"
+                                                        ng-disabled="player.PreSelected"
                                                         value="{{player.Id}}">{{player.Name}} ({{player.Team}})
                                                 </option>
                                             </select>
@@ -260,7 +260,7 @@
                 </div>
 
                 <button value="Previous" ng-click="teamView()" ng-show="showQuestions">Terug</button>
-                <button value="Next" ng-disabled="questionsForm.$invalid" ng-click="save()">Save (werkt nog niet)
+                <button value="Next" ng-disabled="questionsForm.$invalid" ng-click="save()">Save
                 </button>
             </form>
 
