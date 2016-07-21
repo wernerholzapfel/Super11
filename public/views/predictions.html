@@ -1,7 +1,7 @@
 <!-- BEGIN PAGE HEADER-->
 <div ng-controller="PredictionApiController">
     <h3 class="page-title ng-scope">
-        De Voorspellingen {{ predictions[1].ParticipantName }}
+        De Voorspellingen van {{ predictions.Participant.Name }}
     </h3>
 
     <div class="page-bar">
@@ -23,68 +23,125 @@
     <div class="row">
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
-            <div class="portlet box blue-hoki" ng-repeat="poule in poules">
+            <div class="portlet box blue-hoki">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa icon-puzzle"></i>Poule {{poule.poule}} uitslagen
+                        De Selectie
                     </div>
                     <div class="tools">
-                        <a href="javascript:;" class="reload" data-original-title="" title="">
+                        <a href="javascript:;" class="collapse" data-original-title="" title="">
                         </a>
                     </div>
                 </div>
                 <div class="portlet-body">
                     <table class="table table-striped">
                         <thead>
-                        <tr>
-                            <th>
-                                #
-                            </th>
-                            <th>
-                                Thuis
-                            </th>
-                            <th>
-                                Uit
-                            </th>
-                            <th>
-                                Voorspelling
-                            </th>
-                            <th>
-                                Uitslag
-                            </th>
-                            <th>
-                                Punten
-                            </th>
-                        </tr>
+                            <tr>
+                                <th>
+                                    Team
+                                </th>
+                                <th>
+                                    Positie
+                                </th>
+                                <th>
+                                    Speler
+                                </th>
+                                <th>
+                                    Punten
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="prediction in predictions | filter : ({Poule:poule.poule, PredictionTypeId:1})">
-                            <td>
-                                {{ prediction.Id }}
-                            </td>
-                            <td>
-                                {{ prediction.HomeTeam }}
-                            </td>
-                            <td>
-                                {{ prediction.AwayTeam }}
-                            </td>
-                            <td>
-                                {{ prediction.HomePrediction }} - {{ prediction.AwayPrediction }}
-                            </td>
-                            <td>
-                                {{ prediction.HomeScore }} - {{ prediction.AwayScore }}
-                            </td>
-                            <td>
-                                {{ prediction.Points }}
-                            </td>
-
-
-                        </tr>
+                            <tr ng-repeat="player in predictions.Team">
+                                <td>
+                                    TODO
+                                </td>
+                                <td>
+                                    {{ player.Position }}
+                                </td>
+                                <td>
+                                    {{ player.PlayerName }}
+                                </td>
+                                <td>
+                                    TODO
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <!-- END EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue-hoki">
+                <div class="portlet-title">
+                    <div class="caption">
+                        De Stand
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Positie
+                                </th>
+                                <th>
+                                    Club
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="club in predictions.Table">
+                                <td>
+                                    {{club.Position}}
+                                </td>
+                                <td>
+                                    {{ club.SelectedTeam }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="portlet box blue-hoki">
+                <div class="portlet-title">
+                    <div class="caption">
+                        De Vragen
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Vraag
+                                </th>
+                                <th>
+                                    
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="question in predictions.Questions">
+                                <td>
+                                    {{question.Question}}
+                                </td>
+                                <td>
+                                    {{ question.Answer }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -104,39 +161,39 @@
                 <div class="portlet-body">
                     <table class="table table-striped">
                         <thead>
-                        <tr>
-                            <th>
-                                Positie
-                            </th>
-                            <th>
-                                Team
-                            </th>
-                            <th>
-                                Uitslag
-                            </th>
-                            <th>
-                                Punten
-                            </th>
-                        </tr>
+                            <tr>
+                                <th>
+                                    Positie
+                                </th>
+                                <th>
+                                    Team
+                                </th>
+                                <th>
+                                    Uitslag
+                                </th>
+                                <th>
+                                    Punten
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="prediction in predictions | filter : ({Poule:poule.poule, PredictionTypeId:2}) | orderBy:orderByField:reverseSort ">
-                            <td ng-name="TablePosition">
-                                {{ prediction.TablePosition }}
-                            </td>
-                            <td ng-name="Team">
-                                {{ prediction.Team }}
-                            </td>
+                            <tr ng-repeat="prediction in predictions | filter : ({Poule:poule.poule, PredictionTypeId:2}) | orderBy:orderByField:reverseSort ">
+                                <td ng-name="TablePosition">
+                                    {{ prediction.TablePosition }}
+                                </td>
+                                <td ng-name="Team">
+                                    {{ prediction.Team }}
+                                </td>
 
-                            <td ng-name="Result">
-                                nnb
-                            </td>
-                            <td ng-name="Points">
-                                {{ prediction.Points }}
-                            </td>
+                                <td ng-name="Result">
+                                    nnb
+                                </td>
+                                <td ng-name="Points">
+                                    {{ prediction.Points }}
+                                </td>
 
 
-                        </tr>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -160,30 +217,30 @@
                 <div class="portlet-body">
                     <table class="table table-striped">
                         <thead>
-                        <tr>
-                            <th>
-                                Team
-                            </th>
-                            <th>
-                                Uitslag
-                            </th>
-                            <th>
-                                Punten
-                            </th>
-                        </tr>
+                            <tr>
+                                <th>
+                                    Team
+                                </th>
+                                <th>
+                                    Uitslag
+                                </th>
+                                <th>
+                                    Punten
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="prediction in predictions |  filter  : ({PredictionTypeId:predictionType.Id})">
-                            <td>
-                                {{ prediction.Team }}
-                            </td>
-                            <td>
-                                nnb
-                            </td>
-                            <td>
-                                {{ prediction.Points }}
-                            </td>
-                        </tr>
+                            <tr ng-repeat="prediction in predictions |  filter  : ({PredictionTypeId:predictionType.Id})">
+                                <td>
+                                    {{ prediction.Team }}
+                                </td>
+                                <td>
+                                    nnb
+                                </td>
+                                <td>
+                                    {{ prediction.Points }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
