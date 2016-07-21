@@ -120,8 +120,19 @@ app.get("/api/teamStand/", function (req, res, next) {
   });
 });
 
+app.get("/api/predictions/:Id", function (req, res, next) {
+  Predictions.findById(req.params.Id, { 'Participant.Email': 0,  createDate: 0 }, function (err, prediction) {
+    if (err) {
+      handleError(res, err.message, "Failed to get prediction.");
+    } else {
+      res.status(200).json(prediction);
+    }
+  });
+});
+
+
 app.get("/api/predictions", function (req, res, next) {
-  Predictions.find({}, { Participant: 1, _id: 1, 'Participant.Email' : 0 }, function (err, predictionsList) {
+  Predictions.find({}, { 'Participant.Email': 0, "Team": 0, "Questions":0, "Table": 0, createDate: 0 }, function (err, predictionsList) {
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {

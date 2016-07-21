@@ -1,8 +1,8 @@
 ﻿MetronicApp.factory('predictionApi', function ($http) {
     var myService = {
-        async: function () {
+        async: function (Id) {
             // $http returns a promise, which has a then function, which also returns a promise
-            var promise = $http.get('http://thetotogamesapi.apphb.com/api/predictions/7').then(function (response) {
+            var promise = $http.get('/api/predictions/'+Id).then(function (response) {
                 // The then function here is an opportunity to modify the response
                 console.log(response);
                 // The return value gets picked up by the then in the controller.

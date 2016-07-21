@@ -258,9 +258,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                 }]
             }
         })
-        // Predictions
+
+               // Predictions
         .state('predictions', {
-            url: "/predictions.html",
+            url: "/predictions/{id}",
             templateUrl: "views/predictions.html",
             data: {
                 pageTitle: 'De Voorspellingen'
