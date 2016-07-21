@@ -121,7 +121,7 @@ app.get("/api/teamStand/", function (req, res, next) {
 });
 
 app.get("/api/predictions", function (req, res, next) {
-  Predictions.find({}, { Participant: 1, _id: 0 }, function (err, predictionsList) {
+  Predictions.find({}, { Participant: 1, _id: 1, 'Participant.Email' : 0 }, function (err, predictionsList) {
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {
