@@ -36,7 +36,7 @@ process.on('SIGINT', function() {
 // BRING IN YOUR SCHEMAS & MODELS
 // For example
 require("./predictionModel");
-require("./playersModel");
+require("./roundteamscoreformsModel");
 require("./eredivisiePlayersModel");
 require("./calculate");
 require("./teamStandModel");

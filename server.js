@@ -10,7 +10,7 @@ var calculate = require("./calculate.js");
 var determineifplayerisselected = require("./determineifplayerisselected");
 var app = express();
 var Predictions = require("./predictionModel");
-var Players = require("./playersModel");
+var RoundTeamScoreForms = require("./roundteamscoreformsModel");
 var EredivisiePlayers = require("./eredivisiePlayersModel");
 var teamStand = require("./teamStandModel");
 
@@ -55,24 +55,14 @@ app.post("/api/predictions", function (req, res) {
       handleError(res, err.message, "Failed to create new prediction.");
     } else {
       res.status(201).json(predictions);
+      determineifplayerisselected.setNumberOfTimesAplayerIsSelected()
     }
   });
 });
 
-app.post("/api/players", function (req, res) {
-  var players = new Players(req.body);
 
-  players.save(function (err, newPlayers) {
-    if (err) {
-      handleError(res, err.message, "Failed to create new players.");
-    } else {
-      res.status(201).json(newPlayers);
-    }
-  });
-});
-
-app.get("/api/players", function (req, res, next) {
-  Players.find(function (err, playersList) {
+app.get("/api/roundteamscoreforms", function (req, res, next) {
+  RoundTeamScoreForms.find(function (err, playersList) {
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {
@@ -81,11 +71,25 @@ app.get("/api/players", function (req, res, next) {
   });
 });
 
-app.put("/api/players/:id", function (req, res) {
+app.post("/api/roundteamscoreforms", function (req, res) {
+  var roundteamscoreforms = new RoundTeamScoreForms(req.body);
 
-  Players.findOneAndUpdate({ RoundId: req.params.id }, req.body, ({ upsert: true }), function (err, playersList) {
+  roundteamscoreforms.save(function (err, newroundteamscoreforms) {
+    if (err) {
+      handleError(res, err.message, "Failed to create new roundteamscoreforms.");
+    } else {
+      res.status(201).json(newPlayers);
+      console.log("put for roundId " + req.body.RoundId)
+      calculate.calculateTeamPredictionsPerRound(req.body.RoundId);
+    }
+  });
+});
+
+app.put("/api/roundteamscoreforms/:id", function (req, res) {
+
+  RoundTeamScoreForms.findOneAndUpdate({ RoundId: req.params.id }, req.body, ({ upsert: true }), function (err, roundteamscoreforms) {
     if (err) return handleError(res, err.message, "Failed to Update Players");
-    res.status(200).json(playersList);
+    res.status(200).json(roundteamscoreforms);
     console.log("put for roundId " + req.params.id)
 
     calculate.calculateTeamPredictionsPerRound(req.params.id);
@@ -138,7 +142,6 @@ app.get("/api/eredivisieplayers", function (req, res, next) {
 
 
 //todo remove this
-// calculate.calculateTeamPredictionsPerRound(1);
-determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
-
+// calculate.calculateTeamPredictionsPerRound(5);
+// determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
 // calculate.calculateTeamPredictionsPerRound(2);

@@ -1,4 +1,4 @@
-var teamRoundScore = require("./playersModel");
+var teamRoundScore = require("./roundteamscoreformsModel");
 var teamStand = require("./teamStandModel");
 var predictions = require("./predictionModel");
 var async = require("async");

@@ -11,56 +11,64 @@ MetronicApp.controller('ScoreFormApiController', function ($scope, eredivisiePla
         });
     });
 
-        $scope.updateScoreForm = function (selectedRound) {
-            $scope.showConfirm = true;
+    $scope.updateScoreForm = function (selectedRound) {
+        $scope.showConfirm = true;
 
-            $scope.NewList = {
-                RoundId: selectedRound.RoundId,
-                Player: selectedRound.Player
-            };
-
-            console.log("het bericht dat gepost wordt: " + $scope.NewList);
-
-            $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
-
-            var playerList = findAndUpdatePlayerList.put($scope.NewList, selectedRound.RoundId);
-
-            playerList.success(function () {
-                $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
-            });
-            playerList.error(function () {
-                $scope.showConfirm = false;
-
-                //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
-                $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
-            });
-
+        $scope.NewList = {
+            RoundId: selectedRound.RoundId,
+            Player: selectedRound.Player
         };
 
-        $scope.saveNewScoreFormList = function () {
-            $scope.showConfirm = true;
+        console.log("het bericht dat gepost wordt: " + $scope.NewList);
 
-            $scope.alerts.push({ type: 'warning', msg: "Bezig met opslaan" });
+        $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
 
-            var playerList = saveScoreFormService.post($scope.newScoreFormList);
+        var playerList = findAndUpdatePlayerList.put($scope.NewList, selectedRound.RoundId);
 
-            playerList.success(function () {
-                $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt!' });
-            });
-            playerList.error(function () {
-                $scope.showConfirm = false;
+        playerList.success(function () {
+            $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
+        });
+        playerList.error(function () {
+            $scope.showConfirm = false;
 
-                //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
-                $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
-            });
+            //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
+            $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
+        });
+
+    };
+
+    $scope.saveNewScoreFormList = function () {
+        $scope.showConfirm = true;
+
+        $scope.NewList = {
+            RoundId: $scope.newScoreFormList.RoundId,
+            Player: $scope.newScoreFormList.Player
         };
+        $scope.alerts.push({ type: 'warning', msg: "Bezig met opslaan" });
 
+        var playerList = findAndUpdatePlayerList.put($scope.NewList, $scope.NewList.RoundId);
+
+        playerList.success(function () {
+            $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt!' });
+        });
+        playerList.error(function () {
+            $scope.showConfirm = false;
+
+            //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
+            $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
+        });
+    };
+
+    $scope.showRoundScoreForm = false;
+    $scope.showNewScoreForm = true;
+
+    $scope.addNewRound = function () {
+        $scope.showRoundScoreForm = false;
+        $scope.showNewScoreForm = true;
+    }
+
+    $scope.changeOldRound = function () {
         $scope.showRoundScoreForm = true;
         $scope.showNewScoreForm = false;
-
-        $scope.addNewRound = function () {
-            $scope.showRoundScoreForm = false;
-            $scope.showNewScoreForm = true;
-
-        }
-    });
+    }
+});
