@@ -2,7 +2,7 @@ MetronicApp.service('saveScoreFormService', function ($http) {
 
     //Create new record
     this.post = function (playerList) {
-        var req = $http.post('https://safe-oasis-58234.herokuapp.com/api/players', playerList);
+        var req = $http.post('https://safe-oasis-58234.herokuapp.com/api/roundteamscoreforms', playerList);
         return req;
 
     }
@@ -10,7 +10,7 @@ MetronicApp.service('saveScoreFormService', function ($http) {
 
 MetronicApp.service('findAndUpdatePlayerList', function($http) {
   this.put = function(playerList,id) {
-    var req = $http.put('https://safe-oasis-58234.herokuapp.com/api/players/'+id, playerList);
+    var req = $http.put('https://safe-oasis-58234.herokuapp.com/api/roundteamscoreforms/'+id, playerList);
         return req;
   }
 });
