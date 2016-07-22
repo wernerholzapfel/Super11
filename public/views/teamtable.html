@@ -42,33 +42,47 @@
                                 <th>
                                     Totaal score
                                 </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
-                        <tbody ng-repeat="table in teamTable | orderBy:'-TotalTeamScore'">
-                            <tr>
-                                 <td>
-                                <button ng-if="table.expanded" ng-click="table.expanded = false">-</button>
-                                 <button ng-if="!table.expanded" ng-click="table.expanded = true">+</button>
-                                   {{ table.Participant.Name }}
+                        <tbody>
+                            <tr ng-repeat-start="table in teamTable | orderBy:'-TotalTeamScore'">
+                                <td>
+                                    <button ng-if="table.expanded" ng-click="table.expanded = false">-</button>
+                                    <button ng-if="!table.expanded" ng-click="table.expanded = true">+</button> {{ table.Participant.Name}}
                                 </td>
                                 <td>
                                     {{table.TotalTeamScore}}
                                 </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
-                            <tr ng-if="table.expanded"> 
-                                <td> Naam</td>
-                                <td> Gespeeld</td>
-                                <td> Winst</td>
-                                <td> Gelijk</td>
-                                <td> de 0</td>
-                                <td> Doelpunt</td>
-                                <td> Assist</td>
-                                <td> Geel</td>
-                                <td> Rood</td>
-                                <td> Totaal</td>
-
+                            <tr ng-if="table.expanded">
+                                <th> Naam</th>
+                                <th> Gespeeld</th>
+                                <th> Winst</th>
+                                <th> Gelijk</th>
+                                <th> de 0</th>
+                                <th> Doelpunt</th>
+                                <th> Assist</th>
+                                <th> Geel</th>
+                                <th> Rood</th>
+                                <th> Totaal</th>
                             </tr>
-                            <tr  ng-if="table.expanded" ng-repeat="player in table.TeamScores">
+                            <tr ng-repeat-end ng-if="table.expanded" ng-repeat="player in table.TeamScores">
                                 <td> {{player.Name}}</td>
                                 <td> {{player.Played}}</td>
                                 <td> {{player.Won}}</td>
@@ -81,6 +95,8 @@
                                 <td> {{player.TotalScore}}</td>
                             </tr>
                         </tbody>
+                    </table>
+                    </tbody>
                     </table>
                 </div>
             </div>
