@@ -17,7 +17,7 @@
 <!-- BEGIN MAIN CONTENT -->
 <div class="row" ng-controller="ScoreFormApiController">
     <div class="col-md-12">
-        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
         <div ng-hide="showConfirm">
             <form name="newScoreForm" ng-show="showNewScoreForm" class="form-horizontal form-bordered">
                 <!-- BEGIN TABLE PORTLET-->
@@ -32,14 +32,13 @@
                         </div>
                     </div>
                     <div class="portlet-body">
-                        <div class="table-scrollable">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button value="Next" ng-click="saveNewScoreFormList()">Save nieuwe ronde</button>
-                                    <button value="Next" ng-click="changeOldRound()">Wijzig vorige ronde</button>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button value="Next" ng-click="saveNewScoreFormList()">Save nieuwe ronde</button>
+                                <button value="Next" ng-click="changeOldRound()">Wijzig vorige ronde</button>
                             </div>
-
+                        </div>
+                        <div class="table-scrollable">
                             <table class="table table-striped table-bordered table-hover table-header-fixed dataTable" id="newScoreTable">
                                 <thead>
                                     <tr>
@@ -119,29 +118,32 @@
                         </div>
                     </div>
                 </div>
-            </form>
+        </div>
+        </form>
 
-            <form name="roundScoreForm" ng-show="showRoundScoreForm" class="form-horizontal form-bordered">
-                <!-- BEGIN TABLE PORTLET-->
-                <div class="portlet box green">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="fa fa-user"></i>Kies de speelronde
+        <form name="roundScoreForm" ng-show="showRoundScoreForm" class="form-horizontal form-bordered">
+            <!-- BEGIN TABLE PORTLET-->
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-user"></i>Kies de speelronde
 
-                        </div>
-                        <div class="tools">
-                            <a href="javascript:;" class="reload" data-original-title="" title="">
-                            </a>
-                        </div>
                     </div>
-                    <div class="portlet-body">
-                        <div class="dataTables_wrapper">
-                            <div class="row">
-                                <button value="Next" ng-click="updateScoreForm(selectedRound)">Update</button>
-                                <select ng-name="roundSelector" required ng-model="selectedRound" ng-value="form.RoundId" ng-options="form.RoundId for form in oldScoreForms | orderBy:'-RoundId'">
+                    <div class="tools">
+                        <a href="javascript:;" class="reload" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="dataTables_wrapper">
+                        <div class="row">
+                            <button value="Next" ng-click="updateScoreForm(selectedRound)">Update</button>
+                            <select ng-name="roundSelector" required ng-model="selectedRound" ng-value="form.RoundId" ng-options="form.RoundId for form in oldScoreForms | orderBy:'-RoundId'">
                         </select>
-                                <button value="Add" ng-click="addNewRound()">Nieuw ronde</button>
-                            </div>
+                            <button value="Add" ng-click="addNewRound()">Nieuw ronde</button>
+                        </div>
+                        <div class="table-scrollable">
+
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -224,10 +226,11 @@
                         </div>
                     </div>
                 </div>
-            </form>
-            <!-- END EXAMPLE TABLE PORTLET-->
-        </div>
+            </div>
+        </form>
+        <!-- END EXAMPLE TABLE PORTLET-->
     </div>
+</div>
 </div>
 
 <!-- END MAIN CONTENT -->
