@@ -29,35 +29,38 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>
-                            Naam
-                        </th>
-                        <th>
-                            Plaats
-                        </th>
-                        <th>
-                            Geslacht
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="participant in participants">
-                        <td>
-                          <a href="#/predictions/{{participant._id}}"> {{ participant.Participant.Name }} </a>
-                        </td>
-                        <td>
-                            {{ participant.Participant.Location }}
-                        </td>
-                        <td>
-                            {{ participant.Participant.Gender }}
-                        </td>
+                <div class="table-scrollable">
 
-                    </tr>
-                    </tbody>
-                </table>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Naam
+                                </th>
+                                <th>
+                                    Plaats
+                                </th>
+                                <th>
+                                    Geslacht
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="participant in participants">
+                                <td>
+                                    <a href="#/predictions/{{participant._id}}"> {{ participant.Participant.Name }} </a>
+                                </td>
+                                <td>
+                                    {{ participant.Participant.Location }}
+                                </td>
+                                <td>
+                                    {{ participant.Participant.Gender }}
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->

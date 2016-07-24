@@ -21,7 +21,7 @@
         </uib-alert>
         <div ng-hide="showConfirm">
             <form name="participantForm" class="form-horizontal form-bordered" ng-show="showParticipant">
-                <uib-alert type="success" ng-show="participantForm.$invalid" close="closeAlert()">{{participantMsg}}
+                <uib-alert type="success" ng-show="participantForm.$invalid" close="closeAlert($index)">{{participantMsg}}
                 </uib-alert>
                 <!-- BEGIN TABLE PORTLET-->
                 <div class="portlet box green">
@@ -39,7 +39,7 @@
                             <tr>
                                 <td>Naam</td>
                                 <td>
-                                    <input type="text" name="Name" required ng-model="data.Participant.Name"/>
+                                    <input type="text" name="Name" required ng-model="data.Participant.Name" />
                                     <br/>
 
                                     <div ng-show="form.$submitted || form.Name.$touched">
@@ -50,7 +50,7 @@
                             <tr>
                                 <td>Emailadres</td>
                                 <td>
-                                    <input type="email" name="Email" required ng-model="data.Participant.Email"/>
+                                    <input type="email" name="Email" required ng-model="data.Participant.Email" />
                                     <br/>
 
                                     <div ng-show="form.$submitted || form.Email.$touched">
@@ -62,7 +62,7 @@
                             <tr>
                                 <td>Woonplaats</td>
                                 <td>
-                                    <input type="text" name="Location" required ng-model="data.Participant.Location"/>
+                                    <input type="text" name="Location" required ng-model="data.Participant.Location" />
                                     <br/>
 
                                     <div ng-show="form.$submitted || form.Location.$touched">
@@ -73,18 +73,15 @@
                             <tr>
                                 <td> Geslacht</td>
                                 <td>
-                                    <input type="radio" name="Gender" required ng-model="data.Participant.Gender"
-                                           value="Man">Man
-                                    <input type="radio" name="Gender" required ng-model="data.Participant.Gender"
-                                           value="Vrouw">Vrouw
+                                    <input type="radio" name="Gender" required ng-model="data.Participant.Gender" value="Man">Man
+                                    <input type="radio" name="Gender" required ng-model="data.Participant.Gender" value="Vrouw">Vrouw
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>Telefoon</td>
                                 <td>
-                                    <input type="tel" name="PhoneNumber" required
-                                           ng-model="data.Participant.PhoneNumber"/>
+                                    <input type="tel" name="PhoneNumber" required ng-model="data.Participant.PhoneNumber" />
                                     <br/>
 
                                     <div ng-show="form.$submitted || form.PhoneNumber.$touched">
@@ -99,7 +96,7 @@
             </form>
 
             <form name="tableForm" class="form-horizontal form-bordered" ng-show="showTable">
-                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert()">{{tableMsg}}</uib-alert>
+                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{tableMsg}}</uib-alert>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="portlet box green">
@@ -113,23 +110,21 @@
                                 </div>
                             </div>
                             <div class="portlet-body form">
+                                <div class="table-scrollable">
 
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <td>Positie</td>
-                                        <td>Team</td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="table in data.Table">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td>Positie</td>
+                                                <td>Team</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="table in data.Table">
 
-                                        <td>{{table.Position}}</td>
-                                        <td>
-                                            <select ng-name="SelectedTeamId" required ng-model="SelectedTeamId"
-                                                    ng-init="SelectedTeamId"
-                                                    ng-change="updateTablePrediction(SelectedTeamId,table.Position)"
-                                                    >
+                                                <td>{{table.Position}}</td>
+                                                <td>
+                                                    <select ng-name="SelectedTeamId" required ng-model="SelectedTeamId" ng-init="SelectedTeamId" ng-change="updateTablePrediction(SelectedTeamId,table.Position)">
                                                 <!--ng-options="team.Id as (team.Team) disable when team.Selected for team in teams track by team.Id"-->
                                                 <!--ng-options="team as team.Team disable when team.Selected for (Id, team.Id) in team"-->
                                                 <option ng-model="SelectedTeamId" ng-value="team.Id"
@@ -139,10 +134,11 @@
                                                 </option>
                                                 <option value="empty"></option>
                                             </select>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -153,7 +149,7 @@
             </form>
 
             <form name="teamForm" class="form-horizontal form-bordered" ng-show="showTeam">
-                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert()">{{teamMsg}}</uib-alert>
+                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{teamMsg}}</uib-alert>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="portlet box green">
@@ -168,33 +164,31 @@
                             </div>
                             <div class="portlet-body form">
 
+                                <div class="table-scrollable">
 
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <td>Formatie:
-                                            <select ng-name="selectedFormation" required ng-model="selectedFormation"
-                                                    ng-change="setFormation(selectedFormation)">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td>Formatie:
+                                                    <select ng-name="selectedFormation" required ng-model="selectedFormation" ng-change="setFormation(selectedFormation)">
                                                 <option ng-model="formations" ng-repeat="formation in formations"
                                                         ng-model="formations.Formation" ng-value="formation.Formation">
                                                     {{formation.Formation}}
                                                 </option>
 
                                             </select>
-                                        </td>
-                                    </tr>
-                                    </thead>
-                                    <tbody ng-repeat="pos in playerPositions" ng-show="formationChosen">
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody ng-repeat="pos in playerPositions" ng-show="formationChosen">
 
-                                    <tr>
-                                        <td>{{pos.Position}}</td>
-                                    </tr>
-                                    <tr ng-repeat="teamPlayer in data.Team | filter : {Position:pos.Position}">
-                                        <td>
-                                            <select ng-name="SelectedPlayerId" required ng-model="SelectedPlayerId"
-                                                    ng-click="unSelectPlayersOfThisTeam(SelectedPlayerId,teamPlayer)"
-                                                    ng-blur="selectPlayersOfThisTeam(SelectedPlayerId,teamPlayer)"
-                                                    ng-change="updateTeamPrediction(SelectedPlayerId,teamPlayer)">
+                                            <tr>
+                                                <td>{{pos.Position}}</td>
+                                            </tr>
+                                            <tr ng-repeat="teamPlayer in data.Team | filter : {Position:pos.Position}">
+                                                <td>
+                                                    <select ng-name="SelectedPlayerId" required ng-model="SelectedPlayerId" ng-click="unSelectPlayersOfThisTeam(SelectedPlayerId,teamPlayer)"
+                                                        ng-blur="selectPlayersOfThisTeam(SelectedPlayerId,teamPlayer)" ng-change="updateTeamPrediction(SelectedPlayerId,teamPlayer)">
                                                 <!--ng-options='player.Id as (player.Name + " (" + player.Team +")") disable when player.PreSelected for player in players |filter : {Position:pos.Position} track by player.Id'-->
                                                 <!--ng-options="player.Id as player.Name disable when player.PreSelected for player in players |filter : {Position:pos.Position} track by player.Id"-->
 
@@ -205,11 +199,12 @@
                                                         value="{{player.Id}}">{{player.Name}} ({{player.Team}})
                                                 </option>
                                             </select>
-                                        </td>
-                                    </tr>
+                                                </td>
+                                            </tr>
 
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -220,7 +215,7 @@
             </form>
 
             <form name="questionsForm" class="form-horizontal form-bordered" ng-show="showQuestions">
-                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert()">{{questionMsg}}</uib-alert>
+                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{questionMsg}}</uib-alert>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="portlet box green">
@@ -237,19 +232,19 @@
 
                                 <table class="table table-striped">
                                     <thead>
-                                    <tr>
-                                        <td>Vraag</td>
-                                        <td>Antwoord</td>
-                                    </tr>
+                                        <tr>
+                                            <td>Vraag</td>
+                                            <td>Antwoord</td>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="question in data.Questions">
-                                        <td>
-                                            {{question.Question}}
-                                        </td>
-                                        <td><input type="text" name="Location" required ng-model="question.Answer"/>
-                                        </td>
-                                    </tr>
+                                        <tr ng-repeat="question in data.Questions">
+                                            <td>
+                                                {{question.Question}}
+                                            </td>
+                                            <td><input type="text" name="Location" required ng-model="question.Answer" />
+                                            </td>
+                                        </tr>
 
                                     </tbody>
                                 </table>
