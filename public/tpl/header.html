@@ -1,35 +1,97 @@
-<!-- BEGIN HEADER INNER -->
-<div class="page-header-inner container">
-    <!-- BEGIN LOGO -->
-    <div class="page-logo">
-        <a href="#/dashboard.html">
-            <!--<img src="assets/admin/layout2/img/logo-default.png" alt="logo" class="logo-default"/>-->
-        </a>
-
-        <div class="menu-toggler sidebar-toggler">
-            <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+<!-- BEGIN HEADER TOP -->
+<div class="page-header-top">
+    <div class="container">
+        <!-- BEGIN LOGO -->
+        <div class="page-logo">
+            <a href="#/dashboard.html">
+                <!--<img src="{{settings.layoutPath}}/img/logo-default.jpg" alt="logo" class="logo-default">-->
+            </a>
         </div>
-    </div>
-    <!-- END LOGO -->
-    <!-- BEGIN RESPONSIVE MENU TOGGLER -->
-    <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse"
-       data-target=".navbar-collapse">
-    </a>
-    <!-- END RESPONSIVE MENU TOGGLER -->
-    <!-- BEGIN PAGE ACTIONS -->
-    <!-- DOC: Remove "hide" class to enable the page header actions -->
-    <div class="page-actions">
-    </div>
-    <!-- END PAGE ACTIONS -->
-    <!-- BEGIN PAGE TOP -->
-    <div class="page-top">
+        <!-- END LOGO -->
+        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+        <a href="javascript:;" class="menu-toggler"></a>
+        <!-- END RESPONSIVE MENU TOGGLER -->
         <!-- BEGIN TOP NAVIGATION MENU -->
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
+
             </ul>
         </div>
         <!-- END TOP NAVIGATION MENU -->
     </div>
-    <!-- END PAGE TOP -->
 </div>
-<!-- END HEADER INNER -->
+<!-- END HEADER TOP -->
+<!-- BEGIN HEADER MENU -->
+<div class="page-header-menu">
+    <div class="container">
+        <!-- BEGIN HEADER SEARCH BOX -->
+        <!--<form class="search-form" action="extra_search.html" method="GET">-->
+        <!--<div class="input-group">-->
+        <!--<input type="text" class="form-control" placeholder="Search" name="query">-->
+        <!--<span class="input-group-btn">-->
+        <!--<a href="javascript:;" class="btn submit">-->
+        <!--<i class="icon-magnifier"></i>-->
+        <!--</a>-->
+        <!--</span>-->
+        <!--</div>-->
+        <!--</form>-->
+        <!-- END HEADER SEARCH BOX -->
+        <!-- BEGIN MEGA MENU -->
+        <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
+        <!-- DOC: Remove dropdown-menu-hover and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
+        <div class="hor-menu">
+            <ul class="nav navbar-nav">
+                <li class="start">
+                    <a href="#/dashboard.html">
+                        <i class="icon-home"></i>
+                        <span class="title">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/registration.html" id="sidebar_menu_link_registration">
+                        <i class="icon-puzzle"></i>
+                        <span class="title">Inschrijven</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/participants.html" id="sidebar_menu_link_participant">
+                        <i class="icon-user"></i>
+                        <span class="title">De Deelnemers</span>
+                    </a>
+                </li>
+                <!--<li>-->
+                <!--<a href="#/table.html" id="sidebar_menu_link_games">-->
+                <!--<i class="icon-calendar"></i>-->
+                <!--<span class="title">Stand</span>-->
+                <!--</a>-->
+                <!--</li>-->
+                <li>
+                    <a href="#/teamtable.html" id="sidebar_menu_link_halloffame">
+                        <i class="icon-bar-chart"></i>
+                        <span class="title">Team Stand</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/halloffame.html" id="sidebar_menu_link_halloffame">
+                        <i class="icon-bar-chart"></i>
+                        <span class="title">Hall of Fame</span>
+                    </a>
+                </li>
+                <!--<li>
+                    <a href="#/predictions.html" id="sidebar_menu_link_prediction">
+                        <i class="icon-puzzle"></i>
+                        <span class="title">Voorspellingen</span>
+                    </a>
+                </li>-->
+                <li>
+                    <a href="#/scoreform.html" id="sidebar_menu_link_scoreform">
+                        <i class="icon-puzzle"></i>
+                        <span class="title">Scores invullen</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- END MEGA MENU -->
+    </div>
+</div>
+<!-- END HEADER MENU -->

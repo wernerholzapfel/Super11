@@ -26,5 +26,5 @@
   "download": "http://mixitup.io",
   "dependencies": {
     "jquery": ">=1.4"
-  }
+    }
 }

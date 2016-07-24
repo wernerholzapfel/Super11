@@ -1,4 +1,5 @@
-MetronicApp.controller('ScoreFormApiController', function ($scope, eredivisiePlayersApi, saveScoreFormService, getScoreFormService, findAndUpdatePlayerList) {
+
+angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, eredivisiePlayersApi, saveScoreFormService, getScoreFormService, findAndUpdatePlayerList) {
     $scope.alerts = [];
 
 //    $scope.selectedRound = 0;
@@ -73,3 +74,7 @@ MetronicApp.controller('ScoreFormApiController', function ($scope, eredivisiePla
         $scope.showNewScoreForm = false;
     }
 });
+
+$(document).ready(function() {
+    $('#newScoreTable').DataTable();
+} );

@@ -1,5 +1,5 @@
 
-MetronicApp.factory('teamListService', function ($http) {
+angular.module('MetronicApp').factory('teamListService', function ($http) {
   return   [{
              Id: 1,
              Team: "ADO Den Haag",

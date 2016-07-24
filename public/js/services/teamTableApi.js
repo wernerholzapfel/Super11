@@ -1,4 +1,5 @@
-﻿MetronicApp.factory('teamTableApi', function ($http) {
+﻿
+angular.module('MetronicApp').factory('teamTableApi', function ($http) {
     var myService = {
         async: function (roundId) {
             // $http returns a promise, which has a then function, which also returns a promise
@@ -16,7 +17,8 @@
 });
 
 
-MetronicApp.factory('totalTeamTableApi', function ($http) {
+
+angular.module('MetronicApp').factory('totalTeamTableApi', function ($http) {
     var myService = {
         async: function () {
             // $http returns a promise, which has a then function, which also returns a promise

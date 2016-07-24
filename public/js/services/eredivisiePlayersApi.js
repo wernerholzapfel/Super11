@@ -1,4 +1,5 @@
-MetronicApp.factory('eredivisiePlayersApi', function ($http) {
+
+angular.module('MetronicApp').factory('eredivisiePlayersApi', function ($http) {
   var myService = {
     async: function () {
       // $http returns a promise, which has a then function, which also returns a promise

@@ -3,15 +3,12 @@
     De Deelnemers
 </h3>
 <div class="page-bar">
-    <ul class="page-breadcrumb">
+    <ul class="page-breadcrumb breadcrumb ng-scope">
         <li>
-            <i class="fa fa-home"></i>
             <a href="#/dashboard.html">Home</a>
-            <i class="fa fa-angle-right"></i>
+            <i class="fa fa-circle"></i>
         </li>
-        <li>
-            <a href="#/participants.html">Deelnemers</a>
-        </li>
+        <li class="active">Deelnemers</li>
     </ul>
     <div class="page-toolbar">
     </div>
@@ -21,7 +18,7 @@
 <div class="row" ng-controller="ParticipantApiController">
     <div class="col-md-12">
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div class="portlet box blue-hoki">
+        <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-user"></i>Super 11 heeft {{ participants.length }} deelnemers

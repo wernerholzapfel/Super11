@@ -127,13 +127,13 @@ var setPlayedScore = function (player) {
 var setGoalScore = function (player) {
   if (player.Goals > 0) {
     switch (player.Position) {
-      case "GK":
+      case "K":
         return player.Goals * goalForGKScore;
-      case "DF":
+      case "V":
         return player.Goals * goalForDFScore;
-      case "MF":
+      case "M":
         return player.Goals * goalForMFScore;
-      case "FW":
+      case "A":
         return player.Goals * goalForFWScore;
       default:
         return 0;
@@ -145,13 +145,13 @@ var setGoalScore = function (player) {
 var setAssistScore = function (player) {
   if (player.Assists > 0) {
     switch (player.Position) {
-      case "GK":
+      case "K":
         return player.Assists * assistGKScore;
-      case "DF":
+      case "V":
         return player.Assists * assistDFScore;
-      case "MF":
+      case "M":
         return player.Assists * assistMFScore;
-      case "FW":
+      case "A":
         return player.Assists * assistFWScore;
       default:
         return 0;
@@ -191,9 +191,9 @@ var setRedCardScore = function (player) {
 var setCleanSheetScore = function (player) {
   if (player.CleanSheet) {
     switch (player.Position) {
-      case "GK":
+      case "K":
         return cleanSheetGKScore;
-      case "DF":
+      case "V":
         return cleanSheetDFScore;
       default:
         return 0;

@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * AngularJS default filter with the following expression:
  * "person in people | filter: {name: $select.search, age: $select.search}"
@@ -7,7 +5,7 @@
  * We want to perform a OR.
  */
 
-MetronicApp.filter('propsFilter', function() {
+angular.module('MetronicApp').filter('propsFilter', function() {
     return function(items, props) {
         var out = [];
 
@@ -38,9 +36,9 @@ MetronicApp.filter('propsFilter', function() {
     };
 });
 
-MetronicApp.controller('UISelectController', function($scope, $http, $timeout) {
+angular.module('MetronicApp').controller('UISelectController', function($scope, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {
-        Metronic.initAjax(); // initialize core components
+        App.initAjax(); // initialize core components
     });
 
     $scope.disabled = undefined;

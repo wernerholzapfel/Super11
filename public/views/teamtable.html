@@ -4,15 +4,12 @@
         Super 11 Stand
     </h3>
     <div class="page-bar">
-        <ul class="page-breadcrumb">
+        <ul class="page-breadcrumb breadcrumb ng-scope">
             <li>
-                <i class="fa fa-home"></i>
                 <a href="#/dashboard.html">Home</a>
-                <i class="fa fa-angle-right"></i>
+                <i class="fa fa-circle"></i>
             </li>
-            <li>
-                <a href="#/teamtable.html">Stand</a>
-            </li>
+            <li class="active">Stand</li>
         </ul>
         <div class="page-toolbar">
         </div>
@@ -22,9 +19,9 @@
     <div class="row">
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
-            <tabset active="active">
-                <tab heading="Totaal stand">
-                    <div class="portlet box blue-hoki">
+            <uib-tabset active="active">
+                <uib-tab heading="Totaal stand">
+                    <div class="portlet box green">
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-calendar"></i>geen idee
@@ -34,7 +31,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="portlet-body">
+                        <div class="portlet-body flip-scroll">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -103,9 +100,9 @@
                             </table>
                         </div>
                     </div>
-                </tab>
-                <tab heading="Ronde stand">
-                    <div class="portlet box blue-hoki">
+                </uib-tab>
+                <uib-tab heading="Ronde stand">
+                    <div class="portlet box green">
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-calendar"></i>geen idee
@@ -184,8 +181,8 @@
                             </table>
                         </div>
                     </div>
-                </tab>
-            </tabset>
+                </uib-tab>
+            </uib-tabset>
                 <!-- END EXAMPLE TABLE PORTLET-->
                 </div>
         </div>

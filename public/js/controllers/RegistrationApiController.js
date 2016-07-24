@@ -1,6 +1,7 @@
 ﻿/*global GetPouleIndex, GetTeamIndex,GetSecondRoundIndex */
 
-MetronicApp.controller('RegistrationApiController', function ($scope, registrationService, teamListService, eredivisiePlayersApi) {
+
+angular.module('MetronicApp').controller('RegistrationApiController', function ($scope, registrationService, teamListService, eredivisiePlayersApi) {
 
   $scope.alerts = [];
   $scope.participantMsg = 'Leuk dat je je wilt inschrijven. Vul alle velden in. Daarna kan je op volgende klikken om de rest van je voorspellingen in te vullen';
@@ -9,7 +10,7 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
   $scope.questionMsg = 'Met deze vragen kan je extra bonuspunten verdienen'
 
   $scope.predictionTypes = [{ Id: 4, Title: "Halve Finale" }, { Id: 5, Title: "Finale" }];
-  $scope.playerPositions = [{ Id: 1, Position: "GK" }, { Id: 2, Position: "DF" }, { Id: 3, Position: "MF" }, { Id: 4, Position: "FW" }];
+  $scope.playerPositions = [{ Id: 1, Position: "K" }, { Id: 2, Position: "V" }, { Id: 3, Position: "M" }, { Id: 4, Position: "A" }];
   $scope.formations = [{ Id: 1, Formation: "433" }, { Id: 2, Formation: "442" }]
 
  eredivisiePlayersApi.async().then(function (data) {
@@ -21,20 +22,20 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
   $scope.setFormation = function (formation) {
     switch (formation) {
       case "433":
-        $scope.data.Team[8].Position = "FW";
+        $scope.data.Team[8].Position = "A";
         $scope.data.Team[8].PlayerId = "";
         $scope.data.Team[8].PlayerName = "";
         $scope.formationChosen = true;
         break;
       case "442":
-        $scope.data.Team[8].Position = "MF";
+        $scope.data.Team[8].Position = "M";
         $scope.data.Team[8].PlayerId = "";
         $scope.data.Team[8].PlayerName = "";
         $scope.formationChosen = true;
         break;
       default:
 
-        $scope.data.Team[8].Position = "FW";
+        $scope.data.Team[8].Position = "A";
         $scope.data.Team[8].PlayerId = "";
         $scope.data.Team[8].PlayerName = "";
         $scope.formationChosen = true;
@@ -257,67 +258,67 @@ MetronicApp.controller('RegistrationApiController', function ($scope, registrati
         }],
       "Team": [{
         "Id": 1,
-        "Position": "GK",
+        "Position": "K",
         "PlayerId": "",
         "PlayerName": "",
         "TeamId": ""
       }, {
           "Id": 2,
-          "Position": "DF",
+          "Position": "V",
           "PlayerId": "",
           "PlayerName": "",
           "TeamId": ""
         }, {
           "Id": 3,
-          "Position": "DF",
+          "Position": "V",
           "PlayerId": "",
           "PlayerName": "",
           "TeamId": ""
         }, {
           "Id": 4,
-          "Position": "DF",
+          "Position": "V",
           "PlayerId": "",
           "PlayerName": "",
           "TeamId": ""
         }, {
           "Id": 5,
-          "Position": "DF",
+          "Position": "V",
           "PlayerId": "",
           "PlayerName": "",
           "TeamId": ""
         }, {
           "Id": 6,
-          "Position": "MF",
+          "Position": "M",
           "PlayerId": "",
           "PlayerName": "",
           "TeamId": ""
         }, {
           "Id": 7,
-          "Position": "MF",
+          "Position": "M",
           "PlayerId": "",
           "PlayerName": "",
           "TeamId": ""
         }, {
           "Id": 8,
-          "Position": "MF",
+          "Position": "M",
           "PlayerId": "",
           "PlayerName": "",
           "TeamId": ""
         }, {
           "Id": 9,
-          "Position": "FW",
+          "Position": "A",
           "PlayerId": "",
           "PlayerName": "",
           "TeamId": ""
         }, {
           "Id": 10,
-          "Position": "FW",
+          "Position": "A",
           "PlayerId": "",
           "PlayerName": "",
           "TeamId": ""
         }, {
           "Id": 11,
-          "Position": "FW",
+          "Position": "A",
           "PlayerId": "",
           "PlayerName": "",
           "TeamId": ""

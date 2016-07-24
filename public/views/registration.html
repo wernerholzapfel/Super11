@@ -3,15 +3,12 @@
     Registratie Formulier
 </h3>
 <div class="page-bar">
-    <ul class="page-breadcrumb">
+    <ul class="page-breadcrumb breadcrumb ng-scope">
         <li>
-            <i class="fa fa-home"></i>
             <a href="#/dashboard.html">Home</a>
-            <i class="fa fa-angle-right"></i>
+            <i class="fa fa-circle"></i>
         </li>
-        <li>
-            <a href="#/registrationform.html">Registratie Formulier</a>
-        </li>
+        <li class="active">Registratie Formulier</li>
     </ul>
     <div class="page-toolbar">
     </div>
@@ -20,12 +17,14 @@
 <!-- BEGIN MAIN CONTENT -->
 <div class="row" ng-controller="RegistrationApiController">
     <div class="col-md-12">
-        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
+        </uib-alert>
         <div ng-hide="showConfirm">
             <form name="participantForm" class="form-horizontal form-bordered" ng-show="showParticipant">
-                <alert type="success" ng-show="participantForm.$invalid" close="closeAlert()">{{participantMsg}}</alert>
+                <uib-alert type="success" ng-show="participantForm.$invalid" close="closeAlert()">{{participantMsg}}
+                </uib-alert>
                 <!-- BEGIN TABLE PORTLET-->
-                <div class="portlet box blue-hoki">
+                <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="fa fa-user"></i>Schrijf je nu in
@@ -100,10 +99,10 @@
             </form>
 
             <form name="tableForm" class="form-horizontal form-bordered" ng-show="showTable">
-                <alert type="success" ng-show="tableForm.$invalid" close="closeAlert()">{{tableMsg}}</alert>
+                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert()">{{tableMsg}}</uib-alert>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="portlet box blue-hoki">
+                        <div class="portlet box green">
                             <div class="portlet-title">
                                 <div class="caption">
                                     <i class="fa fa-user"></i>Eindstand Eredivisie 2016/2017
@@ -154,10 +153,10 @@
             </form>
 
             <form name="teamForm" class="form-horizontal form-bordered" ng-show="showTeam">
-                <alert type="success" ng-show="tableForm.$invalid" close="closeAlert()">{{teamMsg}}</alert>
+                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert()">{{teamMsg}}</uib-alert>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="portlet box blue-hoki">
+                        <div class="portlet box green">
                             <div class="portlet-title">
                                 <div class="caption">
                                     <i class="fa fa-user"></i>Kies je team
@@ -221,10 +220,10 @@
             </form>
 
             <form name="questionsForm" class="form-horizontal form-bordered" ng-show="showQuestions">
-                <alert type="success" ng-show="tableForm.$invalid" close="closeAlert()">{{questionMsg}}</alert>
+                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert()">{{questionMsg}}</uib-alert>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="portlet box blue-hoki">
+                        <div class="portlet box green">
                             <div class="portlet-title">
                                 <div class="caption">
                                     <i class="fa fa-user"></i>Nog {{data.Questions.length}} vragen!
