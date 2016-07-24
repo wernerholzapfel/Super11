@@ -133,7 +133,6 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
 
         },
         ParticipantName: { $first: "$Participant.Name" },
-        totalTeamScore: { $first: "$TotalTeamScore" },
         playerName: { $first: "$TeamScores.Name" },
         Team: { $first: "$TeamScores.Team" },
         Position: { $first: "$TeamScores.Position" },
@@ -153,7 +152,7 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
       {
         _id: { email: "$_id.email" },
         Name: { $first: "$ParticipantName" },
-        TotalTeamScore: { $first: "$totalTeamScore" },
+        TotalTeamScore: { $sum: "$TotalScore" },
         TeamScores: {
           $push: {
             Name: '$playerName',
