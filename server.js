@@ -112,7 +112,77 @@ app.get("/api/teamStand/", function (req, res, next) {
   console.log("log api call roundTable/");
   teamStand.find(function (err, roundTable) {
     if (err) {
-      handleError(res, error.message, "failed tot get roundTable");
+      handleError(res, err.message, "failed to get roundTable");
+    }
+    else {
+      res.status(200).json(roundTable);
+    }
+  });
+});
+
+app.get("/api/totalTeamStand/", function (req, res, next) {
+  console.log("log api call TotalTeamStand/");
+
+  teamStand.aggregate([
+    { $unwind: "$TeamScores" },
+    {
+      $group: {
+        _id: {
+          email: "$Participant.Email",
+          playerName: "$TeamScores.Name",
+
+        },
+        ParticipantName: { $first: "$Participant.Name" },
+        totalTeamScore: { $first: "$TotalTeamScore" },
+        playerName: { $first: "$TeamScores.Name" },
+        Team: { $first: "$TeamScores.Team" },
+        Position: { $first: "$TeamScores.Position" },
+        Won: { $sum: "$TeamScores.Won" },
+        Draw: { $sum: "$TeamScores.Draw" },
+        Played: { $sum: "$TeamScores.Played" },
+        RedCard: { $sum: "$TeamScores.RedCard" },
+        YellowCard: { $sum: "$TeamScores.YellowCard" },
+        Assist: { $sum: "$TeamScores.Assist" },
+        Goals: { $sum: "$TeamScores.Goals" },
+        CleanSheetScore: { $sum: "$TeamScores.CleanSheetScore" },
+        TotalScore: { $sum: "$TeamScores.TotalScore" },
+      }
+    },
+    {
+      $group:
+      {
+        _id: { email: "$_id.email" },
+        Name: { $first: "$ParticipantName" },
+        TotalTeamScore: { $first: "$totalTeamScore" },
+        TeamScores: {
+          $push: {
+            Name: '$playerName',
+            Position: "$Position",
+            Team: "$Team",
+            Won: "$Won",
+            Draw: "$Draw",
+            Played: "$Played",
+            RedCard: "$RedCard",
+            YellowCard: "$YellowCard",
+            Assist: "$Assist",
+            Goals: "$Goals",
+            CleanSheetScore: "$CleanSheetScore",
+            TotalScore: "$TotalScore"
+          }
+        }
+      }
+    },
+    {
+      $project:
+      {
+        _id : 0,
+        Name: 1,
+        TotalTeamScore :1,
+        TeamScores: 1
+      }}
+  ], function (err, roundTable) {
+    if (err) {
+      handleError(res, err.message, "failed to get roundTable");
     }
     else {
       res.status(200).json(roundTable);
@@ -121,7 +191,7 @@ app.get("/api/teamStand/", function (req, res, next) {
 });
 
 app.get("/api/predictions/:Id", function (req, res, next) {
-  Predictions.findById(req.params.Id, { 'Participant.Email': 0,  createDate: 0 }, function (err, prediction) {
+  Predictions.findById(req.params.Id, { 'Participant.Email': 0, createDate: 0 }, function (err, prediction) {
     if (err) {
       handleError(res, err.message, "Failed to get prediction.");
     } else {
@@ -132,7 +202,7 @@ app.get("/api/predictions/:Id", function (req, res, next) {
 
 
 app.get("/api/predictions", function (req, res, next) {
-  Predictions.find({}, { 'Participant.Email': 0, "Team": 0, "Questions":0, "Table": 0, createDate: 0 }, function (err, predictionsList) {
+  Predictions.find({}, { 'Participant.Email': 0, "Team": 0, "Questions": 0, "Table": 0, createDate: 0 }, function (err, predictionsList) {
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {

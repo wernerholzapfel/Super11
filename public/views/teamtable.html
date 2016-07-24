@@ -22,16 +22,18 @@
     <div class="row">
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
-            <div class="portlet box blue-hoki">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-calendar"></i>geen idee
-                    </div>
-                    <div class="tools">
-                        <a href="javascript:;" class="collapse" data-original-title="" title="">
-                        </a>
-                    </div>
-                </div>
+           <tabset active="active">
+                <tab heading="Ronde stand">
+                    <div class="portlet box blue-hoki">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-calendar"></i>geen idee
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                </a>
+                            </div>
+                        </div>
                 <div class="portlet-body">
                     <table class="table table-striped">
                         <thead>
@@ -43,13 +45,7 @@
                                     Totaal score
                                 </th>
                                 <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                                                <th></th>                                <th></th>                                <th></th>                                <th></th>                                <th></th>                                <th></th>                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,6 +96,81 @@
                     </table>
                 </div>
             </div>
+            </tab>
+            <tab heading="Totaal stand">
+                <div class="portlet box blue-hoki">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-calendar"></i>geen idee
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title="">
+                            </a>
+                        </div>
+                    </div>
+              <div class="portlet-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Naam
+                                </th>
+                                <th>
+                                    Totaal score
+                                </th>
+                                <th></th>
+                                                                <th></th>                                <th></th>                                <th></th>                                <th></th>                                <th></th>                                <th></th>                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat-start="table in totalTeamTable | orderBy:'-TotalTeamScore'">
+                                <td>
+                                    <button ng-if="table.expanded" ng-click="table.expanded = false">-</button>
+                                    <button ng-if="!table.expanded" ng-click="table.expanded = true">+</button> {{ table.Participant.Name}}
+                                </td>
+                                <td>
+                                    {{table.TotalTeamScore}}
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr ng-if="table.expanded">
+                                <th> Naam</th>
+                                <th> Gespeeld</th>
+                                <th> Winst</th>
+                                <th> Gelijk</th>
+                                <th> de 0</th>
+                                <th> Doelpunt</th>
+                                <th> Assist</th>
+                                <th> Geel</th>
+                                <th> Rood</th>
+                                <th> Totaal</th>
+                            </tr>
+                            <tr ng-repeat-end ng-if="table.expanded" ng-repeat="player in table.TeamScores">
+                                <td> {{player.Name}}</td>
+                                <td> {{player.Played}}</td>
+                                <td> {{player.Won}}</td>
+                                <td> {{player.Draw}}</td>
+                                <td> {{player.CleanSheetScore}}</td>
+                                <td> {{player.Goals}}</td>
+                                <td> {{player.Assist}}</td>
+                                <td> {{player.YellowCard}}</td>
+                                <td> {{player.RedCard}}</td>
+                                <td> {{player.TotalScore}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </tbody>
+                    </table>
+                </div>
+                </tab>
+            <tabset>
             <!-- END EXAMPLE TABLE PORTLET-->
         </div>
     </div>
