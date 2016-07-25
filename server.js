@@ -13,6 +13,7 @@ var Predictions = require("./predictionModel");
 var RoundTeamScoreForms = require("./roundteamscoreformsModel");
 var EredivisiePlayers = require("./eredivisiePlayersModel");
 var teamStand = require("./teamStandModel");
+var Headlines = require("./headlinesModel");
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -59,6 +60,7 @@ app.post("/api/predictions", function (req, res) {
     }
   });
 });
+
 
 
 app.get("/api/roundteamscoreforms", function (req, res, next) {
@@ -188,6 +190,31 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
     }
   });
 });
+
+app.get("api/headlines/", function (req,res,next) {
+  Headlines.find(function(err, headlines){
+    if (err) {
+  handleError(res, err.message, "failed to get headlines");
+    }
+    else {
+      res.status(200).json(headlines);
+    }
+  });
+});
+
+app.post("/api/headlines", function (req, res) {
+  var headlines = new Headlines(req.body);
+
+  headlines.save(function (err, newheadlines) {
+    if (err) {
+      handleError(res, err.message, "Failed to create new headline.");
+    } else {
+      res.status(201).json(newheadlines);
+    }
+  });
+});
+
+
 
 app.get("/api/predictions/:Id", function (req, res, next) {
   Predictions.findById(req.params.Id, { 'Participant.Email': 0, createDate: 0 }, function (err, prediction) {

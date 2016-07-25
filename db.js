@@ -40,4 +40,5 @@ require("./roundteamscoreformsModel");
 require("./eredivisiePlayersModel");
 require("./calculate");
 require("./teamStandModel");
+require("./headlinesModel");
 
