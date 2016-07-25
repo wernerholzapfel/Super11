@@ -123,8 +123,6 @@ app.get("/api/teamStand/", function (req, res, next) {
 });
 
 app.get("/api/totalTeamStand/", function (req, res, next) {
-  console.log("log api call TotalTeamStand/");
-
   teamStand.aggregate([
     { $unwind: "$TeamScores" },
     {
@@ -176,11 +174,12 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
     {
       $project:
       {
-        _id : 0,
+        _id: 0,
         Name: 1,
-        TotalTeamScore :1,
+        TotalTeamScore: 1,
         TeamScores: 1
-      }}
+      }
+    }
   ], function (err, roundTable) {
     if (err) {
       handleError(res, err.message, "failed to get roundTable");
@@ -191,10 +190,10 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
   });
 });
 
-app.get("api/headlines/", function (req,res,next) {
-  Headlines.find(function(err, headlines){
+app.get("/api/headlines/", function (req, res, next) {
+  Headlines.find(function (err, headlines) {
     if (err) {
-  handleError(res, err.message, "failed to get headlines");
+      handleError(res, err.message, "failed to get headlines");
     }
     else {
       res.status(200).json(headlines);
@@ -202,7 +201,7 @@ app.get("api/headlines/", function (req,res,next) {
   });
 });
 
-app.post("/api/headlines", function (req, res) {
+app.post("/api/headlines/", function (req, res) {
   var headlines = new Headlines(req.body);
 
   headlines.save(function (err, newheadlines) {
