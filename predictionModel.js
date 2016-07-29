@@ -16,10 +16,10 @@ var predictionsSchema = new mongoose.Schema({
 		SelectedTeamId: { type: String, required: true }
 	}],
 	Team: [{
-		Id: { type: Number, required: false },
-		Position: { type: String, required: false },
-		PlayerId: { type: String, required: false },
-		PlayerName: { type: String, required: false },
+		Id: { type: Number, required: true },
+		Position: { type: String, required: true },
+		PlayerId: { type: String, required: true },
+		PlayerName: { type: String, required: true },
 		TeamId: { type: String, required: false },
 	}],
 	Questions: [{

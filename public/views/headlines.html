@@ -19,9 +19,9 @@
     <div class="col-md-12">
         <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
         </uib-alert>
-        <div ng-hide="showConfirm">
-            <form name="headLinesForm" class="form-horizontal form-bordered" ng-show="showParticipant">
-                <uib-alert type="success" ng-show="participantForm.$invalid" close="closeAlert($index)">{{participantMsg}}
+        <div>
+            <form name="headLinesForm" class="form-horizontal form-bordered">
+                <uib-alert type="success" ng-show="headLinesForm.$invalid" close="closeAlert($index)">{{participantMsg}}
                 </uib-alert>
                 <!-- BEGIN TABLE PORTLET-->
                 <div class="portlet box green">
@@ -39,8 +39,7 @@
                             <tr>
                                 <td>Headline</td>
                                 <td>
-                                    <input type="text" name="Name" required ng-model="$scope.content" />
-
+                                    <input type="text" name="content" required ng-model="data.content" />
                                 </td>
                             </tr>
                             <button value="Opslaan" ng-click="saveHeadlines()">Opslaan</button>
