@@ -412,6 +412,25 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }
         })
 
+             // spelregels
+                .state('spelregels', {
+                    url: "/spelregels.html",
+                    templateUrl: "views/spelregels.html",
+                    data: { pageTitle: 'Spelregels' },
+                    controller: "GeneralPageController",
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'MetronicApp',
+                                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                                files: [
+                                    'js/controllers/GeneralPageController.js'
+                                ]
+                            });
+                        }]
+                    }
+                })
+
 }]);
 
 /* Init global settings and run the app */
