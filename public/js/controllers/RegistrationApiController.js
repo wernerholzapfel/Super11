@@ -11,7 +11,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
   $scope.predictionTypes = [{ Id: 4, Title: "Halve Finale" }, { Id: 5, Title: "Finale" }];
   $scope.playerPositions = [{ Id: 1, Position: "K" }, { Id: 2, Position: "V" }, { Id: 3, Position: "M" }, { Id: 4, Position: "A" }];
-  $scope.formations = [{ Id: 1, Formation: "433" }, { Id: 2, Formation: "442" }]
+  $scope.formations = [{ Id: 1, Formation: "433" }, { Id: 2, Formation: "442" }, {Id: 3, Formation: "343"}]
 
   eredivisiePlayersApi.async().then(function (data) {
     $scope.players = data[0].Player;
@@ -22,19 +22,37 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
   $scope.setFormation = function (formation) {
     switch (formation) {
       case "433":
+        $scope.data.Team[4].Position = "V";
+        $scope.data.Team[4].PlayerId = "";
+        $scope.data.Team[4].PlayerName = "";
         $scope.data.Team[8].Position = "A";
         $scope.data.Team[8].PlayerId = "";
         $scope.data.Team[8].PlayerName = "";
         $scope.formationChosen = true;
         break;
       case "442":
+        $scope.data.Team[4].Position = "V";
+        $scope.data.Team[4].PlayerId = "";
+        $scope.data.Team[4].PlayerName = "";
         $scope.data.Team[8].Position = "M";
         $scope.data.Team[8].PlayerId = "";
         $scope.data.Team[8].PlayerName = "";
         $scope.formationChosen = true;
         break;
+        case "343":
+        $scope.data.Team[4].Position = "M";
+        $scope.data.Team[4].PlayerId = "";
+        $scope.data.Team[4].PlayerName = "";
+        $scope.data.Team[8].Position = "A";
+        $scope.data.Team[8].PlayerId = "";
+        $scope.data.Team[8].PlayerName = "";
+        $scope.formationChosen = true;
+        break;
+        
       default:
-
+        $scope.data.Team[4].Position = "V";
+        $scope.data.Team[4].PlayerId = "";
+        $scope.data.Team[4].PlayerName = "";
         $scope.data.Team[8].Position = "A";
         $scope.data.Team[8].PlayerId = "";
         $scope.data.Team[8].PlayerName = "";
