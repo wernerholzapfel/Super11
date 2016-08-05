@@ -221,7 +221,7 @@
                         <div class="portlet box green">
                             <div class="portlet-title">
                                 <div class="caption">
-                                    <i class="fa fa-user"></i>Nog {{data.Questions.length}} vragen!
+                                    <i class="fa fa-user"></i>Beantwoord deze {{data.Questions.length}} vragen!
                                 </div>
                                 <div class="tools">
                                     <a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -254,7 +254,54 @@
                 </div>
 
                 <button value="Previous" ng-click="teamView()" ng-show="showQuestions">Terug</button>
-                <button value="Next" ng-disabled="questionsForm.$invalid" ng-click="save()">Save
+                <button value="Next" ng-disabled="questionsForm.$invalid" ng-click="matchesView()">Volgende
+                </button>
+            </form>
+
+            <form name="matchesForm" class="form-horizontal form-bordered" ng-show="showMatches">
+                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{questionMsg}}</uib-alert>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Voorspel de {{data.Matches.length}} wedstrijden!
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <td>Wedstrijd</td>
+                                        <td>Thuis</td>
+                                        <td>Uit</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="match in data.Matches">
+                                        <td>
+                                            {{match.Match}}
+                                        </td>
+                                        <td><input type="number"  size="1" min="0" max="9" name="Home" required ng-model="match.Home" />
+                                        </td>
+                                        <td><input type="number"   size="1" min="0" max="9" name="Away" required ng-model="match.Away" />
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button value="Previous" ng-click="questionsView()" ng-show="showMatches">Terug</button>
+                <button value="Next" ng-disabled="questionsForm.$invalid" ng-click="save()">Opslaan
                 </button>
             </form>
 

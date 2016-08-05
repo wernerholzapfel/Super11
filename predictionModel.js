@@ -26,7 +26,13 @@ var predictionsSchema = new mongoose.Schema({
 		Id: { type: Number, required: true },
 		Question: { type: String, required: true },
 		Answer: { type: String, required: true }
-	}]
+	}],
+		Matches: [{
+  		Id: { type: Number, required: true },
+  		Match: { type: String, required: true },
+  		Home: { type: Number, required: true },
+  		Away: { type: Number, required: true }
+  	}]
 });
 
 var predictions = module.exports = mongoose.model('predictions', predictionsSchema);

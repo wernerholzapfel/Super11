@@ -155,7 +155,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         .state('dashboard', {
             url: "/dashboard.html",
             templateUrl: "views/dashboard.html",            
-            data: {pageTitle: 'Admin Dashboard Template'},
+            data: {pageTitle: 'Super 11'},
             controller: "DashboardController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {

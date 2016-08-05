@@ -13,11 +13,11 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
   $scope.playerPositions = [{ Id: 1, Position: "K" }, { Id: 2, Position: "V" }, { Id: 3, Position: "M" }, { Id: 4, Position: "A" }];
   $scope.formations = [{ Id: 1, Formation: "433" }, { Id: 2, Formation: "442" }]
 
- eredivisiePlayersApi.async().then(function (data) {
-        $scope.players = data[0].Player;
-    });
+  eredivisiePlayersApi.async().then(function (data) {
+    $scope.players = data[0].Player;
+  });
 
-  $scope.teams =  teamListService;
+  $scope.teams = teamListService;
 
   $scope.setFormation = function (formation) {
     switch (formation) {
@@ -48,10 +48,10 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
   $scope.updateTablePrediction = function (newId, position) {
     var oldId = $scope.data.Table[position - 1].SelectedTeamId
 
-    if (newId === 'empty'){
+    if (newId === 'empty') {
       if (oldId) {
-            $scope.teams[(oldId - 1)].Selected = false;
-          }
+        $scope.teams[(oldId - 1)].Selected = false;
+      }
       return;
     }
 
@@ -144,12 +144,16 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
   $scope.showTable = false;
   $scope.showTeam = false;
   $scope.showQuestions = false;
+  $scope.showMatches = false;
+
 
   $scope.participantView = function () {
     $scope.showParticipant = true;
     $scope.showTable = false;
     $scope.showTeam = false;
     $scope.showQuestions = false;
+    $scope.showMatches = false;
+
   };
 
   $scope.tableView = function () {
@@ -157,6 +161,8 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     $scope.showTable = true;
     $scope.showTeam = false;
     $scope.showQuestions = false;
+    $scope.showMatches = false;
+
   };
 
   $scope.teamView = function () {
@@ -164,6 +170,8 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     $scope.showTable = false;
     $scope.showTeam = true;
     $scope.showQuestions = false;
+        $scope.showMatches = false;
+
   };
 
   $scope.questionsView = function () {
@@ -171,6 +179,17 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     $scope.showTable = false;
     $scope.showTeam = false;
     $scope.showQuestions = true;
+    $scope.showMatches = false;
+
+  };
+
+  $scope.matchesView = function () {
+    $scope.showParticipant = false;
+    $scope.showTable = false;
+    $scope.showTeam = false;
+    $scope.showQuestions = false;
+    $scope.showMatches = true;
+
   };
 
   $scope.data =
@@ -323,11 +342,327 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
           "PlayerName": "",
           "TeamId": ""
         }],
-      "Questions": [{
-        "Id": 1,
-        "Question": "Wie wordt er kampioen in de premier league?",
-        "Answer": ""
-      }]
+      "Questions": [
+        {
+          "Id": 1,
+          "Question": "Wie wordt er topscorer in de Eredivisie?",
+          "Answer": ""
+        },
+        {
+          "Id": 2,
+          "Question": "Hoeveel doelpunten maakt de topscorer?",
+          "Answer": ""
+        },
+        {
+          "Id": 3,
+          "Question": "Welke scheidsrechter geeft dit seizoen de meeste  directe rode kaarten in de Eredivisie?",
+          "Answer": ""
+        },
+        {
+          "Id": 4,
+          "Question": "Welke Eredivisieclub krijgt de meeste tegendoelpunten",
+          "Answer": ""
+        },
+        {
+          "Id": 5,
+          "Question": "Welke ploeg in de Eredivisie maakte de meeste uitdoelpunten dit seizoen?",
+          "Answer": ""
+        },
+        {
+          "Id": 6,
+          "Question": "Welke club wordt er kampioen in de Jupiler League?",
+          "Answer": ""
+        },
+        {
+          "Id": 7,
+          "Question": "Welke club wordt er laatste in de Jupiler League?",
+          "Answer": ""
+        },
+        {
+          "Id": 8,
+          "Question": "Welke club wordt er kampioen in de Tweede Divisie?",
+          "Answer": ""
+        },
+        {
+          "Id": 9,
+          "Question": "Bij welke club voetbalt de topscorer van de Jupiler Leaugue?",
+          "Answer": ""
+        },
+        {
+          "Id": 10,
+          "Question": "Welke Jupiler League cluB komt het verst in de KNVB beker?",
+          "Answer": ""
+        },
+        {
+          "Id": 11,
+          "Question": "Welke twee clubs spelen de KNVB bekerfinale?",
+          "Answer": ""
+        },
+        {
+          "Id": 12,
+          "Question": "Welke club wint de KNVB Bekerfinale?",
+          "Answer": ""
+        },
+        {
+          "Id": 13,
+          "Question": "Welke 2 clubs spelen de Champions League finale? ",
+          "Answer": ""
+        },
+        {
+          "Id": 14,
+          "Question": "Wie wint de Champions League?",
+          "Answer": ""
+        },
+        {
+          "Id": 15,
+          "Question": "Welke twee clubs spelen de Europa League finale?",
+          "Answer": ""
+        },
+        {
+          "Id": 16,
+          "Question": "Wie wint de Europa League?",
+          "Answer": ""
+        },
+        {
+          "Id": 17,
+          "Question": "Wie wordt er 2e in Italië",
+          "Answer": ""
+        },
+        {
+          "Id": 18,
+          "Question": "Wie wordt er 4e in Spanje",
+          "Answer": ""
+        },
+        {
+          "Id": 19,
+          "Question": "Wie wordt er Kampioen van België",
+          "Answer": ""
+        },
+        {
+          "Id": 20,
+          "Question": "Wie wordt er Kampioen van Engeland",
+          "Answer": ""
+        },
+        {
+          "Id": 21,
+          "Question": "Wie wordt er 3e in Duitsland",
+          "Answer": ""
+        },
+        {
+          "Id": 22,
+          "Question": "Wie wordt er 3e in Frankrijk",
+          "Answer": ""
+        },
+        {
+          "Id": 23,
+          "Question": "Wie wordt er Kampioen van Turkije",
+          "Answer": ""
+        },
+        {
+          "Id": 24,
+          "Question": "Wie wordt er 2e in Rusland",
+          "Answer": ""
+        },
+        {
+          "Id": 25,
+          "Question": "Wie wordt er Kampioen van Portugal",
+          "Answer": ""
+        }
+      ],
+      "Matches": [
+                 {
+                   "Id": 1,
+                   "Match": "Manchester United - Manchester  City",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 2,
+                   "Match": "Manchester City - Manchester United",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 3,
+                   "Match": "FC Barcelona - Real Madrid",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 4,
+                   "Match": "Real Madrid - FC Barcelona",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 5,
+                   "Match": "AC Milan - Internazionale",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 6,
+                   "Match": "Internazionale - AC Milan",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 7,
+                   "Match": "Bayern Munchen - Bor. Dortmund",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 8,
+                   "Match": "Bor. Dortmund - Bayern Munchen",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 9,
+                   "Match": "Ajax - Feyenoord",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 10,
+                   "Match": "Feyenoord - Ajax",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 11,
+                   "Match": "PSV - Feyenoord ",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 12,
+                   "Match": "Feyenoord - PSV",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 13,
+                   "Match": "PSV - Ajax",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 14,
+                   "Match": "Ajax - PSV",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 15,
+                   "Match": "Fenerbahce - Galatasaray",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 16,
+                   "Match": "Galatasaray - Fenerbahce",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 17,
+                   "Match": "Vitesse - NEC",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 18,
+                   "Match": "NEC - Vitesse",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 19,
+                   "Match": "Sparta Rotterdam - Excelsior",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 20,
+                   "Match": "Excelsior - Sparta Rotterdam",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 21,
+                   "Match": "AS Roma - Lazio Roma",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 22,
+                   "Match": "Lazio Roma - AS Roma",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 23,
+                   "Match": "Atletico Madrid - Real Madrid",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 24,
+                   "Match": "Real Madrid - Atletico Madrid",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 25,
+                   "Match": "Tottenham Hotspur - Arsenal",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 26,
+                   "Match": "Arsenal - Tottenham Hotspur",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 27,
+                   "Match": "Liverpool - Everton",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 28,
+                   "Match": "Everton - Liverpool",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 29,
+                   "Match": "PSG - AS Monaco",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 30,
+                   "Match": "AS Monaco - PSG",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 31,
+                   "Match": "Benfica - Porto",
+                   "Home": "",
+                   "Away": ""
+                 },
+                 {
+                   "Id": 32,
+                   "Match": "Porto - Benfica",
+                   "Home": "",
+                   "Away": ""
+                 }
+                ]
     }
 });
 
