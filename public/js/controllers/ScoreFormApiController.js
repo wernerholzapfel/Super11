@@ -9,8 +9,11 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
         getScoreFormService.async().then(function (data) {
             $scope.oldScoreForms = data;
             $scope.newScoreFormList.RoundId = $scope.oldScoreForms.length + 1;
-
-        });
+            if ($scope.newScoreFormList.RoundId > 1){
+            $scope.newScoreFormList.Questions = $scope.oldScoreForms[$scope.oldScoreForms.length-1].Questions;
+            $scope.newScoreFormList.Matches = $scope.oldScoreForms[$scope.oldScoreForms.length-1].Matches;
+            }
+         });
     });
 
     $scope.updateScoreForm = function (selectedRound) {
