@@ -14,7 +14,7 @@ var RoundTeamScoreForms = require("./roundteamscoreformsModel");
 var EredivisiePlayers = require("./eredivisiePlayersModel");
 var teamStand = require("./teamStandModel");
 var Headlines = require("./headlinesModel");
-var QuestionsScoreForm = require("./questionsScoreformsModel");
+var QuestionsScoreForm = require("./questionsscoreformsModel");
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
