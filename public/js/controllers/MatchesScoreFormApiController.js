@@ -6,7 +6,7 @@ angular.module('MetronicApp').controller('MatchesScoreFormApiController', functi
         $scope.matches = data;
         });
     
-    $scope.updateMatchesService = function () {
+    $scope.updateMatches = function () {
         $scope.showConfirm = true;
 
         console.log("het bericht dat gepost wordt: " + $scope.showConfirm);
