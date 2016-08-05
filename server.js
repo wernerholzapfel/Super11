@@ -99,16 +99,16 @@ app.put("/api/roundteamscoreforms/:id", function (req, res) {
   });
 });
 
-// app.get("/api/questionsScoreform/", function (req,res,next) {
-//   QuestionsScoreForm.findOne( function (err, questions){
-//      if (err) {
-//       handleError(res, error.message, "failed tot get questions");
-//     }
-//     else {
-//       res.status(200).json(questions);
-//     }
-//   });
-// });
+app.get("/api/questionsScoreform/", function (req, res, next) {
+  QuestionsScoreForm.findOne(function (err, questions) {
+    if (err) {
+      handleError(res, error.message, "failed tot get questions");
+    }
+    else {
+      res.status(200).json(questions);
+    }
+  });
+});
 
 
 
