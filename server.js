@@ -110,6 +110,16 @@ app.get("/api/questionsScoreform/", function (req, res, next) {
   });
 });
 
+app.put("/api/questionsScoreform/", function (req, res) {
+
+  QuestionsScoreForm.findOneAndUpdate({},req.body, ({ upsert: true }), function (err, questionsScoreForm) {
+    if (err) return handleError(res, err.message, "Failed to Update questions");
+    res.status(200).json(questionsScoreForm);
+    console.log("saved questions")
+
+  });
+});
+
 
 
 app.get("/api/teamStand/:roundId", function (req, res, next) {

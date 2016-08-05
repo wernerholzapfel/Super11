@@ -3,7 +3,7 @@ angular.module('MetronicApp').controller('QuestionsScoreFormApiController', func
     $scope.alerts = [];
 
     getQuestionsService.async().then(function (data) {
-        $scope.questions = data[0];
+        $scope.questions = data.Questions;
         });
     
     $scope.updateQuestions = function () {

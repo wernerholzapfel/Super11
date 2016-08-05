@@ -19,7 +19,7 @@
     <div class="col-md-12">
         <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
         <div ng-hide="showConfirm">
-            <form name="newScoreForm" ng-show="showNewScoreForm" class="form-horizontal form-bordered">
+            <form name="newScoreForm" class="form-horizontal form-bordered">
                 <!-- BEGIN TABLE PORTLET-->
                 <div class="portlet box green">
                     <div class="portlet-title">
@@ -33,7 +33,7 @@
                     </div>
                     <div class="portlet-body">
                         <div class="table-scrollable">
-                            <table class="table table-striped table-bordered table-hover table-header-fixed dataTable" id="newScoreTable">
+                            <table class="table table-striped table-bordered table-hover table-header-fixed dataTable">
                                 <thead>
                                     <tr>
                                         <th>
@@ -58,7 +58,8 @@
                         </div>
                     </div>
                 </div>
-        </div>
+             </div>
+             <button type="submit" ng-click="updateQuestions()">Save</button>
         </form>
     </div>
 </div>
