@@ -1,0 +1,76 @@
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title ng-scope">
+    Score formulier
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb breadcrumb ng-scope">
+        <li>
+            <a href="#/dashboard.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">Score Formulier</li>
+    </ul>
+    <div class="page-toolbar">
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row" ng-controller="QuestionsScoreFormApiController">
+    <div class="col-md-12">
+        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+        <div ng-hide="showConfirm">
+            <form name="newScoreForm" ng-show="showNewScoreForm" class="form-horizontal form-bordered">
+                <!-- BEGIN TABLE PORTLET-->
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-user"></i>Vragen lijst invullen
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="reload" data-original-title="" title="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable">
+                            <table class="table table-striped table-bordered table-hover table-header-fixed dataTable" id="newScoreTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Vraag
+                                        </th>
+                                        <th>
+                                            Antwoord
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="question in questions">
+                                        <td>
+                                            {{ question.Question }}
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="question.Answer"></input>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </form>
+    </div>
+</div>
+</div>
+
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS -->
+<script>
+	function AdvancedDatatablesDemoCtrl($scope) {
+		TableAdvanced.init();
+	}
+
+
+</script>
+<!-- END MAIN JS -->

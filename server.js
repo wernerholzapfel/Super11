@@ -14,6 +14,7 @@ var RoundTeamScoreForms = require("./roundteamscoreformsModel");
 var EredivisiePlayers = require("./eredivisiePlayersModel");
 var teamStand = require("./teamStandModel");
 var Headlines = require("./headlinesModel");
+var QuestionsScoreForm = require("./questionsScoreformsModel")
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -97,6 +98,19 @@ app.put("/api/roundteamscoreforms/:id", function (req, res) {
     calculate.calculateTeamPredictionsPerRound(req.params.id);
   });
 });
+
+app.get("/api/questionsScoreform/", function (req,res,next) {
+  QuestionsScoreForm.findOne( function (err, questions){
+     if (err) {
+      handleError(res, error.message, "failed tot get questions");
+    }
+    else {
+      res.status(200).json(questions);
+    }
+  });
+})
+
+
 
 app.get("/api/teamStand/:roundId", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);

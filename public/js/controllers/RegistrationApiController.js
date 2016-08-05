@@ -11,7 +11,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
   $scope.predictionTypes = [{ Id: 4, Title: "Halve Finale" }, { Id: 5, Title: "Finale" }];
   $scope.playerPositions = [{ Id: 1, Position: "K" }, { Id: 2, Position: "V" }, { Id: 3, Position: "M" }, { Id: 4, Position: "A" }];
-  $scope.formations = [{ Id: 1, Formation: "433" }, { Id: 2, Formation: "442" }, {Id: 3, Formation: "343"}]
+  $scope.formations = [{ Id: 1, Formation: "433" }, { Id: 2, Formation: "442" }, { Id: 3, Formation: "343" }]
 
   eredivisiePlayersApi.async().then(function (data) {
     $scope.players = data[0].Player;
@@ -39,7 +39,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
         $scope.data.Team[8].PlayerName = "";
         $scope.formationChosen = true;
         break;
-        case "343":
+      case "343":
         $scope.data.Team[4].Position = "M";
         $scope.data.Team[4].PlayerId = "";
         $scope.data.Team[4].PlayerName = "";
@@ -48,7 +48,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
         $scope.data.Team[8].PlayerName = "";
         $scope.formationChosen = true;
         break;
-        
+
       default:
         $scope.data.Team[4].Position = "V";
         $scope.data.Team[4].PlayerId = "";
@@ -188,7 +188,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     $scope.showTable = false;
     $scope.showTeam = true;
     $scope.showQuestions = false;
-        $scope.showMatches = false;
+    $scope.showMatches = false;
 
   };
 
@@ -488,199 +488,199 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
         }
       ],
       "Matches": [
-                 {
-                   "Id": 1,
-                   "Match": "Manchester United - Manchester  City",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 2,
-                   "Match": "Manchester City - Manchester United",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 3,
-                   "Match": "FC Barcelona - Real Madrid",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 4,
-                   "Match": "Real Madrid - FC Barcelona",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 5,
-                   "Match": "AC Milan - Internazionale",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 6,
-                   "Match": "Internazionale - AC Milan",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 7,
-                   "Match": "Bayern Munchen - Bor. Dortmund",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 8,
-                   "Match": "Bor. Dortmund - Bayern Munchen",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 9,
-                   "Match": "Ajax - Feyenoord",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 10,
-                   "Match": "Feyenoord - Ajax",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 11,
-                   "Match": "PSV - Feyenoord ",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 12,
-                   "Match": "Feyenoord - PSV",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 13,
-                   "Match": "PSV - Ajax",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 14,
-                   "Match": "Ajax - PSV",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 15,
-                   "Match": "Fenerbahce - Galatasaray",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 16,
-                   "Match": "Galatasaray - Fenerbahce",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 17,
-                   "Match": "Vitesse - NEC",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 18,
-                   "Match": "NEC - Vitesse",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 19,
-                   "Match": "Sparta Rotterdam - Excelsior",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 20,
-                   "Match": "Excelsior - Sparta Rotterdam",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 21,
-                   "Match": "AS Roma - Lazio Roma",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 22,
-                   "Match": "Lazio Roma - AS Roma",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 23,
-                   "Match": "Atletico Madrid - Real Madrid",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 24,
-                   "Match": "Real Madrid - Atletico Madrid",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 25,
-                   "Match": "Tottenham Hotspur - Arsenal",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 26,
-                   "Match": "Arsenal - Tottenham Hotspur",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 27,
-                   "Match": "Liverpool - Everton",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 28,
-                   "Match": "Everton - Liverpool",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 29,
-                   "Match": "PSG - AS Monaco",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 30,
-                   "Match": "AS Monaco - PSG",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 31,
-                   "Match": "Benfica - Porto",
-                   "Home": "",
-                   "Away": ""
-                 },
-                 {
-                   "Id": 32,
-                   "Match": "Porto - Benfica",
-                   "Home": "",
-                   "Away": ""
-                 }
-                ]
+        {
+          "Id": 1,
+          "Match": "Manchester United - Manchester  City",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 2,
+          "Match": "Manchester City - Manchester United",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 3,
+          "Match": "FC Barcelona - Real Madrid",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 4,
+          "Match": "Real Madrid - FC Barcelona",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 5,
+          "Match": "AC Milan - Internazionale",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 6,
+          "Match": "Internazionale - AC Milan",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 7,
+          "Match": "Bayern Munchen - Bor. Dortmund",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 8,
+          "Match": "Bor. Dortmund - Bayern Munchen",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 9,
+          "Match": "Ajax - Feyenoord",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 10,
+          "Match": "Feyenoord - Ajax",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 11,
+          "Match": "PSV - Feyenoord ",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 12,
+          "Match": "Feyenoord - PSV",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 13,
+          "Match": "PSV - Ajax",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 14,
+          "Match": "Ajax - PSV",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 15,
+          "Match": "Fenerbahce - Galatasaray",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 16,
+          "Match": "Galatasaray - Fenerbahce",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 17,
+          "Match": "Vitesse - NEC",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 18,
+          "Match": "NEC - Vitesse",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 19,
+          "Match": "Sparta Rotterdam - Excelsior",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 20,
+          "Match": "Excelsior - Sparta Rotterdam",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 21,
+          "Match": "AS Roma - Lazio Roma",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 22,
+          "Match": "Lazio Roma - AS Roma",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 23,
+          "Match": "Atletico Madrid - Real Madrid",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 24,
+          "Match": "Real Madrid - Atletico Madrid",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 25,
+          "Match": "Tottenham Hotspur - Arsenal",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 26,
+          "Match": "Arsenal - Tottenham Hotspur",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 27,
+          "Match": "Liverpool - Everton",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 28,
+          "Match": "Everton - Liverpool",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 29,
+          "Match": "PSG - AS Monaco",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 30,
+          "Match": "AS Monaco - PSG",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 31,
+          "Match": "Benfica - Porto",
+          "Home": "",
+          "Away": ""
+        },
+        {
+          "Id": 32,
+          "Match": "Porto - Benfica",
+          "Home": "",
+          "Away": ""
+        }
+      ]
     }
 });
 
