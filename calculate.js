@@ -31,7 +31,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
       //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
       teamRoundScore.find({ RoundId: roundId }).exec(function (err, playerRoundScore) {
         if (err) return console.error(err);
-        callback(null, playerRoundScore[0].Player);
+        callback(null, playerRoundScore[0]);
       })
     },
     function (playerRoundScore, callback) {
@@ -50,9 +50,38 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
         stand.RoundId = roundId;
         stand.Participant = prediction.Participant;
         stand.TeamScores = []
+        stand.QuestionsScore = []
+        stand.MatchesScore = []
 
+        async.each(prediction.Questions, function (question, callback) {
+          var scoreQuestion = _.find(playerRoundScore.Questions, function (o) { return o.Id === parseInt(question.Id); });
+
+          if (scoreQuestion.Answer === question.Answer) {
+            var questionScore = new Object;
+            questionScore.Score = 10,
+              questionScore.Question = question.Question,
+              questionScore.Answer = question.Answer,
+              questionScore.Id = question.Id,
+
+              stand.QuestionsScore.push(questionScore);
+          }
+        });
+        async.each(prediction.Matches, function (match, callback) {
+          var scoreMatches = _.find(playerRoundScore.Matches, function (o) { return o.Id === parseInt(match.Id); });
+
+          if (scoreMatches.Home != null) {
+            var matchScore = new Object;
+            matchScore.Score = setMatchScore(scoreMatches, match);
+            matchScore.Match = match.Match
+            matchScore.Home = match.Home
+            matchScore.Away = match.Away
+            matchScore.Id = match.Id
+
+            stand.MatchesScore.push(matchScore);
+          }
+        });
         async.each(prediction.Team, function (player, callback) {
-          var teamPlayer = _.find(playerRoundScore, function (o) { return o.Id === parseInt(player.PlayerId); });
+          var teamPlayer = _.find(playerRoundScore.player, function (o) { return o.Id === parseInt(player.PlayerId); });
 
           if (teamPlayer) {
             var playerScore = new Object;
@@ -69,16 +98,16 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.OwnGoal = setOwnGoalScore(teamPlayer);
             playerScore.CleanSheetScore = setCleanSheetScore(teamPlayer);
             playerScore.TotalScore = playerScore.Won + playerScore.Draw + playerScore.Played + playerScore.RedCard + playerScore.YellowCard + playerScore.Assist + playerScore.OwnGoal + playerScore.Goals + playerScore.CleanSheetScore;
-            
+
             //todo test possible eachseries ipv each
-            stand.TotalTeamScore =  stand.TotalTeamScore +  playerScore.TotalScore;
+            stand.TotalTeamScore = stand.TotalTeamScore + playerScore.TotalScore;
             stand.TeamScores.push(playerScore);
           }
           else {
             var playerScore = new Object;
             playerScore.Name = player.PlayerName;
             playerScore.Team = player.Team;
-            playerScore.Position = player.Position;            
+            playerScore.Position = player.Position;
             playerScore.Won = 0;
             playerScore.Draw = 0;
             playerScore.Played = 0;
@@ -88,9 +117,9 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.Goals = 0;
             playerScore.OwnGoal = 0;
             playerScore.CleanSheetScore = 0;
-            
+
             playerScore.TotalScore = 0;
-            
+
             stand.TeamScores.push(playerScore);
           };
         },
@@ -99,7 +128,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
           }
         );
 
-       //necessary to overwrite teamStand
+        //necessary to overwrite teamStand
         var standToUpdate = {};
         standToUpdate = Object.assign(standToUpdate, stand._doc);
         delete standToUpdate._id;
@@ -160,6 +189,35 @@ var setAssistScore = function (player) {
   return 0;
 };
 
+var setMatchScore = function (uitslag, voorspelling) {
+  var uitslagToto = determineToto(uitslag);
+  var voorspellingToto = determineToto(voorspelling)
+
+  if (uitslagToto == voorspellingToto) {
+    if (uitslag.Home == voorspelling.Home && uitslag.Away == voorspelling.Away) {
+      return 10;
+    }
+    else {
+      return 3;
+    }
+  }
+  else {
+    return 0;
+  }
+}
+
+var determineToto = function (match) {
+  if (match.Home > match.Away) {
+    return 1
+  }
+  if (match.Home < match.Away) {
+    return 2
+  }
+  else {
+    return 3
+  }
+}
+
 var setWinScore = function (player) {
   if (player.Win) {
     return winScore;
@@ -199,7 +257,7 @@ var setCleanSheetScore = function (player) {
         return 0;
     }
   }
-   return 0;
+  return 0;
 };
 
 var setOwnGoalScore = function (player) {

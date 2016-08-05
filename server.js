@@ -300,4 +300,4 @@ app.get("/api/eredivisieplayers", function (req, res, next) {
 //todo remove this
 // calculate.calculateTeamPredictionsPerRound(5);
 // determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
-// calculate.calculateTeamPredictionsPerRound(2);
+// calculate.calculateTeamPredictionsPerRound(1);
