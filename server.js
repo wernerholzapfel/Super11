@@ -91,7 +91,12 @@ app.post("/api/roundteamscoreforms", function (req, res) {
 
 app.put("/api/roundteamscoreforms/:id", function (req, res) {
 
-  RoundTeamScoreForms.findOneAndUpdate({ RoundId: req.params.id }, req.body, ({ upsert: true }), function (err, roundteamscoreforms) {
+   var updateScoreForm = {};
+        updateScoreForm = Object.assign(updateScoreForm, req.body);
+        delete updateScoreForm._id;
+
+
+  RoundTeamScoreForms.findOneAndUpdate({ RoundId: req.params.id }, updateScoreForm, ({ upsert: true }), function (err, roundteamscoreforms) {
     if (err) return handleError(res, err.message, "Failed to Update Players");
     res.status(200).json(roundteamscoreforms);
     console.log("put for roundId " + req.params.id)

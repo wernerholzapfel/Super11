@@ -21,6 +21,17 @@ var roundTeamScoreFormsSchema = new mongoose.Schema({
 		Red: { type: Number, required: false },
 		CleanSheet: { type: Boolean, required: false },
 		OwnGoal: { type: Number, required: false }
+	}],
+	Questions: [{
+		Id: { type: Number, required: true },
+		Question: { type: String, required: true },
+		Answer: { type: String, required: false }
+	}],
+	Matches: [{
+		Id: { type: Number, required: true },
+		Match: { type: String, required: true },
+		Home: { type: Number, required: false },
+		Away: { type: Number, required: false }
 	}]
 });
 

@@ -18,7 +18,9 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
 
         $scope.NewList = {
             RoundId: selectedRound.RoundId,
-            Player: selectedRound.Player
+            Player: selectedRound.Player,
+            Questions: selectedRound.Questions,
+            Matches: selectedRound.Matches
         };
 
         console.log("het bericht dat gepost wordt: " + $scope.NewList);
@@ -44,8 +46,12 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
 
         $scope.NewList = {
             RoundId: $scope.newScoreFormList.RoundId,
-            Player: $scope.newScoreFormList.Player
+            Player: $scope.newScoreFormList.Player,
+            Matches: $scope.newScoreFormList.Matches,
+            Questions: $scope.newScoreFormList.Questions
+
         };
+        
         $scope.alerts.push({ type: 'warning', msg: "Bezig met opslaan" });
 
         var playerList = findAndUpdatePlayerList.put($scope.NewList, $scope.NewList.RoundId);

@@ -1,6 +1,6 @@
 console.log("eredivisieplayers is ingeladen")
 
-var mongoose = require( 'mongoose' );
+var mongoose = require('mongoose');
 var autoIncrement = require('mongoose-auto-increment');
 
 
@@ -11,7 +11,7 @@ var eredivisiePlayersSchema = new mongoose.Schema({
         Name: { type: String, required: true },
         Team: { type: String, required: true },
         TeamId: { type: Number, required: true },
-		RoundId: { type: Number, required: false},
+		RoundId: { type: Number, required: false },
         Selected: { type: Boolean, required: true },
         PRESelected: { type: Boolean, required: true },
         Position: { type: String, required: true },
@@ -24,6 +24,17 @@ var eredivisiePlayersSchema = new mongoose.Schema({
 		Red: { type: Number, required: false },
 		CleanSheet: { type: Boolean, required: false },
 		OwnGoal: { type: Number, required: false }
+	}],
+	Questions: [{
+		Id: { type: Number, required: true },
+		Question: { type: String, required: true },
+		Answer: { type: String, required: false }
+	}],
+	Matches: [{
+		Id: { type: Number, required: true },
+		Match: { type: String, required: true },
+		Home: { type: Number, required: false },
+		Away: { type: Number, required: false }
 	}]
 });
 
@@ -33,4 +44,3 @@ var eredivisiePlayersSchema = new mongoose.Schema({
 var eredivisiePlayers = module.exports = mongoose.model('eredivisiePlayers', eredivisiePlayersSchema);
 
 
- 
