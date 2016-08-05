@@ -283,6 +283,39 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }
         })
 
+                // scoreform
+        .state('matchesscoreform', {
+            url: "/matchesscoreform.html",
+            templateUrl: "views/matchesscoreform.html",
+            data: {
+                pageTitle: 'Wedstrijden formulier'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            '../../../assets/pages/css/profile.css',
+                            '../../../assets/pages/css/tasks.css',
+
+                            '../../../assets/global/plugins/jquery.sparkline.min.js',
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+
+                            '../../../assets/pages/scripts/profile.js',
+
+                            'js/services/matchesService.js',
+
+                            'js/controllers/GeneralPageController.js',
+                            'js/controllers/MatchesScoreFormApiController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
         // Registration
         .state('registration', {
             url: "/registration.html",

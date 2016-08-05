@@ -15,6 +15,7 @@ var EredivisiePlayers = require("./eredivisiePlayersModel");
 var teamStand = require("./teamStandModel");
 var Headlines = require("./headlinesModel");
 var QuestionsScoreForm = require("./questionsscoreformsModel");
+var MatchesScoreForm = require("./matchesscoreformsModel");
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -116,6 +117,26 @@ app.put("/api/questionsScoreform/", function (req, res) {
     if (err) return handleError(res, err.message, "Failed to Update questions");
     res.status(200).json(questionsScoreForm);
     console.log("saved questions")
+
+  });
+});
+
+app.get("/api/matchesScoreform/", function (req, res, next) {
+  MatchesScoreForm.findOne(function (err, questions) {
+    if (err) {
+      handleError(res, error.message, "failed tot get matches");
+    }
+    else {
+      res.status(200).json(questions);
+    }
+  });
+});
+
+app.put("/api/matchesScoreform/", function (req, res) {
+  MatchesScoreForm.findOneAndUpdate({},req.body, ({ upsert: true }), function (err, matchesScoreform) {
+    if (err) return handleError(res, err.message, "Failed to Update questions");
+    res.status(200).json(matchesScoreform);
+    console.log("saved matches")
 
   });
 });
