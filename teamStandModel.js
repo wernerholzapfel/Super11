@@ -10,6 +10,7 @@ var teamStandSchema = new mongoose.Schema({
 		PhoneNumber: { type: String, required: false }
 	},
 	TeamScores: [{
+		Id : {type: Number, required: true},
 		Name: { type: String, required: false },
 		Position: { type: String, required: false },
 		Team: { type: String, required: false },

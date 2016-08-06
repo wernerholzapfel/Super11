@@ -183,6 +183,7 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
           playerName: "$TeamScores.Name",
 
         },
+        Id: {$first: "$TeamScores.Id"},
         ParticipantName: { $first: "$Participant.Name" },
         playerName: { $first: "$TeamScores.Name" },
         Team: { $first: "$TeamScores.Team" },
@@ -213,6 +214,7 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
         TotalTeamScore: { $sum: "$TotalTeamScore" },
         TeamScores: {
           $push: {
+            Id: '$Id',
             Name: '$playerName',
             Position: "$Position",
             Team: "$Team",

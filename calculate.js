@@ -92,6 +92,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
 
           if (teamPlayer) {
             var playerScore = new Object;
+            playerScore.Id = player.Id
             playerScore.Name = teamPlayer.Name;
             playerScore.Team = teamPlayer.Team;
             playerScore.Position = teamPlayer.Position;
