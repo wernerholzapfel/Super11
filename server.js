@@ -201,8 +201,9 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
         QuestionsScore: { $last: "$QuestionsScore" },
         MatchesScore: { $last: "$MatchesScore" },
         TotalQuestionsScore: { $last: "$TotalQuestionsScore" },
-        TotalMatchesScore: { $last: "$TotalMatchesScore" },
-        TotalOverallScore: { $last: "$TotalScore" }
+        TotalMatchesScore: { $last: "$TotalMatchesScore" }
+        // ,
+        // TotalOverallScore: { $sum: "$TotalScore" }
       }
     }
     ,
@@ -233,10 +234,7 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
         QuestionsScore: { $first: "$QuestionsScore" },
         MatchesScore: { $first: "$MatchesScore" },
         TotalQuestionsScore: { $first: "$TotalQuestionsScore" },
-        TotalMatchesScore: { $first: "$TotalMatchesScore" },
-        TotalScore: { $first: "$TotalOverallScore" },
-     
-      
+        TotalMatchesScore: { $first: "$TotalMatchesScore" } 
       }
     },
     {
@@ -250,7 +248,8 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
         TotalQuestionsScore: 1,
         QuestionsScore: 1,
         MatchesScore: 1,
-        TotalScore: 1
+        TotalScore: { $add: [ "$TotalMatchesScore", "$TotalQuestionsScore", "$TotalTeamScore"] }
+        // TotalScore: 1
       }
     }
   ], function (err, roundTable) {
