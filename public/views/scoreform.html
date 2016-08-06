@@ -63,12 +63,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="question in newScoreFormList.Questions">
-                                            <td>
+                                        <tr ng-repeat="question in newScoreFormList.Questions ">
+                                            <td ng-show="question.RoundId == newScoreFormList.RoundId || question.RoundId == null">
                                                 {{ question.Question }}
                                             </td>
-                                            <td>
-                                                <input type="text" ng-model="question.Answer"></input>
+                                            <td ng-show="question.RoundId == newScoreFormList.RoundId || question.RoundId == null">
+                                                <input type="text" ng-model="question.Answer" ng-change="setRoundForQuestion(question,newScoreFormList.RoundId)"></input>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -245,12 +245,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="question in form.Questions">
-                                            <td>
+                                        <tr ng-repeat="question in form.Questions" ">
+                                            <td ng-show="question.RoundId == selectedRound.RoundId || question.RoundId == null">
                                                 {{ question.Question }}
                                             </td>
-                                            <td>
+                                            <td ng-show="question.RoundId == selectedRound.RoundId || question.RoundId == null">
                                                 <input type="text" ng-model="question.Answer"></input>
+                                            </td>
+                                            <td ng-show="question.RoundId == selectedRound.RoundId || question.RoundId == null">
+                                               {{question.RoundId}}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -291,8 +294,8 @@
                                                 {{ matches.Match }}
                                             </td>
                                             <td>
-                                                <input type="number" ng-model="matches.Home"></input>-
-                                                <input type="number" ng-model="matches.Away"></input>
+                                                <input type="number" ng-disabled="matches.RoundId != form.RoundId" ng-model="matches.Home"></input>-
+                                                <input type="number" ng-disabled="matches.RoundId != form.RoundId" ng-model="matches.Away"></input>
                                             </td>
                                         </tr>
                                     </tbody>

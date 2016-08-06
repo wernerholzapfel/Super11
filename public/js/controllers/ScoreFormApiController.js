@@ -2,18 +2,18 @@
 angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, eredivisiePlayersApi, saveScoreFormService, getScoreFormService, findAndUpdatePlayerList) {
     $scope.alerts = [];
 
-//    $scope.selectedRound = 0;
+    //    $scope.selectedRound = 0;
 
     eredivisiePlayersApi.async().then(function (data) {
         $scope.newScoreFormList = data[0];
         getScoreFormService.async().then(function (data) {
             $scope.oldScoreForms = data;
             $scope.newScoreFormList.RoundId = $scope.oldScoreForms.length + 1;
-            if ($scope.newScoreFormList.RoundId > 1){
-            $scope.newScoreFormList.Questions = $scope.oldScoreForms[$scope.oldScoreForms.length-1].Questions;
-            $scope.newScoreFormList.Matches = $scope.oldScoreForms[$scope.oldScoreForms.length-1].Matches;
+            if ($scope.newScoreFormList.RoundId > 1) {
+                $scope.newScoreFormList.Questions = $scope.oldScoreForms[$scope.oldScoreForms.length - 1].Questions;
+                $scope.newScoreFormList.Matches = $scope.oldScoreForms[$scope.oldScoreForms.length - 1].Matches;
             }
-         });
+        });
     });
 
     $scope.updateScoreForm = function (selectedRound) {
@@ -54,7 +54,7 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
             Questions: $scope.newScoreFormList.Questions
 
         };
-        
+
         $scope.alerts.push({ type: 'warning', msg: "Bezig met opslaan" });
 
         var playerList = findAndUpdatePlayerList.put($scope.NewList, $scope.NewList.RoundId);
@@ -82,8 +82,24 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
         $scope.showRoundScoreForm = true;
         $scope.showNewScoreForm = false;
     }
+
+    $scope.setRoundForQuestion = function (question, roundId) {
+        console.log(question)
+
+        for (var i = 0; i < $scope.newScoreFormList.Questions.length; i += 1) {
+            var questionId = $scope.newScoreFormList.Questions[i].Id
+            if (questionId == question.Id) {
+                if (question.Answer.length != 0){
+                $scope.newScoreFormList.Questions[i].RoundId = roundId;
+            }
+            else {
+                $scope.newScoreFormList.Questions[i].Answer = null;
+                $scope.newScoreFormList.Questions[i].RoundId = null;
+            }
+        }
+    }}
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('#newScoreTable').DataTable();
-} );
+});

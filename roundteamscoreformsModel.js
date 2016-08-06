@@ -25,13 +25,15 @@ var roundTeamScoreFormsSchema = new mongoose.Schema({
 	Questions: [{
 		Id: { type: Number, required: true },
 		Question: { type: String, required: true },
-		Answer: { type: String, required: false }
+		Answer: { type: String, required: false },
+		RoundId : {type: Number, required : false}
 	}],
 	Matches: [{
 		Id: { type: Number, required: true },
 		Match: { type: String, required: true },
 		Home: { type: Number, required: false },
-		Away: { type: Number, required: false }
+		Away: { type: Number, required: false },
+		RoundId : {type: Number, required : false}		
 	}]
 });
 
