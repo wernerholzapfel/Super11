@@ -196,7 +196,7 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
         Assist: { $sum: "$TeamScores.Assist" },
         Goals: { $sum: "$TeamScores.Goals" },
         CleanSheetScore: { $sum: "$TeamScores.CleanSheetScore" },
-        TotalTeamScore: { $sum: "$TeamScores.TotalScore" },
+        TotalPlayerScore: { $sum: "$TeamScores.TotalScore" },
 
         QuestionsScore: { $last: "$QuestionsScore" },
         MatchesScore: { $last: "$MatchesScore" },
@@ -226,7 +226,7 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
             Assist: "$Assist",
             Goals: "$Goals",
             CleanSheetScore: "$CleanSheetScore",
-            TotalScore: "$TotalScore",
+            TotalScore: "$TotalPlayerScore",
           }
         },
         QuestionsScore: { $first: "$QuestionsScore" },
@@ -320,6 +320,6 @@ app.get("/api/eredivisieplayers", function (req, res, next) {
 //todo remove this
 // calculate.calculateTeamPredictionsPerRound(5);
 // determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
-// calculate.calculateTeamPredictionsPerRound(1);
+calculate.calculateTeamPredictionsPerRound(1);
 // calculate.calculateTeamPredictionsPerRound(2);
 // calculate.calculateTeamPredictionsPerRound(3);

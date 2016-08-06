@@ -91,7 +91,7 @@
                                         <th> Rood</th>
                                         <th> Totaal</th>
                                     </tr>
-                                    <tr ng-repeat-end ng-if="table.expanded" ng-repeat="player in table.TeamScores | orderBy : Id">
+                                    <tr ng-repeat-end ng-if="table.expanded" ng-repeat="player in table.TeamScores | orderBy :'Id'">
                                         <td> {{player.Name}}</td>
                                         <td> {{player.Played}}</td>
                                         <td> {{player.Won}}</td>
@@ -174,7 +174,7 @@
                                         <th> Rood</th>
                                         <th> Totaal</th>
                                     </tr>
-                                    <tr ng-repeat-end ng-if="table.expanded" ng-repeat="player in table.TeamScores">
+                                    <tr ng-repeat-end ng-if="table.expanded" ng-repeat="player in table.TeamScores | orderBy :'player.Id' ">
                                         <td> {{player.Name}}</td>
                                         <td> {{player.Played}}</td>
                                         <td> {{player.Won}}</td>

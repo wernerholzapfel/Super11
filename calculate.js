@@ -91,20 +91,21 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
           var teamPlayer = _.find(playerRoundScore.Player, function (o) { return o.Id === parseInt(player.PlayerId); });
 
           if (teamPlayer) {
+            var captainFactor = determineIfCaptain(player)
             var playerScore = new Object;
             playerScore.Id = player.Id
             playerScore.Name = teamPlayer.Name;
             playerScore.Team = teamPlayer.Team;
             playerScore.Position = teamPlayer.Position;
-            playerScore.Won = setWinScore(teamPlayer);
-            playerScore.Draw = setDrawScore(teamPlayer);
-            playerScore.Played = setPlayedScore(teamPlayer);
-            playerScore.RedCard = setRedCardScore(teamPlayer);
-            playerScore.YellowCard = setYellowCardScore(teamPlayer);
-            playerScore.Assist = setAssistScore(teamPlayer);
-            playerScore.Goals = setGoalScore(teamPlayer);
-            playerScore.OwnGoal = setOwnGoalScore(teamPlayer);
-            playerScore.CleanSheetScore = setCleanSheetScore(teamPlayer);
+            playerScore.Won = setWinScore(teamPlayer) * captainFactor;
+            playerScore.Draw = setDrawScore(teamPlayer) * captainFactor;
+            playerScore.Played = setPlayedScore(teamPlayer) * captainFactor;
+            playerScore.RedCard = setRedCardScore(teamPlayer) * captainFactor;
+            playerScore.YellowCard = setYellowCardScore(teamPlayer) * captainFactor;
+            playerScore.Assist = setAssistScore(teamPlayer) * captainFactor;
+            playerScore.Goals = setGoalScore(teamPlayer) * captainFactor;
+            playerScore.OwnGoal = setOwnGoalScore(teamPlayer) * captainFactor;
+            playerScore.CleanSheetScore = setCleanSheetScore(teamPlayer) * captainFactor;
             playerScore.TotalScore = playerScore.Won + playerScore.Draw + playerScore.Played + playerScore.RedCard + playerScore.YellowCard + playerScore.Assist + playerScore.OwnGoal + playerScore.Goals + playerScore.CleanSheetScore;
 
             //todo test possible eachseries ipv each
@@ -224,6 +225,15 @@ var determineToto = function (match) {
   }
   else {
     return 3
+  }
+}
+
+var determineIfCaptain = function (player) {
+  if (player.Captain) {
+    return 2;
+  }
+  else {
+    return 1;
   }
 }
 
