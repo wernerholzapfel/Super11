@@ -97,7 +97,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.Name = teamPlayer.Name;
             playerScore.Team = teamPlayer.Team;
             playerScore.Position = teamPlayer.Position;
-            playerScore.Won = setWinScore(teamPlayer,captainFactor) ;
+            playerScore.Won = setWinScore(teamPlayer,captainFactor);
             playerScore.Draw = setDrawScore(teamPlayer,captainFactor);
             playerScore.Played = setPlayedScore(teamPlayer,captainFactor);
             playerScore.RedCard = setRedCardScore(teamPlayer,captainFactor);
@@ -106,7 +106,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.Goals = setGoalScore(teamPlayer,captainFactor);
             playerScore.OwnGoals = setOwnGoalScore(teamPlayer,captainFactor);
             playerScore.CleanSheetScore = setCleanSheetScore(teamPlayer,captainFactor);
-            playerScore.TotalScore = playerScore.Won + playerScore.Draw + playerScore.Played + playerScore.RedCard + playerScore.YellowCard + playerScore.Assist + playerScore.OwnGoal + playerScore.Goals + playerScore.CleanSheetScore;
+            playerScore.TotalScore = playerScore.Won + playerScore.Draw + playerScore.Played + playerScore.RedCard + playerScore.YellowCard + playerScore.Assist + playerScore.OwnGoals + playerScore.Goals + playerScore.CleanSheetScore;
 
             //todo test possible eachseries ipv each
             stand.TotalTeamScore = stand.TotalTeamScore + playerScore.TotalScore;
