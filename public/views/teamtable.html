@@ -36,16 +36,17 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
+                                        <th>Positie</th>
                                         <th>
                                             Naam
                                         </th>
                                         <th>
-                                            Totaal score
+                                            Totaal Team
                                         </th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>Totaal Vragen</th>
+                                        <th>Totaal Wedstrijden</th>
+                                        <th>Totaal</th>
+                                        
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -54,6 +55,7 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat-start="table in totalTeamTable | orderBy:'-TotalTeamScore'">
+                                        <td>{{$index + 1}}</td>
                                         <td>
                                             <button ng-if="table.expanded" ng-click="table.expanded = false">-</button>
                                             <button ng-if="!table.expanded" ng-click="table.expanded = true">+</button> {{
@@ -62,14 +64,20 @@
                                         <td>
                                             {{table.TotalTeamScore}}
                                         </td>
+                                         <td>
+                                            {{table.TotalQuestionsScore}}
+                                        </td>
+                                         <td>
+                                            {{table.TotalMatchesScore}}
+                                        </td>
+                                        <td>
+                                            {{table.TotalScore}}
+                                        </td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        
                                     </tr>
                                     <tr ng-if="table.expanded">
                                         <th> Naam</th>
