@@ -14,8 +14,6 @@ var RoundTeamScoreForms = require("./roundteamscoreformsModel");
 var EredivisiePlayers = require("./eredivisiePlayersModel");
 var teamStand = require("./teamStandModel");
 var Headlines = require("./headlinesModel");
-var QuestionsScoreForm = require("./questionsscoreformsModel");
-var MatchesScoreForm = require("./matchesscoreformsModel");
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -91,9 +89,9 @@ app.post("/api/roundteamscoreforms", function (req, res) {
 
 app.put("/api/roundteamscoreforms/:id", function (req, res) {
 
-   var updateScoreForm = {};
-        updateScoreForm = Object.assign(updateScoreForm, req.body);
-        delete updateScoreForm._id;
+  var updateScoreForm = {};
+  updateScoreForm = Object.assign(updateScoreForm, req.body);
+  delete updateScoreForm._id;
 
 
   RoundTeamScoreForms.findOneAndUpdate({ RoundId: req.params.id }, updateScoreForm, ({ upsert: true }), function (err, roundteamscoreforms) {
@@ -118,7 +116,7 @@ app.get("/api/questionsScoreform/", function (req, res, next) {
 
 app.put("/api/questionsScoreform/", function (req, res) {
 
-  QuestionsScoreForm.findOneAndUpdate({},req.body, ({ upsert: true }), function (err, questionsScoreForm) {
+  QuestionsScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, questionsScoreForm) {
     if (err) return handleError(res, err.message, "Failed to Update questions");
     res.status(200).json(questionsScoreForm);
     console.log("saved questions")
@@ -138,7 +136,7 @@ app.get("/api/matchesScoreform/", function (req, res, next) {
 });
 
 app.put("/api/matchesScoreform/", function (req, res) {
-  MatchesScoreForm.findOneAndUpdate({},req.body, ({ upsert: true }), function (err, matchesScoreform) {
+  MatchesScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, matchesScoreform) {
     if (err) return handleError(res, err.message, "Failed to Update questions");
     res.status(200).json(matchesScoreform);
     console.log("saved matches")
@@ -174,7 +172,10 @@ app.get("/api/teamStand/", function (req, res, next) {
 
 app.get("/api/totalTeamStand/", function (req, res, next) {
   teamStand.aggregate([
-    { $unwind: "$TeamScores" },
+    { $unwind: "$TeamScores" }
+    // , { $unwind: "$MatchesScore" }
+    // , { $unwind: "$QuestionsScore" }
+    ,
     {
       $group: {
         _id: {
@@ -194,9 +195,16 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
         Assist: { $sum: "$TeamScores.Assist" },
         Goals: { $sum: "$TeamScores.Goals" },
         CleanSheetScore: { $sum: "$TeamScores.CleanSheetScore" },
-        TotalScore: { $sum: "$TeamScores.TotalScore" },
+        TotalTeamScore: { $sum: "$TeamScores.TotalScore" },
+
+        QuestionsScore: { $last: "$QuestionsScore" },
+        MatchesScore: { $last: "$MatchesScore" },
+        TotalQuestionsScore: { $last: "$TotalQuestionsScore" },
+        TotalMatchesScore: { $last: "$TotalMatchesScore" },
+        TotalOverallScore: { $last: "$TotalScore" }
       }
-    },
+    }
+    ,
     {
       $group:
       {
@@ -216,9 +224,15 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
             Assist: "$Assist",
             Goals: "$Goals",
             CleanSheetScore: "$CleanSheetScore",
-            TotalScore: "$TotalScore"
+            TotalScore: "$TotalScore",
           }
-        }
+        },
+        QuestionsScore: { $first: "$QuestionsScore" },
+        MatchesScore: { $first: "$MatchesScore" },
+        TotalQuestionsScore: { $first: "$TotalQuestionsScore" },
+        TotalMatchesScore: { $first: "$TotalMatchesScore" },
+        TotalScore: { $first: "$TotalOverallScore" }
+      
       }
     },
     {
@@ -227,7 +241,12 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
         _id: 0,
         Name: 1,
         TotalTeamScore: 1,
-        TeamScores: 1
+        TeamScores: 1,
+        TotalMatchesScore: 1,
+        TotalQuestionsScore: 1,
+        QuestionsScore: 1,
+        MatchesScore: 1,
+        TotalScore: 1
       }
     }
   ], function (err, roundTable) {
@@ -262,7 +281,6 @@ app.post("/api/headlines/", function (req, res) {
     }
   });
 });
-
 
 
 app.get("/api/predictions/:Id", function (req, res, next) {
@@ -300,4 +318,5 @@ app.get("/api/eredivisieplayers", function (req, res, next) {
 //todo remove this
 // calculate.calculateTeamPredictionsPerRound(5);
 // determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
-// calculate.calculateTeamPredictionsPerRound(1);
+calculate.calculateTeamPredictionsPerRound(1);
+calculate.calculateTeamPredictionsPerRound(2);

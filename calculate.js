@@ -47,6 +47,8 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
       async.each(predictions, function (prediction, callback) {
         var stand = new teamStand;
         stand.TotalTeamScore = 0;
+        stand.TotalMatchesScore = 0;
+        stand.TotalQuestionsScore = 0;
         stand.RoundId = roundId;
         stand.Participant = prediction.Participant;
         stand.TeamScores = []
@@ -56,12 +58,15 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
         async.each(prediction.Questions, function (question, callback) {
           var scoreQuestion = _.find(playerRoundScore.Questions, function (o) { return o.Id === parseInt(question.Id); });
 
-          if (scoreQuestion.Answer === question.Answer) {
+          if (scoreQuestion.Answer) {
             var questionScore = new Object;
-            questionScore.Score = 10,
+            questionScore.Score = setQuestionScore(scoreQuestion, question),
               questionScore.Question = question.Question,
               questionScore.Answer = question.Answer,
               questionScore.Id = question.Id,
+              questionScore.Uitslag = scoreQuestion.Answer
+
+            stand.TotalQuestionsScore = stand.TotalQuestionsScore + questionScore.Score;
 
               stand.QuestionsScore.push(questionScore);
           }
@@ -76,7 +81,9 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             matchScore.Home = match.Home
             matchScore.Away = match.Away
             matchScore.Id = match.Id
+            matchScore.Uitslag = scoreMatches.Home + "-" + scoreMatches.Away,
 
+            stand.TotalMatchesScore = stand.TotalMatchesScore + matchScore.Score;
             stand.MatchesScore.push(matchScore);
           }
         });
@@ -101,6 +108,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
 
             //todo test possible eachseries ipv each
             stand.TotalTeamScore = stand.TotalTeamScore + playerScore.TotalScore;
+            
             stand.TeamScores.push(playerScore);
           }
           else {
@@ -127,7 +135,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             console.log("err: " + err);
           }
         );
-
+        stand.TotalScore = stand.TotalTeamScore + stand.TotalMatchesScore + stand.TotalQuestionsScore;
         //necessary to overwrite teamStand
         var standToUpdate = {};
         standToUpdate = Object.assign(standToUpdate, stand._doc);
@@ -272,4 +280,12 @@ function getPredictionsForRound(roundId) {
   return promise;
 };
 
+var setQuestionScore = function (scoreQuestion, question) {
+  if (scoreQuestion.Answer === question.Answer) {
+    return 10;
+  }
+  else {
+    return 0;
+  }
+};
 
