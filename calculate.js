@@ -83,7 +83,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             matchScore.Id = match.Id
             matchScore.Uitslag = scoreMatches.Home + "-" + scoreMatches.Away,
 
-              stand.TotalMatchesScore = stand.TotalMatchesScore + matchScore.Score;
+            stand.TotalMatchesScore = stand.TotalMatchesScore + matchScore.Score;
             stand.MatchesScore.push(matchScore);
           }
         });
@@ -97,15 +97,15 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.Name = teamPlayer.Name;
             playerScore.Team = teamPlayer.Team;
             playerScore.Position = teamPlayer.Position;
-            playerScore.Won = setWinScore(teamPlayer) * captainFactor;
-            playerScore.Draw = setDrawScore(teamPlayer) * captainFactor;
-            playerScore.Played = setPlayedScore(teamPlayer) * captainFactor;
-            playerScore.RedCard = setRedCardScore(teamPlayer) * captainFactor;
-            playerScore.YellowCard = setYellowCardScore(teamPlayer) * captainFactor;
-            playerScore.Assist = setAssistScore(teamPlayer) * captainFactor;
-            playerScore.Goals = setGoalScore(teamPlayer) * captainFactor;
-            playerScore.OwnGoal = setOwnGoalScore(teamPlayer) * captainFactor;
-            playerScore.CleanSheetScore = setCleanSheetScore(teamPlayer) * captainFactor;
+            playerScore.Won = setWinScore(teamPlayer,captainFactor) ;
+            playerScore.Draw = setDrawScore(teamPlayer,captainFactor);
+            playerScore.Played = setPlayedScore(teamPlayer,captainFactor);
+            playerScore.RedCard = setRedCardScore(teamPlayer,captainFactor);
+            playerScore.YellowCard = setYellowCardScore(teamPlayer,captainFactor);
+            playerScore.Assist = setAssistScore(teamPlayer,captainFactor);
+            playerScore.Goals = setGoalScore(teamPlayer,captainFactor);
+            playerScore.OwnGoals = setOwnGoalScore(teamPlayer,captainFactor);
+            playerScore.CleanSheetScore = setCleanSheetScore(teamPlayer,captainFactor);
             playerScore.TotalScore = playerScore.Won + playerScore.Draw + playerScore.Played + playerScore.RedCard + playerScore.YellowCard + playerScore.Assist + playerScore.OwnGoal + playerScore.Goals + playerScore.CleanSheetScore;
 
             //todo test possible eachseries ipv each
@@ -125,7 +125,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.YellowCard = 0;
             playerScore.Assist = 0;
             playerScore.Goals = 0;
-            playerScore.OwnGoal = 0;
+            playerScore.OwnGoals = 0;
             playerScore.CleanSheetScore = 0;
 
             playerScore.TotalScore = 0;
@@ -156,24 +156,24 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
   ]);
 };
 
-var setPlayedScore = function (player) {
+var setPlayedScore = function (player,factor) {
   if (player.Played) {
-    return playedScore;
+    return playedScore * factor;
   }
   return 0;
 };
 
-var setGoalScore = function (player) {
+var setGoalScore = function (player,factor) {
   if (player.Goals > 0) {
     switch (player.Position) {
       case "K":
-        return player.Goals * goalForGKScore;
+        return player.Goals * goalForGKScore * factor;
       case "V":
-        return player.Goals * goalForDFScore;
+        return player.Goals * goalForDFScore  * factor;
       case "M":
-        return player.Goals * goalForMFScore;
+        return player.Goals * goalForMFScore  * factor;
       case "A":
-        return player.Goals * goalForFWScore;
+        return player.Goals * goalForFWScore  * factor;
       default:
         return 0;
     }
@@ -181,17 +181,17 @@ var setGoalScore = function (player) {
   return 0;
 };
 
-var setAssistScore = function (player) {
+var setAssistScore = function (player,factor) {
   if (player.Assists > 0) {
     switch (player.Position) {
       case "K":
-        return player.Assists * assistGKScore;
+        return player.Assists * assistGKScore * factor;
       case "V":
-        return player.Assists * assistDFScore;
+        return player.Assists * assistDFScore * factor;
       case "M":
-        return player.Assists * assistMFScore;
+        return player.Assists * assistMFScore * factor;
       case "A":
-        return player.Assists * assistFWScore;
+        return player.Assists * assistFWScore * factor;
       default:
         return 0;
     }
@@ -237,41 +237,41 @@ var determineIfCaptain = function (player) {
   }
 }
 
-var setWinScore = function (player) {
+var setWinScore = function (player,factor) {
   if (player.Win) {
-    return winScore;
+    return winScore * factor;
   }
   return 0;
 };
 
-var setDrawScore = function (player) {
+var setDrawScore = function (player, factor) {
   if (player.Draw) {
-    return drawScore;
+    return drawScore * factor;
   }
   return 0;
 };
 
-var setYellowCardScore = function (player) {
+var setYellowCardScore = function (player, factor) {
   if (player.Yellow > 0) {
-    return player.Yellow * yellowCardScore;
+    return player.Yellow * yellowCardScore * factor;
   }
   return 0;
 };
 
-var setRedCardScore = function (player) {
+var setRedCardScore = function (player, factor) {
   if (player.Red > 0) {
-    return player.Red * redCardScore;
+    return player.Red * redCardScore * factor;
   }
   return 0;
 };
 
-var setCleanSheetScore = function (player) {
+var setCleanSheetScore = function (player, factor) {
   if (player.CleanSheet) {
     switch (player.Position) {
       case "K":
-        return cleanSheetGKScore;
+        return cleanSheetGKScore * factor;
       case "V":
-        return cleanSheetDFScore;
+        return cleanSheetDFScore* factor;
       default:
         return 0;
     }
@@ -279,9 +279,9 @@ var setCleanSheetScore = function (player) {
   return 0;
 };
 
-var setOwnGoalScore = function (player) {
+var setOwnGoalScore = function (player, factor) {
   if (player.OwnGoal > 0) {
-    return player.OwnGoal * ownGoalScore;
+    return player.OwnGoal * ownGoalScore * factor;
   }
   return 0;
 };

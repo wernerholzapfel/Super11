@@ -195,6 +195,7 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
         YellowCard: { $sum: "$TeamScores.YellowCard" },
         Assist: { $sum: "$TeamScores.Assist" },
         Goals: { $sum: "$TeamScores.Goals" },
+        OwnGoals: { $sum: "$TeamScores.OwnGoals" },
         CleanSheetScore: { $sum: "$TeamScores.CleanSheetScore" },
         TotalPlayerScore: { $sum: "$TeamScores.TotalScore" },
 
@@ -225,6 +226,7 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
             YellowCard: "$YellowCard",
             Assist: "$Assist",
             Goals: "$Goals",
+            OwnGoals: "$OwnGoals",
             CleanSheetScore: "$CleanSheetScore",
             TotalScore: "$TotalPlayerScore",
           }
