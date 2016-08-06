@@ -210,7 +210,7 @@ app.get("/api/totalTeamStand/", function (req, res, next) {
       {
         _id: { email: "$_id.email" },
         Name: { $first: "$ParticipantName" },
-        TotalTeamScore: { $sum: "$TotalScore" },
+        TotalTeamScore: { $sum: "$TotalTeamScore" },
         TeamScores: {
           $push: {
             Name: '$playerName',
@@ -320,3 +320,4 @@ app.get("/api/eredivisieplayers", function (req, res, next) {
 // determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
 // calculate.calculateTeamPredictionsPerRound(1);
 // calculate.calculateTeamPredictionsPerRound(2);
+// calculate.calculateTeamPredictionsPerRound(3);

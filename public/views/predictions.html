@@ -45,15 +45,13 @@
                                     <th>
                                         Speler
                                     </th>
-                                    <th>
-                                        Punten
-                                    </th>
+                                  
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="player in predictions.Team">
                                     <td>
-                                        TODO
+                                        {{ player.Team }}
                                     </td>
                                     <td>
                                         {{ player.Position }}
@@ -61,9 +59,7 @@
                                     <td>
                                         {{ player.PlayerName }}
                                     </td>
-                                    <td>
-                                        TODO
-                                    </td>
+                                   
                                 </tr>
                             </tbody>
                         </table>

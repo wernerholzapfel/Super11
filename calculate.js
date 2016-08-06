@@ -68,7 +68,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
 
             stand.TotalQuestionsScore = stand.TotalQuestionsScore + questionScore.Score;
 
-              stand.QuestionsScore.push(questionScore);
+            stand.QuestionsScore.push(questionScore);
           }
         });
         async.each(prediction.Matches, function (match, callback) {
@@ -83,12 +83,12 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             matchScore.Id = match.Id
             matchScore.Uitslag = scoreMatches.Home + "-" + scoreMatches.Away,
 
-            stand.TotalMatchesScore = stand.TotalMatchesScore + matchScore.Score;
+              stand.TotalMatchesScore = stand.TotalMatchesScore + matchScore.Score;
             stand.MatchesScore.push(matchScore);
           }
         });
         async.each(prediction.Team, function (player, callback) {
-          var teamPlayer = _.find(playerRoundScore.player, function (o) { return o.Id === parseInt(player.PlayerId); });
+          var teamPlayer = _.find(playerRoundScore.Player, function (o) { return o.Id === parseInt(player.PlayerId); });
 
           if (teamPlayer) {
             var playerScore = new Object;
@@ -108,7 +108,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
 
             //todo test possible eachseries ipv each
             stand.TotalTeamScore = stand.TotalTeamScore + playerScore.TotalScore;
-            
+
             stand.TeamScores.push(playerScore);
           }
           else {
