@@ -91,6 +91,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
       var predictionId = $scope.data.Team[i].Id
 
       if (playerId == playerIdInput && predictionId == activePlayer.Id) {
+        $scope.data.Team[i].Captain = false;
         var TeamId = $scope.players[(playerId - 1)].TeamId
         for (var i = 0; i < $scope.players.length; i += 1) {
           if ($scope.players[i].TeamId === TeamId) {
@@ -100,7 +101,6 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
       }
     }
     SCOPE.$apply
-
   };
 
   $scope.selectPlayersOfThisTeam = function (playerIdInput, activePlayer) {
@@ -124,11 +124,30 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     SCOPE.$apply
   };
 
+  $scope.updateCaptain = function (captainId) {
+    SCOPE = $scope.$root.$new();
+
+    for (var i = 0; i < $scope.data.Team.length; i += 1){
+          var playerId = $scope.data.Team[i].PlayerId
+        var predictionId = $scope.data.Team[i].Id
+
+        if (playerId == captainId){
+          $scope.data.Team[i].Captain = true;
+        }
+        else{
+          $scope.data.Team[i].Captain = false;
+          
+        }
+    }
+   SCOPE.$apply
+  };
+
   $scope.updateTeamPrediction = function (playerId, t) {
 
     //set prediction fields
     $scope.data.Team[t.Id - 1].PlayerId = playerId
     $scope.data.Team[t.Id - 1].PlayerName = $scope.players[(playerId - 1)].Name
+    $scope.data.Team[t.Id - 1].Team = $scope.players[(playerId - 1)].Team
 		};
 
   $scope.closeAlert = function (index) {
@@ -158,9 +177,9 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
   $scope.formationChosen = false;
 
-  $scope.showParticipant = true;
+  $scope.showParticipant = false;
   $scope.showTable = false;
-  $scope.showTeam = false;
+  $scope.showTeam = true;
   $scope.showQuestions = false;
   $scope.showMatches = false;
 
@@ -298,67 +317,89 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
         "Position": "K",
         "PlayerId": "",
         "PlayerName": "",
-        "TeamId": ""
+        "TeamId": "",
+        "Team": "",
+        "Captain": false
       }, {
           "Id": 2,
           "Position": "V",
           "PlayerId": "",
           "PlayerName": "",
-          "TeamId": ""
+          "TeamId": "",
+          "Team": "",
+          "Captain": false
         }, {
           "Id": 3,
           "Position": "V",
           "PlayerId": "",
           "PlayerName": "",
-          "TeamId": ""
+          "TeamId": "",
+          "Team": "",
+          "Captain": false
         }, {
           "Id": 4,
           "Position": "V",
           "PlayerId": "",
           "PlayerName": "",
-          "TeamId": ""
+          "TeamId": "",
+          "Team": "",
+          "Captain": false
         }, {
           "Id": 5,
           "Position": "V",
           "PlayerId": "",
           "PlayerName": "",
-          "TeamId": ""
+          "TeamId": "",
+          "Team": "",
+          "Captain": false
         }, {
           "Id": 6,
           "Position": "M",
           "PlayerId": "",
           "PlayerName": "",
-          "TeamId": ""
+          "TeamId": "",
+          "Team": "",
+          "Captain": false
         }, {
           "Id": 7,
           "Position": "M",
           "PlayerId": "",
           "PlayerName": "",
-          "TeamId": ""
+          "TeamId": "",
+          "Team": "",
+          "Captain": false
         }, {
           "Id": 8,
           "Position": "M",
           "PlayerId": "",
           "PlayerName": "",
-          "TeamId": ""
+          "TeamId": "",
+          "Team": "",
+          "Captain": false
         }, {
           "Id": 9,
           "Position": "A",
           "PlayerId": "",
           "PlayerName": "",
-          "TeamId": ""
+          "TeamId": "",
+          "Team": "",
+          "Captain": false
         }, {
           "Id": 10,
           "Position": "A",
           "PlayerId": "",
           "PlayerName": "",
-          "TeamId": ""
+          "TeamId": "",
+          "Team": "",
+          "Captain": false
         }, {
           "Id": 11,
           "Position": "A",
           "PlayerId": "",
           "PlayerName": "",
-          "TeamId": ""
+          "TeamId": "",
+          "Team": "",
+          "Captain": false
         }],
       "Questions": [
         {

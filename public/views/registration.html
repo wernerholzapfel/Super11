@@ -193,7 +193,7 @@
                                                 <!--ng-options="player.Id as player.Name disable when player.PreSelected for player in players |filter : {Position:pos.Position} track by player.Id"-->
 
                                                 <option ng-model="players" ng-value="player.Id"
-                                                        ng-repeat="player in players | filter : {Position:pos.Position} | orderBy:['Selected','Team','Name'] "
+                                                        ng-repeat="player in players | filter : {Position:pos.Position} | orderBy:['PreSelected','Team','Name'] "
                                                         ng-hide="player.PreSelected"
                                                         ng-disabled="player.PreSelected"
                                                         value="{{player.Id}}">{{player.Name}} ({{player.Team}})
@@ -201,7 +201,21 @@
                                             </select>
                                                 </td>
                                             </tr>
-
+                                        </tbody>
+                                        <tbody>
+                                            <tr>
+                                                <td>Captain:</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <select ng-name="captain" required ng-model="captainId" ng-blur=updateCaptain(captainId) ng-change="updateCaptain(captainId)">
+                                                        <option ng-model="captain" ng-value="captain-id"
+                                                        ng-repeat="player in data.Team | orderBy:['Team']"
+                                                        value="{{player.PlayerId}}">{{player.PlayerName}} ({{player.Team}})
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -276,22 +290,24 @@
 
                                 <table class="table table-striped">
                                     <thead>
-                                    <tr>
-                                        <td>Wedstrijd</td>
-                                        <td>Thuis</td>
-                                        <td>Uit</td>
-                                    </tr>
+                                        <tr>
+                                            <td>Wedstrijd</td>
+                                            <td>Thuis</td>
+                                            <td>Uit</td>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="match in data.Matches">
-                                        <td>
-                                            {{match.Match}}
-                                        </td>
-                                        <td><input type="number"  size="1" min="0" max="9" name="Home" required ng-model="match.Home" />
-                                        </td>
-                                        <td><input type="number"   size="1" min="0" max="9" name="Away" required ng-model="match.Away" />
-                                        </td>
-                                    </tr>
+                                        <tr ng-repeat="match in data.Matches">
+                                            <td>
+                                                {{match.Match}}
+                                            </td>
+                                            <td><input type="number" size="1" min="0" max="9" name="Home" required ng-model="match.Home"
+                                                />
+                                            </td>
+                                            <td><input type="number" size="1" min="0" max="9" name="Away" required ng-model="match.Away"
+                                                />
+                                            </td>
+                                        </tr>
 
                                     </tbody>
                                 </table>

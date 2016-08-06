@@ -21,6 +21,8 @@ var predictionsSchema = new mongoose.Schema({
 		PlayerId: { type: String, required: true },
 		PlayerName: { type: String, required: true },
 		TeamId: { type: String, required: false },
+		Team: {type: String, required: false},
+		Captain: {type: Boolean, required: true}
 	}],
 	Questions: [{
 		Id: { type: Number, required: true },
