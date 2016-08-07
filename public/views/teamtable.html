@@ -41,11 +41,12 @@
                                             Naam
                                         </th>
                                         <th>
-                                            Totaal Team
+                                            Totaal Score
                                         </th>
-                                        <th>Totaal Vragen</th>
+                                         <th>Totaal Team</th>
                                         <th>Totaal Wedstrijden</th>
-                                        <th>Totaal</th>
+                                         <th>Totaal Vragen</th>
+                                       
                                         
                                         <th></th>
                                         <th></th>
@@ -55,23 +56,24 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat-start="table in totalTeamTable | orderBy:'-TotalTeamScore'">
-                                        <td>{{$index + 1}}</td>
+                                        <td ng-model="position" ng-value="$index+1" ng-if="table.TotalScore !== totalTeamTable[$index-1].TotalScore">{{$index +1}}</td>
+                                        <td ng-model="position" ng-value="totalTeamTable[$index-1].position" ng-if="table.TotalScore === totalTeamTable[$index-1].TotalScore"><span ng-bind="position"> </span> {{totalTeamTable[$index-1].position}}</td>
                                         <td>
                                             <button ng-if="table.expanded" ng-click="table.expanded = false">-</button>
                                             <button ng-if="!table.expanded" ng-click="table.expanded = true">+</button> {{
                                             table.Name}}
                                         </td>
                                         <td>
-                                            {{table.TotalTeamScore}}
+                                            {{table.TotalScore}}
                                         </td>
                                          <td>
-                                            {{table.TotalQuestionsScore}}
+                                           {{table.TotalTeamScore}}  
                                         </td>
                                          <td>
                                             {{table.TotalMatchesScore}}
                                         </td>
                                         <td>
-                                            {{table.TotalScore}}
+                                           {{table.TotalQuestionsScore}}
                                         </td>
                                         <td></td>
                                         <td></td>
