@@ -1,5 +1,5 @@
 /* Setup general page controller */
-angular.module('MetronicApp').controller('GeneralPageController', ['$rootScope', '$scope', 'settings', function($rootScope, $scope, settings) {
+angular.module('MetronicApp').controller('GeneralPageController', ['$rootScope', '$scope', 'settings','AuthService', function($rootScope, $scope, settings,AuthService) {
     $scope.$on('$viewContentLoaded', function() {   
     	// initialize core components
     	App.initAjax();
@@ -8,5 +8,7 @@ angular.module('MetronicApp').controller('GeneralPageController', ['$rootScope',
     	$rootScope.settings.layout.pageContentWhite = true;
         $rootScope.settings.layout.pageBodySolid = false;
         $rootScope.settings.layout.pageSidebarClosed = false;
+      $scope.isLoggedIn = AuthService.isAuthenticated;
+
     });
 }]);
