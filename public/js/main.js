@@ -101,9 +101,13 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-MetronicApp.controller('HeaderController', ['$scope', function($scope) {
+MetronicApp.controller('HeaderController', ['$scope','AuthService', function($scope,AuthService) {
     $scope.$on('$includeContentLoaded', function() {
         Layout.initHeader(); // init header
+        $scope.isLoggedIn = AuthService.isAuthenticated;
+        console.log($scope.isLoggedIn);
+
+
     });
 }]);
 
@@ -175,7 +179,33 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }]
             }
         })
+//login
+        .state('login', {
+            url: "/login.html",
+            templateUrl: "views/login.html",            
+            data: {pageTitle: 'Admin Dashboard Template'},
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            '../assets/global/plugins/morris/morris.css',                            
+                            '../assets/global/plugins/morris/morris.min.js',
+                            '../assets/global/plugins/morris/raphael-min.js',                            
+                            '../assets/global/plugins/jquery.sparkline.min.js',
 
+                            '../assets/pages/scripts/dashboard.min.js',
+                            'js/controllers/GeneralPageController.js',
+                            'js/services/authenticationService.js',
+                            'js/controllers/AuthenticationController.js',
+                            'js/services/constants.js'
+                        ] 
+                    });
+                }]
+            }
+        })
         // Participants
         .state('participants', {
             url: "/participants.html",
@@ -234,6 +264,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
                             '../../../assets/pages/scripts/profile.js',
 
+                            'js/services/authenticationService',
                             'js/services/playerListService.js',
                             'js/services/scoreFormService.js',
                             'js/services/eredivisiePlayersApi.js',
