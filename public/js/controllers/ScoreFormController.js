@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('MetronicApp').controller('ScoreFormController', function ($rootScope, $scope, $http, $timeout, AuthService) {
+angular.module('MetronicApp').controller('ScoreFormController', function ($rootScope, $scope, $http, $timeout, AuthService, $window) {
     $scope.$on('$viewContentLoaded', function () {
         App.initAjax(); // initialize core components
         // Layout.setSidebarMenuActiveLink('set', $('#sidebar_menu_link_scoreform')); // set scoreform link active in sidebar menu 
@@ -11,6 +11,6 @@ angular.module('MetronicApp').controller('ScoreFormController', function ($rootS
     $rootScope.settings.layout.pageSidebarClosed = false;
 
     if (!AuthService.isAuthenticated()) {
-        $location.url('/#/login.html');
+    $window.location.href = '/#/login.html';
     };
 }); 

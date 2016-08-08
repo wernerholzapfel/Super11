@@ -67,7 +67,6 @@ angular.module('MetronicApp')
             login: login,
             register: register,
             logout: logout,
-            isLoggedIn: isLoggedIn,
             isAuthenticated: function () { return isAuthenticated; },
         };
     })

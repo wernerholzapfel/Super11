@@ -3,7 +3,7 @@
     <div class="container">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-             <h2>Super 11</h2>   
+            <a class="font-green" href="/#/login.html"><h2>Super 11</h2></a>
             
             <!--<a href="#/dashboard.html">-->
                 <!--<img src="{{settings.layoutPath}}/img/logo-default.jpg" alt="logo" class="logo-default">-->
@@ -67,12 +67,6 @@
                         <span class="title">De Deelnemers</span>
                     </a>
                 </li>
-                <!--<li>-->
-                <!--<a href="#/table.html" id="sidebar_menu_link_games">-->
-                <!--<i class="icon-calendar"></i>-->
-                <!--<span class="title">Stand</span>-->
-                <!--</a>-->
-                <!--</li>-->
                 <li>
                     <a href="#/teamtable.html" id="sidebar_menu_link_halloffame">
                         <i class="icon-bar-chart"></i>
@@ -91,7 +85,7 @@
                         <span class="title">Voorspellingen</span>
                     </a>
                 </li>-->
-                <li ng-show="isLoggedIn()">
+                <li ng-if="isLoggedIn()">
                     <a href="#/scoreform.html" id="sidebar_menu_link_scoreform">
                         <i class="icon-puzzle"></i>
                         <span class="title">Uitslagen</span>

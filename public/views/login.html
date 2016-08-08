@@ -1,5 +1,5 @@
 <div ng-controller="RegisterCtrl">
-    <form ng-submit="signup()" style="margin-top:30px;">
+    <form ng-if="isLoggedIn()" ng-submit="signup()" style="margin-top:30px;">
         <h3>Register</h3>
 
         <div class="form-group">

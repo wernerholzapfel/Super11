@@ -105,9 +105,6 @@ MetronicApp.controller('HeaderController', ['$scope','AuthService', function($sc
     $scope.$on('$includeContentLoaded', function() {
         Layout.initHeader(); // init header
         $scope.isLoggedIn = AuthService.isAuthenticated;
-        console.log($scope.isLoggedIn);
-
-
     });
 }]);
 
