@@ -7,7 +7,8 @@ var MetronicApp = angular.module("MetronicApp", [
     "ui.router", 
     "ui.bootstrap", 
     "oc.lazyLoad",  
-    "ngSanitize"
+    "ngSanitize",
+    "ui.sortable"
 ]); 
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -59,7 +60,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 MetronicApp.config(['$controllerProvider', function($controllerProvider) {
   // this option might be handy for migrating old apps, but please don't use it
   // in new ones!
-  $controllerProvider.allowGlobals();
+//   $controllerProvider.allowGlobals();
 }]);
 
 /********************************************
