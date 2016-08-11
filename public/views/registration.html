@@ -104,8 +104,8 @@
                                         </div>
                                     </div>
                                     <div class="mt-list-container list-simple">
-                                        <ul ui-sortable="sortableOptions">
-                                            <li ng-repeat="team in data.Table" class="mt-list-item" ng-model="team.Position" ng-change="team.Position == $index+1">
+                                        <ul ui-sortable="sortableOptions" ng-model="data.Table">
+                                            <li ng-repeat="team in data.Table" class="mt-list-item">
                                                 {{$index+1}} {{team.SelectedTeam}}
                                             </li>
                                         </ul>
