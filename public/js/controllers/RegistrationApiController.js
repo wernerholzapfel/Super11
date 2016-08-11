@@ -9,6 +9,8 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
   })
 
 
+
+ 
   $scope.alerts = [];
   $scope.participantMsg = 'Leuk dat je je wilt inschrijven. Vul alle velden in. Daarna kan je op volgende klikken om de rest van je voorspellingen in te vullen';
   $scope.tableMsg = 'Net zoals alle andere jaren voorspel je de eindstand van de eredivisie.';
@@ -28,6 +30,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
   $scope.teams = teamListService;
 
+ 
   $scope.setFormation = function (formation) {
     if ($scope.data.Formation != formation){
     switch (formation) {

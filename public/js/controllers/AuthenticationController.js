@@ -21,6 +21,7 @@ angular.module('MetronicApp')
     password: ''
   };
  
+
   $scope.signup = function() {
     AuthService.register($scope.user).then(function(msg) {
       $location.url('/#/signup.html');

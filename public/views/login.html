@@ -1,5 +1,5 @@
 <div ng-controller="RegisterCtrl">
-    <form ng-if="isLoggedIn()" ng-submit="signup()" style="margin-top:30px;">
+    <form ng-if="showRegister" ng-submit="signup()" style="margin-top:30px;">
         <h3>Register</h3>
 
         <div class="form-group">
@@ -8,8 +8,10 @@
         <div class="form-group">
             <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
         </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <div>
+        <button type="submit" class="btn btn-primary">Registreer</button>
         {{error}}
+        <a href="#" ng-click="register(false)"> of login</a></div>
     </form>
 </div>
 
@@ -18,7 +20,7 @@
         <span>{{ error.message }}</span>
     </div>
 
-    <form ng-submit="login()" style="margin-top:30px;">
+    <form ng-if="!showRegister" ng-submit="login()" style="margin-top:30px;">
         <h3>Log In</h3>
         <div class="form-group">
             <input type="text" class="form-control" placeholder="name" ng-model="user.name"></input>
@@ -26,7 +28,11 @@
         <div class="form-group">
             <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
         </div>
+        <div>
+        
         <button type="submit" class="btn btn-primary">Log In</button>
+            <a href="#" ng-click="register(true)">of registreer</a></div>
+        
         {{error}}
 
     </form>

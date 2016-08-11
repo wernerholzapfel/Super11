@@ -3,10 +3,10 @@ var mongoose = require( 'mongoose' );
 
 var predictionsSchema = new mongoose.Schema({
 	Participant: {
-		Name: { type: String, required: false },
+		Name: { type: String, required: true },
 		Email: { type: String, required: true },
-		Location: { type: String, required: false },
-		Gender: { type: String, required: false },
+		Location: { type: String, required: true },
+		Gender: { type: String, required: true },
 		PhoneNumber: { type: String, required: false }
 	}
 	,
