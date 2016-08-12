@@ -16,6 +16,7 @@ var predictionsSchema = new mongoose.Schema({
 		SelectedTeamId: { type: String, required: false }
 	}],
 	Formation: {type: String, required: false},
+	CaptainId: {type: String, required: false},
 	Team: [{
 		Id: { type: Number, required: true },
 		Position: { type: String, required: false },

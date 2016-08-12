@@ -15,7 +15,7 @@
 </div>
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
-<div class="row" ng-controller="RegistrationApiController">
+<div class="row" ng-controller="RegistrationApiController" ng-if=isLoggedIn()>
     <div class="col-md-12">
         <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
         </uib-alert>
@@ -146,15 +146,19 @@
                                                 <td>Formatie:
                                                     <select ng-name="selectedFormation" required ng-model="selectedFormation" ng-change="setFormation(selectedFormation)">
                                                 <option ng-model="formations" ng-repeat="formation in formations"
-                                                        ng-model="formations.Formation" ng-value="formation.Formation" >
+                                                        ng-value="formation.Formation" value="{{formation.Formation}}" >
                                                     {{formation.Formation}}
                                                 </option>
 
                                             </select>
+
+
+                                      
+
                                                 </td>
                                             </tr>
                                         </thead>
-                                        <tbody ng-repeat="pos in playerPositions" ng-show="formationChosen">
+                                        <tbody ng-repeat="pos in playerPositions">
                                             <tr>
                                                 <td> {{pos.PositionUi}}</td>
                                             </tr>
@@ -165,14 +169,11 @@
                                                 <td><button ng-if="player.PlayerName != ''" ng-click="removeplayerfromteam(player)">-</button></td>
                                             </tr>
                                         </tbody>
-                                        <tbody ng-show="formationChosen">
+                                        <tbody>
                                             <tr>
-                                                <td>Captain:</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
+                                                <td>Captain: 
                                                     <select ng-name="captain" required ng-model="captainId" ng-blur=updateCaptain(captainId) ng-change="updateCaptain(captainId)">
-                                                        <option ng-model="captain" ng-value="captain-id"
+                                                        <option ng-model="captainId" ng-value="player.PlayerId"
                                                         ng-repeat="player in data.Team | orderBy:['Team']"
                                                         value="{{player.PlayerId}}">{{player.PlayerName}} ({{player.Team}})
                                                         </option>
@@ -187,7 +188,7 @@
                     </div>
 
                     <!--playerlist tabel-->
-                    <div class="col-md-6" ng-show="formationChosen">
+                    <div class="col-md-6">
                         <div class="portlet box green">
                             <div class="portlet-title">
                                 <div class="caption">

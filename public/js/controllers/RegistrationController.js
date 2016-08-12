@@ -6,6 +6,9 @@ angular.module('MetronicApp').controller('RegistrationController', function ($ro
         App.initAjax(); // initialize core components
         // Layout.setSidebarMenuActiveLink('set', $('#sidebar_menu_link_registration')); // set link active in sidebar menu 
     });
+    
+    $scope.isLoggedIn = AuthService.isAuthenticated;
+
   if (!AuthService.isAuthenticated()) {
     $window.location.href = '/#/login.html';
     };

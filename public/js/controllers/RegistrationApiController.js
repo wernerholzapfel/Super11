@@ -3,14 +3,17 @@
 
 angular.module('MetronicApp').controller('RegistrationApiController', function ($scope, getRegistrationForm, registrationService, teamListService, eredivisiePlayersApi) {
 
+  $scope.selectedFormation = "433"
 
   getRegistrationForm.async().then(function (data) {
     $scope.data = data;
-  })
+    if ($scope.data.Formation) {
+      $scope.selectedFormation = $scope.data.Formation
+      $scope.captainId = "53"
+    }
+  });
 
 
-
- 
   $scope.alerts = [];
   $scope.participantMsg = 'Leuk dat je je wilt inschrijven. Vul alle velden in. Daarna kan je op volgende klikken om de rest van je voorspellingen in te vullen';
   $scope.tableMsg = 'Net zoals alle andere jaren voorspel je de eindstand van de eredivisie.';
@@ -23,56 +26,57 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
   eredivisiePlayersApi.async().then(function (data) {
     $scope.players = data[0].Player;
-
-
   });
-
 
   $scope.teams = teamListService;
 
- 
   $scope.setFormation = function (formation) {
-    if ($scope.data.Formation != formation){
-    switch (formation) {
-      case "433":
-        $scope.data.Team[4].Position = "V";
-        $scope.data.Team[4].PlayerId = "";
-        $scope.data.Team[4].PlayerName = "";
-        $scope.data.Team[8].Position = "A";
-        $scope.data.Team[8].PlayerId = "";
-        $scope.data.Team[8].PlayerName = "";
-        $scope.formationChosen = true;
-        break;
-      case "442":
-        $scope.data.Team[4].Position = "V";
-        $scope.data.Team[4].PlayerId = "";
-        $scope.data.Team[4].PlayerName = "";
-        $scope.data.Team[8].Position = "M";
-        $scope.data.Team[8].PlayerId = "";
-        $scope.data.Team[8].PlayerName = "";
-        $scope.formationChosen = true;
-        break;
-      case "343":
-        $scope.data.Team[4].Position = "M";
-        $scope.data.Team[4].PlayerId = "";
-        $scope.data.Team[4].PlayerName = "";
-        $scope.data.Team[8].Position = "A";
-        $scope.data.Team[8].PlayerId = "";
-        $scope.data.Team[8].PlayerName = "";
-        $scope.formationChosen = true;
-        break;
+    if ($scope.data.Formation != formation) {
+      switch (formation) {
+        case "433":
+          $scope.data.Team[4].Position = "V";
+          $scope.data.Team[4].PlayerId = "";
+          $scope.data.Team[4].PlayerName = "";
+          $scope.data.Team[8].Position = "A";
+          $scope.data.Team[8].PlayerId = "";
+          $scope.data.Team[8].PlayerName = "";
+          $scope.data.Formation = formation
+          $scope.formationChosen = true;
+          break;
+        case "442":
+          $scope.data.Team[4].Position = "V";
+          $scope.data.Team[4].PlayerId = "";
+          $scope.data.Team[4].PlayerName = "";
+          $scope.data.Team[8].Position = "M";
+          $scope.data.Team[8].PlayerId = "";
+          $scope.data.Team[8].PlayerName = "";
+          $scope.data.Formation = formation
+          $scope.formationChosen = true;
+          break;
+        case "343":
+          $scope.data.Team[4].Position = "M";
+          $scope.data.Team[4].PlayerId = "";
+          $scope.data.Team[4].PlayerName = "";
+          $scope.data.Team[8].Position = "A";
+          $scope.data.Team[8].PlayerId = "";
+          $scope.data.Team[8].PlayerName = "";
+          $scope.data.Formation = formation
+          $scope.formationChosen = true;
+          break;
 
-      default:
-        $scope.data.Team[4].Position = "V";
-        $scope.data.Team[4].PlayerId = "";
-        $scope.data.Team[4].PlayerName = "";
-        $scope.data.Team[8].Position = "A";
-        $scope.data.Team[8].PlayerId = "";
-        $scope.data.Team[8].PlayerName = "";
-        $scope.formationChosen = true;
+        default:
+          $scope.data.Team[4].Position = "V";
+          $scope.data.Team[4].PlayerId = "";
+          $scope.data.Team[4].PlayerName = "";
+          $scope.data.Team[8].Position = "A";
+          $scope.data.Team[8].PlayerId = "";
+          $scope.data.Team[8].PlayerName = "";
+          $scope.data.Formation = formation
+          $scope.formationChosen = true;
 
-    }}
-     $scope.formationChosen = true;
+      }
+    }
+    $scope.formationChosen = true;
   };
 
   $scope.SelectedTeamId = $scope.teams[0].Team;
@@ -158,6 +162,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
       if (playerId == captainId) {
         $scope.data.Team[i].Captain = true;
+        $scope.data.CaptainId = captainId;
       }
       else {
         $scope.data.Team[i].Captain = false;
@@ -198,7 +203,8 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
     registration.success(function () {
       $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt! Veel plezier met Super 11 ' + $scope.data.Participant.Name });
-    });
+      $scope.showMatches = false;
+  });
     registration.error(function () {
       $scope.showConfirm = false;
 
@@ -213,9 +219,9 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
   $scope.formationChosen = false;
 
-  $scope.showParticipant = true;
+  $scope.showParticipant = false;
   $scope.showTable = false;
-  $scope.showTeam = false;
+  $scope.showTeam = true;
   $scope.showQuestions = false;
   $scope.showMatches = false;
 
