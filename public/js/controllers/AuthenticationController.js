@@ -15,7 +15,7 @@ angular.module('MetronicApp')
   };
 })
  
-.controller('RegisterCtrl', function($scope, AuthService, $location) {
+.controller('RegisterCtrl', function($scope, AuthService, $window) {
   $scope.user = {
     name: '',
     password: ''
