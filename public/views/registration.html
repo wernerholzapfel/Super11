@@ -24,63 +24,67 @@
                 <uib-alert type="success" ng-show="participantForm.$invalid" close="closeAlert($index)">{{participantMsg}}
                 </uib-alert>
                 <!-- BEGIN TABLE PORTLET-->
-                <div class="portlet box green">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="fa fa-user"></i>Schrijf je nu in
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Schrijf je nu in
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <td>Naam</td>
+                                        <td>
+                                            <input type="text" name="Name" required ng-model="data.Participant.Name" />
+                                            <br/>
+
+                                            <div ng-show="form.$submitted || form.Name.$touched">
+                                                <div ng-show="form.Name.$error.required">Wat is je naam?</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Woonplaats</td>
+                                        <td>
+                                            <input type="text" name="Location" required ng-model="data.Participant.Location" />
+                                            <br/>
+
+                                            <div ng-show="form.$submitted || form.Location.$touched">
+                                                <div ng-show="form.Location.$error.required">Wat is je woonplaats?</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Geslacht</td>
+                                        <td>
+                                            <input type="radio" name="Gender" required ng-model="data.Participant.Gender" value="Man"> Man
+                                            <input type="radio" name="Gender" required ng-model="data.Participant.Gender" value="Vrouw"> Vrouw
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Telefoon</td>
+                                        <td>
+                                            <input type="tel" name="PhoneNumber" required ng-model="data.Participant.PhoneNumber" />
+                                            <br/>
+
+                                            <div ng-show="form.$submitted || form.PhoneNumber.$touched">
+                                                <span ng-show="form.PhoneNumber.$error.required">Wat is je telefoonnummer?</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                        <div class="tools">
-                            <a href="javascript:;" class="collapse" data-original-title="" title="">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="portlet-body form">
-                        <table class="table table-striped">
-                            <tr>
-                                <td>Naam</td>
-                                <td>
-                                    <input type="text" name="Name" required ng-model="data.Participant.Name" />
-                                    <br/>
-
-                                    <div ng-show="form.$submitted || form.Name.$touched">
-                                        <div ng-show="form.Name.$error.required">Wat is je naam?</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Woonplaats</td>
-                                <td>
-                                    <input type="text" name="Location" required ng-model="data.Participant.Location" />
-                                    <br/>
-
-                                    <div ng-show="form.$submitted || form.Location.$touched">
-                                        <div ng-show="form.Location.$error.required">Wat is je woonplaats?</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> Geslacht</td>
-                                <td>
-                                    <input type="radio" name="Gender" required ng-model="data.Participant.Gender" value="Man">Man
-                                    <input type="radio" name="Gender" required ng-model="data.Participant.Gender" value="Vrouw">Vrouw
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>Telefoon</td>
-                                <td>
-                                    <input type="tel" name="PhoneNumber" required ng-model="data.Participant.PhoneNumber" />
-                                    <br/>
-
-                                    <div ng-show="form.$submitted || form.PhoneNumber.$touched">
-                                        <span ng-show="form.PhoneNumber.$error.required">Wat is je telefoonnummer?</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
                     </div>
                 </div>
-                <button value="Next" ng-disabled="participantForm.$invalid" ng-click="tableView()">Volgende</button>
+                <button class="btn green" value="Next" ng-disabled="participantForm.$invalid" ng-click="tableView()">Volgende</button>
             </form>
 
             <form name="tableForm" class="form-horizontal form-bordered" ng-show="showTable">
@@ -99,10 +103,10 @@
                             </div>
                             <div class="portlet-body form">
                                 <div class="mt-element-list">
-                                    <div class="mt-list-head list-simple font-white">
+                                    <!--<div class="mt-list-head list-simple font-white">
                                         <div class="list-head-title-container">
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="mt-list-container list-simple">
                                         <ul ui-sortable="sortableOptions" ng-model="data.Table">
                                             <li ng-repeat="team in data.Table" class="mt-list-item draggablePointer">
@@ -116,8 +120,8 @@
                         </div>
                     </div>
                 </div>
-                <button value="Previous" ng-click="participantView()" ng-show="showTable">Terug</button>
-                <button value="Next" ng-disabled="tableForm.$invalid" ng-click="teamView()">Volgende</button>
+                <button class="btn green" value="Previous" ng-click="participantView()" ng-show="showTable">Terug</button>
+                <button class="btn green" value="Next" ng-disabled="tableForm.$invalid" ng-click="teamView()">Volgende</button>
             </form>
 
             <form name="teamForm" class="form-horizontal form-bordered" ng-show="showTeam">
@@ -150,28 +154,23 @@
                                                     {{formation.Formation}}
                                                 </option>
 
-                                            </select>
-
-
-                                      
-
                                                 </td>
                                             </tr>
                                         </thead>
                                         <tbody ng-repeat="pos in playerPositions">
                                             <tr>
                                                 <td> {{pos.PositionUi}}</td>
+                                                <td></td>
                                             </tr>
                                             <tr ng-repeat="player in data.Team | filter : {Position:pos.Position}">
-                                                <td> <span ng-if="player.PlayerName == ''"> Kies een {{pos.PositionUi}}</span> 
-                                                                                                   {{player.PlayerName}}
+                                                <td><button class="btn green" ng-if="player.PlayerName != ''" ng-click="removeplayerfromteam(player)">-</button> <span ng-if="player.PlayerName == ''"> Kies een {{pos.PositionUi}}</span>                                                    {{player.PlayerName}} ({{player.Team}})
                                                 </td>
-                                                <td><button ng-if="player.PlayerName != ''" ng-click="removeplayerfromteam(player)">-</button></td>
+                                                <td></td>
                                             </tr>
                                         </tbody>
                                         <tbody>
                                             <tr>
-                                                <td>Captain: 
+                                                <td>Captain:
                                                     <select ng-name="captain" required ng-model="captainId" ng-blur=updateCaptain(captainId) ng-change="updateCaptain(captainId)">
                                                         <option ng-model="captainId" ng-value="player.PlayerId"
                                                         ng-repeat="player in data.Team | orderBy:['Team']"
@@ -180,7 +179,7 @@
                                                     </select>
                                                 </td>
                                             </tr>
-                                        </tbody>
+                                            </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -236,17 +235,13 @@
                                             <tr ng-repeat="player in players | filter:{Position:selectedPositie} | filter:{Team:selectedTeam} | filter:{Name:searchName} | orderBy:['Team']"
                                                 ng-hide="player.PreSelected">
                                                 <td>
+                                                    <button class="btn green" ng-click="addPlayerToSelection(player)">+</button>                                                    {{player.Name}} ({{player.Position}})
+                                                </td>
+                                                <td>
                                                     {{player.Team}}
                                                 </td>
 
                                                 <td>
-                                                    {{player.Position}}
-                                                </td>
-                                                <td>
-                                                    {{player.Name}}
-                                                </td>
-                                                <td>
-                                                    <button ng-click="addPlayerToSelection(player)">+</button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -257,8 +252,8 @@
                     </div>
                 </div>
         </div>
-        <button value="Previous" ng-click="tableView()" ng-show="showTeam">Terug</button>
-        <button value="Next" ng-disabled="poulesForm.$invalid" ng-show="showTeam" ng-click="questionsView()">Volgende</button>
+        <button class="btn green" value="Previous" ng-click="tableView()" ng-show="showTeam">Terug</button>
+        <button class="btn green" value="Next" ng-disabled="poulesForm.$invalid" ng-show="showTeam" ng-click="questionsView()">Volgende</button>
         </form>
 
         <form name="questionsForm" class="form-horizontal form-bordered" ng-show="showQuestions">
@@ -300,8 +295,8 @@
                 </div>
             </div>
 
-            <button value="Previous" ng-click="teamView()" ng-show="showQuestions">Terug</button>
-            <button value="Next" ng-disabled="questionsForm.$invalid" ng-click="matchesView()">Volgende
+            <button class="btn green" value="Previous" ng-click="teamView()" ng-show="showQuestions">Terug</button>
+            <button class="btn green" value="Next" ng-disabled="questionsForm.$invalid" ng-click="matchesView()">Volgende
                 </button>
         </form>
 
@@ -349,8 +344,8 @@
                 </div>
             </div>
 
-            <button value="Previous" ng-click="questionsView()" ng-show="showMatches">Terug</button>
-            <button value="Next" ng-disabled="questionsForm.$invalid" ng-click="save()">Opslaan
+            <button class="btn green" value="Previous" ng-click="questionsView()" ng-show="showMatches">Terug</button>
+            <button class="btn green" value="Next" ng-disabled="questionsForm.$invalid" ng-click="save()">Opslaan
                 </button>
         </form>
 
