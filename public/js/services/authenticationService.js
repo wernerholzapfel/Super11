@@ -39,6 +39,7 @@ angular.module('MetronicApp')
                 $http.post(API_ENDPOINT.url + '/signup', user).then(function (result) {
                     if (result.data.success) {
                         resolve(result.data.msg);
+                        login(user);
                     } else {
                         reject(result.data.msg);
                     }
