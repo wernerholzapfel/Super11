@@ -17,10 +17,15 @@
 <!-- BEGIN MAIN CONTENT -->
 <div class="row" ng-controller="RegistrationApiController" ng-if=isLoggedIn()>
     <div class="col-md-12">
-        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
-        </uib-alert>
-        <div ng-hide="showConfirm">
-            <form name="participantForm" class="form-horizontal form-bordered" ng-show="showParticipant">
+
+        <div ng-show="showParticipant">
+            <div class="note note-success note-bordered">
+                <h3>Jouw gegevens<span data-close="note"></span></h3>
+                <p>
+                    Leuk dat je mee wilt doen. Vul alle velden in. Daarna kan je op volgende klikken om de rest van je voorspellingen in te vullen
+                    <p>
+            </div>
+            <form name="participantForm" class="form-horizontal form-bordered">
                 <uib-alert type="success" ng-show="participantForm.$invalid" close="closeAlert($index)">{{participantMsg}}
                 </uib-alert>
                 <!-- BEGIN TABLE PORTLET-->
@@ -63,8 +68,8 @@
                                     <tr>
                                         <td> Geslacht</td>
                                         <td>
-                                            <input type="radio" name="Gender" required ng-model="data.Participant.Gender" value="Man"> Man
-                                            <input type="radio" name="Gender" required ng-model="data.Participant.Gender" value="Vrouw"> Vrouw
+                                            <input type="radio" name="Gender" required ng-model="data.Participant.Gender" value="Man">                                            Man
+                                            <input type="radio" name="Gender" required ng-model="data.Participant.Gender" value="Vrouw">                                            Vrouw
                                         </td>
                                     </tr>
 
@@ -86,8 +91,16 @@
                 </div>
                 <button class="btn green" value="Next" ng-disabled="participantForm.$invalid" ng-click="tableView()">Volgende</button>
             </form>
+        </div>
 
-            <form name="tableForm" class="form-horizontal form-bordered" ng-show="showTable">
+        <div ng-show="showTable">
+            <div class="note note-success note-bordered">
+                <h3>Voorspel de eredivisie eindstand 2016/2017<span data-close="note"></span></h3>
+                <p>
+                    Sleep de clubs op volgorde met je muis, of op een touch device met je vingers.
+                    <p>
+            </div>
+            <form name="tableForm" class="form-horizontal form-bordered">
                 <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{tableMsg}}</uib-alert>
                 <div class="row">
                     <div class="col-md-6">
@@ -123,8 +136,18 @@
                 <button class="btn green" value="Previous" ng-click="participantView()" ng-show="showTable">Terug</button>
                 <button class="btn green" value="Next" ng-disabled="tableForm.$invalid" ng-click="teamView()">Volgende</button>
             </form>
+        </div>
 
-            <form name="teamForm" class="form-horizontal form-bordered" ng-show="showTeam">
+        <div ng-show="showTeam">
+            <div class="note note-success note-bordered">
+                <h3>Stel je eredivisie team samen<span data-close="note"></span></h3>
+                <p>
+                    Dit jaar kan je je eigen formatie kiezen. Speel je 433, 442 of liever op de aanval met een 343 opstelling? Per club mag je
+                    maar 1 speler kiezen. De spelerslijst kan je filteren op club en op team. Het is ook mogelijk om op naam
+                    te zoeken binnen de filters.
+                    <p>
+            </div>
+            <form name="teamForm" class="form-horizontal form-bordered">
                 <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{teamMsg}}</uib-alert>
                 <div class="row">
                     <div class="col-md-6">
@@ -256,99 +279,117 @@
         <button class="btn green" value="Next" ng-disabled="poulesForm.$invalid" ng-show="showTeam" ng-click="questionsView()">Volgende</button>
         </form>
 
-        <form name="questionsForm" class="form-horizontal form-bordered" ng-show="showQuestions">
-            <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{questionMsg}}</uib-alert>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="portlet box green">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <i class="fa fa-user"></i>Beantwoord deze {{data.Questions.length}} vragen!
-                            </div>
-                            <div class="tools">
-                                <a href="javascript:;" class="collapse" data-original-title="" title="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="portlet-body form">
 
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <td>Vraag</td>
-                                        <td>Antwoord</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="question in data.Questions">
-                                        <td>
-                                            {{question.Question}}
-                                        </td>
-                                        <td><input type="text" name="Location" required ng-model="question.Answer" />
-                                        </td>
-                                    </tr>
+        <div ng-show="showQuestions">
+            <div class="note note-success note-bordered">
+                <h3>Beantwoord de vragen<span data-close="note"></span></h3>
+                <p>
+                    Dit onderdeel behoeft vast niet veel uitleg. Probeer je antwoorden zo volledig mogelijk op te schrijven. Schrijf bijvoorbeeld
+                    Manchester City voluit ipv Man City behalve bij getallen daar kan je gewoon de cijfers gebruiken :-)
+                    <p>
+            </div>
+            <form name="questionsForm" class="form-horizontal form-bordered">
+                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{questionMsg}}</uib-alert>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Beantwoord deze {{data.Questions.length}} vragen!
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
 
-                                </tbody>
-                            </table>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td>Vraag</td>
+                                            <td>Antwoord</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="question in data.Questions">
+                                            <td>
+                                                {{question.Question}}
+                                            </td>
+                                            <td><input type="text" name="Location" required ng-model="question.Answer" />
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <button class="btn green" value="Previous" ng-click="teamView()" ng-show="showQuestions">Terug</button>
-            <button class="btn green" value="Next" ng-disabled="questionsForm.$invalid" ng-click="matchesView()">Volgende
+                <button class="btn green" value="Previous" ng-click="teamView()" ng-show="showQuestions">Terug</button>
+                <button class="btn green" value="Next" ng-disabled="questionsForm.$invalid" ng-click="matchesView()">Volgende
                 </button>
-        </form>
+            </form>
+        </div>
 
-        <form name="matchesForm" class="form-horizontal form-bordered" ng-show="showMatches">
-            <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{questionMsg}}</uib-alert>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="portlet box green">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <i class="fa fa-user"></i>Voorspel de {{data.Matches.length}} wedstrijden!
+        <div ng-show="showMatches">
+            <div class="note note-success note-bordered">
+                <h3>Voorspel de uitslagen<span data-close="note"></span></h3>
+                <p>
+                    Voor iedere wedstrijd volledig goed krijg je 10 punten. Heb je alleen de toto goed, dan krijg je als nog 3 punten. <br>
+                    Tip: met de TAB-toets ga je naar het volgende invoerveld.
+                    <p>
+            </div>
+            <form name="matchesForm" class="form-horizontal form-bordered">
+                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{questionMsg}}</uib-alert>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Voorspel de {{data.Matches.length}} wedstrijden!
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
                             </div>
-                            <div class="tools">
-                                <a href="javascript:;" class="collapse" data-original-title="" title="">
-                                </a>
+                            <div class="portlet-body form">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td>Wedstrijd</td>
+                                            <td>Thuis</td>
+                                            <td>Uit</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="match in data.Matches">
+                                            <td>
+                                                {{match.Match}}
+                                            </td>
+                                            <td><input type="number" size="1" min="0" max="9" name="Home" required ng-model="match.Home"
+                                                />
+                                            </td>
+                                            <td><input type="number" size="1" min="0" max="9" name="Away" required ng-model="match.Away"
+                                                />
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                        <div class="portlet-body form">
-
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <td>Wedstrijd</td>
-                                        <td>Thuis</td>
-                                        <td>Uit</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="match in data.Matches">
-                                        <td>
-                                            {{match.Match}}
-                                        </td>
-                                        <td><input type="number" size="1" min="0" max="9" name="Home" required ng-model="match.Home"
-                                            />
-                                        </td>
-                                        <td><input type="number" size="1" min="0" max="9" name="Away" required ng-model="match.Away"
-                                            />
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <button class="btn green" value="Previous" ng-click="questionsView()" ng-show="showMatches">Terug</button>
-            <button class="btn green" value="Next" ng-disabled="questionsForm.$invalid" ng-click="save()">Opslaan
+                <button class="btn green" value="Previous" ng-click="questionsView()" ng-show="showMatches">Terug</button>
+                <button class="btn green" value="Next" ng-disabled="questionsForm.$invalid" ng-click="save()">Opslaan
                 </button>
-        </form>
-
+            </form>
+        </div>
 
     </div>
     <!-- END TABLE PORTLET-->
