@@ -11,6 +11,16 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
       $scope.selectedFormation = $scope.data.Formation
       $scope.captainId = $scope.data.CaptainId
     }
+
+    eredivisiePlayersApi.async().then(function (data) {
+      $scope.players = data[0].Player;
+      for (var i = 0; i < $scope.data.Team.length; i += 1) {
+        $scope.selectPlayersOfThisTeam($scope.data.Team[i]);
+      }
+
+    });
+
+
   });
 
 
@@ -24,9 +34,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
   $scope.playerPositions = [{ Id: 1, Position: "K", PositionUi: "Keeper" }, { Id: 2, Position: "V", PositionUi: "Verdediger" }, { Id: 3, Position: "M", PositionUi: "Middenvelder" }, { Id: 4, Position: "A", PositionUi: "Aanvaller" }];
   $scope.formations = [{ Id: 1, Formation: "433" }, { Id: 2, Formation: "442" }, { Id: 3, Formation: "343" }]
 
-  eredivisiePlayersApi.async().then(function (data) {
-    $scope.players = data[0].Player;
-  });
+
 
   $scope.teams = teamListService;
 
@@ -134,7 +142,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
     SCOPE = $scope.$root.$new();
     for (var i = 0; i < $scope.players.length; i += 1) {
-      if ($scope.players[i].TeamId === player.TeamId) {
+      if ($scope.players[i].TeamId === parseInt(player.TeamId)) {
         $scope.players[i].PreSelected = false;
       }
     }
@@ -146,7 +154,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     SCOPE = $scope.$root.$new();
 
     for (var i = 0; i < $scope.players.length; i += 1) {
-      if ($scope.players[i].TeamId === player.TeamId) {
+      if ($scope.players[i].TeamId === parseInt(player.TeamId)) {
         $scope.players[i].PreSelected = true;
       }
     }
