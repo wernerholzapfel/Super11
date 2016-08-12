@@ -39,8 +39,8 @@ app.use(allowCrossDomain)
 app.use(express.static(__dirname + "/public"));
 
 // get our request parameters
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 //log to consolea
 app.use(morgan('dev'));

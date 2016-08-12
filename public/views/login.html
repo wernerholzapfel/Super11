@@ -1,27 +1,11 @@
-<div ng-controller="RegisterCtrl">
-    <form ng-if="showRegister" ng-submit="signup()" style="margin-top:30px;">
-        <h3>Register</h3>
-
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="name" ng-model="user.name"></input>
-        </div>
-        <div class="form-group">
-            <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
-        </div>
-        <div>
-        <button type="submit" class="btn btn-primary">Registreer</button>
-        {{error}}
-        <a href="#" ng-click="register(false)"> of login</a></div>
-    </form>
-</div>
 
 <div ng-controller="LoginCtrl">
     <div ng-show="error" class="alert alert-danger row">
         <span>{{ error.message }}</span>
     </div>
 
-    <form ng-if="!showRegister" ng-submit="login()" style="margin-top:30px;">
-        <h3>Log In</h3>
+    <form ng-submit="login()" style="margin-top:30px;">
+        <h3>Log in om je Super 11 team te wijzigen</h3>
         <div class="form-group">
             <input type="text" class="form-control" placeholder="name" ng-model="user.name"></input>
         </div>
@@ -30,8 +14,8 @@
         </div>
         <div>
         
-        <button type="submit" class="btn btn-primary">Log In</button>
-            <a href="#" ng-click="register(true)">of registreer</a></div>
+        <button type="submit" class="btn green">Log in</button>
+            <a href="/#/registreer.html">of registreer</a></div>
         
         {{error}}
 

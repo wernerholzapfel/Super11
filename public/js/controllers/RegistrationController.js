@@ -8,7 +8,7 @@ angular.module('MetronicApp').controller('RegistrationController', function ($ro
     });
     
     $scope.isLoggedIn = AuthService.isAuthenticated;
-
+    
   if (!AuthService.isAuthenticated()) {
     $window.location.href = '/#/login.html';
     };

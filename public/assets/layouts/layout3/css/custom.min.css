@@ -6,3 +6,15 @@
 .page-logo {
 color: #32c5d2;
 }
+
+a {
+color: #32c5d2;
+}
+
+a:hover {
+    cursor: pointer;
+    color: #32c5d2;
+    }
+
+
+.draggablePointer { cursor: pointer; cursor: hand; }

@@ -4,15 +4,15 @@ Metronic AngularJS App Main Script
 
 /* Metronic App */
 var MetronicApp = angular.module("MetronicApp", [
-    "ui.router", 
-    "ui.bootstrap", 
-    "oc.lazyLoad",  
+    "ui.router",
+    "ui.bootstrap",
+    "oc.lazyLoad",
     "ngSanitize",
     "ui.sortable"
-]); 
+]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
-MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
+MetronicApp.config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
         // global configs go here
     });
@@ -57,10 +57,10 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 **/
 
 //AngularJS v1.3.x workaround for old style controller declarition in HTML
-MetronicApp.config(['$controllerProvider', function($controllerProvider) {
-  // this option might be handy for migrating old apps, but please don't use it
-  // in new ones!
-//   $controllerProvider.allowGlobals();
+MetronicApp.config(['$controllerProvider', function ($controllerProvider) {
+    // this option might be handy for migrating old apps, but please don't use it
+    // in new ones!
+    //   $controllerProvider.allowGlobals();
 }]);
 
 /********************************************
@@ -68,7 +68,7 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
 *********************************************/
 
 /* Setup global settings */
-MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
+MetronicApp.factory('settings', ['$rootScope', function ($rootScope) {
     // supported languages
     var settings = {
         layout: {
@@ -88,8 +88,8 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
 }]);
 
 /* Setup App Main Controller */
-MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
-    $scope.$on('$viewContentLoaded', function() {
+MetronicApp.controller('AppController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+    $scope.$on('$viewContentLoaded', function () {
         App.initComponents(); // init core components
         //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
@@ -102,96 +102,105 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-MetronicApp.controller('HeaderController', ['$scope','AuthService', function($scope,AuthService) {
-    $scope.$on('$includeContentLoaded', function() {
+MetronicApp.controller('HeaderController', ['$scope', 'AuthService', '$window', function ($scope, AuthService, $window) {
+    $scope.$on('$includeContentLoaded', function () {
         Layout.initHeader(); // init header
         $scope.isLoggedIn = AuthService.isAuthenticated;
+        $scope.navigateTo = function (url) {
+            $window.location.href = url;
+        }
+
+        $scope.logout = function () {
+            AuthService.logout();
+                $window.location.href = '/#/dashboard.html';
+            
+        };
     });
 }]);
 
 /* Setup Layout Part - Sidebar */
-MetronicApp.controller('SidebarController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
+MetronicApp.controller('SidebarController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
         Layout.initSidebar(); // init sidebar
     });
 }]);
 
 /* Setup Layout Part - Quick Sidebar */
-MetronicApp.controller('QuickSidebarController', ['$scope', function($scope) {    
-    $scope.$on('$includeContentLoaded', function() {
-       setTimeout(function(){
+MetronicApp.controller('QuickSidebarController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
+        setTimeout(function () {
             QuickSidebar.init(); // init quick sidebar        
         }, 2000)
     });
 }]);
 
 /* Setup Layout Part - Sidebar */
-MetronicApp.controller('PageHeadController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {        
+MetronicApp.controller('PageHeadController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
         Demo.init(); // init theme panel
     });
 }]);
 
 /* Setup Layout Part - Theme Panel */
-MetronicApp.controller('ThemePanelController', ['$scope', function($scope) {    
-    $scope.$on('$includeContentLoaded', function() {
+MetronicApp.controller('ThemePanelController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
         Demo.init(); // init theme panel
     });
 }]);
 
 /* Setup Layout Part - Footer */
-MetronicApp.controller('FooterController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
+MetronicApp.controller('FooterController', ['$scope', function ($scope) {
+    $scope.$on('$includeContentLoaded', function () {
         Layout.initFooter(); // init footer
     });
 }]);
 
 /* Setup Rounting For All Pages */
-MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     // Redirect any unmatched url
-    $urlRouterProvider.otherwise("/dashboard.html");  
-    
+    $urlRouterProvider.otherwise("/dashboard.html");
+
     $stateProvider
 
         // Dashboard
         .state('dashboard', {
             url: "/dashboard.html",
-            templateUrl: "views/dashboard.html",            
-            data: {pageTitle: 'Super 11'},
+            templateUrl: "views/dashboard.html",
+            data: { pageTitle: 'Super 11' },
             controller: "DashboardController",
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                            '../assets/global/plugins/morris/morris.css',                            
+                            '../assets/global/plugins/morris/morris.css',
                             '../assets/global/plugins/morris/morris.min.js',
-                            '../assets/global/plugins/morris/raphael-min.js',                            
+                            '../assets/global/plugins/morris/raphael-min.js',
                             '../assets/global/plugins/jquery.sparkline.min.js',
 
                             '../assets/pages/scripts/dashboard.min.js',
                             'js/controllers/DashboardController.js',
-                        ] 
+                        ]
                     });
                 }]
             }
         })
-//login
+        //login
         .state('login', {
             url: "/login.html",
-            templateUrl: "views/login.html",            
-            data: {pageTitle: 'Admin Dashboard Template'},
+            templateUrl: "views/login.html",
+            data: { pageTitle: 'Admin Dashboard Template' },
             controller: "GeneralPageController",
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                            '../assets/global/plugins/morris/morris.css',                            
+                            '../assets/global/plugins/morris/morris.css',
                             '../assets/global/plugins/morris/morris.min.js',
-                            '../assets/global/plugins/morris/raphael-min.js',                            
+                            '../assets/global/plugins/morris/raphael-min.js',
                             '../assets/global/plugins/jquery.sparkline.min.js',
 
                             '../assets/pages/scripts/dashboard.min.js',
@@ -199,11 +208,40 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             'js/services/authenticationService.js',
                             'js/controllers/AuthenticationController.js',
                             'js/services/constants.js'
-                        ] 
+                        ]
                     });
                 }]
             }
         })
+
+        //registreer
+        .state('registreer', {
+            url: "/registreer.html",
+            templateUrl: "views/registreer.html",
+            data: { pageTitle: 'Admin Dashboard Template' },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            '../assets/global/plugins/morris/morris.css',
+                            '../assets/global/plugins/morris/morris.min.js',
+                            '../assets/global/plugins/morris/raphael-min.js',
+                            '../assets/global/plugins/jquery.sparkline.min.js',
+
+                            '../assets/pages/scripts/dashboard.min.js',
+                            'js/controllers/GeneralPageController.js',
+                            'js/services/authenticationService.js',
+                            'js/controllers/AuthenticationController.js',
+                            'js/services/constants.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
         // Participants
         .state('participants', {
             url: "/participants.html",
@@ -353,7 +391,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         })
 
 
-      // Headlines
+        // Headlines
         .state('headlines', {
             url: "/headlines.html",
             templateUrl: "views/headlines.html",
@@ -387,7 +425,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }]
             }
         })
-         // Predictions
+        // Predictions
         .state('predictions', {
             url: "/predictions/{id}",
             templateUrl: "views/predictions.html",
@@ -422,7 +460,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }
         })
 
-           // HallofFame
+        // HallofFame
         .state('halloffame', {
             url: "/halloffame.html",
             templateUrl: "views/halloffame.html",
@@ -441,29 +479,29 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }
         })
 
-             // spelregels
-                .state('spelregels', {
-                    url: "/spelregels.html",
-                    templateUrl: "views/spelregels.html",
-                    data: { pageTitle: 'Spelregels' },
-                    controller: "GeneralPageController",
-                    resolve: {
-                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                name: 'MetronicApp',
-                                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                                files: [
-                                    'js/controllers/GeneralPageController.js'
-                                ]
-                            });
-                        }]
-                    }
-                })
+        // spelregels
+        .state('spelregels', {
+            url: "/spelregels.html",
+            templateUrl: "views/spelregels.html",
+            data: { pageTitle: 'Spelregels' },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'js/controllers/GeneralPageController.js'
+                        ]
+                    });
+                }]
+            }
+        })
 
 }]);
 
 /* Init global settings and run the app */
-MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
+MetronicApp.run(["$rootScope", "settings", "$state", function ($rootScope, settings, $state) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 }]);
