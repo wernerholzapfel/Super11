@@ -36,14 +36,15 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>
-                                        Team
+                                     <th>
+                                        Speler
                                     </th>
+                                   
                                     <th>
                                         Positie
                                     </th>
                                     <th>
-                                        Speler
+                                        Team
                                     </th>
                                   
                                 </tr>
@@ -51,13 +52,13 @@
                             <tbody>
                                 <tr ng-repeat="player in predictions.Team">
                                     <td>
-                                        {{ player.Team }}
+                                        {{ player.PlayerName }}
                                     </td>
                                     <td>
                                         {{ player.Position }}
                                     </td>
                                     <td>
-                                        {{ player.PlayerName }}
+                                        {{ player.Team }}
                                     </td>
                                    
                                 </tr>

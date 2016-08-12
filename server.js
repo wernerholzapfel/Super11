@@ -68,7 +68,7 @@ apiRoutes.post('/signup', function (req, res) {
     res.json({ success: false, msg: 'Please pass name and password.' });
   } else {
     var newUser = new User({
-      name: req.body.name,
+      name: req.body.name.toLowerCase(),
       password: req.body.password
     });
     // save the user
@@ -84,7 +84,7 @@ apiRoutes.post('/signup', function (req, res) {
 // route to authenticate a user
 apiRoutes.post('/authenticate', function (req, res) {
   User.findOne({
-    name: req.body.name
+    name: req.body.name.toLowerCase()
   }, function (err, user) {
     if (err) throw err;
 

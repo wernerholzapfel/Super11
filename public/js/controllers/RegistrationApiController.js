@@ -9,7 +9,7 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     $scope.data = data;
     if ($scope.data.Formation) {
       $scope.selectedFormation = $scope.data.Formation
-      $scope.captainId = "53"
+      $scope.captainId = $scope.data.CaptainId
     }
   });
 
@@ -188,6 +188,8 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
   $scope.save = function () {
     $scope.showConfirm = true;
+    $scope.showMatches = false;
+
     $scope.alerts.push({ type: 'warning', msg: "Bezig met opslaan van de voorspellingen van " + $scope.data.Participant.Name });
 
     SCOPE = $scope.$root.$new();
@@ -203,11 +205,11 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
     registration.success(function () {
       $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt! Veel plezier met Super 11 ' + $scope.data.Participant.Name });
-      $scope.showMatches = false;
-  });
+    });
+
     registration.error(function () {
       $scope.showConfirm = false;
-
+      $scope.showMatches = true;
       //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
       $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
     });
@@ -219,9 +221,9 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
   $scope.formationChosen = false;
 
-  $scope.showParticipant = false;
+  $scope.showParticipant = true;
   $scope.showTable = false;
-  $scope.showTeam = true;
+  $scope.showTeam = false;
   $scope.showQuestions = false;
   $scope.showMatches = false;
 
