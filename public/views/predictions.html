@@ -53,6 +53,7 @@
                                 <tr ng-repeat="player in predictions.Team">
                                     <td>
                                         {{ player.PlayerName }}
+                                        <span ng-if="player.Captain">(Captain)</span>
                                     </td>
                                     <td>
                                         {{ player.Position }}
