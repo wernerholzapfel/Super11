@@ -10,7 +10,7 @@ angular.module('MetronicApp').controller('RegistrationController', function ($ro
     $scope.isLoggedIn = AuthService.isAuthenticated;
     
   if (!AuthService.isAuthenticated()) {
-    $window.location.href = '/#/login.html';
+    $window.location.href = '/#/registreer.html';
     };
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = false;

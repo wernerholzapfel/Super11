@@ -12,10 +12,7 @@ angular.module('MetronicApp').controller('GeneralPageController', ['$rootScope',
         $scope.isLoggedIn = AuthService.isAuthenticated;
         $scope.isAdmin = AuthService.isAdmin;
 
-        $scope.showRegister = true;
-        $scope.register = function (showRegister) {
-            $scope.showRegister = showRegister;
-        }
+        
 
 
 
