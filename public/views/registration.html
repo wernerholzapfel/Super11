@@ -233,7 +233,7 @@
                                         </thead>
                                         <tbody>
 
-                                            <tr ng-repeat="player in players | filter:{Position:selectedPositie} | filter:{Team:selectedTeam} | filter:{Name:searchName}"
+                                            <tr ng-repeat="player in players | filter:{Position:selectedPositie} | filter:{Team:selectedTeam} | filter:{Name:searchName} | orderBy:['Team']"
                                                 ng-hide="player.PreSelected">
                                                 <td>
                                                     {{player.Team}}
