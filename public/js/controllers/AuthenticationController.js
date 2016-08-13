@@ -1,6 +1,6 @@
 angular.module('MetronicApp')
  
-.controller('LoginCtrl', function($scope, AuthService, $location) {
+.controller('LoginCtrl', function($scope, AuthService, $window) {
   $scope.user = {
     name: '',
     password: ''
@@ -8,22 +8,23 @@ angular.module('MetronicApp')
  
   $scope.login = function() {
     AuthService.login($scope.user).then(function(msg) {
-      $location.url('/#/scoreform.html');
+      $window.location.href = '/#/registration.html';
     }, function(errMsg) {
       $scope.error = errMsg;
     });
   };
 })
  
-.controller('RegisterCtrl', function($scope, AuthService, $location) {
+.controller('RegisterCtrl', function($scope, AuthService, $window) {
   $scope.user = {
     name: '',
     password: ''
   };
  
+
   $scope.signup = function() {
     AuthService.register($scope.user).then(function(msg) {
-      $location.url('/#/signup.html');
+      $window.location.href = '/#/registration.html';
     }, function(errMsg) {
       $scope.error = errMsg;
     });

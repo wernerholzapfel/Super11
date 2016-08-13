@@ -7,33 +7,35 @@ var predictionsSchema = new mongoose.Schema({
 		Email: { type: String, required: true },
 		Location: { type: String, required: true },
 		Gender: { type: String, required: true },
-		PhoneNumber: { type: String, required: true }
+		PhoneNumber: { type: String, required: false }
 	}
 	,
 	Table: [{
-		Position: { type: Number, required: true },
-		SelectedTeam: { type: String, required: true },
-		SelectedTeamId: { type: String, required: true }
+		Position: { type: Number, required: false },
+		SelectedTeam: { type: String, required: false },
+		SelectedTeamId: { type: String, required: false }
 	}],
+	Formation: {type: String, required: false},
+	CaptainId: {type: String, required: false},
 	Team: [{
 		Id: { type: Number, required: true },
-		Position: { type: String, required: true },
-		PlayerId: { type: String, required: true },
-		PlayerName: { type: String, required: true },
+		Position: { type: String, required: false },
+		PlayerId: { type: String, required: false },
+		PlayerName: { type: String, required: false },
 		TeamId: { type: String, required: false },
 		Team: {type: String, required: false},
-		Captain: {type: Boolean, required: true}
+		Captain: {type: Boolean, required: false}
 	}],
 	Questions: [{
 		Id: { type: Number, required: true },
-		Question: { type: String, required: true },
-		Answer: { type: String, required: true }
+		Question: { type: String, required: false },
+		Answer: { type: String, required: false }
 	}],
 		Matches: [{
   		Id: { type: Number, required: true },
-  		Match: { type: String, required: true },
-  		Home: { type: Number, required: true },
-  		Away: { type: Number, required: true }
+  		Match: { type: String, required: false },
+  		Home: { type: Number, required: false },
+  		Away: { type: Number, required: false }
   	}]
 });
 

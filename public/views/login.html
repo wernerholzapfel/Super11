@@ -1,17 +1,3 @@
-<div ng-controller="RegisterCtrl">
-    <form ng-if="isLoggedIn()" ng-submit="signup()" style="margin-top:30px;">
-        <h3>Register</h3>
-
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="name" ng-model="user.name"></input>
-        </div>
-        <div class="form-group">
-            <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-        {{error}}
-    </form>
-</div>
 
 <div ng-controller="LoginCtrl">
     <div ng-show="error" class="alert alert-danger row">
@@ -19,14 +5,18 @@
     </div>
 
     <form ng-submit="login()" style="margin-top:30px;">
-        <h3>Log In</h3>
+        <h3>Log in om je Super 11 team te wijzigen</h3>
         <div class="form-group">
             <input type="text" class="form-control" placeholder="name" ng-model="user.name"></input>
         </div>
         <div class="form-group">
             <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
         </div>
-        <button type="submit" class="btn btn-primary">Log In</button>
+        <div>
+        
+        <button type="submit" class="btn green">Log in</button>
+            <a href="/#/registreer.html">of registreer</a></div>
+        
         {{error}}
 
     </form>

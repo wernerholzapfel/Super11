@@ -16,7 +16,11 @@
         <!-- BEGIN TOP NAVIGATION MENU -->
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
-
+            <li>
+                <button ng-if="isLoggedIn()" type="button" class="btn green" ng-click="logout()">Logout</button>
+                <button ng-hide="isLoggedIn()" type="button" class="btn green" ng-click="navigateTo('/#/login.html')">Login</button>
+                <button ng-hide="isLoggedIn()" type="button" class="btn green" ng-click="navigateTo('/#/registreer.html')">Registreer</button>
+            </li>
             </ul>
         </div>
         <!-- END TOP NAVIGATION MENU -->
@@ -26,6 +30,7 @@
 <!-- BEGIN HEADER MENU -->
 <div class="page-header-menu">
     <div class="container">
+     
         <!-- BEGIN HEADER SEARCH BOX -->
         <!--<form class="search-form" action="extra_search.html" method="GET">-->
         <!--<div class="input-group">-->
@@ -85,7 +90,7 @@
                         <span class="title">Voorspellingen</span>
                     </a>
                 </li>-->
-                <li ng-if="isLoggedIn()">
+                <li ng-if="isAdmin()">
                     <a href="#/scoreform.html" id="sidebar_menu_link_scoreform">
                         <i class="icon-puzzle"></i>
                         <span class="title">Uitslagen</span>

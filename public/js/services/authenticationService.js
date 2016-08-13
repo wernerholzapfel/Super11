@@ -3,6 +3,7 @@ angular.module('MetronicApp')
     .service('AuthService', function ($q, $http, API_ENDPOINT, $window) {
         var LOCAL_TOKEN_KEY = 'yourTokenKey';
         var isAuthenticated = false;
+        var isAdmin = false;
         var authToken;
 
         function loadUserCredentials() {
@@ -28,6 +29,7 @@ angular.module('MetronicApp')
         function destroyUserCredentials() {
             authToken = undefined;
             isAuthenticated = false;
+            isAdmin = false
             $http.defaults.headers.common.Authorization = undefined;
             window.localStorage.removeItem(LOCAL_TOKEN_KEY);
         }
@@ -37,6 +39,7 @@ angular.module('MetronicApp')
                 $http.post(API_ENDPOINT.url + '/signup', user).then(function (result) {
                     if (result.data.success) {
                         resolve(result.data.msg);
+                        login(user);
                     } else {
                         reject(result.data.msg);
                     }
@@ -68,6 +71,7 @@ angular.module('MetronicApp')
             register: register,
             logout: logout,
             isAuthenticated: function () { return isAuthenticated; },
+            isAdmin: function () { return isAdmin; }
         };
     })
 

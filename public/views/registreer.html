@@ -1,0 +1,16 @@
+<div ng-controller="RegisterCtrl">
+    <form ng-submit="signup()" style="margin-top:30px;">
+        <h3>Schrijf je in voor Super 11</h3>
+
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="name" ng-model="user.name"></input>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></input>
+        </div>
+        <div>
+        <button type="submit" class="btn green">Registreer</button>
+        {{error}}
+        <a href="/#/login.html" class="green"> of login</a></div>
+    </form>
+</div>
