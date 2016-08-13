@@ -15,9 +15,10 @@
 </div>
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
-<div class="row" ng-controller="RegistrationApiController" ng-if=isLoggedIn()>
+<div id="contentPage" class="row" ng-controller="RegistrationApiController" ng-if=isLoggedIn()>
     <div class="col-md-12">
-
+        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
+        </uib-alert>
         <div ng-show="showParticipant">
             <div class="note note-success note-bordered">
                 <h3>Jouw gegevens<span data-close="note"></span></h3>
@@ -26,8 +27,6 @@
                     <p>
             </div>
             <form name="participantForm" class="form-horizontal form-bordered">
-                <uib-alert type="success" ng-show="participantForm.$invalid" close="closeAlert($index)">{{participantMsg}}
-                </uib-alert>
                 <!-- BEGIN TABLE PORTLET-->
                 <div class="row">
                     <div class="col-md-6">
@@ -148,11 +147,8 @@
                     <p>
             </div>
             <form name="teamForm" class="form-horizontal form-bordered">
-                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{teamMsg}}</uib-alert>
                 <div class="row">
                     <div class="col-md-6">
-
-
                         <div class="portlet box green">
                             <div class="portlet-title">
                                 <div class="caption">
@@ -207,6 +203,9 @@
                                 </div>
                             </div>
                         </div>
+                        <button class="btn green" value="Previous" ng-click="tableView()" ng-show="showTeam">Terug</button>
+                        <button class="btn green" value="Next" ng-disabled="poulesForm.$invalid" ng-show="showTeam" ng-click="questionsView()">Volgende</button>
+
                     </div>
 
                     <!--playerlist tabel-->
@@ -274,11 +273,8 @@
                         </div>
                     </div>
                 </div>
+            </form>
         </div>
-        <button class="btn green" value="Previous" ng-click="tableView()" ng-show="showTeam">Terug</button>
-        <button class="btn green" value="Next" ng-disabled="poulesForm.$invalid" ng-show="showTeam" ng-click="questionsView()">Volgende</button>
-        </form>
-
 
         <div ng-show="showQuestions">
             <div class="note note-success note-bordered">
@@ -337,8 +333,7 @@
             <div class="note note-success note-bordered">
                 <h3>Voorspel de uitslagen<span data-close="note"></span></h3>
                 <p>
-                    Voor iedere wedstrijd volledig goed krijg je 10 punten. Heb je alleen de toto goed, dan krijg je als nog 3 punten. <br>
-                    Tip: met de TAB-toets ga je naar het volgende invoerveld.
+                    Voor iedere wedstrijd volledig goed krijg je 10 punten. Heb je alleen de toto goed, dan krijg je als nog 3 punten. <br>                    Tip: met de TAB-toets ga je naar het volgende invoerveld.
                     <p>
             </div>
             <form name="matchesForm" class="form-horizontal form-bordered">
@@ -394,7 +389,7 @@
     </div>
     <!-- END TABLE PORTLET-->
 </div>
-</div>
+
 
 
 <!-- END MAIN CONTENT -->

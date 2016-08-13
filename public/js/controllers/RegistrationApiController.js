@@ -1,7 +1,9 @@
 ﻿/*global GetPouleIndex, GetTeamIndex,GetSecondRoundIndex */
 
 
-angular.module('MetronicApp').controller('RegistrationApiController', function ($scope, getRegistrationForm, registrationService, teamListService, eredivisiePlayersApi) {
+angular.module('MetronicApp').controller('RegistrationApiController', 
+['$anchorScroll', '$location', '$scope', "getRegistrationForm", "registrationService", "teamListService", "eredivisiePlayersApi", 
+function ($anchorScroll, $location, $scope, getRegistrationForm, registrationService, teamListService, eredivisiePlayersApi) {
 
   $scope.selectedFormation = "433"
 
@@ -25,10 +27,6 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
 
 
   $scope.alerts = [];
-  $scope.participantMsg = 'Leuk dat je je wilt inschrijven. Vul alle velden in. Daarna kan je op volgende klikken om de rest van je voorspellingen in te vullen';
-  $scope.tableMsg = 'Net zoals alle andere jaren voorspel je de eindstand van de eredivisie.';
-  $scope.teamMsg = 'Kies je team';
-  $scope.questionMsg = 'Met deze vragen kan je extra bonuspunten verdienen'
 
   $scope.predictionTypes = [{ Id: 4, Title: "Halve Finale" }, { Id: 5, Title: "Finale" }];
   $scope.playerPositions = [{ Id: 1, Position: "K", PositionUi: "Keeper" }, { Id: 2, Position: "V", PositionUi: "Verdediger" }, { Id: 3, Position: "M", PositionUi: "Middenvelder" }, { Id: 4, Position: "A", PositionUi: "Aanvaller" }];
@@ -241,6 +239,11 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     $scope.showTeam = false;
     $scope.showQuestions = false;
     $scope.showMatches = false;
+    
+    //scroll to id=contentPage
+    $location.hash('contentPage');
+    $anchorScroll();
+
   };
 
   $scope.tableView = function () {
@@ -249,6 +252,10 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     $scope.showTeam = false;
     $scope.showQuestions = false;
     $scope.showMatches = false;
+
+    //scroll to id=contentPage
+    $location.hash('contentPage');
+    $anchorScroll();
 
   };
 
@@ -259,6 +266,10 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     $scope.showQuestions = false;
     $scope.showMatches = false;
 
+    //scroll to id=contentPage
+    $location.hash('contentPage');
+    $anchorScroll();
+
   };
 
   $scope.questionsView = function () {
@@ -267,6 +278,10 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     $scope.showTeam = false;
     $scope.showQuestions = true;
     $scope.showMatches = false;
+
+    //scroll to id=contentPage
+    $location.hash('contentPage');
+    $anchorScroll();
 
   };
 
@@ -277,8 +292,11 @@ angular.module('MetronicApp').controller('RegistrationApiController', function (
     $scope.showQuestions = false;
     $scope.showMatches = true;
 
+    //scroll to id=contentPage
+    $location.hash('contentPage');
+    $anchorScroll();
   };
-});
+}]);
 
 
 

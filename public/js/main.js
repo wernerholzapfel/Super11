@@ -501,7 +501,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 }]);
 
 /* Init global settings and run the app */
-MetronicApp.run(["$rootScope", "settings", "$state", function ($rootScope, settings, $state) {
+MetronicApp.run(["$rootScope", "settings", "$state",'$anchorScroll', function ($rootScope, settings, $state,$anchorScroll) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
+    $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }]);
