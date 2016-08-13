@@ -106,7 +106,7 @@ apiRoutes.post('/authenticate', function (req, res) {
   });
 });
 
-// route to a restricted info (GET http://localhost:8080/api/memberinfo)
+
 apiRoutes.get('/predictionform', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
   if (token) {
@@ -265,8 +265,6 @@ apiRoutes.put("/matchesScoreform/", function (req, res) {
   });
 });
 
-
-
 apiRoutes.get("/teamStand/:roundId", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
   teamStand.find({ RoundId: req.params.roundId }, function (err, roundTable) {
@@ -407,15 +405,16 @@ apiRoutes.post("/headlines/", function (req, res) {
 });
 
 
-apiRoutes.get("/predictions/:Id", function (req, res, next) {
-  Predictions.findById(req.params.Id, { 'Participant.Email': 0, createDate: 0 }, function (err, prediction) {
-    if (err) {
-      handleError(res, err.message, "Failed to get prediction.");
-    } else {
-      res.status(200).json(prediction);
-    }
-  });
-});
+//disabled during entry
+// apiRoutes.get("/predictions/:Id", function (req, res, next) {
+//   Predictions.findById(req.params.Id, { 'Participant.Email': 0, createDate: 0 }, function (err, prediction) {
+//     if (err) {
+//       handleError(res, err.message, "Failed to get prediction.");
+//     } else {
+//       res.status(200).json(prediction);
+//     }
+//   });
+// });
 
 
 

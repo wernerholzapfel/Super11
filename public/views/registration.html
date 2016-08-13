@@ -365,10 +365,10 @@
                                             <td>
                                                 {{match.Match}}
                                             </td>
-                                            <td><input type="number" size="1" min="0" max="9" name="Home" required ng-model="match.Home"
+                                            <td><input type="number" size="1" min="0" max="9" name="Home" required custom ng-minlength="1" ng-model="match.Home"
                                                 />
                                             </td>
-                                            <td><input type="number" size="1" min="0" max="9" name="Away" required ng-model="match.Away"
+                                            <td><input type="number" size="1" min="0" max="9" name="Away" required custom ng-minlength="1" ng-model="match.Away"
                                                 />
                                             </td>
                                         </tr>
