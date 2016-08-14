@@ -19,7 +19,7 @@ angular.module('MetronicApp').factory('getCommentsApi', function ($http) {
 angular.module('MetronicApp').service('deleteCommentsApi', function ($http) {
     //Create new record
     this.post = function (id) {
-        var req = $http.delete('http://localhost:8200/api/comments/'+id);
+        var req = $http.delete('https://safe-oasis-58234.herokuapp.com/api/comments/'+id);
         return req;
     }
 });
@@ -28,7 +28,7 @@ angular.module('MetronicApp').service('deleteCommentsApi', function ($http) {
 angular.module('MetronicApp').service('saveCommentsApi', function ($http) {
     //Create new record
     this.post = function (comment) {
-        var req = $http.post('http://localhost:8200/api/comments', comment);
+        var req = $http.post('https://safe-oasis-58234.herokuapp.com/api/comments', comment);
         return req;
     }
 });
