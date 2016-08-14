@@ -34,43 +34,35 @@ angular.module('MetronicApp').controller('RegistrationApiController',
         if ($scope.data.Formation != formation) {
           switch (formation) {
             case "433":
+              $scope.removeplayerfromteam($scope.data.Team[4]);
               $scope.data.Team[4].Position = "V";
-              $scope.data.Team[4].PlayerId = "";
-              $scope.data.Team[4].PlayerName = "";
+              $scope.removeplayerfromteam($scope.data.Team[4]);
               $scope.data.Team[8].Position = "A";
-              $scope.data.Team[8].PlayerId = "";
-              $scope.data.Team[8].PlayerName = "";
               $scope.data.Formation = formation
               $scope.formationChosen = true;
               break;
             case "442":
+              $scope.removeplayerfromteam($scope.data.Team[4]);
               $scope.data.Team[4].Position = "V";
-              $scope.data.Team[4].PlayerId = "";
-              $scope.data.Team[4].PlayerName = "";
+              $scope.removeplayerfromteam($scope.data.Team[8]);
               $scope.data.Team[8].Position = "M";
-              $scope.data.Team[8].PlayerId = "";
-              $scope.data.Team[8].PlayerName = "";
               $scope.data.Formation = formation
               $scope.formationChosen = true;
               break;
             case "343":
+              $scope.removeplayerfromteam($scope.data.Team[4]);
               $scope.data.Team[4].Position = "M";
-              $scope.data.Team[4].PlayerId = "";
-              $scope.data.Team[4].PlayerName = "";
+              $scope.removeplayerfromteam($scope.data.Team[8]);
               $scope.data.Team[8].Position = "A";
-              $scope.data.Team[8].PlayerId = "";
-              $scope.data.Team[8].PlayerName = "";
               $scope.data.Formation = formation
               $scope.formationChosen = true;
               break;
 
             default:
+              $scope.removeplayerfromteam($scope.data.Team[4]);
               $scope.data.Team[4].Position = "V";
-              $scope.data.Team[4].PlayerId = "";
-              $scope.data.Team[4].PlayerName = "";
+              $scope.removeplayerfromteam($scope.data.Team[8]);
               $scope.data.Team[8].Position = "A";
-              $scope.data.Team[8].PlayerId = "";
-              $scope.data.Team[8].PlayerName = "";
               $scope.data.Formation = formation
               $scope.formationChosen = true;
 

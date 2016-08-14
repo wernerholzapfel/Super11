@@ -180,9 +180,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             '../assets/global/plugins/jquery.sparkline.min.js',
 
                             '../assets/pages/scripts/dashboard.min.js',
+                             'js/services/authenticationService.js',
+                            'js/controllers/AuthenticationController.js',
                             'js/controllers/DashboardController.js',
                             'js/controllers/HeadlinesApiController.js',
-                            'js/services/HeadlinesApi.js'
+                            'js/services/HeadlinesApi.js',
+                            'js/controllers/CommentsApiController.js',
+                            'js/services/commentsApi.js'
                         ]
                     });
                 }]

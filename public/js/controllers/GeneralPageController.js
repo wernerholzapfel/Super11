@@ -12,9 +12,5 @@ angular.module('MetronicApp').controller('GeneralPageController', ['$rootScope',
         $scope.isLoggedIn = AuthService.isAuthenticated;
         $scope.isAdmin = AuthService.isAdmin;
 
-        
-
-
-
     });
 }]);

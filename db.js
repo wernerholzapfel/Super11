@@ -41,6 +41,7 @@ require("./eredivisiePlayersModel");
 require("./calculate");
 require("./teamStandModel");
 require("./headlinesModel"); 
-require("./models/user")
+require("./commentsModel");
+require("./models/user");
 
 
