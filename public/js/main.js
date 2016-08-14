@@ -181,6 +181,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
                             '../assets/pages/scripts/dashboard.min.js',
                             'js/controllers/DashboardController.js',
+                            'js/controllers/HeadlinesApiController.js',
+                            'js/services/HeadlinesApi.js'
                         ]
                     });
                 }]

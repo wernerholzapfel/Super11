@@ -16,11 +16,19 @@ angular.module('MetronicApp').factory('headlinesApi', function ($http) {
     return myService;
 });
 
+angular.module('MetronicApp').service('deleteHeadlinesService', function ($http) {
+    //Create new record
+    this.post = function (id) {
+        var req = $http.delete('http://localhost:8200/api/headlines/'+id);
+        return req;
+    }
+});
+
 
 angular.module('MetronicApp').service('saveHeadlinesService', function ($http) {
     //Create new record
     this.post = function (registrationForm) {
-        var req = $http.post('https://safe-oasis-58234.herokuapp.com/api/headlines', registrationForm);
+        var req = $http.post('http://localhost:8200/api/headlines', registrationForm);
         return req;
     }
 });

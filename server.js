@@ -19,7 +19,7 @@ var RoundTeamScoreForms = require("./roundteamscoreformsModel");
 var EredivisiePlayers = require("./eredivisiePlayersModel");
 var teamStand = require("./teamStandModel");
 var Headlines = require("./headlinesModel");
-var User = require("./models/user")
+var User = require("./models/user");
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -39,8 +39,8 @@ app.use(allowCrossDomain)
 app.use(express.static(__dirname + "/public"));
 
 // get our request parameters
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 //log to consolea
 app.use(morgan('dev'));
@@ -172,7 +172,7 @@ apiRoutes.post("/predictions", passport.authenticate('jwt', { session: false }),
       else {
         var predictions = new Predictions(req.body);
         predictions.Participant.Email = user.name;
-        Predictions.findOneAndUpdate({ 'Participant.Email' : user.name }, predictions, ({upsert:true}), function (err, newPrediction) {
+        Predictions.findOneAndUpdate({ 'Participant.Email': user.name }, predictions, ({ upsert: true }), function (err, newPrediction) {
           if (err) {
             handleError(res, err.message, "Failed to create new prediction.");
           } else {
@@ -382,7 +382,7 @@ apiRoutes.get("/totalTeamStand/", function (req, res, next) {
 });
 
 apiRoutes.get("/headlines/", function (req, res, next) {
-  Headlines.find(function (err, headlines) {
+  Headlines.find({},{ createdAt : 1 , content: 1, _id: 1},{sort: {createdAt: -1}},function (err, headlines) {
     if (err) {
       handleError(res, err.message, "failed to get headlines");
     }
@@ -394,16 +394,24 @@ apiRoutes.get("/headlines/", function (req, res, next) {
 
 apiRoutes.post("/headlines/", function (req, res) {
   var headlines = new Headlines(req.body);
+  headlines.createdAt = new Date().toUTCString()
 
   headlines.save(function (err, newheadlines) {
     if (err) {
       handleError(res, err.message, "Failed to create new headline.");
     } else {
-      res.status(201).json(newheadlines);
+      console.log(newheadlines);
+      res.status(200).json(newheadlines);
     }
   });
 });
 
+apiRoutes.delete("/headlines/:id", function (req, res) {
+  Headlines.find({ _id: req.params.id }).remove(function (err, item) {
+    if (err) return handleError(res, err.message, "Failed to delete Item");
+    res.status(200).json(item);
+  })
+});
 
 //disabled during entry
 // apiRoutes.get("/predictions/:Id", function (req, res, next) {
