@@ -43,12 +43,12 @@ angular.module('MetronicApp').factory('teamListService', function ($http) {
                PlayerSelected: false
              }, {
                Id: 9,
-               Team: "Heracles Almelo",
+               Team: "Heracles",
                Selected: false,
                PlayerSelected: false
              }, {
                Id: 10,
-               Team: "N.E.C.",
+               Team: "NEC",
                Selected: false,
                PlayerSelected: false
              }, {
@@ -63,7 +63,7 @@ angular.module('MetronicApp').factory('teamListService', function ($http) {
                PlayerSelected: false
              }, {
                Id: 13,
-               Team: "Roda JC Kerkrade",
+               Team: "Roda JC",
                Selected: false,
                PlayerSelected: false
              }, {
