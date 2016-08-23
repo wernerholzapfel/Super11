@@ -23,6 +23,7 @@
             <div class="note note-success note-bordered">
                 <h3>Jouw gegevens<span data-close="note"></span></h3>
                 <p>
+
                     Vul je gegevens volledig in en klik op "Volgende" om je voorspellingen in te vullen.  <p>
             </div>
             <form name="participantForm" class="form-horizontal form-bordered">
@@ -42,7 +43,7 @@
                             <div class="portlet-body form">
                                 <table class="table table-striped">
                                     <tr>
-                                        <td>Naam</td>
+                                        <td>Voor- en achternaam</td>
                                         <td>
                                             <input type="text" name="Name" required ng-model="data.Participant.Name" />
                                             <br/>
@@ -251,8 +252,8 @@
                                         </thead>
                                         <tbody>
 
-                                            <tr ng-repeat="player in players | filter:{Position:selectedPositie} | filter:{Team:selectedTeam} | filter:{Name:searchName} | orderBy:['Team']"
-                                                ng-hide="player.PreSelected">
+                                        <tr ng-repeat="player in players | filter:{Position:selectedPositie} | filter:{Team:selectedTeam} | filter:{Name:searchName} | orderBy:['Team','PositionSort','Name']"
+                                            ng-hide="player.PreSelected">
                                                 <td>
                                                     <button class="btn green" ng-click="addPlayerToSelection(player)">+</button>                                                    {{player.Name}} ({{player.Position}})
                                                 </td>
