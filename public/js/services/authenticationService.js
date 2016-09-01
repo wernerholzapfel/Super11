@@ -38,7 +38,7 @@ angular.module('MetronicApp')
             return $q(function (resolve, reject) {
                 $http.post(API_ENDPOINT.url + '/signup', user).then(function (result) {
                     if (result.data.success) {
-                          storeUserCredentials(result.data.token);
+                        storeUserCredentials(result.data.token);
                         resolve(result.data.msg);
                     } else {
                         reject(result.data.msg);

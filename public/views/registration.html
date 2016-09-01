@@ -320,7 +320,7 @@
                 </div>
 
                 <button class="btn green" value="Previous" ng-click="teamView()" ng-show="showQuestions">Terug</button>
-                <button class="btn green" value="Next" ng-disabled="questionsForm.$invalid" ng-click="matchesView()">Volgende
+                <button class="btn green" value="Next" ng-show="showQuestions" ng-click="matchesView()">Volgende
                 </button>
             </form>
         </div>
@@ -377,7 +377,7 @@
                 </div>
 
                 <button class="btn green" value="Previous" ng-click="questionsView()" ng-show="showMatches">Terug</button>
-                <button class="btn green" value="Next" ng-disabled="questionsForm.$invalid" ng-click="save()">Opslaan
+                <button class="btn green" value="Next" ng-show="showMatches" ng-click="save()">Opslaan
                 </button>
             </form>
         </div>

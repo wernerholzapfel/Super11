@@ -77,7 +77,8 @@ apiRoutes.post('/signup', function (req, res) {
       if (err) {
         return res.json({ success: false, msg: 'Username already exists.' });
       }
-      res.json({ success: true, msg: 'Successful created new user.' });
+      var token = jwt.encode(newUser, config.secret);
+      res.json({ success: true, msg: 'Successful created new user.', token: 'JWT ' + token });
     });
   }
 });
@@ -801,12 +802,6 @@ var leegFormulier =
     ],
     "Matches": [
       {
-        "Id": 1,
-        "Match": "Manchester United - Manchester  City",
-        "Home": "",
-        "Away": ""
-      },
-      {
         "Id": 2,
         "Match": "Manchester City - Manchester United",
         "Home": "",
@@ -971,12 +966,6 @@ var leegFormulier =
       {
         "Id": 29,
         "Match": "PSG - AS Monaco",
-        "Home": "",
-        "Away": ""
-      },
-      {
-        "Id": 30,
-        "Match": "AS Monaco - PSG",
         "Home": "",
         "Away": ""
       },

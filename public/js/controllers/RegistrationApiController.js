@@ -178,6 +178,17 @@ angular.module('MetronicApp').controller('RegistrationApiController',
         $scope.alerts.splice(index, 1);
       };
 
+      $scope.saveTemp = function (){
+         SCOPE = $scope.$root.$new();
+
+              //loop door stand om positie te bepalen
+              for (var i = 0; i < $scope.data.Table.length; i += 1) {
+                $scope.data.Table[i].Position = i + 1
+              }
+              SCOPE.$apply
+              var registration = registrationService.post($scope.data);
+}
+
       $scope.save = function () {
         $scope.showConfirm = true;
         $scope.showMatches = false;
