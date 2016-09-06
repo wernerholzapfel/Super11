@@ -459,15 +459,15 @@ apiRoutes.delete("/headlines/:id", function (req, res) {
 });
 
 //disabled during entry
-// apiRoutes.get("/predictions/:Id", function (req, res, next) {
-//   Predictions.findById(req.params.Id, { 'Participant.Email': 0, createDate: 0 }, function (err, prediction) {
-//     if (err) {
-//       handleError(res, err.message, "Failed to get prediction.");
-//     } else {
-//       res.status(200).json(prediction);
-//     }
-//   });
-// });
+ apiRoutes.get("/predictions/:Id", function (req, res, next) {
+   Predictions.findById(req.params.Id, { 'Participant.Email': 0, createDate: 0 }, function (err, prediction) {
+     if (err) {
+       handleError(res, err.message, "Failed to get prediction.");
+     } else {
+       res.status(200).json(prediction);
+     }
+   });
+ });
 
 
 

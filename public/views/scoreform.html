@@ -174,9 +174,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="player in newScoreFormList.Player | filter:{Selected:true}">
+                                        <tr ng-repeat="player in newScoreFormList.Player | filter:{Selected:true} | orderBy:['Team']">
                                             <td>
-                                                {{ player.Name }}
+                                                {{ player.Name }} ({{player.Position}})
                                             </td>
                                             <td>
                                                 {{ player.Team}}
@@ -191,7 +191,7 @@
                                                 <input type="checkbox" ng-model="player.Draw" ng-value="player.Draw"></input>
                                             </td>
                                             <td>
-                                                <input type="checkbox" ng-model="player.CleanSheet" ng-value="player.CleanSheet"></input>
+                                                <input type="checkbox" ng-model="player.CleanSheet"  ng-value="player.CleanSheet"></input>
                                             </td>
                                             <td>
                                                 <input type="number" ng-model="player.Goals" size="1" min="0" max="9" ng-value="player.Goals"></input>
@@ -365,9 +365,9 @@
                                             <tr>
                                                 <td>Voorspellingen Ronde {{form.RoundId}}</td>
                                             </tr>
-                                            <tr ng-repeat="player in form.Player| filter:{Selected:true}">
+                                            <tr ng-repeat="player in form.Player| filter:{Selected:true} | orderBy:['Team']">
                                                 <td>
-                                                    {{ player.Name }}
+                                                    {{ player.Name }} ({{player.Position}})
                                                 </td>
                                                 <td>
                                                     {{ player.Team}}
