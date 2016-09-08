@@ -269,7 +269,7 @@ apiRoutes.put("/matchesScoreform/", function (req, res) {
 
 apiRoutes.get("/teamStand/:roundId", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
-  teamStand.find({ RoundId: req.params.roundId }, function (err, roundTable) {
+  teamStand.find({ RoundId: req.params.roundId }, {}, { sort: { TotalScore: -1 } }, function (err, roundTable) {
     if (err) {
       handleError(res, error.message, "failed tot get roundTable");
     }
@@ -278,6 +278,19 @@ apiRoutes.get("/teamStand/:roundId", function (req, res, next) {
     }
   });
 });
+
+
+apiRoutes.get("/rounds", function (req, res, next) {
+  RoundTeamScoreForms.find({}, { RoundId: 1, _id: 0 }, function (err, rounds) {
+    if (err) {
+      handleError(res, err.message, "failed to get rounds");
+    }
+    else {
+      res.status(200).json(rounds);
+    }
+
+  })
+})
 
 apiRoutes.get("/teamStand/", function (req, res, next) {
   console.log("log api call roundTable/");
@@ -372,12 +385,27 @@ apiRoutes.get("/totalTeamStand/", function (req, res, next) {
         TotalScore: { $add: ["$TotalMatchesScore", "$TotalQuestionsScore", "$TotalTeamScore"] }
         // TotalScore: 1
       }
-    }
+    },
+    { $sort: { TotalScore: -1 } }
   ], function (err, roundTable) {
     if (err) {
       handleError(res, err.message, "failed to get roundTable");
     }
     else {
+      for (var i = 0; i < roundTable.length; i += 1) {
+        if (i === 0) {
+          roundTable[i].Positie = i + 1;
+        }
+        else {
+          if (roundTable[i].TotalScore === roundTable[i-1].TotalScore)
+          {
+            roundTable[i].Positie = roundTable[i-1].Positie;
+          }
+          else {
+            roundTable[i].Positie = i +1;
+          }
+        }
+      }
       res.status(200).json(roundTable);
     }
   });
@@ -430,7 +458,7 @@ apiRoutes.post("/comments/", passport.authenticate('jwt', { session: false }), f
         return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
       }
       else {
-        Predictions.findOne({ 'Participant.Email': decoded.name }, { 'Participant.Name' : 1 }, function (err, name) {
+        Predictions.findOne({ 'Participant.Email': decoded.name }, { 'Participant.Name': 1 }, function (err, name) {
           if (name) {
             var comments = new Comments(req.body);
             comments.createdAt = new Date().toUTCString()
@@ -459,15 +487,15 @@ apiRoutes.delete("/headlines/:id", function (req, res) {
 });
 
 //disabled during entry
- apiRoutes.get("/predictions/:Id", function (req, res, next) {
-   Predictions.findById(req.params.Id, { 'Participant.Email': 0, createDate: 0 }, function (err, prediction) {
-     if (err) {
-       handleError(res, err.message, "Failed to get prediction.");
-     } else {
-       res.status(200).json(prediction);
-     }
-   });
- });
+apiRoutes.get("/predictions/:Id", function (req, res, next) {
+  Predictions.findById(req.params.Id, { 'Participant.Email': 0, createDate: 0 }, function (err, prediction) {
+    if (err) {
+      handleError(res, err.message, "Failed to get prediction.");
+    } else {
+      res.status(200).json(prediction);
+    }
+  });
+});
 
 
 

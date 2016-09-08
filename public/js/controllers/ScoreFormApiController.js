@@ -16,6 +16,15 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
         });
     });
 
+    $scope.disableCleanSheat = function (position) {
+        if (position == 'M' || position == "A") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    
     $scope.updateScoreForm = function (selectedRound) {
         $scope.showConfirm = true;
 
@@ -89,15 +98,16 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
         for (var i = 0; i < $scope.newScoreFormList.Questions.length; i += 1) {
             var questionId = $scope.newScoreFormList.Questions[i].Id
             if (questionId == question.Id) {
-                if (question.Answer.length != 0){
-                $scope.newScoreFormList.Questions[i].RoundId = roundId;
-            }
-            else {
-                $scope.newScoreFormList.Questions[i].Answer = null;
-                $scope.newScoreFormList.Questions[i].RoundId = null;
+                if (question.Answer.length != 0) {
+                    $scope.newScoreFormList.Questions[i].RoundId = roundId;
+                }
+                else {
+                    $scope.newScoreFormList.Questions[i].Answer = null;
+                    $scope.newScoreFormList.Questions[i].RoundId = null;
+                }
             }
         }
-    }}
+    }
 });
 
 $(document).ready(function () {

@@ -191,7 +191,7 @@
                                                 <input type="checkbox" ng-model="player.Draw" ng-value="player.Draw"></input>
                                             </td>
                                             <td>
-                                                <input type="checkbox" ng-model="player.CleanSheet"  ng-value="player.CleanSheet"></input>
+                                                <input type="checkbox" ng-model="player.CleanSheet" ng-disabled="disableCleanSheat(player.Position)" ng-value="player.CleanSheet"></input>
                                             </td>
                                             <td>
                                                 <input type="number" ng-model="player.Goals" size="1" min="0" max="9" ng-value="player.Goals"></input>
@@ -382,7 +382,7 @@
                                                     <input type="checkbox" ng-model="player.Draw" ng-value="player.Draw"></input>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" ng-model="player.CleanSheet" ng-value="player.CleanSheet"></input>
+                                                    <input type="checkbox" ng-model="player.CleanSheet" ng-disabled="disableCleanSheat(player.Position)" ng-value="player.CleanSheet"></input>
                                                 </td>
                                                 <td>
                                                     <input type="number" ng-model="player.Goals" size="1" min="0" max="9" ng-value="player.Goals"></input>
