@@ -13,14 +13,23 @@ var assert = require("assert");
 var config = require('./config/database');
 var db = require("./db.js");
 var calculate = require("./calculate.js");
+var calculateteam = require("./calculateteam.js");
+var calculatevragen = require("./calculatevragen.js");
+var calculatewedstrijden = require("./calculatewedstrijden.js");
 var determineifplayerisselected = require("./determineifplayerisselected");
 var Predictions = require("./predictionModel");
 var RoundTeamScoreForms = require("./roundteamscoreformsModel");
 var EredivisiePlayers = require("./eredivisiePlayersModel");
 var teamStand = require("./teamStandModel");
+var vragenStand = require("./vragenStandModel");
+var wedstrijdenStand = require("./wedstrijdenStandModel");
+var newteamStand = require("./newTeamStandModel");
 var Headlines = require("./headlinesModel");
 var Comments = require("./commentsModel");
 var User = require("./models/user");
+var _ = require('lodash');
+var MatchesScoreForm = require("./wedstrijdenScoreformsModel.js");
+var QuestionsScoreForm = require("./vragenScoreformsModel.js");
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -187,8 +196,8 @@ apiRoutes.post("/predictions", passport.authenticate('jwt', { session: false }),
   }
 });
 
-apiRoutes.get("/roundteamscoreforms", function (req, res, next) {
-  RoundTeamScoreForms.find(function (err, playersList) {
+apiRoutes.get("/roundteamscoreforms/:roundId", function (req, res, next) {
+  RoundTeamScoreForms.findOne({RoundId :  + req.params.roundId},function (err, playersList) {
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {
@@ -197,19 +206,19 @@ apiRoutes.get("/roundteamscoreforms", function (req, res, next) {
   });
 });
 
-apiRoutes.post("/roundteamscoreforms", function (req, res) {
-  var roundteamscoreforms = new RoundTeamScoreForms(req.body);
+// apiRoutes.post("/roundteamscoreforms", function (req, res) {
+//   var roundteamscoreforms = new RoundTeamScoreForms(req.body);
 
-  roundteamscoreforms.save(function (err, newroundteamscoreforms) {
-    if (err) {
-      handleError(res, err.message, "Failed to create new roundteamscoreforms.");
-    } else {
-      res.status(201).json(newPlayers);
-      console.log("put for roundId " + req.body.RoundId)
-      calculate.calculateTeamPredictionsPerRound(req.body.RoundId);
-    }
-  });
-});
+//   roundteamscoreforms.save(function (err, newroundteamscoreforms) {
+//     if (err) {
+//       handleError(res, err.message, "Failed to create new roundteamscoreforms.");
+//     } else {
+//       res.status(201).json(newPlayers);
+//       console.log("put for roundId " + req.body.RoundId)
+//       calculateteam.calculateTeamPredictionsPerRound(req.body.RoundId);
+//     }
+//   });
+// });
 
 apiRoutes.put("/roundteamscoreforms/:id", function (req, res) {
 
@@ -222,7 +231,7 @@ apiRoutes.put("/roundteamscoreforms/:id", function (req, res) {
     res.status(200).json(roundteamscoreforms);
     console.log("put for roundId " + req.params.id)
 
-    calculate.calculateTeamPredictionsPerRound(req.params.id);
+    calculateteam.calculateTeamPredictionsPerRound(req.params.id);
   });
 });
 
@@ -243,7 +252,7 @@ apiRoutes.put("/questionsScoreform/", function (req, res) {
     if (err) return handleError(res, err.message, "Failed to Update questions");
     res.status(200).json(questionsScoreForm);
     console.log("saved questions")
-
+    calculatevragen.calculateQuestions();
   });
 });
 
@@ -263,10 +272,167 @@ apiRoutes.put("/matchesScoreform/", function (req, res) {
     if (err) return handleError(res, err.message, "Failed to Update questions");
     res.status(200).json(matchesScoreform);
     console.log("saved matches")
-
+    calculatewedstrijden.calculateWedstrijdScore();
   });
 });
 
+apiRoutes.get("/newteamStand/:roundId", function (req, res, next) {
+  console.log("log api call roundTable/" + req.params.roundId);
+  newteamStand.find({ RoundId: req.params.roundId }, {}, { sort: { TotalTeamScore: -1 } }, function (err, roundTable) {
+    if (err) {
+      handleError(res, error.message, "failed tot get roundTable");
+    }
+    else {
+      res.status(200).json(roundTable);
+    }
+  });
+});
+
+apiRoutes.get("/wedstrijdenstand/", function (req, res, next) {
+  console.log("log api call roundTable/" + req.params.roundId);
+  wedstrijdenStand.find({}, {}, { sort: { TotalMatchesScore: -1 } }, function (err, roundTable) {
+    if (err) {
+      handleError(res, error.message, "failed tot get roundTable");
+    }
+    else {
+      //todo positie toevoegen?
+      res.status(200).json(roundTable);
+    }
+  });
+});
+apiRoutes.get("/vragenstand/", function (req, res, next) {
+  console.log("log api call roundTable/" + req.params.roundId);
+  vragenStand.find({}, {}, { sort: { TotalQuestionsScore: -1 } }, function (err, roundTable) {
+    if (err) {
+      handleError(res, error.message, "failed tot get roundTable");
+    }
+    else {
+      //todo positie toevoegen?
+      res.status(200).json(roundTable);
+    }
+  });
+});
+apiRoutes.get("/totaalStand/", function (req, res, next) {
+  newteamStand.aggregate([
+    { $unwind: "$TeamScores" },
+    {
+      $group: {
+        _id: {
+          email: "$Participant.Email",
+          playerName: "$TeamScores.Name",
+
+        },
+        Id: { $first: "$TeamScores.Id" },
+        ParticipantName: { $first: "$Participant.Name" },
+        playerName: { $first: "$TeamScores.Name" },
+        Team: { $first: "$TeamScores.Team" },
+        Position: { $first: "$TeamScores.Position" },
+        Won: { $sum: "$TeamScores.Won" },
+        Draw: { $sum: "$TeamScores.Draw" },
+        Played: { $sum: "$TeamScores.Played" },
+        RedCard: { $sum: "$TeamScores.RedCard" },
+        YellowCard: { $sum: "$TeamScores.YellowCard" },
+        Assist: { $sum: "$TeamScores.Assist" },
+        Goals: { $sum: "$TeamScores.Goals" },
+        OwnGoals: { $sum: "$TeamScores.OwnGoals" },
+        CleanSheetScore: { $sum: "$TeamScores.CleanSheetScore" },
+        TotalPlayerScore: { $sum: "$TeamScores.TotalScore" }
+        // ,
+        // TotalOverallScore: { $sum: "$TotalScore" }
+      }
+    }
+    ,
+    {
+      $group:
+      {
+        _id: { email: "$_id.email" },
+        Name: { $first: "$ParticipantName" },
+        TotalTeamScore: { $sum: "$TotalPlayerScore" },
+        TeamScores: {
+          $push: {
+            Id: '$Id',
+            Name: '$playerName',
+            Position: "$Position",
+            Team: "$Team",
+            Won: "$Won",
+            Draw: "$Draw",
+            Played: "$Played",
+            RedCard: "$RedCard",
+            YellowCard: "$YellowCard",
+            Assist: "$Assist",
+            Goals: "$Goals",
+            OwnGoals: "$OwnGoals",
+            CleanSheetScore: "$CleanSheetScore",
+            TotalScore: "$TotalPlayerScore",
+          }
+        }
+      }
+    },
+    {
+      $project:
+      {
+        _id: 0,
+        Name: 1,
+        TotalTeamScore: 1,
+        TeamScores: 1
+      }
+    },
+    { $sort: { TotalScore: -1 } }
+  ], function (err, roundTable) {
+    if (err) {
+      handleError(res, err.message, "failed to get roundTable");
+    }
+    else {
+      vragenStand.find({}, function (err, vragen) {
+        if (err) {
+          handleError(res, err.message, "failed to get vragenstand");
+        }
+        else {
+          wedstrijdenStand.find({}, function (err, wedstrijden) {
+
+            for (var i = 0; i < roundTable.length; i += 1) {
+              var scorewedstrijden = _.find(wedstrijden, function (o) { return o.Participant.Name === roundTable[i].Name });
+              if (scorewedstrijden) {
+                roundTable[i].TotalMatchesScore = scorewedstrijden.TotalMatchesScore;
+              }
+
+              var scorequestion = _.find(vragen, function (o) { return o.Participant.Name === roundTable[i].Name });
+              if (scorequestion) {
+                roundTable[i].TotalQuestionsScore = scorequestion.TotalQuestionsScore;
+                roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
+              }
+              else {
+                roundTable[i].TotalQuestionsScore = 0;
+                roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
+
+              }
+            }
+
+            roundTable = _.sortBy(roundTable, 'TotalScore').reverse();
+
+            for (var i = 0; i < roundTable.length; i += 1) {
+
+              if (i === 0) {
+                roundTable[i].Positie = i + 1;
+              }
+              else {
+                if (roundTable[i].TotalTeamScore === roundTable[i - 1].TotalTeamScore) {
+                  roundTable[i].Positie = roundTable[i - 1].Positie;
+                }
+                else {
+                  roundTable[i].Positie = i + 1;
+                }
+              }
+            }
+            res.status(200).json(roundTable);
+          })
+        }
+      })
+    }
+  });
+})
+
+//kan straks weg
 apiRoutes.get("/teamStand/:roundId", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
   teamStand.find({ RoundId: req.params.roundId }, {}, { sort: { TotalScore: -1 } }, function (err, roundTable) {
@@ -278,7 +444,6 @@ apiRoutes.get("/teamStand/:roundId", function (req, res, next) {
     }
   });
 });
-
 
 apiRoutes.get("/rounds", function (req, res, next) {
   RoundTeamScoreForms.find({}, { RoundId: 1, _id: 0 }, function (err, rounds) {
@@ -292,6 +457,7 @@ apiRoutes.get("/rounds", function (req, res, next) {
   })
 })
 
+//kan straks weg?
 apiRoutes.get("/teamStand/", function (req, res, next) {
   console.log("log api call roundTable/");
   teamStand.find(function (err, roundTable) {
@@ -304,6 +470,7 @@ apiRoutes.get("/teamStand/", function (req, res, next) {
   });
 });
 
+//kan straks weg
 apiRoutes.get("/totalTeamStand/", function (req, res, next) {
   teamStand.aggregate([
     { $unwind: "$TeamScores" }
@@ -397,12 +564,11 @@ apiRoutes.get("/totalTeamStand/", function (req, res, next) {
           roundTable[i].Positie = i + 1;
         }
         else {
-          if (roundTable[i].TotalScore === roundTable[i-1].TotalScore)
-          {
-            roundTable[i].Positie = roundTable[i-1].Positie;
+          if (roundTable[i].TotalScore === roundTable[i - 1].TotalScore) {
+            roundTable[i].Positie = roundTable[i - 1].Positie;
           }
           else {
-            roundTable[i].Positie = i +1;
+            roundTable[i].Positie = i + 1;
           }
         }
       }
@@ -435,7 +601,6 @@ apiRoutes.post("/headlines/", function (req, res) {
     }
   });
 });
-
 
 apiRoutes.get("/comments/", function (req, res, next) {
   Comments.find({}, {}, { sort: { createdAt: -1 } }, function (err, comments) {
@@ -478,7 +643,6 @@ apiRoutes.post("/comments/", passport.authenticate('jwt', { session: false }), f
   }
 });
 
-
 apiRoutes.delete("/headlines/:id", function (req, res) {
   Headlines.find({ _id: req.params.id }).remove(function (err, item) {
     if (err) return handleError(res, err.message, "Failed to delete Item");
@@ -496,8 +660,6 @@ apiRoutes.get("/predictions/:Id", function (req, res, next) {
     }
   });
 });
-
-
 
 apiRoutes.get("/predictions", function (req, res, next) {
   Predictions.find({}, { 'Participant.Email': 0, "Team": 0, "Questions": 0, "Table": 0, createDate: 0 }, function (err, predictionsList) {
@@ -519,8 +681,25 @@ apiRoutes.get("/eredivisieplayers", function (req, res, next) {
   });
 });
 
+apiRoutes.get("/gekozeneredivisieplayers", function (req, res, next) {
+  EredivisiePlayers.find({},{Player: 1},function (err, eredivisieplayersList) {
+    if (err) {
+      handleError(res, err.message, "Failed to get predictions.");
+    } else {
+      res.status(200).json(eredivisieplayersList);
+    }
+  });
+});
 app.use('/api', apiRoutes);
+
+// calculatewedstrijden.calculateWedstrijdScore();
+// calculatevragen.calculateQuestions();
+// calculateteam.calculateTeamPredictionsPerRound(1);
+// calculateteam.calculateTeamPredictionsPerRound(2);
+// calculateteam.calculateTeamPredictionsPerRound(3);
+
 //todo remove this
+
 // calculate.calculateTeamPredictionsPerRound(5);
 // determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
 // calculate.calculateTeamPredictionsPerRound(1);

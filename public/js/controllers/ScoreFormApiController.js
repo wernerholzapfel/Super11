@@ -1,20 +1,39 @@
 
-angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, eredivisiePlayersApi, saveScoreFormService, getScoreFormService, findAndUpdatePlayerList) {
+angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, roundsApi, eredivisiePlayersApi, getQuestionsService, updateQuestionsService, getMatchesService, updateMatchesService, saveScoreFormService, getScoreFormService, findAndUpdatePlayerList) {
     $scope.alerts = [];
+    roundsApi.async().then(function (roundsdata) {
+        $scope.rounds = roundsdata;
+        $scope.latestRound = _.last($scope.rounds).RoundId;
+        $scope.selectedRound = _.last($scope.rounds).RoundId;
 
-    //    $scope.selectedRound = 0;
-
-    eredivisiePlayersApi.async().then(function (data) {
-        $scope.newScoreFormList = data[0];
-        getScoreFormService.async().then(function (data) {
-            $scope.oldScoreForms = data;
-            $scope.newScoreFormList.RoundId = $scope.oldScoreForms.length + 1;
-            if ($scope.newScoreFormList.RoundId > 1) {
-                $scope.newScoreFormList.Questions = $scope.oldScoreForms[$scope.oldScoreForms.length - 1].Questions;
-                $scope.newScoreFormList.Matches = $scope.oldScoreForms[$scope.oldScoreForms.length - 1].Matches;
-            }
+        eredivisiePlayersApi.async().then(function (data) {
+            $scope.newScoreFormList = data[0];
+            $scope.newScoreFormList.RoundId = $scope.latestRound + 1;
         });
+
+        getScoreFormService.async($scope.latestRound).then(function (data) {
+            $scope.oldScoreForms = data;
+        });
+
     });
+
+
+
+    getMatchesService.async().then(function (data) {
+        $scope.wedstrijdenScoreform = data;
+    });
+
+    getQuestionsService.async().then(function (data) {
+        $scope.vragenScoreform = data;
+    });
+
+    $scope.getscoreformbyroundid = function (roundId) {
+        getScoreFormService.async(roundId).then(function (data) {
+            $scope.oldScoreForms = data;
+        });
+
+    };
+
 
     $scope.disableCleanSheat = function (position) {
         if (position == 'M' || position == "A") {
@@ -24,22 +43,13 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
             return false;
         }
     };
-    
-    $scope.updateScoreForm = function (selectedRound) {
+
+    $scope.updateScoreForm = function () {
         $scope.showConfirm = true;
-
-        $scope.NewList = {
-            RoundId: selectedRound.RoundId,
-            Player: selectedRound.Player,
-            Questions: selectedRound.Questions,
-            Matches: selectedRound.Matches
-        };
-
         console.log("het bericht dat gepost wordt: " + $scope.NewList);
-
         $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
 
-        var playerList = findAndUpdatePlayerList.put($scope.NewList, selectedRound.RoundId);
+        var playerList = findAndUpdatePlayerList.put($scope.oldScoreForms, $scope.oldScoreForms.RoundId);
 
         playerList.success(function () {
             $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
@@ -58,9 +68,9 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
 
         $scope.NewList = {
             RoundId: $scope.newScoreFormList.RoundId,
-            Player: $scope.newScoreFormList.Player,
-            Matches: $scope.newScoreFormList.Matches,
-            Questions: $scope.newScoreFormList.Questions
+            Player: $scope.newScoreFormList.Player
+            // Matches: $scope.newScoreFormList.Matches,
+            // Questions: $scope.newScoreFormList.Questions
 
         };
 
