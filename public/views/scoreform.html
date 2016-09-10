@@ -133,15 +133,14 @@
 
             <uib-tab heading="Vragen formulier">
                 <div class="portlet-body form">
-                    <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
-                        {{alert.msg}}
-                    </uib-alert>
                     <form name="questionForm" class="form-horizontal form-bordered">
                         <!-- BEGIN TABLE PORTLET-->
                         <div class="portlet box green">
                             <div class="portlet-title">
                                 <div class="caption">
                                     <i class="fa fa-user"></i>Vragen lijst invullen
+                                     <button style="color=black;color: black;" value="Save" ng-click="updateVragenForm()">Save
+                                </button>
                                 </div>
                                 <div class="tools">
                                     <a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -186,6 +185,8 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-user"></i>Wedstrijden lijst invullen
+                                 <button style="color=black;color: black;" value="Save" ng-click="updateWedstrijdenForm()">Save
+                                </button>
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse" data-original-title="" title="">

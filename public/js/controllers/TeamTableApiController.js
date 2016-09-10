@@ -5,7 +5,13 @@ angular.module('MetronicApp').controller('TeamTableApiController', function (tea
     roundsApi.async().then(function (roundsdata) {
 
         $scope.rounds = roundsdata;
-        $scope.selectedRound = _.last($scope.rounds).RoundId;
+       if ($scope.rounds.length < 1) {
+            $scope.selectedRound = 0;
+            $scope.hideTable = true;
+        }
+        else {
+            $scope.selectedRound = _.last($scope.rounds).RoundId;
+        }
 
         teamTableApi.async($scope.selectedRound).then(function (data) {
             $scope.teamTable = data;

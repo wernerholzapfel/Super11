@@ -16,7 +16,10 @@
     </div>
     <!-- END PAGE HEADER-->
     <!-- BEGIN MAIN CONTENT -->
-    <div class="row">
+    <div class="note note-success note-bordered" ng-hide="!hideTable">
+        De eerste stand is nog niet bekend.
+        </div>
+    <div class="row" ng-hide="hideTable">
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <uib-tabset active="active">

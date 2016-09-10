@@ -3,9 +3,14 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
     $scope.alerts = [];
     roundsApi.async().then(function (roundsdata) {
         $scope.rounds = roundsdata;
+        if ($scope.rounds.length < 1) {
+            $scope.latestRound = 0;
+            $scope.selectedRound = 0;
+        }
+        else {
         $scope.latestRound = _.last($scope.rounds).RoundId;
-        $scope.selectedRound = _.last($scope.rounds).RoundId;
-
+            $scope.selectedRound = _.last($scope.rounds).RoundId;
+        }
         eredivisiePlayersApi.async().then(function (data) {
             $scope.newScoreFormList = data[0];
             $scope.newScoreFormList.RoundId = $scope.latestRound + 1;
@@ -89,6 +94,43 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
         });
     };
 
+    $scope.updateVragenForm = function () {
+        $scope.showConfirm = true;
+        console.log("het bericht dat gepost wordt: " + $scope.NewList);
+        $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
+
+        var vragenlijst = updateQuestionsService.put($scope.vragenScoreform);
+
+        vragenlijst.success(function () {
+            $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
+        });
+        vragenlijst.error(function () {
+            $scope.showConfirm = false;
+
+            //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
+            $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
+        });
+
+    };
+
+    $scope.updateWedstrijdenForm = function () {
+        $scope.showConfirm = true;
+        console.log("het bericht dat gepost wordt: " + $scope.NewList);
+        $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
+
+        var wedstrijdenlijst = updateMatchesService.put($scope.wedstrijdenScoreform);
+
+        wedstrijdenlijst.success(function () {
+            $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
+        });
+        wedstrijdenlijst.error(function () {
+            $scope.showConfirm = false;
+
+            //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
+            $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
+        });
+
+    }
     $scope.showRoundScoreForm = false;
     $scope.showNewScoreForm = true;
 
