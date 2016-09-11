@@ -169,32 +169,33 @@ function handleError(res, reason, message, code) {
   res.status(code || 500).json({ "error": message });
 }
 
-apiRoutes.post("/predictions", passport.authenticate('jwt', { session: false }), function (req, res) {
-  var token = getToken(req.headers);
-  if (token) {
-    var decoded = jwt.decode(token, config.secret);
-    User.findOne({
-      name: decoded.name
-    }, function (err, user) {
-      if (err) throw err;
-      if (!user) {
-        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
-      }
-      else {
-        var predictions = new Predictions(req.body);
-        predictions.Participant.Email = user.name;
-        Predictions.findOneAndUpdate({ 'Participant.Email': user.name }, predictions, ({ upsert: true }), function (err, newPrediction) {
-          if (err) {
-            handleError(res, err.message, "Failed to create new prediction.");
-          } else {
-            res.status(201).json(predictions);
-            determineifplayerisselected.setNumberOfTimesAplayerIsSelected()
-          }
-        });
-      }
-    })
-  }
-});
+// inschrijven uitgezet.
+// apiRoutes.post("/predictions", passport.authenticate('jwt', { session: false }), function (req, res) {
+//   var token = getToken(req.headers);
+//   if (token) {
+//     var decoded = jwt.decode(token, config.secret);
+//     User.findOne({
+//       name: decoded.name
+//     }, function (err, user) {
+//       if (err) throw err;
+//       if (!user) {
+//         return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
+//       }
+//       else {
+//         var predictions = new Predictions(req.body);
+//         predictions.Participant.Email = user.name;
+//         Predictions.findOneAndUpdate({ 'Participant.Email': user.name }, predictions, ({ upsert: true }), function (err, newPrediction) {
+//           if (err) {
+//             handleError(res, err.message, "Failed to create new prediction.");
+//           } else {
+//             res.status(201).json(predictions);
+//             determineifplayerisselected.setNumberOfTimesAplayerIsSelected()
+//           }
+//         });
+//       }
+//     })
+//   }
+// });
 
 apiRoutes.get("/roundteamscoreforms/:roundId", function (req, res, next) {
   RoundTeamScoreForms.findOne({RoundId :  + req.params.roundId},function (err, playersList) {
