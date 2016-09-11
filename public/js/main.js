@@ -8,7 +8,8 @@ var MetronicApp = angular.module("MetronicApp", [
     "ui.bootstrap",
     "oc.lazyLoad",
     "ngSanitize",
-    "ui.sortable"
+    "ui.sortable",
+    "angularModalService"
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */

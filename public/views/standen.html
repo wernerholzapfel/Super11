@@ -18,8 +18,170 @@
     <!-- BEGIN MAIN CONTENT -->
     <div class="note note-success note-bordered" ng-hide="!hideTable">
         De eerste stand is nog niet bekend.
-        </div>
+    </div>
     <div class="row" ng-hide="hideTable">
+        <!-- The actual modal template, just a bit o bootstrap -->
+        <!--MODAL WINDOW-->
+        <script type="text/ng-template" id="totalstandmodal.html">
+                    <div class="modal-header">
+                         <button type="button" class="close" ng-click=close()>&times;</button>
+                        <h3>{{score.Name}} staat {{score.Positie}}e met {{score.TotalScore}} punten</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-scrollable">
+                                <table class="table table-striped">
+                               <thead><tr>
+                                        <th> Naam</th>
+                                        <th> Gespeeld</th>
+                                        <th> Winst</th>
+                                        <th> Gelijk</th>
+                                        <th> de 0</th>
+                                        <th> Doelpunt</th>
+                                        <th> Eigen Goal</th>
+                                        <th> Assist</th>
+                                        <th> Geel</th>
+                                        <th> Rood</th>
+                                        <th> Totaal</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr
+                                        ng-repeat="player in score.TeamScores | orderBy :'Id'">
+                                        <td> {{player.Name}}</td>
+                                        <td> {{player.Played}}</td>
+                                        <td> {{player.Won}}</td>
+                                        <td> {{player.Draw}}</td>
+                                        <td> {{player.CleanSheetScore}}</td>
+                                        <td> {{player.Goals}}</td>
+                                        <td> {{player.OwnGoals}}</td>
+                                        <td> {{player.Assist}}</td>
+                                        <td> {{player.YellowCard}}</td>
+                                        <td> {{player.RedCard}}</td>
+                                        <td> {{player.TotalScore}}</td>
+                                    </tr>
+                                    </tbody>
+                           </table>
+                           </div>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </script>
+
+        <script type="text/ng-template" id="teamstandmodal.html">
+                    <div class="modal-header">
+                         <button type="button" class="close" ng-click=close()>&times;</button>
+                        <h3>In ronde {{score.RoundId}} scoort het team van {{score.Participant.Name}} {{score.TotalTeamScore}} punten.</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-scrollable">
+                                <table class="table table-striped">
+                               <thead><tr>
+                                        <th> Naam</th>
+                                        <th> Gespeeld</th>
+                                        <th> Winst</th>
+                                        <th> Gelijk</th>
+                                        <th> de 0</th>
+                                        <th> Doelpunt</th>
+                                        <th> Eigen Goal</th>
+                                        <th> Assist</th>
+                                        <th> Geel</th>
+                                        <th> Rood</th>
+                                        <th> Totaal</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr
+                                        ng-repeat="player in score.TeamScores | orderBy :'Id'">
+                                        <td> {{player.Name}}</td>
+                                        <td> {{player.Played}}</td>
+                                        <td> {{player.Won}}</td>
+                                        <td> {{player.Draw}}</td>
+                                        <td> {{player.CleanSheetScore}}</td>
+                                        <td> {{player.Goals}}</td>
+                                        <td> {{player.OwnGoals}}</td>
+                                        <td> {{player.Assist}}</td>
+                                        <td> {{player.YellowCard}}</td>
+                                        <td> {{player.RedCard}}</td>
+                                        <td> {{player.TotalScore}}</td>
+                                    </tr>
+                                    </tbody>
+                           </table>
+                           </div>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </script>
+
+        <script type="text/ng-template" id="wedstrijdenstandmodal.html">
+                    <div class="modal-header">
+                         <button type="button" class="close" ng-click=close()>&times;</button>
+                        <h3>{{score.Participant.Name}} heeft {{score.TotalMatchesScore}} punten voor de wedstrijden.</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-scrollable">
+                                <table class="table table-striped">
+                               <thead>
+                                  <tr>
+                                            <th> Wedstrijd</th>
+                                            <th> Voorspelling</th>
+                                            <th> Uitslag</th>
+                                            <th> Score</th>
+                                        </tr>
+                                        <tr ng-repeat="wedstrijd in score.MatchesScore | orderBy :'Id'">
+                                            <td> {{wedstrijd.Match}}</td>
+                                            <td> {{wedstrijd.Home}} - {{wedstrijd.Away}}</td>
+                                            <td> {{wedstrijd.Uitslag}}</td>
+                                            <td> {{wedstrijd.Score}}</td>
+                                        </tr>
+                                    </tbody>
+                           </table>
+                           </div>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </script>
+
+
+
+        <script type="text/ng-template" id="vragenstandmodal.html">
+                    <div class="modal-header">
+                         <button type="button" class="close" ng-click=close()>&times;</button>
+                        <h3>{{score.Participant.Name}} heeft {{score.TotalQuestiosScore}} punten voor de vragen.</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-scrollable">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th> Vraag</th>
+                                            <th> Voorspelling</th>
+                                            <th> Antwoord</th>
+                                            <th> Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="vragen in score.QuestionsScore | filter:{Uitslag:''} | orderBy :'Id'">
+                                            <td> {{vragen.Question}}</td>
+                                            <td> {{vragen.Answer}}</td>
+                                            <td> {{vragen.Uitslag}}</td>
+                                            <td> {{vragen.Score}}</td>
+                                        </tr>
+                                    </tbody>
+                           </table>
+                           </div>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </script>
+
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <uib-tabset active="active">
@@ -38,78 +200,39 @@
                             <div class="table-scrollable">
                                 <table class="table table-striped">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>
-                                            Naam
-                                        </th>
-                                        <th>
-                                            Totaal Score
-                                        </th>
-                                        <th>Totaal Team</th>
-                                        <th>Totaal Wedstrijden</th>
-                                        <th>Totaal Vragen</th>
-
-
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>
+                                                Naam
+                                            </th>
+                                            <th>
+                                                Totaal Score
+                                            </th>
+                                            <th>Totaal Team</th>
+                                            <th>Totaal Wedstrijden</th>
+                                            <th>Totaal Vragen</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat-start="table in totalTeamTable">
-                                        <td>{{table.Positie}}</td>
-                                        <td>
-                                            <button ng-if="table.expanded" ng-click="table.expanded = false">-</button>
-                                            <button ng-if="!table.expanded" ng-click="table.expanded = true">+</button>
-                                            {{ table.Name}}
-                                        </td>
-                                        <td>
-                                            {{table.TotalScore}}
-                                        </td>
-                                        <td>
-                                            {{table.TotalTeamScore}}
-                                        </td>
-                                        <td>
-                                            {{table.TotalMatchesScore}}
-                                        </td>
-                                        <td>
-                                            {{table.TotalQuestionsScore}}
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <tr ng-repeat="table in totalTeamTable">
+                                            <td>{{table.Positie}}</td>
+                                            <td ng-click="showTotalTeamStandModel(table)">
+                                                <a href="#"> {{ table.Name}} </a>
+                                            </td>
+                                            <td>
+                                                {{table.TotalScore}}
+                                            </td>
+                                            <td>
+                                                {{table.TotalTeamScore}}
+                                            </td>
+                                            <td>
+                                                {{table.TotalMatchesScore}}
+                                            </td>
+                                            <td>
+                                                {{table.TotalQuestionsScore}}
+                                            </td>
 
-                                    </tr>
-                                    <tr ng-if="table.expanded">
-                                        <th> Naam</th>
-                                        <th> Gespeeld</th>
-                                        <th> Winst</th>
-                                        <th> Gelijk</th>
-                                        <th> de 0</th>
-                                        <th> Doelpunt</th>
-                                        <th> Eigen Goal</th>
-                                        <th> Assist</th>
-                                        <th> Geel</th>
-                                        <th> Rood</th>
-                                        <th> Totaal</th>
-                                    </tr>
-                                    <tr ng-repeat-end ng-if="table.expanded"
-                                        ng-repeat="player in table.TeamScores | orderBy :'Id'">
-                                        <td> {{player.Name}}</td>
-                                        <td> {{player.Played}}</td>
-                                        <td> {{player.Won}}</td>
-                                        <td> {{player.Draw}}</td>
-                                        <td> {{player.CleanSheetScore}}</td>
-                                        <td> {{player.Goals}}</td>
-                                        <td> {{player.OwnGoals}}</td>
-                                        <td> {{player.Assist}}</td>
-                                        <td> {{player.YellowCard}}</td>
-                                        <td> {{player.RedCard}}</td>
-                                        <td> {{player.TotalScore}}</td>
-                                    </tr>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 </tbody>
@@ -123,9 +246,8 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 Kies een ronde
-                                <select style="color=black;color: black;" ng-model="selectedRound"
-                                        ng-options="round.RoundId as round.RoundId for round in rounds | orderBy:'-RoundId'"
-                                        ng-init="selectedRound == selectedRound" ng-change="getnewround(selectedRound)">
+                                <select style="color=black;color: black;" ng-model="selectedRound" ng-options="round.RoundId as round.RoundId for round in rounds | orderBy:'-RoundId'"
+                                    ng-init="selectedRound == selectedRound" ng-change="getnewround(selectedRound)">
                                 </select>
                             </div>
                             <div class="tools">
@@ -137,69 +259,25 @@
                             <div class="table-scrollable">
                                 <table class="table table-striped">
                                     <thead>
-                                    <tr>
-                                        <th>
-                                            Naam
-                                        </th>
-                                        <th>
-                                            Totaal Score
-                                        </th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
+                                        <tr>
+                                            <th>
+                                                Naam
+                                            </th>
+                                            <th>
+                                                Totaal Score
+                                            </th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat-start="table in teamTable">
-                                        <td>
-                                            <button ng-if="table.expanded" ng-click="table.expanded = false">-</button>
-                                            <button ng-if="!table.expanded" ng-click="table.expanded = true">+</button>
-                                            {{ table.Participant.Name}}
-                                        </td>
-                                        <td>
-                                            {{table.TotalTeamScore}}
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr ng-if="table.expanded">
-                                        <th> Naam</th>
-                                        <th> Gespeeld</th>
-                                        <th> Winst</th>
-                                        <th> Gelijk</th>
-                                        <th> de 0</th>
-                                        <th> Doelpunt</th>
-                                        <th> Eigen Goal</th>
-                                        <th> Assist</th>
-                                        <th> Geel</th>
-                                        <th> Rood</th>
-                                        <th> Totaal</th>
-                                    </tr>
-                                    <tr ng-repeat-end ng-if="table.expanded"
-                                        ng-repeat="player in table.TeamScores | orderBy :'Id'">
-                                        <td> {{player.Name}}</td>
-                                        <td> {{player.Played}}</td>
-                                        <td> {{player.Won}}</td>
-                                        <td> {{player.Draw}}</td>
-                                        <td> {{player.CleanSheetScore}}</td>
-                                        <td> {{player.Goals}}</td>
-                                        <td> {{player.OwnGoals}}</td>
-                                        <td> {{player.Assist}}</td>
-                                        <td> {{player.YellowCard}}</td>
-                                        <td> {{player.RedCard}}</td>
-                                        <td> {{player.TotalScore}}</td>
-                                    </tr>
+                                        <tr ng-repeat="table in teamTable">
+                                            <td>
+                                                <a href="#" ng-click="showTeamStand(table)">
+                                            {{ table.Participant.Name}}</a>
+                                            </td>
+                                            <td>
+                                                {{table.TotalTeamScore}}
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 </tbody>
@@ -220,59 +298,27 @@
                             <div class="table-scrollable">
                                 <table class="table table-striped">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>
-                                            Naam
-                                        </th>
-                                        <th>
-                                            Totaal Score
-                                        </th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>
+                                                Naam
+                                            </th>
+                                            <th>
+                                                Totaal Score
+                                            </th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat-start="regel in wedstrijdenstand">
-                                        <td>{{regel.Positie}}</td>
-                                        <td>
-                                            <button ng-if="regel.expanded" ng-click="regel.expanded = false">-</button>
-                                            <button ng-if="!regel.expanded" ng-click="regel.expanded = true">+</button>
-                                            {{ regel.Participant.Name}}
-                                        </td>
-                                        <td>
-                                            {{regel.TotalMatchesScore}}
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <tr ng-repeat="regel in wedstrijdenstand">
+                                            <td>{{regel.Positie}}</td>
+                                            <td>
+                                                <a href="#" ng-click="showWedstrijdenStandModel(regel)">{{ regel.Participant.Name}}</a>
+                                            </td>
+                                            <td>
+                                                {{regel.TotalMatchesScore}}
+                                            </td>
+                                        </tr>
 
-                                    </tr>
-                                    <tr ng-if="regel.expanded">
-                                        <th> Wedstrijd</th>
-                                        <th> Voorspelling</th>
-                                        <th> Uitslag</th>
-                                        <th> Score</th>
-                                    </tr>
-                                    <tr ng-repeat-end ng-if="regel.expanded"
-                                        ng-repeat="wedstrijd in regel.MatchesScore | orderBy :'Id'">
-                                        <td> {{wedstrijd.Match}}</td>
-                                        <td> {{wedstrijd.Home}} - {{wedstrijd.Away}}</td>
-                                        <td> {{wedstrijd.Uitslag}}</td>
-                                        <td> {{wedstrijd.Score}}</td>
-                                    </tr>
                                     </tbody>
                                 </table>
                                 </tbody>
@@ -295,44 +341,30 @@
                             <div class="table-scrollable">
                                 <table class="table table-striped">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>
-                                            Naam
-                                        </th>
-                                        <th>
-                                            Totaal Score
-                                        </th>
-                                        <th></th>
-                                    </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>
+                                                Naam
+                                            </th>
+                                            <th>
+                                                Totaal Score
+                                            </th>
+                                            <th></th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat-start="regel in vragenstand">
-                                        <td>{{regel.Positie}}</td>
-                                        <td>
-                                            <button ng-if="regel.expanded" ng-click="regel.expanded = false">-</button>
-                                            <button ng-if="!regel.expanded" ng-click="regel.expanded = true">+</button>
-                                            {{ regel.Participant.Name}}
-                                        </td>
-                                        <td>
-                                            {{regel.TotalQuestionsScore}}
-                                        </td>
-                                        <td></td>
+                                        <tr ng-repeat="regel in vragenstand">
+                                            <td>{{regel.Positie}}</td>
+                                            <td>
 
-                                    </tr>
-                                    <tr ng-if="regel.expanded">
-                                        <th> Vraag</th>
-                                        <th> Voorspelling</th>
-                                        <th> Antwoord</th>
-                                        <th> Score</th>
-                                    </tr>
-                                    <tr ng-repeat-end ng-if="regel.expanded"
-                                        ng-repeat="vragen in regel.QuestionsScore | orderBy :'Id'">
-                                        <td> {{vragen.Question}}</td>
-                                        <td> {{vragen.Answer}}</td>
-                                        <td> {{vragen.Uitslag}}</td>
-                                        <td> {{vragen.Score}}</td>
-                                    </tr>
+                                                <a href="#" ng-click="showVragenStandModel(regel)">{{ regel.Participant.Name}}</a>
+                                            </td>
+                                            <td>
+                                                {{regel.TotalQuestionsScore}}
+                                            </td>
+                                            <td></td>
+                                        </tr>
+
                                     </tbody>
                                 </table>
                                 </tbody>
@@ -341,81 +373,17 @@
                         </div>
                     </div>
                 </uib-tab>
-
-                <uib-tab heading="collapsable">
-                    <div class="portlet box green">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <input type="checkbox" ng-model="oneAtATime">
-                                Open een per keer.
-                            </div>
-                            <div class="tools">
-                                <a href="javascript:;" class="collapse" data-original-title="" title="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="portlet-body form">
-                            <script type="text/ng-template" id="group-template.html">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title" style="color:#fa39c3">
-                                            <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()"
-                                               uib-accordion-transclude="heading">
-            <span uib-accordion-header ng-class="{'text-muted': isDisabled}">
-              {{heading}}
-            </span>
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div class="panel-collapse collapse" uib-collapse="!isOpen">
-                                        <div class="panel-body" style="text-align: right" ng-transclude></div>
-                                    </div>
-                                </div>
-                            </script>
-
-
-                            <uib-accordion close-others="oneAtATime">
-                                <div uib-accordion-group class="panel-default" ng-repeat="regel in wedstrijdenstand">
-                                    <uib-accordion-heading>
-                                        {{regel.Positie}} {{regel.Participant.Name}} {{regel.TotalMatchesScore}}
-                                    </uib-accordion-heading>
-                                    <div class="table-scrollable">
-                                        <table class="table table-striped">
-                                            <thead>
-                                            <tr>
-                                                <th> Wedstrijd</th>
-                                                <th> Voorspelling</th>
-                                                <th> Uitslag</th>
-                                                <th> Score</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr ng-repeat="wedstrijd in regel.MatchesScore | orderBy :'Id'">
-                                                <td> {{wedstrijd.Match}}</td>
-                                                <td> {{wedstrijd.Home}} - {{wedstrijd.Away}}</td>
-                                                <td> {{wedstrijd.Uitslag}}</td>
-                                                <td> {{wedstrijd.Score}}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                            </uib-accordion>
-
-                        </div>
-                    </div>
+            </uib-tabset>
+            <!-- END EXAMPLE TABLE PORTLET-->
         </div>
-        </uib-tab>
-        </uib-tabset>
-        <!-- END EXAMPLE TABLE PORTLET-->
     </div>
-</div>
-<!-- END MAIN CONTENT -->
-<!-- BEGIN MAIN JS -->
-<script>
+    <!-- END MAIN CONTENT -->
+    <!-- BEGIN MAIN JS -->
+    <script>
 	function AdvancedDatatablesDemoCtrl($scope) {
 		TableAdvanced.init();
 	}
 
 
 </script>
-<!-- END MAIN JS -->
+    <!-- END MAIN JS -->
