@@ -18,3 +18,13 @@ a:hover {
 
 
 .draggablePointer { cursor: pointer; cursor: hand; }
+
+.modal .modal-header{
+    background-color: #32c5d2;
+    color: white;
+}
+
+.modal .modal-footer{
+    background-color: #32c5d2;
+    color: white;
+}
