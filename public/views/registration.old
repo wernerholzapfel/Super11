@@ -1,6 +1,6 @@
 ﻿<!-- BEGIN PAGE HEADER-->
 <h3 class="page-title ng-scope">
-    Registratie Formulier
+    Deelnameformulier
 </h3>
 <div class="page-bar">
     <ul class="page-breadcrumb breadcrumb ng-scope">
@@ -8,7 +8,7 @@
             <a href="#/dashboard.html">Home</a>
             <i class="fa fa-circle"></i>
         </li>
-        <li class="active">Registratie Formulier</li>
+        <li class="active">Deelnameformulier</li>
     </ul>
     <div class="page-toolbar">
     </div>
@@ -23,8 +23,8 @@
             <div class="note note-success note-bordered">
                 <h3>Jouw gegevens<span data-close="note"></span></h3>
                 <p>
-                    Leuk dat je mee wilt doen. Vul alle velden in. Daarna kan je op volgende klikken om de rest van je voorspellingen in te vullen
-                    <p>
+
+                    Vul je gegevens volledig in en klik op "Volgende" om je voorspellingen in te vullen.  <p>
             </div>
             <form name="participantForm" class="form-horizontal form-bordered">
                 <!-- BEGIN TABLE PORTLET-->
@@ -43,7 +43,7 @@
                             <div class="portlet-body form">
                                 <table class="table table-striped">
                                     <tr>
-                                        <td>Naam</td>
+                                        <td>Voor- en achternaam</td>
                                         <td>
                                             <input type="text" name="Name" required ng-model="data.Participant.Name" />
                                             <br/>
@@ -94,9 +94,9 @@
 
         <div ng-show="showTable">
             <div class="note note-success note-bordered">
-                <h3>Voorspel de eredivisie eindstand 2016/2017<span data-close="note"></span></h3>
+                <h3>Eindstand Eredivisie 2016-2017<span data-close="note"></span></h3>
                 <p>
-                    Sleep de clubs op volgorde met je muis, of op een touch device met je vingers.
+                    Voorspel de eindstand van de Eredivisie 2016-2017 door de clubs naar de juiste positie te slepen.
                     <p>
             </div>
             <form name="tableForm" class="form-horizontal form-bordered">
@@ -139,11 +139,9 @@
 
         <div ng-show="showTeam">
             <div class="note note-success note-bordered">
-                <h3>Stel je eredivisie team samen<span data-close="note"></span></h3>
+                <h3>Jouw Super11<span data-close="note"></span></h3>
                 <p>
-                    Dit jaar kan je je eigen formatie kiezen. Speel je 433, 442 of liever op de aanval met een 343 opstelling? Per club mag je
-                    maar 1 speler kiezen. De spelerslijst kan je filteren op club en op team. Het is ook mogelijk om op naam
-                    te zoeken binnen de filters.
+                    Stel jouw Super11 team samen. Kies als eerst een spelsysteem waarin je jouw team wil gaan laten spelen. Vervolgens kun je per club 1 speler opnemen in het team door op het plus-icoon te klikken voor de naam van de speler. In de spelerslijst kun je zoeken op club, positie en naam van de speler. Selecteer als laatste je aanvoerder.
                     <p>
             </div>
             <form name="teamForm" class="form-horizontal form-bordered">
@@ -213,7 +211,7 @@
                         <div class="portlet box green">
                             <div class="portlet-title">
                                 <div class="caption">
-                                    <i class="fa fa-user"></i>De spelers
+                                    <i class="fa fa-user"></i>Spelerslijst
                                 </div>
                                 <div class="tools">
                                     <a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -254,8 +252,8 @@
                                         </thead>
                                         <tbody>
 
-                                            <tr ng-repeat="player in players | filter:{Position:selectedPositie} | filter:{Team:selectedTeam} | filter:{Name:searchName} | orderBy:['Team']"
-                                                ng-hide="player.PreSelected">
+                                        <tr ng-repeat="player in players | filter:{Position:selectedPositie} | filter:{Team:selectedTeam} | filter:{Name:searchName} | orderBy:['Team','PositionSort','Name']"
+                                            ng-hide="player.PreSelected">
                                                 <td>
                                                     <button class="btn green" ng-click="addPlayerToSelection(player)">+</button>                                                    {{player.Name}} ({{player.Position}})
                                                 </td>
@@ -278,11 +276,9 @@
 
         <div ng-show="showQuestions">
             <div class="note note-success note-bordered">
-                <h3>Beantwoord de vragen<span data-close="note"></span></h3>
+                <h3>Bonusvragen<span data-close="note"></span></h3>
                 <p>
-                    Dit onderdeel behoeft vast niet veel uitleg. Probeer je antwoorden zo volledig mogelijk op te schrijven. Schrijf bijvoorbeeld
-                    Manchester City voluit ipv Man City behalve bij getallen daar kan je gewoon de cijfers gebruiken :-)
-                    <p>
+                    Beantwoord deze 25 bonusvragen. Vul je antwoord zo volledig mogelijk in (Manchester United ipv Man. Utd). Bij getallen kun je gewoon de cijfers gebruiken. <p>
             </div>
             <form name="questionsForm" class="form-horizontal form-bordered">
                 <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{questionMsg}}</uib-alert>
@@ -324,17 +320,17 @@
                 </div>
 
                 <button class="btn green" value="Previous" ng-click="teamView()" ng-show="showQuestions">Terug</button>
-                <button class="btn green" value="Next" ng-disabled="questionsForm.$invalid" ng-click="matchesView()">Volgende
+                <button class="btn green" value="Next" ng-show="showQuestions" ng-click="matchesView()">Volgende
                 </button>
             </form>
         </div>
 
         <div ng-show="showMatches">
             <div class="note note-success note-bordered">
-                <h3>Voorspel de uitslagen<span data-close="note"></span></h3>
+                <h3>Uitslagen wedstrijden<span data-close="note"></span></h3>
                 <p>
-                    Voor iedere wedstrijd volledig goed krijg je 10 punten. Heb je alleen de toto goed, dan krijg je als nog 3 punten. <br>                    Tip: met de TAB-toets ga je naar het volgende invoerveld.
-                    <p>
+                    Voorspel de uitslag van de onderstaande wedstrijden.
+                <p>
             </div>
             <form name="matchesForm" class="form-horizontal form-bordered">
                 <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{questionMsg}}</uib-alert>
@@ -381,7 +377,7 @@
                 </div>
 
                 <button class="btn green" value="Previous" ng-click="questionsView()" ng-show="showMatches">Terug</button>
-                <button class="btn green" value="Next" ng-disabled="questionsForm.$invalid" ng-click="save()">Opslaan
+                <button class="btn green" value="Next" ng-show="showMatches" ng-click="save()">Opslaan
                 </button>
             </form>
         </div>

@@ -1,5 +1,5 @@
-angular.module('MetronicApp').controller('DashboardController', function($rootScope, $scope, $http, $timeout) {
-    $scope.$on('$viewContentLoaded', function() {   
+angular.module('MetronicApp').controller('DashboardController', function ($rootScope, $scope, $http, $timeout, AuthService) {
+    $scope.$on('$viewContentLoaded', function () {
         // initialize core components
         App.initAjax();
     });
@@ -8,4 +8,7 @@ angular.module('MetronicApp').controller('DashboardController', function($rootSc
     $rootScope.settings.layout.pageContentWhite = true;
     $rootScope.settings.layout.pageBodySolid = false;
     $rootScope.settings.layout.pageSidebarClosed = false;
+
+    $scope.isLoggedIn = AuthService.isAuthenticated;
+
 });

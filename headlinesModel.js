@@ -2,7 +2,8 @@ console.log("headlines is ingeladen")
 var mongoose = require('mongoose');
 
 var headlinesSchema = new mongoose.Schema({
-	content: { type: String, required: true }
+	content: { type: String, required: true },
+	createdAt: { type: Date, required: true }
 }
 );
 

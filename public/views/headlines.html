@@ -16,9 +16,7 @@
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
 <div class="row" ng-controller="HeadlinesApiController">
-    <div class="col-md-12">
-        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
-        </uib-alert>
+    <div class="col-md-6">
         <div>
             <form name="headLinesForm" class="form-horizontal form-bordered">
                 <uib-alert type="success" ng-show="headLinesForm.$invalid" close="closeAlert($index)">{{participantMsg}}
@@ -37,16 +35,59 @@
                     <div class="portlet-body form">
                         <table class="table table-striped">
                             <tr>
-                                <td>Headline</td>
                                 <td>
-                                    <input type="text" name="content" required ng-model="data.content" />
+                                    Headline:
                                 </td>
                             </tr>
-                            <button value="Opslaan" ng-click="saveHeadlines()">Opslaan</button>
+                            <tr>
+                                <td width="100%">
+                                    <textarea rows="5" style="width: 100%; height: 100%;" type="text" name="content" required ng-model="data.content" />
+                                </td>
+                                <tr>
+                        </table>
+                    </div>
+                </div>
             </form>
-
-            </div>
-            <!-- END TABLE PORTLET-->
-            </div>
         </div>
-        <!-- END MAIN CONTENT -->
+        <button class="btn green" value="Opslaan" ng-click="saveHeadlines()">Opslaan</button>
+        <br><br>
+    </div>
+    <div class="col-md-6">
+        <div>
+            <form name="headLinesForm" class="form-horizontal form-bordered">
+                <uib-alert type="success" ng-show="headLinesForm.$invalid" close="closeAlert($index)">{{participantMsg}}
+                </uib-alert>
+                <!-- BEGIN TABLE PORTLET-->
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-user"></i>Verwijder een headline
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <table class="table table-striped">
+                            <tr ng-repeat="headline in headlines">
+                                <td>
+                                    {{headline.content}}
+                                </td>
+                                <td>
+                                    <button class="btn red" ng-click="deleteHeadline($index)">delete </button>
+                                    <!--Headline: <textarea type="text" name="content" required ng-model="data.content" />-->
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- END TABLE PORTLET-->
+</div>
+</div>
+<!-- END MAIN CONTENT -->

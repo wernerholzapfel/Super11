@@ -3,10 +3,12 @@
     <div class="container">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a class="font-green" href="/#/login.html"><h2>Super 11</h2></a>
-            
+            <a class="font-green" href="/#/login.html">
+                <h2>Super 11</h2>
+            </a>
+
             <!--<a href="#/dashboard.html">-->
-                <!--<img src="{{settings.layoutPath}}/img/logo-default.jpg" alt="logo" class="logo-default">-->
+            <!--<img src="{{settings.layoutPath}}/img/logo-default.jpg" alt="logo" class="logo-default">-->
             <!--</a>-->
         </div>
         <!-- END LOGO -->
@@ -16,11 +18,11 @@
         <!-- BEGIN TOP NAVIGATION MENU -->
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
-            <li>
-                <button ng-if="isLoggedIn()" type="button" class="btn green" ng-click="logout()">Logout</button>
-                <button ng-hide="isLoggedIn()" type="button" class="btn green" ng-click="navigateTo('/#/login.html')">Login</button>
-                <button ng-hide="isLoggedIn()" type="button" class="btn green" ng-click="navigateTo('/#/registreer.html')">Registreer</button>
-            </li>
+                <li>
+                    <button ng-if="isLoggedIn()" type="button" class="btn green" ng-click="logout()">Logout</button>
+                    <button ng-hide="isLoggedIn()" type="button" class="btn green" ng-click="navigateTo('/#/login.html')">Login</button>
+                    <button ng-hide="isLoggedIn()" type="button" class="btn green" ng-click="navigateTo('/#/registreer.html')">Registreer</button>
+                </li>
             </ul>
         </div>
         <!-- END TOP NAVIGATION MENU -->
@@ -30,7 +32,7 @@
 <!-- BEGIN HEADER MENU -->
 <div class="page-header-menu">
     <div class="container">
-     
+
         <!-- BEGIN HEADER SEARCH BOX -->
         <!--<form class="search-form" action="extra_search.html" method="GET">-->
         <!--<div class="input-group">-->
@@ -54,22 +56,17 @@
                         <span class="title">Home</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#/spelregels.html" id="sidebar_menu_link_spelregels">
-                        <i class="icon-bar-chart"></i>
-                        <span class="title">Spelregels</span>
-                    </a>
-                </li>
-                <li>
+
+                <!--<li>
                     <a href="#/registration.html" id="sidebar_menu_link_registration">
                         <i class="icon-puzzle"></i>
                         <span class="title">Inschrijven</span>
                     </a>
-                </li>
+                </li>-->
                 <li>
                     <a href="#/participants.html" id="sidebar_menu_link_participant">
                         <i class="icon-user"></i>
-                        <span class="title">De Deelnemers</span>
+                        <span class="title">Deelnemers</span>
                     </a>
                 </li>
                 <!--<li>
@@ -78,6 +75,12 @@
                         <span class="title">Stand</span>
                     </a>
                 </li>-->
+                <li>
+                    <a href="#/spelregels.html" id="sidebar_menu_link_spelregels">
+                        <i class="icon-bar-chart"></i>
+                        <span class="title">Spelregels</span>
+                    </a>
+                </li>
                 <li>
                     <a href="#/halloffame.html" id="sidebar_menu_link_halloffame">
                         <i class="icon-bar-chart"></i>
@@ -95,8 +98,8 @@
                         <i class="icon-puzzle"></i>
                         <span class="title">Uitslagen</span>
                     </a>
-                </li>  
-                
+                </li>
+
                 <!--<li>
                     <a href="#/headlines.html" id="sidebar_menu_link_scoreform">
                         <i class="icon-puzzle"></i>

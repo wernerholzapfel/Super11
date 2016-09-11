@@ -34,43 +34,35 @@ angular.module('MetronicApp').controller('RegistrationApiController',
         if ($scope.data.Formation != formation) {
           switch (formation) {
             case "433":
+              $scope.removeplayerfromteam($scope.data.Team[4]);
               $scope.data.Team[4].Position = "V";
-              $scope.data.Team[4].PlayerId = "";
-              $scope.data.Team[4].PlayerName = "";
+              $scope.removeplayerfromteam($scope.data.Team[4]);
               $scope.data.Team[8].Position = "A";
-              $scope.data.Team[8].PlayerId = "";
-              $scope.data.Team[8].PlayerName = "";
               $scope.data.Formation = formation
               $scope.formationChosen = true;
               break;
             case "442":
+              $scope.removeplayerfromteam($scope.data.Team[4]);
               $scope.data.Team[4].Position = "V";
-              $scope.data.Team[4].PlayerId = "";
-              $scope.data.Team[4].PlayerName = "";
+              $scope.removeplayerfromteam($scope.data.Team[8]);
               $scope.data.Team[8].Position = "M";
-              $scope.data.Team[8].PlayerId = "";
-              $scope.data.Team[8].PlayerName = "";
               $scope.data.Formation = formation
               $scope.formationChosen = true;
               break;
             case "343":
+              $scope.removeplayerfromteam($scope.data.Team[4]);
               $scope.data.Team[4].Position = "M";
-              $scope.data.Team[4].PlayerId = "";
-              $scope.data.Team[4].PlayerName = "";
+              $scope.removeplayerfromteam($scope.data.Team[8]);
               $scope.data.Team[8].Position = "A";
-              $scope.data.Team[8].PlayerId = "";
-              $scope.data.Team[8].PlayerName = "";
               $scope.data.Formation = formation
               $scope.formationChosen = true;
               break;
 
             default:
+              $scope.removeplayerfromteam($scope.data.Team[4]);
               $scope.data.Team[4].Position = "V";
-              $scope.data.Team[4].PlayerId = "";
-              $scope.data.Team[4].PlayerName = "";
+              $scope.removeplayerfromteam($scope.data.Team[8]);
               $scope.data.Team[8].Position = "A";
-              $scope.data.Team[8].PlayerId = "";
-              $scope.data.Team[8].PlayerName = "";
               $scope.data.Formation = formation
               $scope.formationChosen = true;
 
@@ -186,6 +178,17 @@ angular.module('MetronicApp').controller('RegistrationApiController',
         $scope.alerts.splice(index, 1);
       };
 
+      $scope.saveTemp = function (){
+         SCOPE = $scope.$root.$new();
+
+              //loop door stand om positie te bepalen
+              for (var i = 0; i < $scope.data.Table.length; i += 1) {
+                $scope.data.Table[i].Position = i + 1
+              }
+              SCOPE.$apply
+              var registration = registrationService.post($scope.data);
+}
+
       $scope.save = function () {
         $scope.showConfirm = true;
         $scope.showMatches = false;
@@ -204,7 +207,7 @@ angular.module('MetronicApp').controller('RegistrationApiController',
         var registration = registrationService.post($scope.data);
 
         registration.success(function () {
-          $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt! Veel plezier met Super 11 ' + $scope.data.Participant.Name });
+          $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt! Nadat het inschrijfgeld is ontvangen speel je definitief mee. Tot zaterdag 10 september 18:30 uur kun je jouw voorspellingen nog wijzigen. Veel plezier met Super 11!'});
         });
 
         registration.error(function () {

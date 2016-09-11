@@ -1,9 +1,9 @@
 ﻿
-angular.module('MetronicApp').factory('headlinesApi', function ($http) {
+angular.module('MetronicApp').factory('getCommentsApi', function ($http) {
     var myService = {
         async: function () {
             // $http returns a promise, which has a then function, which also returns a promise
-            var promise = $http.get('https://safe-oasis-58234.herokuapp.com/api/headlines/').then(function (response) {
+            var promise = $http.get('https://safe-oasis-58234.herokuapp.com/api/comments/').then(function (response) {
                 // The then function here is an opportunity to modify the response
                 console.log(response);
                 // The return value gets picked up by the then in the controller.
@@ -16,19 +16,19 @@ angular.module('MetronicApp').factory('headlinesApi', function ($http) {
     return myService;
 });
 
-angular.module('MetronicApp').service('deleteHeadlinesService', function ($http) {
+angular.module('MetronicApp').service('deleteCommentsApi', function ($http) {
     //Create new record
     this.post = function (id) {
-        var req = $http.delete('https://safe-oasis-58234.herokuapp.com/api/headlines/'+id);
+        var req = $http.delete('https://safe-oasis-58234.herokuapp.com/api/comments/'+id);
         return req;
     }
 });
 
 
-angular.module('MetronicApp').service('saveHeadlinesService', function ($http) {
+angular.module('MetronicApp').service('saveCommentsApi', function ($http) {
     //Create new record
-    this.post = function (registrationForm) {
-        var req = $http.post('https://safe-oasis-58234.herokuapp.com/api/headlines', registrationForm);
+    this.post = function (comment) {
+        var req = $http.post('https://safe-oasis-58234.herokuapp.com/api/comments', comment);
         return req;
     }
 });

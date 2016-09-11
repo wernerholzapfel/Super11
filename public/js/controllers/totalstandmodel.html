@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <h3>{{score.Name}} staat {{score.Positie}}e met {{score.TotalScore}} punten</h3>
+</div>
+<div class="modal-body">
+    <div class="table-scrollable">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th> Naam</th>
+                    <th> Gespeeld</th>
+                    <th> Winst</th>
+                    <th> Gelijk</th>
+                    <th> de 0</th>
+                    <th> Doelpunt</th>
+                    <th> Eigen Goal</th>
+                    <th> Assist</th>
+                    <th> Geel</th>
+                    <th> Rood</th>
+                    <th> Totaal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="player in score.TeamScores | orderBy :'Id'">
+                    <td> {{player.Name}}</td>
+                    <td> {{player.Played}}</td>
+                    <td> {{player.Won}}</td>
+                    <td> {{player.Draw}}</td>
+                    <td> {{player.CleanSheetScore}}</td>
+                    <td> {{player.Goals}}</td>
+                    <td> {{player.OwnGoals}}</td>
+                    <td> {{player.Assist}}</td>
+                    <td> {{player.YellowCard}}</td>
+                    <td> {{player.RedCard}}</td>
+                    <td> {{player.TotalScore}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div class="modal-footer">
+
+</div>
