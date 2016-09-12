@@ -198,7 +198,7 @@ function handleError(res, reason, message, code) {
 // });
 
 apiRoutes.get("/roundteamscoreforms/:roundId", function (req, res, next) {
-  RoundTeamScoreForms.findOne({RoundId :  + req.params.roundId},function (err, playersList) {
+  RoundTeamScoreForms.findOne({ RoundId: + req.params.roundId }, function (err, playersList) {
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {
@@ -221,19 +221,33 @@ apiRoutes.get("/roundteamscoreforms/:roundId", function (req, res, next) {
 //   });
 // });
 
-apiRoutes.put("/roundteamscoreforms/:id", function (req, res) {
+apiRoutes.put("/roundteamscoreforms/:id", passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({ name: decoded.name }, function (err, user) {
+      if (err) throw err;
+      if (!user) {
+        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
+      }
+      if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
+        var updateScoreForm = {};
+        updateScoreForm = Object.assign(updateScoreForm, req.body);
+        delete updateScoreForm._id;
 
-  var updateScoreForm = {};
-  updateScoreForm = Object.assign(updateScoreForm, req.body);
-  delete updateScoreForm._id;
+        RoundTeamScoreForms.findOneAndUpdate({ RoundId: req.params.id }, updateScoreForm, ({ upsert: true }), function (err, roundteamscoreforms) {
+          if (err) return handleError(res, err.message, "Failed to Update Players");
+          res.status(200).json(roundteamscoreforms);
+          console.log("put for roundId " + req.params.id)
 
-  RoundTeamScoreForms.findOneAndUpdate({ RoundId: req.params.id }, updateScoreForm, ({ upsert: true }), function (err, roundteamscoreforms) {
-    if (err) return handleError(res, err.message, "Failed to Update Players");
-    res.status(200).json(roundteamscoreforms);
-    console.log("put for roundId " + req.params.id)
-
-    calculateteam.calculateTeamPredictionsPerRound(req.params.id);
-  });
+          calculateteam.calculateTeamPredictionsPerRound(req.params.id);
+        });
+      }
+      else {
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+      }
+    })
+  }
 });
 
 apiRoutes.get("/questionsScoreform/", function (req, res, next) {
@@ -247,14 +261,28 @@ apiRoutes.get("/questionsScoreform/", function (req, res, next) {
   });
 });
 
-apiRoutes.put("/questionsScoreform/", function (req, res) {
-
-  QuestionsScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, questionsScoreForm) {
-    if (err) return handleError(res, err.message, "Failed to Update questions");
-    res.status(200).json(questionsScoreForm);
-    console.log("saved questions")
-    calculatevragen.calculateQuestions();
-  });
+apiRoutes.put("/questionsScoreform/", passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({ name: decoded.name }, function (err, user) {
+      if (err) throw err;
+      if (!user) {
+        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
+      }
+      if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
+        QuestionsScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, questionsScoreForm) {
+          if (err) return handleError(res, err.message, "Failed to Update questions");
+          res.status(200).json(questionsScoreForm);
+          console.log("saved questions")
+          calculatevragen.calculateQuestions();
+        });
+      }
+      else {
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+      }
+    })
+  }
 });
 
 apiRoutes.get("/matchesScoreform/", function (req, res, next) {
@@ -268,13 +296,28 @@ apiRoutes.get("/matchesScoreform/", function (req, res, next) {
   });
 });
 
-apiRoutes.put("/matchesScoreform/", function (req, res) {
-  MatchesScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, matchesScoreform) {
-    if (err) return handleError(res, err.message, "Failed to Update questions");
-    res.status(200).json(matchesScoreform);
-    console.log("saved matches")
-    calculatewedstrijden.calculateWedstrijdScore();
-  });
+apiRoutes.put("/matchesScoreform/",passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({ name: decoded.name }, function (err, user) {
+      if (err) throw err;
+      if (!user) {
+        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
+      }
+      if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
+        MatchesScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, matchesScoreform) {
+          if (err) return handleError(res, err.message, "Failed to Update questions");
+          res.status(200).json(matchesScoreform);
+          console.log("saved matches")
+          calculatewedstrijden.calculateWedstrijdScore();
+        });
+      }
+      else {
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+      }
+    })
+  }
 });
 
 apiRoutes.get("/newteamStand/:roundId", function (req, res, next) {
@@ -301,6 +344,7 @@ apiRoutes.get("/wedstrijdenstand/", function (req, res, next) {
     }
   });
 });
+
 apiRoutes.get("/vragenstand/", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
   vragenStand.find({}, {}, { sort: { TotalQuestionsScore: -1 } }, function (err, roundTable) {
@@ -313,6 +357,7 @@ apiRoutes.get("/vragenstand/", function (req, res, next) {
     }
   });
 });
+
 apiRoutes.get("/totaalStand/", function (req, res, next) {
   newteamStand.aggregate([
     { $unwind: "$TeamScores" },
@@ -347,6 +392,7 @@ apiRoutes.get("/totaalStand/", function (req, res, next) {
       $group:
       {
         _id: { email: "$_id.email" },
+        Email: { $first: "$_id.email" },
         Name: { $first: "$ParticipantName" },
         TotalTeamScore: { $sum: "$TotalPlayerScore" },
         TeamScores: {
@@ -375,7 +421,8 @@ apiRoutes.get("/totaalStand/", function (req, res, next) {
         _id: 0,
         Name: 1,
         TotalTeamScore: 1,
-        TeamScores: 1
+        TeamScores: 1,
+        Email: 1
       }
     },
     { $sort: { TotalScore: -1 } }
@@ -392,20 +439,21 @@ apiRoutes.get("/totaalStand/", function (req, res, next) {
           wedstrijdenStand.find({}, function (err, wedstrijden) {
 
             for (var i = 0; i < roundTable.length; i += 1) {
-              var scorewedstrijden = _.find(wedstrijden, function (o) { return o.Participant.Name === roundTable[i].Name });
+              var scorewedstrijden = _.find(wedstrijden, function (o) { return o.Participant.Email === roundTable[i].Email });
               if (scorewedstrijden) {
                 roundTable[i].TotalMatchesScore = scorewedstrijden.TotalMatchesScore;
               }
 
-              var scorequestion = _.find(vragen, function (o) { return o.Participant.Name === roundTable[i].Name });
+              var scorequestion = _.find(vragen, function (o) { return o.Participant.Email === roundTable[i].Email });
               if (scorequestion) {
                 roundTable[i].TotalQuestionsScore = scorequestion.TotalQuestionsScore;
                 roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
+                delete roundTable[i].Email;
               }
               else {
                 roundTable[i].TotalQuestionsScore = 0;
                 roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
-
+                delete roundTable[i].Email;
               }
             }
 
@@ -589,18 +637,33 @@ apiRoutes.get("/headlines/", function (req, res, next) {
   });
 });
 
-apiRoutes.post("/headlines/", function (req, res) {
-  var headlines = new Headlines(req.body);
-  headlines.createdAt = new Date().toUTCString()
+apiRoutes.post("/headlines/", passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({ name: decoded.name }, function (err, user) {
+      if (err) throw err;
+      if (!user) {
+        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
+      }
+      if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
+        var headlines = new Headlines(req.body);
+        headlines.createdAt = new Date().toUTCString()
 
-  headlines.save(function (err, newheadlines) {
-    if (err) {
-      handleError(res, err.message, "Failed to create new headline.");
-    } else {
-      console.log(newheadlines);
-      res.status(200).json(newheadlines);
-    }
-  });
+        headlines.save(function (err, newheadlines) {
+          if (err) {
+            handleError(res, err.message, "Failed to create new headline.");
+          } else {
+            console.log(newheadlines);
+            res.status(200).json(newheadlines);
+          }
+        });
+      }
+      else {
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+      }
+    })
+  }
 });
 
 apiRoutes.get("/comments/", function (req, res, next) {
@@ -644,11 +707,26 @@ apiRoutes.post("/comments/", passport.authenticate('jwt', { session: false }), f
   }
 });
 
-apiRoutes.delete("/headlines/:id", function (req, res) {
-  Headlines.find({ _id: req.params.id }).remove(function (err, item) {
-    if (err) return handleError(res, err.message, "Failed to delete Item");
-    res.status(200).json(item);
-  })
+apiRoutes.delete("/headlines/:id", passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({ name: decoded.name }, function (err, user) {
+      if (err) throw err;
+      if (!user) {
+        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
+      }
+      if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
+        Headlines.find({ _id: req.params.id }).remove(function (err, item) {
+          if (err) return handleError(res, err.message, "Failed to delete Item");
+          res.status(200).json(item);
+        })
+      }
+      else {
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+      }
+    })
+  }
 });
 
 //disabled during entry
@@ -683,7 +761,7 @@ apiRoutes.get("/eredivisieplayers", function (req, res, next) {
 });
 
 apiRoutes.get("/gekozeneredivisieplayers", function (req, res, next) {
-  EredivisiePlayers.find({},{Player: 1},function (err, eredivisieplayersList) {
+  EredivisiePlayers.find({}, { Player: 1 }, function (err, eredivisieplayersList) {
     if (err) {
       handleError(res, err.message, "Failed to get predictions.");
     } else {
