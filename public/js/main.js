@@ -463,7 +463,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'js/controllers/HeadlinesController.js',
                             'js/controllers/HeadlinesApiController.js',
 
-                            'js/services/HeadlinesApi.js'
+                            'js/services/headlinesApi.js'
 
 
                         ]
