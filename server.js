@@ -24,12 +24,14 @@ var teamStand = require("./teamStandModel");
 var vragenStand = require("./vragenStandModel");
 var wedstrijdenStand = require("./wedstrijdenStandModel");
 var newteamStand = require("./newTeamStandModel");
+var totaalStand = require("./totaalStandModel");
 var Headlines = require("./headlinesModel");
 var Comments = require("./commentsModel");
 var User = require("./models/user");
 var _ = require('lodash');
 var MatchesScoreForm = require("./wedstrijdenScoreformsModel.js");
 var QuestionsScoreForm = require("./vragenScoreformsModel.js");
+var async = require("async");
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -116,7 +118,6 @@ apiRoutes.post('/authenticate', function (req, res) {
     }
   });
 });
-
 
 apiRoutes.get('/predictionform', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
@@ -296,7 +297,7 @@ apiRoutes.get("/matchesScoreform/", function (req, res, next) {
   });
 });
 
-apiRoutes.put("/matchesScoreform/",passport.authenticate('jwt', { session: false }), function (req, res) {
+apiRoutes.put("/matchesScoreform/", passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
   if (token) {
     var decoded = jwt.decode(token, config.secret);
@@ -331,6 +332,49 @@ apiRoutes.get("/newteamStand/:roundId", function (req, res, next) {
     }
   });
 });
+
+
+//twee keer stand ophalen om nieuwe punten te berekenen.
+apiRoutes.get("/newtotaalstand/:roundId", function (req, res, next) {
+  console.log("log api call roundTable/" + req.params.roundId);
+  async.waterfall([
+    function (callback) {
+      //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
+      totaalStand.find({ RoundId: req.params.roundId }, {}, { sort: { TotalTeamScore: -1 } }).lean().exec(function (err, roundTable) {
+        if (err) return console.error(err);
+        callback(null, roundTable);
+      })
+    },
+    function (roundTable, callback) {
+      totaalStand.find({ RoundId: (req.params.roundId - 1) }, {}, { sort: { TotalTeamScore: -1 } }).lean().exec(function (err, previousRoundTable) {
+        if (err) return console.error(err);
+        callback(null, roundTable, previousRoundTable)
+
+      })
+    },
+    function (roundTable, previousRoundTable, callback) {
+      var totstand = []
+      async.each(roundTable, function (regel, callback) {
+        var stand = new totaalStand;
+        stand = regel;
+        if (previousRoundTable.length > 0) {
+          var previous = _.find(previousRoundTable, function (o) { return o.Name === regel.Name });
+          stand.previousPositie = previous.Positie;
+          stand.previousTotalscore = stand.TotalScore - previous.TotalScore;
+          stand.deltaTotalQuestionsScore = stand.TotalQuestionsScore - previous.TotalQuestionsScore;
+          stand.deltaTotalMatchesScore = stand.TotalMatchesScore - previous.TotalMatchesScore;
+          stand.deltaTotalTeamScore = stand.TotalTeamScore - previous.TotalTeamScore;
+          stand.deltaTotalscore = stand.TotalScore - previous.TotalScore;
+        }
+        totstand.push(stand);
+      }, function (err) {
+        return console.error("error: " + err);
+      });
+      res.status(200).json(totstand);
+    }
+  ]);
+});
+// });
 
 apiRoutes.get("/wedstrijdenstand/", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
@@ -369,6 +413,7 @@ apiRoutes.get("/totaalStand/", function (req, res, next) {
 
         },
         Id: { $first: "$TeamScores.Id" },
+        RoundId: { $max: "$RoundId" },
         ParticipantName: { $first: "$Participant.Name" },
         playerName: { $first: "$TeamScores.Name" },
         Team: { $first: "$TeamScores.Team" },
@@ -394,6 +439,7 @@ apiRoutes.get("/totaalStand/", function (req, res, next) {
         _id: { email: "$_id.email" },
         Email: { $first: "$_id.email" },
         Name: { $first: "$ParticipantName" },
+        RoundId: { $max: "$RoundId" },
         TotalTeamScore: { $sum: "$TotalPlayerScore" },
         TeamScores: {
           $push: {
@@ -420,6 +466,7 @@ apiRoutes.get("/totaalStand/", function (req, res, next) {
       {
         _id: 0,
         Name: 1,
+        RoundId: 1,
         TotalTeamScore: 1,
         TeamScores: 1,
         Email: 1
@@ -472,7 +519,11 @@ apiRoutes.get("/totaalStand/", function (req, res, next) {
                   roundTable[i].Positie = i + 1;
                 }
               }
+              // totaalStand.findOneAndUpdate({RoundId : roundTable[i].RoundId, Name : roundTable[i].Name }, roundTable[i], ({ upsert: true }), function (err, totaalStand) {
+              // if (err) return handleError(res, err.message, "Failed to save totaalstand");
+              // });
             }
+
             res.status(200).json(roundTable);
           })
         }
