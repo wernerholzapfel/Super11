@@ -711,7 +711,7 @@ apiRoutes.delete("/headlines/:id", passport.authenticate('jwt', { session: false
   var token = getToken(req.headers);
   if (token) {
     var decoded = jwt.decode(token, config.secret);
-    console.log("delete is aangeroepen door: " decoded.name);
+    console.log("delete is aangeroepen door: " + decoded.name);
 //    User.findOne({ name: decoded.name }, function (err, user) {
 //      if (err) throw err;
 //      if (!user) {
