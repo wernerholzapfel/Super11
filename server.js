@@ -727,6 +727,7 @@ apiRoutes.delete("/headlines/:id", passport.authenticate('jwt', { session: false
 //        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
 //      }
 //    })
+      res.status(200);
   }
 });
 
