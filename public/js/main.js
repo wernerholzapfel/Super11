@@ -221,33 +221,33 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
             }
         })
 
-        //registreer
-        .state('registreer', {
-            url: "/registreer.html",
-            templateUrl: "views/registreer.html",
-            data: { pageTitle: 'Admin Dashboard Template' },
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            '../assets/global/plugins/morris/morris.css',
-                            '../assets/global/plugins/morris/morris.min.js',
-                            '../assets/global/plugins/morris/raphael-min.js',
-                            '../assets/global/plugins/jquery.sparkline.min.js',
+        // //registreer
+        // .state('registreer', {
+        //     url: "/registreer.html",
+        //     templateUrl: "views/registreer.html",
+        //     data: { pageTitle: 'Admin Dashboard Template' },
+        //     controller: "GeneralPageController",
+        //     resolve: {
+        //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+        //             return $ocLazyLoad.load({
+        //                 name: 'MetronicApp',
+        //                 insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+        //                 files: [
+        //                     '../assets/global/plugins/morris/morris.css',
+        //                     '../assets/global/plugins/morris/morris.min.js',
+        //                     '../assets/global/plugins/morris/raphael-min.js',
+        //                     '../assets/global/plugins/jquery.sparkline.min.js',
 
-                            '../assets/pages/scripts/dashboard.min.js',
-                            'js/controllers/GeneralPageController.js',
-                            'js/services/authenticationService.js',
-                            'js/controllers/AuthenticationController.js',
-                            'js/services/constants.js'
-                        ]
-                    });
-                }]
-            }
-        })
+        //                     '../assets/pages/scripts/dashboard.min.js',
+        //                     'js/controllers/GeneralPageController.js',
+        //                     'js/services/authenticationService.js',
+        //                     'js/controllers/AuthenticationController.js',
+        //                     'js/services/constants.js'
+        //                 ]
+        //             });
+        //         }]
+        //     }
+        // })
 
         // Participants
         .state('participants', {
@@ -471,6 +471,42 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                 }]
             }
         })
+
+            // statistieken
+                .state('statistieken', {
+                    url: "/statistieken.html",
+                    templateUrl: "views/statistieken.html",
+                    data: {
+                        pageTitle: 'Statistieken'
+                    },
+                    controller: "HeadlinesController",
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                name: 'MetronicApp',
+                                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                                files: [
+                                    '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                                    '../../../assets/pages/css/profile.css',
+                                    '../../../assets/pages/css/tasks.css',
+
+                                    '../../../assets/global/plugins/jquery.sparkline.min.js',
+                                    '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+
+                                    '../../../assets/pages/scripts/profile.js',
+
+                                    'js/controllers/HeadlinesController.js',
+                                    'js/controllers/StatistiekenApiController.js',
+
+                                    'js/services/statistiekenApi.js'
+
+
+                                ]
+                            });
+                        }]
+                    }
+                })
+
         // Predictions
         .state('predictions', {
             url: "/predictions/{id}",
