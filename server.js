@@ -75,24 +75,24 @@ require('./config/passport')(passport);
 // bundle our routes
 var apiRoutes = express.Router();
 
-apiRoutes.post('/signup', function (req, res) {
-  if (!req.body.name || !req.body.password) {
-    res.json({ success: false, msg: 'Please pass name and password.' });
-  } else {
-    var newUser = new User({
-      name: req.body.name.toLowerCase(),
-      password: req.body.password
-    });
-    // save the user
-    newUser.save(function (err) {
-      if (err) {
-        return res.json({ success: false, msg: 'Username already exists.' });
-      }
-      var token = jwt.encode(newUser, config.secret);
-      res.json({ success: true, msg: 'Successful created new user.', token: 'JWT ' + token });
-    });
-  }
-});
+//apiRoutes.post('/signup', function (req, res) {
+//  if (!req.body.name || !req.body.password) {
+//    res.json({ success: false, msg: 'Please pass name and password.' });
+//  } else {
+//    var newUser = new User({
+//      name: req.body.name.toLowerCase(),
+//      password: req.body.password
+//    });
+//    // save the user
+//    newUser.save(function (err) {
+//      if (err) {
+//        return res.json({ success: false, msg: 'Username already exists.' });
+//      }
+//      var token = jwt.encode(newUser, config.secret);
+//      res.json({ success: true, msg: 'Successful created new user.', token: 'JWT ' + token });
+//    });
+//  }
+//});
 
 // route to authenticate a user
 apiRoutes.post('/authenticate', function (req, res) {
@@ -402,6 +402,44 @@ apiRoutes.get("/vragenstand/", function (req, res, next) {
   });
 });
 
+apiRoutes.get("/teamstatistieken/", function (req, res, next) {
+  Predictions.aggregate([
+
+    { $unwind: "$Team" },
+    {
+      $group: {
+        _id: {
+          playerId: "$Team.PlayerId"
+        },
+        Count: { $sum: 1 },
+        Team: { $first: "$Team.Team" },
+        Position: { $first: "$Team.Position" },
+        PlayerName: { $first: "$Team.PlayerName" },
+        PlayerId: { $first: "Team.PlayerId" },
+      }
+    }
+    , {
+      $project:
+      {
+        _id: 0,
+        Count: 1,
+        Team: 1,
+        Position: 1,
+        PlayerName: 1,
+        PlayerId: 1
+      }
+    },
+     { $sort: { Count: -1 } }
+  ], function (err, teamstatistieken) {
+    if (err) {
+      handleError(res, err.message, "failed to get teamstatistieke ")
+    }
+    else {
+      res.status(200).json(teamstatistieken);
+    }
+  }
+  )
+})
 apiRoutes.get("/totaalStand/", function (req, res, next) {
   newteamStand.aggregate([
     { $unwind: "$TeamScores" },
@@ -762,6 +800,7 @@ apiRoutes.delete("/headlines/:id", passport.authenticate('jwt', { session: false
   var token = getToken(req.headers);
   if (token) {
     var decoded = jwt.decode(token, config.secret);
+    console.log("delete is aangeroepen door: " + decoded.name);
     User.findOne({ name: decoded.name }, function (err, user) {
       if (err) throw err;
       if (!user) {
@@ -777,6 +816,7 @@ apiRoutes.delete("/headlines/:id", passport.authenticate('jwt', { session: false
         return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
       }
     })
+    res.status(200);
   }
 });
 
