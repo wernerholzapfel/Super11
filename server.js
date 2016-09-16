@@ -12,10 +12,13 @@ var path = require("path");
 var assert = require("assert");
 var config = require('./config/database');
 var db = require("./db.js");
+
 var calculate = require("./calculate.js");
 var calculateteam = require("./calculateteam.js");
 var calculatevragen = require("./calculatevragen.js");
 var calculatewedstrijden = require("./calculatewedstrijden.js");
+var calculatetotaalstand = require("./calculatetotaalstand.js");
+
 var determineifplayerisselected = require("./determineifplayerisselected");
 var Predictions = require("./predictionModel");
 var RoundTeamScoreForms = require("./roundteamscoreformsModel");
@@ -439,9 +442,11 @@ apiRoutes.get("/teamstatistieken/", function (req, res, next) {
     }
   }
   )
-})
+});
+
 apiRoutes.get("/totaalStand/", function (req, res, next) {
   newteamStand.aggregate([
+    { $match: {"RoundId" : 1}},
     { $unwind: "$TeamScores" },
     {
       $group: {
@@ -568,7 +573,7 @@ apiRoutes.get("/totaalStand/", function (req, res, next) {
       })
     }
   });
-})
+});
 
 //kan straks weg
 apiRoutes.get("/teamStand/:roundId", function (req, res, next) {
@@ -862,14 +867,13 @@ apiRoutes.get("/gekozeneredivisieplayers", function (req, res, next) {
 });
 app.use('/api', apiRoutes);
 
+// calculatetotaalstand.calculatetotaalstand();
 // calculatewedstrijden.calculateWedstrijdScore();
 // calculatevragen.calculateQuestions();
 // calculateteam.calculateTeamPredictionsPerRound(1);
 // calculateteam.calculateTeamPredictionsPerRound(2);
 // calculateteam.calculateTeamPredictionsPerRound(3);
-
 //todo remove this
-
 // calculate.calculateTeamPredictionsPerRound(5);
 // determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
 // calculate.calculateTeamPredictionsPerRound(1);
