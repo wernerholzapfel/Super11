@@ -33,7 +33,7 @@
                         <div class="table-scrollable">
                                 <table class="table table-striped">
                                <thead><tr>
-                                        <th> Naam</th>
+                                        <th colspan="2"> Naam</th>
                                         <th> Gespeeld</th>
                                         <th> Winst</th>
                                         <th> Gelijk</th>
@@ -49,7 +49,9 @@
                                     <tbody>
                                     <tr
                                         ng-repeat="player in score.TeamScores | orderBy :'Id'">
-                                        <td> {{player.Name}}
+                                        <td>
+                                            <img class="clubicon" ng-src="clubicons/{{player.Team}}.png"></td>
+                                            <td> {{player.Position}} {{player.Name}}
                                             <span ng-if="player.Captain">(C)</span>
                                         </td>
                                         <td> {{player.Played}}</td>
@@ -82,7 +84,7 @@
                         <div class="table-scrollable">
                                 <table class="table table-striped">
                                <thead><tr>
-                                        <th> Naam</th>
+                                        <th  colspan="2"> Naam</th>
                                         <th> Gespeeld</th>
                                         <th> Winst</th>
                                         <th> Gelijk</th>
@@ -98,7 +100,9 @@
                                     <tbody>
                                     <tr
                                         ng-repeat="player in score.TeamScores | orderBy :'Id'">
-                                        <td> {{player.Name}}
+                                        <td> 
+                                            <img class="clubicon" ng-src="clubicons/{{player.Team}}.png"> 
+                                            </td><td>{{player.Position}} {{player.Name}}
                                             <span ng-if="player.Captain">(C)</span>                                            
                                         </td>
                                         <td> {{player.Played}}</td>
