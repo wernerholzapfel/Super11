@@ -1,7 +1,7 @@
-var vragenStand = require("./vragenStandModel");
-var wedstrijdenStand = require("./wedstrijdenStandModel");
-var newteamStand = require("./newTeamStandModel");
-var totaalStand = require("./totaalStandModel");
+var vragenStand = require("./models/vragenStandModel");
+var wedstrijdenStand = require("./models/wedstrijdenStandModel");
+var newteamStand = require("./models/newTeamStandModel");
+var totaalStand = require("./models/totaalStandModel");
 var async = require("async");
 var _ = require('lodash');
 
@@ -9,7 +9,6 @@ var _ = require('lodash');
 var exports = module.exports = {};
 
 exports.calculatetotaalstand = function () {
-
 
 newteamStand.aggregate([
     { $unwind: "$TeamScores" },
@@ -36,8 +35,6 @@ newteamStand.aggregate([
         OwnGoals: { $sum: "$TeamScores.OwnGoals" },
         CleanSheetScore: { $sum: "$TeamScores.CleanSheetScore" },
         TotalPlayerScore: { $sum: "$TeamScores.TotalScore" }
-        // ,
-        // TotalOverallScore: { $sum: "$TotalScore" }
       }
     }
     ,
@@ -129,6 +126,7 @@ newteamStand.aggregate([
               }
                totaalStand.findOneAndUpdate({RoundId : roundTable[i].RoundId, Name : roundTable[i].Name }, roundTable[i], ({ upsert: true }), function (err, totaalStand) {
                if (err) return handleError(res, err.message, "Failed to save totaalstand");
+               console.log("saved totalstaand")
                });
             }
           })

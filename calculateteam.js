@@ -1,7 +1,8 @@
-var teamRoundScore = require("./roundteamscoreformsModel");
-var teamStand = require("./newTeamStandModel");
-var predictions = require("./predictionModel");
+var teamRoundScore = require("./models/roundteamscoreformsModel");
+var teamStand = require("./models/newTeamStandModel");
+var predictions = require("./models/predictionModel");
 var async = require("async");
+var calculatetotaalstand = require("./calculatetotaalstand.js");
 var _ = require('lodash');
 
 var playedScore = 1;
@@ -112,12 +113,14 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
           if (err) return console.error("error: " + err);
           console.log("saved stand for round: " + roundId);
         });
-
-
-      }, function (err) {
+      }, callback());
+    },
+    function () {
+      calculatetotaalstand.calculatetotaalstand();
+    },
+    function (err) {
         console.log("err" + err)
-      });
-    }
+      }
   ]);
 };
 

@@ -1,6 +1,8 @@
-var wedstrijdenUitslag = require("./wedstrijdenScoreformsModel");
-var wedstrijdenStand = require("./wedstrijdenStandModel");
-var predictions = require("./predictionModel");
+var wedstrijdenUitslag = require("./models/wedstrijdenScoreformsModel");
+var wedstrijdenStand = require("./models/wedstrijdenStandModel");
+var predictions = require("./models/predictionModel");
+var calculatetotaalstand = require("./calculatetotaalstand.js");
+
 var async = require("async");
 var _ = require('lodash');
 
@@ -44,7 +46,7 @@ exports.calculateWedstrijdScore = function () {
             matchScore.Id = match.Id
             matchScore.Uitslag = scoreMatches.Home + "-" + scoreMatches.Away,
 
-            stand.TotalMatchesScore = stand.TotalMatchesScore + matchScore.Score;
+              stand.TotalMatchesScore = stand.TotalMatchesScore + matchScore.Score;
             stand.MatchesScore.push(matchScore);
           }
         },
@@ -57,13 +59,18 @@ exports.calculateWedstrijdScore = function () {
         standToUpdate = Object.assign(standToUpdate, stand._doc);
         delete standToUpdate._id;
 
-        wedstrijdenStand.findOneAndUpdate({'Participant.Email': prediction.Participant.Email }, standToUpdate, ({ upsert: true }), function (err, stand) {
+        wedstrijdenStand.findOneAndUpdate({ 'Participant.Email': prediction.Participant.Email }, standToUpdate, ({ upsert: true }), function (err, stand) {
           if (err) return console.error("error: " + err);
           console.log("saved wedstrijdenstand for : " + prediction.Participant.Name);
         });
-      }, function (err) {
-        console.log("err" + err)
-      });
+      }, callback());
+    },
+    function () {
+      calculatetotaalstand.calculatetotaalstand();
+
+    },
+    function (err) {
+      console.log("err" + err)
     }
   ]);
 };

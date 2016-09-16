@@ -1,11 +1,7 @@
 ﻿
-angular.module('MetronicApp').controller('TeamTableApiController', function (teamTableApi, vragenStandApi, newTotalTeamTableApi, wedstrijdenStandApi, totalTeamTableApi, roundsApi,$uibModal, $scope) {
-    // Call the async method and then do stuff with what is returned inside our own then function
-
-$scope.items = ['item1', 'item2', 'item3'];
-
-   
- $scope.showTeamStand = function(data,template) {
+angular.module('MetronicApp').controller('TeamTableApiController', function (teamTableApi, vragenStandApi, totaalstandApi, wedstrijdenStandApi, roundsApi,$uibModal, $scope) {
+ 
+$scope.showTeamStand = function(data,template) {
        
        var modalInstance = $uibModal.open({
             templateUrl: 'teamstandmodal.html',
@@ -17,6 +13,7 @@ $scope.items = ['item1', 'item2', 'item3'];
         }
         }});
     };
+
 
 $scope.showTotalTeamStandModel= function(data) {
   var modalInstance = $uibModal.open({
@@ -71,11 +68,7 @@ $scope.showWedstrijdenStandModel= function(data) {
 
     });
 
-    totalTeamTableApi.async().then(function (data) {
-        $scope.totalTeamTable = data;
-    });
-
-    newTotalTeamTableApi.async().then(function(data){
+    totaalstandApi.async().then(function(data){
         $scope.newTotalTeamTable = data;
     });
 
@@ -86,6 +79,7 @@ $scope.showWedstrijdenStandModel= function(data) {
     wedstrijdenStandApi.async().then(function (data) {
         $scope.wedstrijdenstand = data;
     });
+
     // $scope.selectedRound.RoundId = 1;
     $scope.getnewround = function (roundId) {
         teamTableApi.async(roundId).then(function (data) {
@@ -93,8 +87,6 @@ $scope.showWedstrijdenStandModel= function(data) {
         });
 
     };
-
-     $scope.oneAtATime = true;
 });
 
 

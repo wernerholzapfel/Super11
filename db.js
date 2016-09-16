@@ -35,16 +35,13 @@ process.on('SIGINT', function() {
 
 // BRING IN YOUR SCHEMAS & MODELS
 // For example
-require("./predictionModel");
-require("./roundteamscoreformsModel");
-require("./eredivisiePlayersModel");
-require("./calculate");
-require("./calculateteam");
-require("./calculatevragen");
-require("./teamStandModel");
-require("./newTeamStandModel");
-require("./headlinesModel"); 
-require("./commentsModel");
+require("./models/predictionModel");
+require("./models//roundteamscoreformsModel");
+require("./models//eredivisiePlayersModel");
+require("./models//teamStandModel");
+require("./models//newTeamStandModel");
+require("./models//headlinesModel"); 
+require("./models//commentsModel");
 require("./models/user");
 
 

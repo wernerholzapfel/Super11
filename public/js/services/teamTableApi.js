@@ -1,9 +1,9 @@
 ﻿
-angular.module('MetronicApp').factory('teamTableApi', function ($http) {
+angular.module('MetronicApp').factory('teamTableApi', function ($http,API_ENDPOINT) {
     var myService = {
         async: function (roundId) {
             // $http returns a promise, which has a then function, which also returns a promise
-            var promise = $http.get('https://safe-oasis-58234.herokuapp.com/api/newteamStand/'+roundId).then(function (response) {
+            var promise = $http.get(API_ENDPOINT.url + '/newteamStand/'+roundId).then(function (response) {
                 // The then function here is an opportunity to modify the response
                 console.log(response);
                 // The return value gets picked up by the then in the controller.
@@ -16,27 +16,11 @@ angular.module('MetronicApp').factory('teamTableApi', function ($http) {
     return myService;
 });
 
-angular.module('MetronicApp').factory('newTotalTeamTableApi', function ($http) {
+angular.module('MetronicApp').factory('totaalstandApi', function ($http,API_ENDPOINT) {
     var myService = {
         async: function () {
             // $http returns a promise, which has a then function, which also returns a promise
-            var promise = $http.get('http://localhost:8200/api/newtotaalstand/').then(function (response) {
-                // The then function here is an opportunity to modify the response
-                console.log(response);
-                // The return value gets picked up by the then in the controller.
-                return response.data;
-            });
-            // Return the promise to the controller
-            return promise;
-        }
-    };
-    return myService;
-});
-angular.module('MetronicApp').factory('totalTeamTableApi', function ($http) {
-    var myService = {
-        async: function () {
-            // $http returns a promise, which has a then function, which also returns a promise
-            var promise = $http.get('https://safe-oasis-58234.herokuapp.com/api/totaalStand/').then(function (response) {
+            var promise = $http.get(API_ENDPOINT.url + '/totaalstand/').then(function (response) {
                 // The then function here is an opportunity to modify the response
                 console.log(response);
                 // The return value gets picked up by the then in the controller.
@@ -50,11 +34,11 @@ angular.module('MetronicApp').factory('totalTeamTableApi', function ($http) {
 });
 
 
-angular.module('MetronicApp').factory('wedstrijdenStandApi', function ($http) {
+angular.module('MetronicApp').factory('wedstrijdenStandApi', function ($http,API_ENDPOINT) {
     var myService = {
         async: function () {
             // $http returns a promise, which has a then function, which also returns a promise
-            var promise = $http.get('https://safe-oasis-58234.herokuapp.com/api/wedstrijdenStand/').then(function (response) {
+            var promise = $http.get(API_ENDPOINT.url + '/wedstrijdenStand/').then(function (response) {
                 // The then function here is an opportunity to modify the response
                 console.log(response);
                 // The return value gets picked up by the then in the controller.
@@ -67,11 +51,11 @@ angular.module('MetronicApp').factory('wedstrijdenStandApi', function ($http) {
     return myService;
 });
 
-angular.module('MetronicApp').factory('vragenStandApi', function ($http) {
+angular.module('MetronicApp').factory('vragenStandApi', function ($http,API_ENDPOINT) {
     var myService = {
         async: function () {
             // $http returns a promise, which has a then function, which also returns a promise
-            var promise = $http.get('https://safe-oasis-58234.herokuapp.com/api/vragenStand/').then(function (response) {
+            var promise = $http.get(API_ENDPOINT.url + '/vragenStand/').then(function (response) {
                 // The then function here is an opportunity to modify the response
                 console.log(response);
                 // The return value gets picked up by the then in the controller.

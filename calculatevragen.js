@@ -1,6 +1,7 @@
-var vragenUitslag = require("./vragenScoreformsModel");
-var vragenStand = require("./vragenStandModel");
-var predictions = require("./predictionModel");
+var vragenUitslag = require("./models/vragenScoreformsModel");
+var vragenStand = require("./models/vragenStandModel");
+var predictions = require("./models/predictionModel");
+var calculatetotaalstand = require("./calculatetotaalstand.js");
 var async = require("async");
 var _ = require('lodash');
 
@@ -73,10 +74,16 @@ exports.calculateQuestions = function () {
                     if (err) return console.error("error: " + err);
                     console.log("saved vragenstand for : " + prediction.Participant.Name);
                 });
-            }, function (err) {
-                console.log("err" + err)
-            });
+            },
+             callback());
+        },
+        function () {
+            calculatetotaalstand.calculatetotaalstand();
+        },
+        function (err) {
+            console.log("err" + err)
         }
+
     ]);
 };
 
