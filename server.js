@@ -338,18 +338,31 @@ apiRoutes.get("/newteamStand/:roundId", function (req, res, next) {
 
 
 //twee keer stand ophalen om nieuwe punten te berekenen.
-apiRoutes.get("/newtotaalstand/:roundId", function (req, res, next) {
-  console.log("log api call roundTable/" + req.params.roundId);
+apiRoutes.get("/newtotaalstand/", function (req, res, next) {
+  console.log("log api call roundTable/");
+
   async.waterfall([
-    function (callback) {
+  function(callback) {
+    RoundTeamScoreForms.find({}, { RoundId: 1, _id: 0 },{sort : { RoundId : -1}}, function (err, rounds) {
+      if (err) {
+        handleError(res, err.message, "failed to get rounds");
+      }
+      else {
+      var maxRoundId = rounds[0].RoundId
+      callback(null,maxRoundId)
+      }
+
+    });
+  },
+    function (maxRoundId,callback) {
       //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
-      totaalStand.find({ RoundId: req.params.roundId }, {}, { sort: { TotalTeamScore: -1 } }).lean().exec(function (err, roundTable) {
+      totaalStand.find({ RoundId: maxRoundId }, {}, { sort: { TotalTeamScore: -1 } }).lean().exec(function (err, roundTable) {
         if (err) return console.error(err);
-        callback(null, roundTable);
+        callback(null, roundTable,maxRoundId);
       })
     },
-    function (roundTable, callback) {
-      totaalStand.find({ RoundId: (req.params.roundId - 1) }, {}, { sort: { TotalTeamScore: -1 } }).lean().exec(function (err, previousRoundTable) {
+    function (roundTable,maxRoundId, callback) {
+      totaalStand.find({ RoundId: (maxRoundId - 1) }, {}, { sort: { TotalTeamScore: -1 } }).lean().exec(function (err, previousRoundTable) {
         if (err) return console.error(err);
         callback(null, roundTable, previousRoundTable)
 
@@ -588,8 +601,10 @@ apiRoutes.get("/teamStand/:roundId", function (req, res, next) {
   });
 });
 
+
+//todo findOne omzetten naar find
 apiRoutes.get("/rounds", function (req, res, next) {
-  RoundTeamScoreForms.find({}, { RoundId: 1, _id: 0 }, function (err, rounds) {
+  RoundTeamScoreForms.findOne({}, { RoundId: 1, _id: 0 }, function (err, rounds) {
     if (err) {
       handleError(res, err.message, "failed to get rounds");
     }
