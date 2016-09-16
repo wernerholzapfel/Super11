@@ -34,7 +34,8 @@ newteamStand.aggregate([
         Goals: { $sum: "$TeamScores.Goals" },
         OwnGoals: { $sum: "$TeamScores.OwnGoals" },
         CleanSheetScore: { $sum: "$TeamScores.CleanSheetScore" },
-        TotalPlayerScore: { $sum: "$TeamScores.TotalScore" }
+        TotalPlayerScore: { $sum: "$TeamScores.TotalScore" },
+        Captain: { $first: "$TeamScores.Captain"}
       }
     }
     ,
@@ -62,6 +63,7 @@ newteamStand.aggregate([
             OwnGoals: "$OwnGoals",
             CleanSheetScore: "$CleanSheetScore",
             TotalScore: "$TotalPlayerScore",
+            Captain: "$Captain",
           }
         }
       }

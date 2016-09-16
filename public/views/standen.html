@@ -49,7 +49,9 @@
                                     <tbody>
                                     <tr
                                         ng-repeat="player in score.TeamScores | orderBy :'Id'">
-                                        <td> {{player.Name}}</td>
+                                        <td> {{player.Name}}
+                                            <span ng-if="player.Captain">(C)</span>
+                                        </td>
                                         <td> {{player.Played}}</td>
                                         <td> {{player.Won}}</td>
                                         <td> {{player.Draw}}</td>
@@ -96,7 +98,9 @@
                                     <tbody>
                                     <tr
                                         ng-repeat="player in score.TeamScores | orderBy :'Id'">
-                                        <td> {{player.Name}}</td>
+                                        <td> {{player.Name}}
+                                            <span ng-if="player.Captain">(C)</span>                                            
+                                        </td>
                                         <td> {{player.Played}}</td>
                                         <td> {{player.Won}}</td>
                                         <td> {{player.Draw}}</td>

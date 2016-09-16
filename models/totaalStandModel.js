@@ -24,7 +24,8 @@ var totaalStandSchema = new mongoose.Schema({
         Goals: { type: Number, required: false },
         OwnGoals: { type: Number, required: false },
 		CleanSheetScore: { type: Number, required: false },
-        TotalScore: { type: Number, required: false }
+        TotalScore: { type: Number, required: false },
+		Captain: {type: Boolean, required: false}
 	}]
 });
 

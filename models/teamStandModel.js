@@ -23,7 +23,8 @@ var teamStandSchema = new mongoose.Schema({
         Goals: { type: Number, required: false },
         OwnGoals: { type: Number, required: false },
 		CleanSheetScore: { type: Number, required: true },
-        TotalScore: { type: Number, required: false }
+        TotalScore: { type: Number, required: false },
+		Captain: {type: Boolean, required: false}
 	}],
 	QuestionsScore: [{
 		Id: { type: Number, required: true },
