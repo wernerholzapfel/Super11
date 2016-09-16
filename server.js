@@ -245,6 +245,7 @@ apiRoutes.put("/roundteamscoreforms/:id", passport.authenticate('jwt', { session
           console.log("put for roundId " + req.params.id)
 
           calculateteam.calculateTeamPredictionsPerRound(req.params.id);
+
         });
       }
       else {
@@ -253,6 +254,7 @@ apiRoutes.put("/roundteamscoreforms/:id", passport.authenticate('jwt', { session
     })
   }
 });
+
 
 apiRoutes.get("/questionsScoreform/", function (req, res, next) {
   QuestionsScoreForm.findOne(function (err, questions) {
@@ -348,7 +350,7 @@ apiRoutes.get("/newtotaalstand/", function (req, res, next) {
         handleError(res, err.message, "failed to get rounds");
       }
       else {
-      var maxRoundId = rounds[0].RoundId
+      var maxRoundId = rounds[0].RoundId;
       callback(null,maxRoundId)
       }
 
@@ -376,7 +378,7 @@ apiRoutes.get("/newtotaalstand/", function (req, res, next) {
         if (previousRoundTable.length > 0) {
           var previous = _.find(previousRoundTable, function (o) { return o.Name === regel.Name });
           stand.previousPositie = previous.Positie;
-          stand.previousTotalscore = stand.TotalScore - previous.TotalScore;
+          stand.deltaPositie = previous.Positie - stand.Positie ;
           stand.deltaTotalQuestionsScore = stand.TotalQuestionsScore - previous.TotalQuestionsScore;
           stand.deltaTotalMatchesScore = stand.TotalMatchesScore - previous.TotalMatchesScore;
           stand.deltaTotalTeamScore = stand.TotalTeamScore - previous.TotalTeamScore;

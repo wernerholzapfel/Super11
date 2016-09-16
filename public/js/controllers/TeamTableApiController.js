@@ -1,5 +1,5 @@
 ﻿
-angular.module('MetronicApp').controller('TeamTableApiController', function (teamTableApi, vragenStandApi, wedstrijdenStandApi, totalTeamTableApi, roundsApi,$uibModal, $scope) {
+angular.module('MetronicApp').controller('TeamTableApiController', function (teamTableApi, vragenStandApi, newTotalTeamTableApi, wedstrijdenStandApi, totalTeamTableApi, roundsApi,$uibModal, $scope) {
     // Call the async method and then do stuff with what is returned inside our own then function
 
 $scope.items = ['item1', 'item2', 'item3'];
@@ -60,11 +60,9 @@ $scope.showWedstrijdenStandModel= function(data) {
         $scope.rounds = roundsdata;
        if ($scope.rounds.length < 1) {
             $scope.selectedRound = 0;
-            $scope.hideTable = false;
         }
         else {
             $scope.selectedRound = _.last($scope.rounds).RoundId;
-            $scope.hideTable = false;
         }
 
         teamTableApi.async($scope.selectedRound).then(function (data) {
@@ -72,8 +70,13 @@ $scope.showWedstrijdenStandModel= function(data) {
         });
 
     });
+
     totalTeamTableApi.async().then(function (data) {
         $scope.totalTeamTable = data;
+    });
+
+    newTotalTeamTableApi.async().then(function(data){
+        $scope.newTotalTeamTable = data;
     });
 
     vragenStandApi.async().then(function (data) {
