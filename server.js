@@ -604,7 +604,7 @@ apiRoutes.get("/teamStand/:roundId", function (req, res, next) {
 
 //todo findOne omzetten naar find
 apiRoutes.get("/rounds", function (req, res, next) {
-  RoundTeamScoreForms.findOne({}, { RoundId: 1, _id: 0 }, function (err, rounds) {
+  RoundTeamScoreForms.find({ RoundId: 1}, { RoundId: 1, _id: 0 }, function (err, rounds) {
     if (err) {
       handleError(res, err.message, "failed to get rounds");
     }
