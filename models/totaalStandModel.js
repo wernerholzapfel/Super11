@@ -6,6 +6,7 @@ var totaalStandSchema = new mongoose.Schema({
 	Name: { type: String, required: true },
 	Email: { type: String, required: true },
 	TotalTeamScore: { type: Number, required: true },
+	TotalEindstandScore: { type: Number, required: true },
 	TotalMatchesScore: { type: Number, required: true },
 	TotalScore: { type: Number, required: true },
 	TotalQuestionsScore: { type: Number, required: true },

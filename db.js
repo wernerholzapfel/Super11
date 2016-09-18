@@ -36,12 +36,13 @@ process.on('SIGINT', function() {
 // BRING IN YOUR SCHEMAS & MODELS
 // For example
 require("./models/predictionModel");
-require("./models//roundteamscoreformsModel");
-require("./models//eredivisiePlayersModel");
-require("./models//teamStandModel");
-require("./models//newTeamStandModel");
-require("./models//headlinesModel"); 
-require("./models//commentsModel");
+require("./models/roundteamscoreformsModel");
+require("./models/eredivisiePlayersModel");
+require("./models/eindstandScoreformsModel");
+require("./models/teamStandModel");
+require("./models/newTeamStandModel");
+require("./models/headlinesModel"); 
+require("./models/commentsModel");
 require("./models/user");
 
 

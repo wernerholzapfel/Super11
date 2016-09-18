@@ -20,6 +20,7 @@ var calculateteam = require("./calculateteam.js");
 var calculatevragen = require("./calculatevragen.js");
 var calculatewedstrijden = require("./calculatewedstrijden.js");
 var calculatetotaalstand = require("./calculatetotaalstand.js");
+var calculateeindstand = require("./calculateeindstand.js");
 var determineifplayerisselected = require("./determineifplayerisselected");
 //models
 var Predictions = require("./models/predictionModel");
@@ -30,11 +31,14 @@ var vragenStand = require("./models/vragenStandModel");
 var wedstrijdenStand = require("./models/wedstrijdenStandModel");
 var newteamStand = require("./models/newTeamStandModel");
 var totaalStand = require("./models/totaalStandModel");
+var eindstandStand = require("./models/eindstandStandModel");
+
 var Headlines = require("./models/headlinesModel");
 var Comments = require("./models/commentsModel");
 var User = require("./models/user");
 var MatchesScoreForm = require("./models/wedstrijdenScoreformsModel.js");
 var QuestionsScoreForm = require("./models/vragenScoreformsModel.js");
+var Eindstandscoreform = require("./models/eindstandScoreformsModel.js");
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -324,6 +328,43 @@ apiRoutes.put("/matchesScoreform/", passport.authenticate('jwt', { session: fals
   }
 });
 
+apiRoutes.get("/eindstandscoreform", function (req,res,next) {
+    Eindstandscoreform.findOne(function (err, eindstand) {
+    if (err) {
+      handleError(res, error.message, "failed tot get eindstandscoreform");
+    }
+    else {
+      res.status(200).json(eindstand);
+    }
+  });
+});
+
+apiRoutes.put("/eindstandscoreform/", passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({ name: decoded.name }, function (err, user) {
+      if (err) throw err;
+      if (!user) {
+        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
+      }
+      if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
+        Eindstandscoreform.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, eindstandscoreform) {
+          if (err) return handleError(res, err.message, "Failed to Update eindstand");
+          res.status(200).json(eindstandscoreform);
+          console.log("saved eindstand")
+          //todo calculate eindstand
+        });
+      }
+      else {
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+      }
+    })
+  }
+});
+
+
+
 apiRoutes.get("/newteamStand/:roundId", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
   newteamStand.find({ RoundId: req.params.roundId }, {}, { sort: { TotalTeamScore: -1 } }, function (err, roundTable) {
@@ -396,7 +437,7 @@ apiRoutes.get("/wedstrijdenstand/", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
   wedstrijdenStand.find({}, {}, { sort: { TotalMatchesScore: -1 } }, function (err, roundTable) {
     if (err) {
-      handleError(res, error.message, "failed tot get roundTable");
+      handleError(res, error.message, "failed tot get wedstrijdenstand");
     }
     else {
       //todo positie toevoegen?
@@ -409,7 +450,20 @@ apiRoutes.get("/vragenstand/", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
   vragenStand.find({}, {}, { sort: { TotalQuestionsScore: -1 } }, function (err, roundTable) {
     if (err) {
-      handleError(res, error.message, "failed tot get roundTable");
+      handleError(res, error.message, "failed tot get vragenstand");
+    }
+    else {
+      //todo positie toevoegen?
+      res.status(200).json(roundTable);
+    }
+  });
+});
+
+apiRoutes.get("/eindstandstand/", function (req, res, next) {
+  console.log("log api call roundTable/");
+  eindstandStand.find({}, {}, { sort: { TotalEindstandScore: -1 } }, function (err, roundTable) {
+    if (err) {
+      handleError(res, error.message, "failed tot get eindstand stand");
     }
     else {
       //todo positie toevoegen?
@@ -605,6 +659,9 @@ apiRoutes.get("/eredivisieplayers", function (req, res, next) {
   });
 });
 
+
+
+
 apiRoutes.get("/gekozeneredivisieplayers", function (req, res, next) {
   EredivisiePlayers.find({}, { Player: 1 }, function (err, eredivisieplayersList) {
     if (err) {
@@ -616,19 +673,12 @@ apiRoutes.get("/gekozeneredivisieplayers", function (req, res, next) {
 });
 app.use('/api', apiRoutes);
 
+// calculateeindstand.calculateEindstand();
 // calculatetotaalstand.calculatetotaalstand();
 // calculatewedstrijden.calculateWedstrijdScore();
 // calculatevragen.calculateQuestions();
 // calculateteam.calculateTeamPredictionsPerRound(1);
-// calculateteam.calculateTeamPredictionsPerRound(2);
-// calculateteam.calculateTeamPredictionsPerRound(3);
-//todo remove this
-// calculate.calculateTeamPredictionsPerRound(5);
 // determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
-// calculate.calculateTeamPredictionsPerRound(1);
-// calculate.calculateTeamPredictionsPerRound(2);
-// calculate.calculateTeamPredictionsPerRound(3);
-
 var leegFormulier =
   {
     "Participant": {

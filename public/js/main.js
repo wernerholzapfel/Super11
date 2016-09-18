@@ -322,6 +322,44 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
             }
         })
 
+    // tablescoreform
+        .state('tablescoreform', {
+            url: "/tablescoreform.html",
+            templateUrl: "views/tablescoreform.html",
+            data: {
+                pageTitle: 'Eindstand scoreformulier'
+            },
+            controller: "ScoreFormController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            '../../../assets/pages/css/profile.css',
+                            '../../../assets/pages/css/tasks.css',
+
+                            '../../../assets/global/plugins/jquery.sparkline.min.js',
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+
+                            '../../../assets/pages/scripts/profile.js',
+
+                            'js/services/authenticationService',
+                            'js/services/playerListService.js',
+                            'js/services/scoreFormService.js',
+                            'js/services/matchesService.js',
+                            'js/services/questionsService.js',
+                            'js/services/eredivisiePlayersApi.js',
+                            'js/services/roundsApi.js',
+                                
+                            'js/controllers/ScoreFormController.js',
+                            'js/controllers/ScoreFormApiController.js'
+                        ]
+                    });
+                }]
+            }
+        })
         // Registration
         .state('registration', {
             url: "/registration.html",
@@ -361,6 +399,41 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
         .state('standen', {
             url: "/standen.html",
             templateUrl: "views/standen.html",
+            data: {
+                pageTitle: 'De Stand'
+            },
+            controller: "TeamTableController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            '../../../assets/pages/css/profile.css',
+                            '../../../assets/pages/css/tasks.css',
+
+                            '../../../assets/global/plugins/jquery.sparkline.min.js',
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+
+                            '../../../assets/pages/scripts/profile.js',
+
+                            'js/services/roundsApi.js',
+
+                            'js/controllers/TeamTableController.js',
+                            'js/controllers/TeamTableApiController.js',
+
+                            'js/services/teamTableApi.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
+      // Stand new
+        .state('eredivisieeindstand', {
+            url: "/eredivisieeindstand.html",
+            templateUrl: "views/eredivisieeindstand.html",
             data: {
                 pageTitle: 'De Stand'
             },
