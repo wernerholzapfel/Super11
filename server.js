@@ -396,21 +396,24 @@ apiRoutes.get("/totaalstand/", function (req, res, next) {
   },
     function (maxRoundId,callback) {
       //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
-      totaalStand.find({ RoundId: maxRoundId }, {}, { sort: { TotalTeamScore: -1 } }).lean().exec(function (err, roundTable) {
+      totaalStand.find({ RoundId: maxRoundId }, {}, { sort: { TotalScore: -1 } }).lean().exec(function (err, roundTable) {
         if (err) return console.error(err);
         callback(null, roundTable,maxRoundId);
       })
     },
     function (roundTable,maxRoundId, callback) {
-      totaalStand.find({ RoundId: (maxRoundId - 1) }, {}, { sort: { TotalTeamScore: -1 } }).lean().exec(function (err, previousRoundTable) {
+      totaalStand.find({ RoundId: (maxRoundId - 1) }, {}, { sort: { TotalScore: -1 } }).lean().exec(function (err, previousRoundTable) {
         if (err) return console.error(err);
         callback(null, roundTable, previousRoundTable)
 
       })
     },
     function (roundTable, previousRoundTable, callback) {
-      var totstand = []
-      async.each(roundTable, function (regel, callback) {
+      var totstand = {}
+      totstand.deelnemers = []
+      var date = roundTable[0]._id.getTimestamp();
+      totstand.lastupdated = date;
+      async.each(roundTable, function (regel, callback) { 
         var stand = new totaalStand;
         stand = regel;
         if (previousRoundTable.length > 0) {
@@ -422,7 +425,7 @@ apiRoutes.get("/totaalstand/", function (req, res, next) {
           stand.deltaTotalTeamScore = stand.TotalTeamScore - previous.TotalTeamScore;
           stand.deltaTotalscore = stand.TotalScore - previous.TotalScore;
         }
-        totstand.push(stand);
+        totstand.deelnemers.push(stand);
       }, function (err) {
         return console.error("error: " + err);
       });
@@ -676,7 +679,7 @@ app.use('/api', apiRoutes);
 // calculatetotaalstand.calculatetotaalstand();
 // calculatewedstrijden.calculateWedstrijdScore();
 // calculatevragen.calculateQuestions();
-calculateteam.calculateTeamPredictionsPerRound(1);
+// calculateteam.calculateTeamPredictionsPerRound(1);
 // determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
 var leegFormulier =
   {

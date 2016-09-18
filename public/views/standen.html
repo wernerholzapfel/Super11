@@ -206,7 +206,9 @@
                     <div class="portlet box green">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa"></i>
+                                <i class="fa">
+                                </i>                                
+                               <!--Stand bijgewerkt tot: {{newTotalTeamTable.lastupdated | date: 'dd-MM-yyyy @ HH:mm'}}-->
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -223,15 +225,15 @@
                                                 Naam
                                             </th>
                                             <th>
-                                                Totaal Score
+                                                Totaal
                                             </th>
-                                            <th>Totaal Team</th>
-                                            <th>Totaal Wedstrijden</th>
-                                            <th>Totaal Vragen</th>
+                                            <th>Team</th>
+                                            <th>Wedstrijden</th>
+                                            <th>Vragen</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="table in newTotalTeamTable">
+                                        <tr ng-repeat="table in newTotalTeamTable.deelnemers">
                                             <td>
                                                 <span class="fa fa-long-arrow-up" ng-if="table.Positie < table.previousPositie"></span>
                                                 <span class="fa fa-long-arrow-down" ng-if="table.Positie > table.previousPositie"></span>
@@ -300,7 +302,7 @@
                                                 Naam
                                             </th>
                                             <th>
-                                                Totaal Score
+                                                Punten
                                             </th>
                                         </tr>
                                     </thead>
@@ -348,7 +350,7 @@
                                                 Naam
                                             </th>
                                             <th>
-                                                Totaal Score
+                                                Punten
                                             </th>
                                         </tr>
                                     </thead>
@@ -396,7 +398,7 @@
                                                 Naam
                                             </th>
                                             <th>
-                                                Totaal Score
+                                               Punten
                                             </th>
                                             <th></th>
                                         </tr>
