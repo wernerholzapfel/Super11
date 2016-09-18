@@ -144,7 +144,7 @@ exports.calculatetotaalstand = function () {
                   }
                   totaalStand.findOneAndUpdate({ RoundId: roundTable[i].RoundId, Name: roundTable[i].Name }, roundTable[i], ({ upsert: true }), function (err, totaalStand) {
                     if (err) return handleError(res, err.message, "Failed to save totaalstand");
-                    console.log("saved totalstaand")
+                    console.log("saved totalstand")
                   });
                 }
               })

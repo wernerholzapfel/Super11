@@ -248,7 +248,6 @@ apiRoutes.put("/roundteamscoreforms/:id", passport.authenticate('jwt', { session
           console.log("put for roundId " + req.params.id)
 
           calculateteam.calculateTeamPredictionsPerRound(req.params.id);
-
         });
       }
       else {
@@ -677,7 +676,7 @@ app.use('/api', apiRoutes);
 // calculatetotaalstand.calculatetotaalstand();
 // calculatewedstrijden.calculateWedstrijdScore();
 // calculatevragen.calculateQuestions();
-// calculateteam.calculateTeamPredictionsPerRound(1);
+calculateteam.calculateTeamPredictionsPerRound(1);
 // determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
 var leegFormulier =
   {

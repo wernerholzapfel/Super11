@@ -114,16 +114,24 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
         teamStand.findOneAndUpdate({ RoundId: roundId, 'Participant.Email': prediction.Participant.Email }, standToUpdate, ({ upsert: true }), function (err, stand) {
           if (err) return console.error("error: " + err);
           console.log("saved stand for round: " + roundId);
-        });
-      }, callback());
-    },
-    function () {
+          callback();
+      });
+      }, 
+       function(err) {
+    // if any of the file processing produced an error, err would equal that error
+    if( err ) {
+      // One of the iterations produced an error.
+      // All processing will now stop.
+      console.log('A file failed to process');
+    } else {
+      console.log('Go calculate totaalstand');
       calculatetotaalstand.calculatetotaalstand();
-    },
-    function (err) {
-        console.log("err" + err)
-      }
-  ]);
+    }
+});
+    }
+  ],function (err){
+    if (err) console.log("error occured");
+  });
 };
 
 var setPlayedScore = function (player,factor) {
