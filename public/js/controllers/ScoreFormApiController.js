@@ -1,6 +1,10 @@
 
-angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, roundsApi, eredivisiePlayersApi, getQuestionsService, updateQuestionsService, getMatchesService, updateMatchesService, saveScoreFormService, getScoreFormService, eindstandscoreform,updateEindstandform, findAndUpdatePlayerList) {
+angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, roundsApi, eredivisiePlayersApi, getQuestionsService, updateQuestionsService, getMatchesService, updateMatchesService, saveScoreFormService, getScoreFormService, eindstandscoreform, updateEindstandform, findAndUpdatePlayerList) {
     $scope.alerts = [];
+    $scope.closeAlert = function (index) {
+        $scope.alerts.splice(index, 1);
+    };
+
     roundsApi.async().then(function (roundsdata) {
         $scope.rounds = roundsdata;
         if ($scope.rounds.length < 1) {
@@ -140,20 +144,20 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
         console.log("het bericht dat gepost wordt: " + $scope.NewList);
         $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
 
-         SCOPE = $scope.$root.$new();
+        SCOPE = $scope.$root.$new();
 
         //loop door stand om positie te bepalen
         for (var i = 0; i < $scope.eindstandscoreform.Table.length; i += 1) {
-          $scope.eindstandscoreform.Table[i].Position = i + 1
+            $scope.eindstandscoreform.Table[i].Position = i + 1
         }
         SCOPE.$apply
 
         var eindstand = updateEindstandform.put($scope.eindstandscoreform);
 
-        eindstand.success(function(){
+        eindstand.success(function () {
             $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
         });
-        
+
         eindstand.error(function () {
             $scope.showConfirm = false;
 
