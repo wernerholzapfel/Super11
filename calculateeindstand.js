@@ -39,10 +39,10 @@ exports.calculateEindstand = function () {
           if (predictedLine) {
             var lineScore = new Object;
             lineScore.Score = setLineScore(predictedLine, line),
-            lineScore.UitslagPosition = line.Position,
-            lineScore.UitslagSelectedTeam = line.SelectedTeam,
-            lineScore.SelectedTeam = predictedLine.SelectedTeam,  
-            lineScore.Position = predictedLine.Position
+              lineScore.UitslagPosition = line.Position,
+              lineScore.UitslagSelectedTeam = line.SelectedTeam,
+              lineScore.SelectedTeam = predictedLine.SelectedTeam,
+              lineScore.Position = predictedLine.Position
             stand.TotalEindstandScore = stand.TotalEindstandScore + lineScore.Score;
 
             stand.TableScore.push(lineScore);
@@ -68,18 +68,24 @@ exports.calculateEindstand = function () {
         eindstandStand.findOneAndUpdate({ 'Participant.Email': prediction.Participant.Email }, standToUpdate, ({ upsert: true }), function (err, stand) {
           if (err) return console.error("error: " + err);
           console.log("saved eindstandstand for : " + prediction.Participant.Name);
+          callback();
         });
       },
-        callback());
-    },
-    function () {
-      // calculatetotaalstand.calculatetotaalstand();
-    },
-    function (err) {
-      console.log("err" + err)
+        function (err) {
+          // if any of the file processing produced an error, err would equal that error
+          if (err) {
+            // One of the iterations produced an error.
+            // All processing will now stop.
+            console.log('A file failed to process');
+          } else {
+            console.log('Go calculate totaalstand');
+            calculatetotaalstand.calculatetotaalstand();
+          }
+        });
     }
-
-  ]);
+  ], function (err) {
+    if (err) console.log("error occured");
+  });
 };
 
 var setLineScore = function (scoreLine, line) {
@@ -89,7 +95,7 @@ var setLineScore = function (scoreLine, line) {
   if (positiveDiff === 0 && scoreLine.Position === 1) {
     return 20;
   }
-  if (positiveDiff === 0){
+  if (positiveDiff === 0) {
     return 10;
   }
   if (positiveDiff === 1) {

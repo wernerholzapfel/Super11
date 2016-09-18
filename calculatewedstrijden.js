@@ -62,17 +62,24 @@ exports.calculateWedstrijdScore = function () {
         wedstrijdenStand.findOneAndUpdate({ 'Participant.Email': prediction.Participant.Email }, standToUpdate, ({ upsert: true }), function (err, stand) {
           if (err) return console.error("error: " + err);
           console.log("saved wedstrijdenstand for : " + prediction.Participant.Name);
+          callback();
         });
-      }, callback());
-    },
-    function () {
-      calculatetotaalstand.calculatetotaalstand();
-
-    },
-    function (err) {
-      console.log("err" + err)
+      },
+        function (err) {
+          // if any of the file processing produced an error, err would equal that error
+          if (err) {
+            // One of the iterations produced an error.
+            // All processing will now stop.
+            console.log('A file failed to process');
+          } else {
+            console.log('Go calculate totaalstand');
+            calculatetotaalstand.calculatetotaalstand();
+          }
+        });
     }
-  ]);
+  ], function (err) {
+    if (err) console.log("error occured");
+  });
 };
 
 var setMatchScore = function (uitslag, voorspelling) {
