@@ -54,7 +54,8 @@ var allowCrossDomain = function (req, res, next) {
   }
 };
 
-app.use(allowCrossDomain)
+
+app.use(allowCrossDomain);
 app.use(express.static(__dirname + "/public"));
 
 // get our request parameters
@@ -143,7 +144,7 @@ apiRoutes.get('/predictionform', passport.authenticate('jwt', { session: false }
             handleError(res, err.message, "Failed to get prediction.");
           }
           if (!prediction) {
-            res.status(200).json(leegFormulier)
+            res.status(200).json(leegFormulier);
           }
           else {
             res.status(200).json(prediction);
@@ -245,15 +246,15 @@ apiRoutes.put("/roundteamscoreforms/:id", passport.authenticate('jwt', { session
         RoundTeamScoreForms.findOneAndUpdate({ RoundId: req.params.id }, updateScoreForm, ({ upsert: true }), function (err, roundteamscoreforms) {
           if (err) return handleError(res, err.message, "Failed to Update Players");
           res.status(200).json(roundteamscoreforms);
-          console.log("put for roundId " + req.params.id)
+          console.log("put for roundId " + req.params.id);
 
           calculateteam.calculateTeamPredictionsPerRound(req.params.id);
         });
       }
       else {
-        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' });
       }
-    })
+    });
   }
 });
 
@@ -281,14 +282,14 @@ apiRoutes.put("/questionsScoreform/", passport.authenticate('jwt', { session: fa
         QuestionsScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, questionsScoreForm) {
           if (err) return handleError(res, err.message, "Failed to Update questions");
           res.status(200).json(questionsScoreForm);
-          console.log("saved questions")
+          console.log("saved questions");
           calculatevragen.calculateQuestions();
         });
       }
       else {
-        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' });
       }
-    })
+    });
   }
 });
 
@@ -316,14 +317,14 @@ apiRoutes.put("/matchesScoreform/", passport.authenticate('jwt', { session: fals
         MatchesScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, matchesScoreform) {
           if (err) return handleError(res, err.message, "Failed to Update questions");
           res.status(200).json(matchesScoreform);
-          console.log("saved matches")
+          console.log("saved matches");
           calculatewedstrijden.calculateWedstrijdScore();
         });
       }
       else {
-        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' });
       }
-    })
+    });
   }
 });
 
@@ -351,14 +352,14 @@ apiRoutes.put("/eindstandscoreform/", passport.authenticate('jwt', { session: fa
         Eindstandscoreform.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, eindstandscoreform) {
           if (err) return handleError(res, err.message, "Failed to Update eindstand");
           res.status(200).json(eindstandscoreform);
-          console.log("saved eindstand")
+          console.log("saved eindstand");
           //todo calculate eindstand
         });
       }
       else {
-        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' });
       }
-    })
+    });
   }
 });
 
@@ -389,7 +390,7 @@ apiRoutes.get("/totaalstand/", function (req, res, next) {
       }
       else {
       var maxRoundId = rounds[0].RoundId;
-      callback(null,maxRoundId)
+      callback(null,maxRoundId);
       }
 
     });
@@ -399,25 +400,25 @@ apiRoutes.get("/totaalstand/", function (req, res, next) {
       totaalStand.find({ RoundId: maxRoundId }, {}, { sort: { TotalScore: -1 } }).lean().exec(function (err, roundTable) {
         if (err) return console.error(err);
         callback(null, roundTable,maxRoundId);
-      })
+      });
     },
     function (roundTable,maxRoundId, callback) {
       totaalStand.find({ RoundId: (maxRoundId - 1) }, {}, { sort: { TotalScore: -1 } }).lean().exec(function (err, previousRoundTable) {
         if (err) return console.error(err);
-        callback(null, roundTable, previousRoundTable)
+        callback(null, roundTable, previousRoundTable);
 
-      })
+      });
     },
     function (roundTable, previousRoundTable, callback) {
-      var totstand = {}
-      totstand.deelnemers = []
+      var totstand = {};
+      totstand.deelnemers = [];
       var date = roundTable[0]._id.getTimestamp();
       totstand.lastupdated = date;
       async.each(roundTable, function (regel, callback) { 
         var stand = new totaalStand;
         stand = regel;
         if (previousRoundTable.length > 0) {
-          var previous = _.find(previousRoundTable, function (o) { return o.Name === regel.Name });
+          var previous = _.find(previousRoundTable, function (o) { return o.Name === regel.Name; });
           stand.previousPositie = previous.Positie;
           stand.deltaPositie = previous.Positie - stand.Positie ;
           stand.deltaTotalQuestionsScore = stand.TotalQuestionsScore - previous.TotalQuestionsScore;
@@ -504,13 +505,13 @@ apiRoutes.get("/teamstatistieken/", function (req, res, next) {
      { $sort: { Count: -1 } }
   ], function (err, teamstatistieken) {
     if (err) {
-      handleError(res, err.message, "failed to get teamstatistieke ")
+      handleError(res, err.message, "failed to get teamstatistieke ");
     }
     else {
       res.status(200).json(teamstatistieken);
     }
   }
-  )
+  );
 });
 
 apiRoutes.get("/rounds", function (req, res, next) {
@@ -522,7 +523,7 @@ apiRoutes.get("/rounds", function (req, res, next) {
       res.status(200).json(rounds);
     }
 
-  })
+  });
 });
 
 apiRoutes.get("/headlines/", function (req, res, next) {
@@ -547,7 +548,7 @@ apiRoutes.post("/headlines/", passport.authenticate('jwt', { session: false }), 
       }
       if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
         var headlines = new Headlines(req.body);
-        headlines.createdAt = new Date().toUTCString()
+        headlines.createdAt = new Date().toUTCString();
 
         headlines.save(function (err, newheadlines) {
           if (err) {
@@ -559,9 +560,9 @@ apiRoutes.post("/headlines/", passport.authenticate('jwt', { session: false }), 
         });
       }
       else {
-        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' });
       }
-    })
+    });
   }
 });
 
@@ -589,7 +590,7 @@ apiRoutes.post("/comments/", passport.authenticate('jwt', { session: false }), f
         Predictions.findOne({ 'Participant.Email': decoded.name }, { 'Participant.Name': 1 }, function (err, name) {
           if (name) {
             var comments = new Comments(req.body);
-            comments.createdAt = new Date().toUTCString()
+            comments.createdAt = new Date().toUTCString();
             comments.name = name.Participant.Name;
             comments.save(function (err, newComment) {
               if (err) {
@@ -620,12 +621,12 @@ apiRoutes.delete("/headlines/:id", passport.authenticate('jwt', { session: false
         Headlines.find({ _id: req.params.id }).remove(function (err, item) {
           if (err) return handleError(res, err.message, "Failed to delete Item");
           res.status(200).json(item);
-        })
+        });
       }
       else {
-        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' });
       }
-    })
+    });
     res.status(200);
   }
 });
@@ -676,8 +677,8 @@ apiRoutes.get("/gekozeneredivisieplayers", function (req, res, next) {
 app.use('/api', apiRoutes);
 
 // calculateeindstand.calculateEindstand();
-// calculatetotaalstand.calculatetotaalstand();
-// calculatewedstrijden.calculateWedstrijdScore();
+// calculatetotaalstand.calculatetotaalstand("4");
+//calculatewedstrijden.calculateWedstrijdScore();
 // calculatevragen.calculateQuestions();
 // calculateteam.calculateTeamPredictionsPerRound(1);
 // determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
@@ -1164,4 +1165,4 @@ var leegFormulier =
         "Away": ""
       }
     ]
-  }
+  };

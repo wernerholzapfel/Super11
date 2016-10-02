@@ -18,7 +18,7 @@ var winScore = 3;
 var drawScore = 1;
 var hattrickScore = 3;
 var cleanSheetGKScore = 4;
-var cleanSheetDFScore = 2
+var cleanSheetDFScore = 2;
 var ownGoalScore = -4;
 var redCardScore = -6;
 var yellowCardScore = -2;
@@ -33,7 +33,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
       teamRoundScore.find({ RoundId: roundId }).exec(function (err, playerRoundScore) {
         if (err) return console.error(err);
         callback(null, playerRoundScore[0]);
-      })
+      });
     },
     function (playerRoundScore, callback) {
       //hier worden alle voorspellingen ophgehaald van de deelnemers
@@ -42,7 +42,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
         // console.log("predictions length: " + predictions.length)
         if (err) return console.error(err);
         callback(null, playerRoundScore, predictions);
-      })
+      });
     },
     function (playerRoundScore, predictions, callback) {
       async.each(predictions, function (prediction, callback) {
@@ -52,15 +52,15 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
         // stand.TotalQuestionsScore = 0;
         stand.RoundId = roundId;
         stand.Participant = prediction.Participant;
-        stand.TeamScores = []
+        stand.TeamScores = [];
     
         async.each(prediction.Team, function (player, callback) {
           var teamPlayer = _.find(playerRoundScore.Player, function (o) { return o.Id === parseInt(player.PlayerId); });
 
           if (teamPlayer) {
-            var captainFactor = determineIfCaptain(player)
+            var captainFactor = determineIfCaptain(player);
             var playerScore = new Object;
-            playerScore.Id = player.Id
+            playerScore.Id = player.Id;
             playerScore.Name = teamPlayer.Name;
             playerScore.Team = teamPlayer.Team;
             playerScore.Position = teamPlayer.Position;
@@ -76,7 +76,6 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.CleanSheetScore = setCleanSheetScore(teamPlayer,captainFactor);
             playerScore.TotalScore = playerScore.Won + playerScore.Draw + playerScore.Played + playerScore.RedCard + playerScore.YellowCard + playerScore.Assist + playerScore.OwnGoals + playerScore.Goals + playerScore.CleanSheetScore;
 
-            //todo test possible eachseries ipv each
             stand.TotalTeamScore = stand.TotalTeamScore + playerScore.TotalScore;
 
             stand.TeamScores.push(playerScore);
@@ -125,7 +124,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
       console.log('A file failed to process');
     } else {
       console.log('Go calculate totaalstand');
-      calculatetotaalstand.calculatetotaalstand();
+      calculatetotaalstand.calculatetotaalstand(roundId);
     }
 });
     }
@@ -184,7 +183,7 @@ var determineIfCaptain = function (player) {
   else {
     return 1;
   }
-}
+};
 
 var setWinScore = function (player,factor) {
   if (player.Win) {

@@ -15,7 +15,7 @@ exports.calculateQuestions = function () {
             vragenUitslag.findOne({}).exec(function (err, vragenScore) {
                 if (err) return console.error(err);
                 callback(null, vragenScore);
-            })
+            });
         },
         function (vragenScore, callback) {
             //hier worden alle voorspellingen ophgehaald van de deelnemers
@@ -24,14 +24,14 @@ exports.calculateQuestions = function () {
                 // console.log("predictions length: " + predictions.length)
                 if (err) return console.error(err);
                 callback(null, vragenScore, predictions);
-            })
+            });
         },
         function (playerRoundScore, predictions, callback) {
             async.each(predictions, function (prediction, callback) {
                 var stand = new vragenStand;
                 stand.TotalQuestionsScore = 0;
                 stand.Participant = prediction.Participant;
-                stand.QuestionsScore = []
+                stand.QuestionsScore = [];
 
                 async.each(prediction.Questions, function (question, callback) {
                     var scoreQuestion = _.find(playerRoundScore.Questions, function (o) { return o.Id === parseInt(question.Id); });
@@ -42,7 +42,7 @@ exports.calculateQuestions = function () {
                             questionScore.Question = question.Question,
                             questionScore.Answer = question.Answer,
                             questionScore.Id = question.Id,
-                            questionScore.Uitslag = scoreQuestion.Answer
+                            questionScore.Uitslag = scoreQuestion.Answer;
 
                         stand.TotalQuestionsScore = stand.TotalQuestionsScore + questionScore.Score;
 
@@ -54,7 +54,7 @@ exports.calculateQuestions = function () {
                             questionScore.Question = question.Question,
                             questionScore.Answer = question.Answer,
                             questionScore.Id = question.Id,
-                            questionScore.Uitslag = scoreQuestion.Answer
+                            questionScore.Uitslag = scoreQuestion.Answer;
 
                         stand.TotalQuestionsScore = stand.TotalQuestionsScore + questionScore.Score;
 
