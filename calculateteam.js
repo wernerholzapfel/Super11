@@ -1,7 +1,8 @@
-var teamRoundScore = require("./roundteamscoreformsModel");
-var teamStand = require("./newTeamStandModel");
-var predictions = require("./predictionModel");
+var teamRoundScore = require("./models/roundteamscoreformsModel");
+var teamStand = require("./models/newTeamStandModel");
+var predictions = require("./models/predictionModel");
 var async = require("async");
+var calculatetotaalstand = require("./calculatetotaalstand.js");
 var _ = require('lodash');
 
 var playedScore = 1;
@@ -63,6 +64,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.Name = teamPlayer.Name;
             playerScore.Team = teamPlayer.Team;
             playerScore.Position = teamPlayer.Position;
+            playerScore.Captain = player.Captain;            
             playerScore.Won = setWinScore(teamPlayer,captainFactor);
             playerScore.Draw = setDrawScore(teamPlayer,captainFactor);
             playerScore.Played = setPlayedScore(teamPlayer,captainFactor);
@@ -84,6 +86,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.Name = player.PlayerName;
             playerScore.Team = player.Team;
             playerScore.Position = player.Position;
+            playerScore.Captain = player.Captain;
             playerScore.Won = 0;
             playerScore.Draw = 0;
             playerScore.Played = 0;
@@ -111,14 +114,24 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
         teamStand.findOneAndUpdate({ RoundId: roundId, 'Participant.Email': prediction.Participant.Email }, standToUpdate, ({ upsert: true }), function (err, stand) {
           if (err) return console.error("error: " + err);
           console.log("saved stand for round: " + roundId);
-        });
-
-
-      }, function (err) {
-        console.log("err" + err)
+          callback();
       });
+      }, 
+       function(err) {
+    // if any of the file processing produced an error, err would equal that error
+    if( err ) {
+      // One of the iterations produced an error.
+      // All processing will now stop.
+      console.log('A file failed to process');
+    } else {
+      console.log('Go calculate totaalstand');
+      calculatetotaalstand.calculatetotaalstand();
     }
-  ]);
+});
+    }
+  ],function (err){
+    if (err) console.log("error occured");
+  });
 };
 
 var setPlayedScore = function (player,factor) {

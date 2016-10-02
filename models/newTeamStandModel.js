@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var teamStandSchema = new mongoose.Schema({
+var newTeamStandSchema = new mongoose.Schema({
     RoundId: { type: Number, required: false },
 	Participant: {
 		Name: { type: String, required: false },
@@ -12,6 +12,7 @@ var teamStandSchema = new mongoose.Schema({
 	TeamScores: [{
 		Id : {type: Number, required: true},
 		Name: { type: String, required: false },
+		Captain: {type: Boolean, required: false},
 		Position: { type: String, required: false },
 		Team: { type: String, required: false },
         Won: { type: Number, required: false },
@@ -25,27 +26,8 @@ var teamStandSchema = new mongoose.Schema({
 		CleanSheetScore: { type: Number, required: true },
         TotalScore: { type: Number, required: false }
 	}],
-	QuestionsScore: [{
-		Id: { type: Number, required: true },
-		Question: { type: String, required: true },
-		Answer: { type: String, required: false },
-        Score: { type: Number, required: false },
-		Uitslag : {type: String, required: false}
-
-	}],
-	MatchesScore: [{
-		Id: { type: Number, required: true },
-		Match: { type: String, required: true },
-		Home: { type: Number, required: false },
-		Away: { type: Number, required: false },
-        Score: { type: Number, required: false },
-		Uitslag : {type: String, required: false}
-	}],
-	TotalMatchesScore: { type: Number, required: true },
-	TotalQuestionsScore: { type: Number, required: true },
-	TotalTeamScore: { type: Number, required: true },
-	TotalScore: {type: Number, required: true}
+	TotalTeamScore: { type: Number, required: true }
 });
 
-var teamStand = module.exports = mongoose.model('teamStand', teamStandSchema);
+var newTeamStand = module.exports = mongoose.model('newTeamStand', newTeamStandSchema);
 

@@ -17,7 +17,7 @@ angular.module('MetronicApp').controller('CommentsApiController', function (getC
 
     comment.success(function (data) {
       $scope.data = { "content": "" }
-      $scope.comments.push(data);
+      $scope.comments.unshift(data);
       $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt!' });
     });
     comment.error(function () {

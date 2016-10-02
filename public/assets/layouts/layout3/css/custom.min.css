@@ -28,3 +28,25 @@ a:hover {
     background-color: #32c5d2;
     color: white;
 }
+
+.previousScore  
+{
+    color: #9eacb4;
+}
+
+.fa-minus {
+    color: #9eacb4;
+}
+
+.fa-long-arrow-up{
+    color: limegreen;
+}
+
+.fa-long-arrow-down{
+    color: red;
+}
+
+.clubicon {
+    height: 30px;
+
+}

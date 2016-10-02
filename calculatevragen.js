@@ -1,6 +1,7 @@
-var vragenUitslag = require("./vragenScoreformsModel");
-var vragenStand = require("./vragenStandModel");
-var predictions = require("./predictionModel");
+var vragenUitslag = require("./models/vragenScoreformsModel");
+var vragenStand = require("./models/vragenStandModel");
+var predictions = require("./models/predictionModel");
+var calculatetotaalstand = require("./calculatetotaalstand.js");
 var async = require("async");
 var _ = require('lodash');
 
@@ -72,12 +73,24 @@ exports.calculateQuestions = function () {
                 vragenStand.findOneAndUpdate({ 'Participant.Email': prediction.Participant.Email }, standToUpdate, ({ upsert: true }), function (err, stand) {
                     if (err) return console.error("error: " + err);
                     console.log("saved vragenstand for : " + prediction.Participant.Name);
+                    callback();
                 });
-            }, function (err) {
-                console.log("err" + err)
-            });
+            },
+                function (err) {
+                    // if any of the file processing produced an error, err would equal that error
+                    if (err) {
+                        // One of the iterations produced an error.
+                        // All processing will now stop.
+                        console.log('A file failed to process');
+                    } else {
+                        console.log('Go calculate totaalstand');
+                        calculatetotaalstand.calculatetotaalstand();
+                    }
+                });
         }
-    ]);
+    ], function (err) {
+        if (err) console.log("error occured");
+    });
 };
 
 var setQuestionScore = function (scoreQuestion, question) {

@@ -193,6 +193,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                 }]
             }
         })
+        
         //login
         .state('login', {
             url: "/login.html",
@@ -276,8 +277,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'js/controllers/ParticipantApiController.js',
 
                             'js/services/participantApi.js'
-
-
                         ]
                     });
                 }]
@@ -317,16 +316,50 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                                 
                             'js/controllers/ScoreFormController.js',
                             'js/controllers/ScoreFormApiController.js'
-
-
-
-
                         ]
                     });
                 }]
             }
         })
 
+    // tablescoreform
+        .state('tablescoreform', {
+            url: "/tablescoreform.html",
+            templateUrl: "views/tablescoreform.html",
+            data: {
+                pageTitle: 'Eindstand scoreformulier'
+            },
+            controller: "ScoreFormController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            '../../../assets/pages/css/profile.css',
+                            '../../../assets/pages/css/tasks.css',
+
+                            '../../../assets/global/plugins/jquery.sparkline.min.js',
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+
+                            '../../../assets/pages/scripts/profile.js',
+
+                            'js/services/authenticationService',
+                            'js/services/playerListService.js',
+                            'js/services/scoreFormService.js',
+                            'js/services/matchesService.js',
+                            'js/services/questionsService.js',
+                            'js/services/eredivisiePlayersApi.js',
+                            'js/services/roundsApi.js',
+                                
+                            'js/controllers/ScoreFormController.js',
+                            'js/controllers/ScoreFormApiController.js'
+                        ]
+                    });
+                }]
+            }
+        })
         // Registration
         .state('registration', {
             url: "/registration.html",
@@ -356,50 +389,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
                             'js/controllers/RegistrationController.js',
                             'js/controllers/RegistrationApiController.js'
-
-
-
                         ]
                     });
                 }]
             }
         })
 
-        // Stand oud
-        .state('teamtable', {
-            url: "/teamtable.html",
-            templateUrl: "views/teamtable.html",
-            data: {
-                pageTitle: 'De Stand'
-            },
-            controller: "TeamTableController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            '../../../assets/pages/css/profile.css',
-                            '../../../assets/pages/css/tasks.css',
-
-                            '../../../assets/global/plugins/jquery.sparkline.min.js',
-                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-
-                            '../../../assets/pages/scripts/profile.js',
-
-                            'js/controllers/TeamTableController.js',
-                            'js/controllers/TeamTableApiController.js',
-                            'js/services/roundsApi.js',
-
-                            'js/services/teamTableApi.js'
-
-
-                        ]
-                    });
-                }]
-            }
-        })
       // Stand new
         .state('standen', {
             url: "/standen.html",
@@ -429,8 +424,41 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'js/controllers/TeamTableApiController.js',
 
                             'js/services/teamTableApi.js'
+                        ]
+                    });
+                }]
+            }
+        })
 
+      // Stand new
+        .state('eredivisieeindstand', {
+            url: "/eredivisieeindstand.html",
+            templateUrl: "views/eredivisieeindstand.html",
+            data: {
+                pageTitle: 'De Stand'
+            },
+            controller: "TeamTableController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            '../../../assets/pages/css/profile.css',
+                            '../../../assets/pages/css/tasks.css',
 
+                            '../../../assets/global/plugins/jquery.sparkline.min.js',
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+
+                            '../../../assets/pages/scripts/profile.js',
+
+                            'js/services/roundsApi.js',
+
+                            'js/controllers/TeamTableController.js',
+                            'js/controllers/TeamTableApiController.js',
+
+                            'js/services/teamTableApi.js'
                         ]
                     });
                 }]
@@ -464,49 +492,45 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'js/controllers/HeadlinesApiController.js',
 
                             'js/services/headlinesApi.js'
-
-
                         ]
                     });
                 }]
             }
         })
 
-            // statistieken
-                .state('statistieken', {
-                    url: "/statistieken.html",
-                    templateUrl: "views/statistieken.html",
-                    data: {
-                        pageTitle: 'Statistieken'
-                    },
-                    controller: "HeadlinesController",
-                    resolve: {
-                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                name: 'MetronicApp',
-                                insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                                files: [
-                                    '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                                    '../../../assets/pages/css/profile.css',
-                                    '../../../assets/pages/css/tasks.css',
+        // statistieken
+        .state('statistieken', {
+            url: "/statistieken.html",
+            templateUrl: "views/statistieken.html",
+            data: {
+                pageTitle: 'Statistieken'
+            },
+            controller: "HeadlinesController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            '../../../assets/pages/css/profile.css',
+                            '../../../assets/pages/css/tasks.css',
 
-                                    '../../../assets/global/plugins/jquery.sparkline.min.js',
-                                    '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+                            '../../../assets/global/plugins/jquery.sparkline.min.js',
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
 
-                                    '../../../assets/pages/scripts/profile.js',
+                            '../../../assets/pages/scripts/profile.js',
 
-                                    'js/controllers/HeadlinesController.js',
-                                    'js/controllers/StatistiekenApiController.js',
+                            'js/controllers/HeadlinesController.js',
+                            'js/controllers/StatistiekenApiController.js',
 
-                                    'js/services/statistiekenApi.js'
-
-
-                                ]
-                            });
-                        }]
-                    }
-                })
-
+                            'js/services/statistiekenApi.js'
+                        ]
+                    });
+                }]
+            }
+        })
+  
         // Predictions
         .state('predictions', {
             url: "/predictions/{id}",
@@ -534,8 +558,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'js/controllers/PredictionApiController.js',
 
                             'js/services/predictionApi.js'
-
-
                         ]
                     });
                 }]

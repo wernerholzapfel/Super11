@@ -1,5 +1,5 @@
-var eredivisiePlayers = require("./eredivisiePlayersModel")
-var predictions = require("./predictionModel");
+var eredivisiePlayers = require("./models/eredivisiePlayersModel")
+var predictions = require("./models/predictionModel");
 var async = require("async");
 var _ = require('lodash');
 

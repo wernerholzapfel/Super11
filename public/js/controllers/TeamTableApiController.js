@@ -1,70 +1,82 @@
 ﻿
-angular.module('MetronicApp').controller('TeamTableApiController', function (teamTableApi, vragenStandApi, wedstrijdenStandApi, totalTeamTableApi, roundsApi,$uibModal, $scope) {
-    // Call the async method and then do stuff with what is returned inside our own then function
+angular.module('MetronicApp').controller('TeamTableApiController', function (teamTableApi,eredivisiestandStandApi, vragenStandApi, totaalstandApi, wedstrijdenStandApi, roundsApi, $uibModal, $scope) {
 
-$scope.items = ['item1', 'item2', 'item3'];
+    $scope.showTeamStand = function (data, template) {
 
-   
- $scope.showTeamStand = function(data,template) {
-       
-       var modalInstance = $uibModal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'teamstandmodal.html',
             controller: "ModalController",
             size: "lg",
             resolve: {
                 items: function () {
-                return data;
-        }
-        }});
+                    return data;
+                }
+            }
+        });
     };
 
-$scope.showTotalTeamStandModel= function(data) {
-  var modalInstance = $uibModal.open({
+
+    $scope.showTotalTeamStandModel = function (data) {
+        var modalInstance = $uibModal.open({
             templateUrl: 'totalstandmodal.html',
             controller: "ModalController",
             size: "lg",
             resolve: {
                 items: function () {
-                return data;
-        }
-        }});
-};
+                    return data;
+                }
+            }
+        });
+    };
 
-$scope.showVragenStandModel= function(data) {
-  var modalInstance = $uibModal.open({
+    $scope.showVragenStandModel = function (data) {
+        var modalInstance = $uibModal.open({
             templateUrl: 'vragenstandmodal.html',
             controller: "ModalController",
             size: "lg",
             resolve: {
                 items: function () {
-                return data;
-        }
-        }});
-};
+                    return data;
+                }
+            }
+        });
+    };
 
-$scope.showWedstrijdenStandModel= function(data) {
-  var modalInstance = $uibModal.open({
+    $scope.showWedstrijdenStandModel = function (data) {
+        var modalInstance = $uibModal.open({
             templateUrl: 'wedstrijdenstandmodal.html',
             controller: "ModalController",
             size: "lg",
             resolve: {
                 items: function () {
-                return data;
-        }
-        }});
-};
+                    return data;
+                }
+            }
+        });
+    };
+
+    $scope.showEredivisieStandModel = function (data) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'eredivisiestandModel.html',
+            controller: "ModalController",
+            size: "lg",
+            resolve: {
+                items: function () {
+                    return data;
+                }
+            }
+        });
+    };
 
 
     roundsApi.async().then(function (roundsdata) {
 
         $scope.rounds = roundsdata;
-       if ($scope.rounds.length < 1) {
+        if ($scope.rounds.length < 1) {
             $scope.selectedRound = 0;
-            $scope.hideTable = false;
         }
         else {
             $scope.selectedRound = _.last($scope.rounds).RoundId;
-            $scope.hideTable = false;
         }
 
         teamTableApi.async($scope.selectedRound).then(function (data) {
@@ -72,8 +84,15 @@ $scope.showWedstrijdenStandModel= function(data) {
         });
 
     });
-    totalTeamTableApi.async().then(function (data) {
-        $scope.totalTeamTable = data;
+
+    //todo omzetten voor eindstand eredivisie score op halen.
+    // eredivisiestandStandApi.async().then(function(data){
+   $scope.eredivisiestandstand = [];
+    //     $scope.eredivisiestandstand = data;
+    // });
+
+    totaalstandApi.async().then(function (data) {
+        $scope.newTotalTeamTable = data;
     });
 
     vragenStandApi.async().then(function (data) {
@@ -83,6 +102,7 @@ $scope.showWedstrijdenStandModel= function(data) {
     wedstrijdenStandApi.async().then(function (data) {
         $scope.wedstrijdenstand = data;
     });
+
     // $scope.selectedRound.RoundId = 1;
     $scope.getnewround = function (roundId) {
         teamTableApi.async(roundId).then(function (data) {
@@ -90,18 +110,16 @@ $scope.showWedstrijdenStandModel= function(data) {
         });
 
     };
-
-     $scope.oneAtATime = true;
 });
 
 
-angular.module('MetronicApp').controller('ModalController', function($scope, $modalInstance, items) {
-  
- 
- $scope.close = function () {
-   $modalInstance.close();
-  };
+angular.module('MetronicApp').controller('ModalController', function ($scope, $modalInstance, items) {
 
- $scope.score = items;
+
+    $scope.close = function () {
+        $modalInstance.close();
+    };
+
+    $scope.score = items;
 
 });

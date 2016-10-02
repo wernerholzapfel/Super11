@@ -12,24 +12,33 @@ var path = require("path");
 var assert = require("assert");
 var config = require('./config/database');
 var db = require("./db.js");
-var calculate = require("./calculate.js");
+var _ = require('lodash');
+var async = require("async");
+
+//berekeningen
 var calculateteam = require("./calculateteam.js");
 var calculatevragen = require("./calculatevragen.js");
 var calculatewedstrijden = require("./calculatewedstrijden.js");
+var calculatetotaalstand = require("./calculatetotaalstand.js");
+var calculateeindstand = require("./calculateeindstand.js");
 var determineifplayerisselected = require("./determineifplayerisselected");
-var Predictions = require("./predictionModel");
-var RoundTeamScoreForms = require("./roundteamscoreformsModel");
-var EredivisiePlayers = require("./eredivisiePlayersModel");
-var teamStand = require("./teamStandModel");
-var vragenStand = require("./vragenStandModel");
-var wedstrijdenStand = require("./wedstrijdenStandModel");
-var newteamStand = require("./newTeamStandModel");
-var Headlines = require("./headlinesModel");
-var Comments = require("./commentsModel");
+//models
+var Predictions = require("./models/predictionModel");
+var RoundTeamScoreForms = require("./models/roundteamscoreformsModel");
+var EredivisiePlayers = require("./models/eredivisiePlayersModel");
+var teamStand = require("./models/teamStandModel");
+var vragenStand = require("./models/vragenStandModel");
+var wedstrijdenStand = require("./models/wedstrijdenStandModel");
+var newteamStand = require("./models/newTeamStandModel");
+var totaalStand = require("./models/totaalStandModel");
+var eindstandStand = require("./models/eindstandStandModel");
+
+var Headlines = require("./models/headlinesModel");
+var Comments = require("./models/commentsModel");
 var User = require("./models/user");
-var _ = require('lodash');
-var MatchesScoreForm = require("./wedstrijdenScoreformsModel.js");
-var QuestionsScoreForm = require("./vragenScoreformsModel.js");
+var MatchesScoreForm = require("./models/wedstrijdenScoreformsModel.js");
+var QuestionsScoreForm = require("./models/vragenScoreformsModel.js");
+var Eindstandscoreform = require("./models/eindstandScoreformsModel.js");
 
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -57,7 +66,6 @@ app.use(morgan('dev'));
 
 // Use the passport package in our application
 app.use(passport.initialize());
-
 
 // Initialize the app.
 var server = app.listen(process.env.PORT || 8200, function () {
@@ -116,7 +124,6 @@ apiRoutes.post('/authenticate', function (req, res) {
     }
   });
 });
-
 
 apiRoutes.get('/predictionform', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
@@ -320,6 +327,43 @@ apiRoutes.put("/matchesScoreform/", passport.authenticate('jwt', { session: fals
   }
 });
 
+apiRoutes.get("/eindstandscoreform", function (req,res,next) {
+    Eindstandscoreform.findOne(function (err, eindstand) {
+    if (err) {
+      handleError(res, error.message, "failed tot get eindstandscoreform");
+    }
+    else {
+      res.status(200).json(eindstand);
+    }
+  });
+});
+
+apiRoutes.put("/eindstandscoreform/", passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({ name: decoded.name }, function (err, user) {
+      if (err) throw err;
+      if (!user) {
+        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
+      }
+      if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
+        Eindstandscoreform.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, eindstandscoreform) {
+          if (err) return handleError(res, err.message, "Failed to Update eindstand");
+          res.status(200).json(eindstandscoreform);
+          console.log("saved eindstand")
+          //todo calculate eindstand
+        });
+      }
+      else {
+        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+      }
+    })
+  }
+});
+
+
+
 apiRoutes.get("/newteamStand/:roundId", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
   newteamStand.find({ RoundId: req.params.roundId }, {}, { sort: { TotalTeamScore: -1 } }, function (err, roundTable) {
@@ -332,11 +376,70 @@ apiRoutes.get("/newteamStand/:roundId", function (req, res, next) {
   });
 });
 
+
+//twee keer stand ophalen om nieuwe punten te berekenen.
+apiRoutes.get("/totaalstand/", function (req, res, next) {
+  console.log("log api call roundTable/");
+
+  async.waterfall([
+  function(callback) {
+    RoundTeamScoreForms.find({}, { RoundId: 1, _id: 0 },{sort : { RoundId : -1}}, function (err, rounds) {
+      if (err) {
+        handleError(res, err.message, "failed to get rounds");
+      }
+      else {
+      var maxRoundId = rounds[0].RoundId;
+      callback(null,maxRoundId)
+      }
+
+    });
+  },
+    function (maxRoundId,callback) {
+      //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
+      totaalStand.find({ RoundId: maxRoundId }, {}, { sort: { TotalScore: -1 } }).lean().exec(function (err, roundTable) {
+        if (err) return console.error(err);
+        callback(null, roundTable,maxRoundId);
+      })
+    },
+    function (roundTable,maxRoundId, callback) {
+      totaalStand.find({ RoundId: (maxRoundId - 1) }, {}, { sort: { TotalScore: -1 } }).lean().exec(function (err, previousRoundTable) {
+        if (err) return console.error(err);
+        callback(null, roundTable, previousRoundTable)
+
+      })
+    },
+    function (roundTable, previousRoundTable, callback) {
+      var totstand = {}
+      totstand.deelnemers = []
+      var date = roundTable[0]._id.getTimestamp();
+      totstand.lastupdated = date;
+      async.each(roundTable, function (regel, callback) { 
+        var stand = new totaalStand;
+        stand = regel;
+        if (previousRoundTable.length > 0) {
+          var previous = _.find(previousRoundTable, function (o) { return o.Name === regel.Name });
+          stand.previousPositie = previous.Positie;
+          stand.deltaPositie = previous.Positie - stand.Positie ;
+          stand.deltaTotalQuestionsScore = stand.TotalQuestionsScore - previous.TotalQuestionsScore;
+          stand.deltaTotalMatchesScore = stand.TotalMatchesScore - previous.TotalMatchesScore;
+          stand.deltaTotalTeamScore = stand.TotalTeamScore - previous.TotalTeamScore;
+          stand.deltaTotalscore = stand.TotalScore - previous.TotalScore;
+        }
+        totstand.deelnemers.push(stand);
+      }, function (err) {
+        return console.error("error: " + err);
+      });
+      res.status(200).json(totstand);
+    }
+  ]);
+});
+
+
 apiRoutes.get("/wedstrijdenstand/", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
   wedstrijdenStand.find({}, {}, { sort: { TotalMatchesScore: -1 } }, function (err, roundTable) {
     if (err) {
-      handleError(res, error.message, "failed tot get roundTable");
+      handleError(res, error.message, "failed tot get wedstrijdenstand");
     }
     else {
       //todo positie toevoegen?
@@ -349,7 +452,20 @@ apiRoutes.get("/vragenstand/", function (req, res, next) {
   console.log("log api call roundTable/" + req.params.roundId);
   vragenStand.find({}, {}, { sort: { TotalQuestionsScore: -1 } }, function (err, roundTable) {
     if (err) {
-      handleError(res, error.message, "failed tot get roundTable");
+      handleError(res, error.message, "failed tot get vragenstand");
+    }
+    else {
+      //todo positie toevoegen?
+      res.status(200).json(roundTable);
+    }
+  });
+});
+
+apiRoutes.get("/eindstandstand/", function (req, res, next) {
+  console.log("log api call roundTable/");
+  eindstandStand.find({}, {}, { sort: { TotalEindstandScore: -1 } }, function (err, roundTable) {
+    if (err) {
+      handleError(res, error.message, "failed tot get eindstand stand");
     }
     else {
       //todo positie toevoegen?
@@ -395,141 +511,6 @@ apiRoutes.get("/teamstatistieken/", function (req, res, next) {
     }
   }
   )
-})
-apiRoutes.get("/totaalStand/", function (req, res, next) {
-  newteamStand.aggregate([
-    { $unwind: "$TeamScores" },
-    {
-      $group: {
-        _id: {
-          email: "$Participant.Email",
-          playerName: "$TeamScores.Name",
-
-        },
-        Id: { $first: "$TeamScores.Id" },
-        ParticipantName: { $first: "$Participant.Name" },
-        playerName: { $first: "$TeamScores.Name" },
-        Team: { $first: "$TeamScores.Team" },
-        Position: { $first: "$TeamScores.Position" },
-        Won: { $sum: "$TeamScores.Won" },
-        Draw: { $sum: "$TeamScores.Draw" },
-        Played: { $sum: "$TeamScores.Played" },
-        RedCard: { $sum: "$TeamScores.RedCard" },
-        YellowCard: { $sum: "$TeamScores.YellowCard" },
-        Assist: { $sum: "$TeamScores.Assist" },
-        Goals: { $sum: "$TeamScores.Goals" },
-        OwnGoals: { $sum: "$TeamScores.OwnGoals" },
-        CleanSheetScore: { $sum: "$TeamScores.CleanSheetScore" },
-        TotalPlayerScore: { $sum: "$TeamScores.TotalScore" }
-        // ,
-        // TotalOverallScore: { $sum: "$TotalScore" }
-      }
-    }
-    ,
-    {
-      $group:
-      {
-        _id: { email: "$_id.email" },
-        Email: { $first: "$_id.email" },
-        Name: { $first: "$ParticipantName" },
-        TotalTeamScore: { $sum: "$TotalPlayerScore" },
-        TeamScores: {
-          $push: {
-            Id: '$Id',
-            Name: '$playerName',
-            Position: "$Position",
-            Team: "$Team",
-            Won: "$Won",
-            Draw: "$Draw",
-            Played: "$Played",
-            RedCard: "$RedCard",
-            YellowCard: "$YellowCard",
-            Assist: "$Assist",
-            Goals: "$Goals",
-            OwnGoals: "$OwnGoals",
-            CleanSheetScore: "$CleanSheetScore",
-            TotalScore: "$TotalPlayerScore",
-          }
-        }
-      }
-    },
-    {
-      $project:
-      {
-        _id: 0,
-        Name: 1,
-        TotalTeamScore: 1,
-        TeamScores: 1,
-        Email: 1
-      }
-    },
-    { $sort: { TotalScore: -1 } }
-  ], function (err, roundTable) {
-    if (err) {
-      handleError(res, err.message, "failed to get roundTable");
-    }
-    else {
-      vragenStand.find({}, function (err, vragen) {
-        if (err) {
-          handleError(res, err.message, "failed to get vragenstand");
-        }
-        else {
-          wedstrijdenStand.find({}, function (err, wedstrijden) {
-
-            for (var i = 0; i < roundTable.length; i += 1) {
-              var scorewedstrijden = _.find(wedstrijden, function (o) { return o.Participant.Email === roundTable[i].Email });
-              if (scorewedstrijden) {
-                roundTable[i].TotalMatchesScore = scorewedstrijden.TotalMatchesScore;
-              }
-
-              var scorequestion = _.find(vragen, function (o) { return o.Participant.Email === roundTable[i].Email });
-              if (scorequestion) {
-                roundTable[i].TotalQuestionsScore = scorequestion.TotalQuestionsScore;
-                roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
-                delete roundTable[i].Email;
-              }
-              else {
-                roundTable[i].TotalQuestionsScore = 0;
-                roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
-                delete roundTable[i].Email;
-              }
-            }
-
-            roundTable = _.sortBy(roundTable, 'TotalScore').reverse();
-
-            for (var i = 0; i < roundTable.length; i += 1) {
-
-              if (i === 0) {
-                roundTable[i].Positie = i + 1;
-              }
-              else {
-                if (roundTable[i].TotalTeamScore === roundTable[i - 1].TotalTeamScore) {
-                  roundTable[i].Positie = roundTable[i - 1].Positie;
-                }
-                else {
-                  roundTable[i].Positie = i + 1;
-                }
-              }
-            }
-            res.status(200).json(roundTable);
-          })
-        }
-      })
-    }
-  });
-})
-
-//kan straks weg
-apiRoutes.get("/teamStand/:roundId", function (req, res, next) {
-  console.log("log api call roundTable/" + req.params.roundId);
-  teamStand.find({ RoundId: req.params.roundId }, {}, { sort: { TotalScore: -1 } }, function (err, roundTable) {
-    if (err) {
-      handleError(res, error.message, "failed tot get roundTable");
-    }
-    else {
-      res.status(200).json(roundTable);
-    }
-  });
 });
 
 apiRoutes.get("/rounds", function (req, res, next) {
@@ -542,126 +523,6 @@ apiRoutes.get("/rounds", function (req, res, next) {
     }
 
   })
-})
-
-//kan straks weg?
-apiRoutes.get("/teamStand/", function (req, res, next) {
-  console.log("log api call roundTable/");
-  teamStand.find(function (err, roundTable) {
-    if (err) {
-      handleError(res, err.message, "failed to get roundTable");
-    }
-    else {
-      res.status(200).json(roundTable);
-    }
-  });
-});
-
-//kan straks weg
-apiRoutes.get("/totalTeamStand/", function (req, res, next) {
-  teamStand.aggregate([
-    { $unwind: "$TeamScores" }
-    // , { $unwind: "$MatchesScore" }
-    // , { $unwind: "$QuestionsScore" }
-    ,
-    {
-      $group: {
-        _id: {
-          email: "$Participant.Email",
-          playerName: "$TeamScores.Name",
-
-        },
-        Id: { $first: "$TeamScores.Id" },
-        ParticipantName: { $first: "$Participant.Name" },
-        playerName: { $first: "$TeamScores.Name" },
-        Team: { $first: "$TeamScores.Team" },
-        Position: { $first: "$TeamScores.Position" },
-        Won: { $sum: "$TeamScores.Won" },
-        Draw: { $sum: "$TeamScores.Draw" },
-        Played: { $sum: "$TeamScores.Played" },
-        RedCard: { $sum: "$TeamScores.RedCard" },
-        YellowCard: { $sum: "$TeamScores.YellowCard" },
-        Assist: { $sum: "$TeamScores.Assist" },
-        Goals: { $sum: "$TeamScores.Goals" },
-        OwnGoals: { $sum: "$TeamScores.OwnGoals" },
-        CleanSheetScore: { $sum: "$TeamScores.CleanSheetScore" },
-        TotalPlayerScore: { $sum: "$TeamScores.TotalScore" },
-        QuestionsScore: { $last: "$QuestionsScore" },
-        MatchesScore: { $last: "$MatchesScore" },
-        TotalQuestionsScore: { $last: "$TotalQuestionsScore" },
-        TotalMatchesScore: { $last: "$TotalMatchesScore" }
-        // ,
-        // TotalOverallScore: { $sum: "$TotalScore" }
-      }
-    }
-    ,
-    {
-      $group:
-      {
-        _id: { email: "$_id.email" },
-        Name: { $first: "$ParticipantName" },
-        TotalTeamScore: { $sum: "$TotalPlayerScore" },
-        TeamScores: {
-          $push: {
-            Id: '$Id',
-            Name: '$playerName',
-            Position: "$Position",
-            Team: "$Team",
-            Won: "$Won",
-            Draw: "$Draw",
-            Played: "$Played",
-            RedCard: "$RedCard",
-            YellowCard: "$YellowCard",
-            Assist: "$Assist",
-            Goals: "$Goals",
-            OwnGoals: "$OwnGoals",
-            CleanSheetScore: "$CleanSheetScore",
-            TotalScore: "$TotalPlayerScore",
-          }
-        },
-        QuestionsScore: { $first: "$QuestionsScore" },
-        MatchesScore: { $first: "$MatchesScore" },
-        TotalQuestionsScore: { $first: "$TotalQuestionsScore" },
-        TotalMatchesScore: { $first: "$TotalMatchesScore" }
-      }
-    },
-    {
-      $project:
-      {
-        _id: 0,
-        Name: 1,
-        TotalTeamScore: 1,
-        TeamScores: 1,
-        TotalMatchesScore: 1,
-        TotalQuestionsScore: 1,
-        QuestionsScore: 1,
-        MatchesScore: 1,
-        TotalScore: { $add: ["$TotalMatchesScore", "$TotalQuestionsScore", "$TotalTeamScore"] }
-        // TotalScore: 1
-      }
-    },
-    { $sort: { TotalScore: -1 } }
-  ], function (err, roundTable) {
-    if (err) {
-      handleError(res, err.message, "failed to get roundTable");
-    }
-    else {
-      for (var i = 0; i < roundTable.length; i += 1) {
-        if (i === 0) {
-          roundTable[i].Positie = i + 1;
-        }
-        else {
-          if (roundTable[i].TotalScore === roundTable[i - 1].TotalScore) {
-            roundTable[i].Positie = roundTable[i - 1].Positie;
-          }
-          else {
-            roundTable[i].Positie = i + 1;
-          }
-        }
-      }
-      res.status(200).json(roundTable);
-    }
-  });
 });
 
 apiRoutes.get("/headlines/", function (req, res, next) {
@@ -800,6 +661,9 @@ apiRoutes.get("/eredivisieplayers", function (req, res, next) {
   });
 });
 
+
+
+
 apiRoutes.get("/gekozeneredivisieplayers", function (req, res, next) {
   EredivisiePlayers.find({}, { Player: 1 }, function (err, eredivisieplayersList) {
     if (err) {
@@ -811,20 +675,12 @@ apiRoutes.get("/gekozeneredivisieplayers", function (req, res, next) {
 });
 app.use('/api', apiRoutes);
 
+// calculateeindstand.calculateEindstand();
+// calculatetotaalstand.calculatetotaalstand();
 // calculatewedstrijden.calculateWedstrijdScore();
 // calculatevragen.calculateQuestions();
 // calculateteam.calculateTeamPredictionsPerRound(1);
-// calculateteam.calculateTeamPredictionsPerRound(2);
-// calculateteam.calculateTeamPredictionsPerRound(3);
-
-//todo remove this
-
-// calculate.calculateTeamPredictionsPerRound(5);
 // determineifplayerisselected.setNumberOfTimesAplayerIsSelected();
-// calculate.calculateTeamPredictionsPerRound(1);
-// calculate.calculateTeamPredictionsPerRound(2);
-// calculate.calculateTeamPredictionsPerRound(3);
-
 var leegFormulier =
   {
     "Participant": {

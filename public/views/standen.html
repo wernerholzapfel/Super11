@@ -16,10 +16,8 @@
     </div>
     <!-- END PAGE HEADER-->
     <!-- BEGIN MAIN CONTENT -->
-    <div class="note note-success note-bordered" ng-hide="!hideTable">
-        De eerste stand is nog niet bekend.
-    </div>
-    <div class="row" ng-hide="hideTable">
+
+    <div class="row">
         <!-- The actual modal template, just a bit o bootstrap -->
         <!--MODAL WINDOW-->
         <script type="text/ng-template" id="totalstandmodal.html">
@@ -35,23 +33,28 @@
                         <div class="table-scrollable">
                                 <table class="table table-striped">
                                <thead><tr>
-                                        <th> Naam</th>
-                                        <th> Gespeeld</th>
-                                        <th> Winst</th>
-                                        <th> Gelijk</th>
-                                        <th> de 0</th>
-                                        <th> Doelpunt</th>
-                                        <th> Eigen Goal</th>
-                                        <th> Assist</th>
-                                        <th> Geel</th>
-                                        <th> Rood</th>
-                                        <th> Totaal</th>
+                                        <th colspan="2"> Naam</th>
+                                        <th> Gesp</th>
+                                        <th> W</th>
+                                        <th> G</th>
+                                        <th> 0</th>
+                                        <th> D</th>
+                                        <th> E.D.</th>
+                                        <th> A</th>
+                                        <th> G</th>
+                                        <th> R</th>
+                                        <th> Tot.</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr
                                         ng-repeat="player in score.TeamScores | orderBy :'Id'">
-                                        <td> {{player.Name}}</td>
+                                        <td>
+                                            <img class="clubicon" ng-src="clubicons/{{player.Team}}.png"></td>
+                                            <td>  {{player.Name}} 
+                                            <span class="previousScore">({{player.Position}})</span>
+                                            <span ng-if="player.Captain">(C)</span>
+                                        </td>
                                         <td> {{player.Played}}</td>
                                         <td> {{player.Won}}</td>
                                         <td> {{player.Draw}}</td>
@@ -82,7 +85,7 @@
                         <div class="table-scrollable">
                                 <table class="table table-striped">
                                <thead><tr>
-                                        <th> Naam</th>
+                                        <th  colspan="2"> Naam</th>
                                         <th> Gespeeld</th>
                                         <th> Winst</th>
                                         <th> Gelijk</th>
@@ -98,7 +101,12 @@
                                     <tbody>
                                     <tr
                                         ng-repeat="player in score.TeamScores | orderBy :'Id'">
-                                        <td> {{player.Name}}</td>
+                                        <td> 
+                                            <img class="clubicon" ng-src="clubicons/{{player.Team}}.png"> 
+                                            </td><td>{{player.Name}}
+                                                <span class="previousScore"> ({{player.Position}})</span>
+                                            <span ng-if="player.Captain">(C)</span>                                            
+                                        </td>
                                         <td> {{player.Played}}</td>
                                         <td> {{player.Won}}</td>
                                         <td> {{player.Draw}}</td>
@@ -186,14 +194,21 @@
                     </div>
                 </script>
 
-        <div class="col-md-12">
+       
+       
+       
+     
+     
+        <div class="col-md-12" ng-show="newTotalTeamTable">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <uib-tabset active="active">
                 <uib-tab heading="Totaal">
                     <div class="portlet box green">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa"></i>
+                                <i class="fa">
+                                </i>                                
+                               <!--Stand bijgewerkt tot: {{newTotalTeamTable.lastupdated | date: 'dd-MM-yyyy @ HH:mm'}}-->
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -204,36 +219,54 @@
                             <div class="table-scrollable">
                                 <table class="table table-striped">
                                     <thead>
-                                        <tr>
+                                        <tr><td></th>
                                             <th>#</th>
                                             <th>
                                                 Naam
                                             </th>
                                             <th>
-                                                Totaal Score
+                                                Totaal
                                             </th>
-                                            <th>Totaal Team</th>
-                                            <th>Totaal Wedstrijden</th>
-                                            <th>Totaal Vragen</th>
+                                            <th>Team</th>
+                                            <th>Wedstrijden</th>
+                                            <th>Vragen</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="table in totalTeamTable">
-                                            <td>{{table.Positie}}</td>
+                                        <tr ng-repeat="table in newTotalTeamTable.deelnemers">
+                                            <td>
+                                                <span class="fa fa-long-arrow-up" ng-if="table.Positie < table.previousPositie"></span>
+                                                <span class="fa fa-long-arrow-down" ng-if="table.Positie > table.previousPositie"></span>
+                                                <span class="fa fa-minus" ng-if="table.Positie === table.previousPositie"></span>     
+                                               </td><td> {{table.Positie}} <span ng-if="table.deltaPositie" class="previousScore">
+                                                   ({{table.deltaPositie > 0 ? '+' : ''}}{{table.deltaPositie}})</span>
+                                            </td>
                                             <td ng-click="showTotalTeamStandModel(table)">
-                                                <a href="#"> {{ table.Name}} </a>
+                                                <a href="#"> {{ table.Name}}</a> 
                                             </td>
                                             <td>
                                                 {{table.TotalScore}}
+                                             <span ng-if="table.deltaTotalscore" class="previousScore">   
+                                                 ({{table.deltaTotalscore > 0 ? '+' : ''}}{{table.deltaTotalscore}})
+                                                 </span>
                                             </td>
                                             <td>
                                                 {{table.TotalTeamScore}}
+                                            <span ng-if="table.deltaTotalTeamScore" class="previousScore">   
+                                                 ({{table.deltaTotalTeamScore > 0 ? '+' : ''}}{{table.deltaTotalTeamScore}})</span>
+                                                
                                             </td>
                                             <td>
                                                 {{table.TotalMatchesScore}}
+                                             <span ng-if="table.deltaTotalMatchesScore" class="previousScore"> 
+                                                    ({{table.deltaTotalMatchesScore > 0 ? '+' : ''}}{{table.deltaTotalMatchesScore}})</span>
+                                                
                                             </td>
                                             <td>
                                                 {{table.TotalQuestionsScore}}
+                                            <span ng-if="table.deltaTotalQuestionsScore" class="previousScore">    
+                                                 ({{table.deltaTotalQuestionsScore > 0 ? '+' : ''}}{{table.deltaTotalQuestionsScore}}) </span>
+                                                
                                             </td>
 
                                         </tr>
@@ -269,19 +302,17 @@
                                                 Naam
                                             </th>
                                             <th>
-                                                Totaal Score
+                                                Punten
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="table in teamTable">
 
-                                            <td ng-model="position" ng-value="$index+1"
-                                                ng-if="table.TotalTeamScore !== teamTable[$index-1].TotalTeamScore">
+                                            <td ng-model="position" ng-value="$index+1" ng-if="table.TotalTeamScore !== teamTable[$index-1].TotalTeamScore">
                                                 {{$index +1}}
                                             </td>
-                                            <td ng-model="position" ng-value="teamTable[$index-1].position"
-                                                ng-if="table.TotalTeamScore === teamTable[$index-1].TotalTeamScore">
+                                            <td ng-model="position" ng-value="teamTable[$index-1].position" ng-if="table.TotalTeamScore === teamTable[$index-1].TotalTeamScore">
                                                 <span ng-bind="position"> </span> {{teamTable[$index-1].position}}
                                             </td>
 
@@ -319,20 +350,17 @@
                                                 Naam
                                             </th>
                                             <th>
-                                                Totaal Score
+                                                Punten
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="regel in wedstrijdenstand">
-                                            <td ng-model="position" ng-value="$index+1"
-                                                ng-if="regel.TotalMatchesScore !== wedstrijdenstand[$index-1].TotalMatchesScore">
+                                            <td ng-model="position" ng-value="$index+1" ng-if="regel.TotalMatchesScore !== wedstrijdenstand[$index-1].TotalMatchesScore">
                                                 {{$index +1}}
                                             </td>
-                                            <td ng-model="position" ng-value="wedstrijdenstand[$index-1].position"
-                                                ng-if="regel.TotalMatchesScore === wedstrijdenstand[$index-1].TotalMatchesScore">
-                                                <span ng-bind="position"> </span>
-                                                {{wedstrijdenstand[$index-1].position}}
+                                            <td ng-model="position" ng-value="wedstrijdenstand[$index-1].position" ng-if="regel.TotalMatchesScore === wedstrijdenstand[$index-1].TotalMatchesScore">
+                                                <span ng-bind="position"> </span> {{wedstrijdenstand[$index-1].position}}
                                             </td>
                                             <td>
                                                 <a href="#" ng-click="showWedstrijdenStandModel(regel)">{{ regel.Participant.Name}}</a>
@@ -370,19 +398,17 @@
                                                 Naam
                                             </th>
                                             <th>
-                                                Totaal Score
+                                               Punten
                                             </th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="regel in vragenstand">
-                                            <td ng-model="position" ng-value="$index+1"
-                                                ng-if="regel.TotalQuestionsScore !== vragenstand[$index-1].TotalQuestionsScore">
+                                            <td ng-model="position" ng-value="$index+1" ng-if="regel.TotalQuestionsScore !== vragenstand[$index-1].TotalQuestionsScore">
                                                 {{$index +1}}
                                             </td>
-                                            <td ng-model="position" ng-value="vragenstand[$index-1].position"
-                                                ng-if="regel.TotalQuestionsScore === vragenstand[$index-1].TotalQuestionsScore">
+                                            <td ng-model="position" ng-value="vragenstand[$index-1].position" ng-if="regel.TotalQuestionsScore === vragenstand[$index-1].TotalQuestionsScore">
                                                 <span ng-bind="position"> </span> {{vragenstand[$index-1].position}}
                                             </td>
                                             <td>
