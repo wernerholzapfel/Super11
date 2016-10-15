@@ -43,6 +43,7 @@ exports.calculateQuestions = function () {
                             questionScore.Answer = question.Answer,
                             questionScore.Id = question.Id,
                             questionScore.Uitslag = scoreQuestion.Answer;
+                            questionScore.RoundId = scoreQuestion.RoundId,
 
                         stand.TotalQuestionsScore = stand.TotalQuestionsScore + questionScore.Score;
 
@@ -84,8 +85,11 @@ exports.calculateQuestions = function () {
                         console.log('A file failed to process');
                     } else {
                         console.log('Go calculate totaalstand');
-                        calculatetotaalstand.calculatetotaalstand();
+                          var latestRoundId = _.maxBy(wedstrijdScore.Matches, 'RoundId');
+            for (var i = 0; i < latestRoundId.RoundId; i += 1) {
+              calculatetotaalstand.calculatetotaalstand(parseInt(i+1));
                     }
+                }
                 });
         }
     ], function (err) {
