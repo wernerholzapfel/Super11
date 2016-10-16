@@ -1,9 +1,9 @@
 
-angular.module('MetronicApp').factory('eredivisiePlayersApi', function ($http) {
+angular.module('MetronicApp').factory('eredivisiePlayersApi', function ($http,API_ENDPOINT) {
   var myService = {
     async: function () {
       // $http returns a promise, which has a then function, which also returns a promise
-      var promise = $http.get('https://safe-oasis-58234.herokuapp.com/api/eredivisieplayers').then(function (response) {
+      var promise = $http.get(API_ENDPOINT.url + '/eredivisieplayers').then(function (response) {
         // The then function here is an opportunity to modify the response
         console.log(response);
         // The return value gets picked up by the then in the controller.
@@ -21,7 +21,7 @@ angular.module('MetronicApp').factory('gekozenEredivisiePlayersApi', function ($
   var myService = {
     async: function () {
       // $http returns a promise, which has a then function, which also returns a promise
-      var promise = $http.get('https://safe-oasis-58234.herokuapp.com/api/gekozeneredivisieplayers').then(function (response) {
+      var promise = $http.get(API_ENDPOINT.url + '/gekozeneredivisieplayers').then(function (response) {
         // The then function here is an opportunity to modify the response
         console.log(response);
         // The return value gets picked up by the then in the controller.
