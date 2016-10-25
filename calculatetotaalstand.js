@@ -135,7 +135,7 @@ exports.calculatetotaalstand = function () {
                     roundTable[i].Positie = i + 1;
                   }
                   else {
-                    if (roundTable[i].TotalTeamScore === roundTable[i - 1].TotalTeamScore) {
+                    if (roundTable[i].TotalScore === roundTable[i - 1].TotalScore) {
                       roundTable[i].Positie = roundTable[i - 1].Positie;
                     }
                     else {
