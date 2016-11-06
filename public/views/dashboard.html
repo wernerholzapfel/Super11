@@ -21,7 +21,7 @@
 						Voor het laatst geupdate
 					</div>
                     <div class="number">
-						{{laatsteupdate.updatedAt | date:'dd MMM hh:mm'}}
+						{{laatsteupdate.updatedAt | date:'dd MMMM HH:mm'}}
 					</div>
 					
 				</div>
@@ -53,7 +53,7 @@
 				</div>
 				<div class="details">
 					<div class="desc">
-						Beste team deze week met {{nummereenteamstandlaatsteronde.TotalTeamScore}} punten
+						Beste team in ronde {{nummereenteamstandlaatsteronde.RoundId}} met {{nummereenteamstandlaatsteronde.TotalTeamScore}} punten
 					</div>
                     <div class="number">
 						{{nummereenteamstandlaatsteronde.Participant.Name}} 

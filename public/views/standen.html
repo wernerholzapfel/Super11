@@ -208,7 +208,7 @@
                             <div class="caption">
                                 <i class="fa">
                                 </i>   
-                                <span>Stand bijgewerkt op: {{teamTable[0].updatedAt | date:'dd-MMM-yyyy hh:mm'}}</span>                                                                                             
+                                <span>Bijgewerkt op: {{teamTable[0].updatedAt | date:'dd/MM/yyyy HH:mm'}}</span>                                                                                             
                                 <!--<span>Stand bijgewerkt op: {{newTotalTeamTable.updatedAt | date:'dd-MMM-yyyy hh:mm'}}</span>                                                             -->
                             </div>
                             <div class="tools">
@@ -287,7 +287,7 @@
                                 <select style="color=black;color: black;" ng-model="selectedRound" ng-options="round.RoundId as round.RoundId for round in rounds | orderBy:'-RoundId'"
                                     ng-init="selectedRound == selectedRound" ng-change="getnewround(selectedRound)">
                                 </select>
-                                <span>Stand bijgewerkt op: {{teamTable[0].updatedAt | date:'dd-MMM-yyyy hh:mm'}}</span>                                                             
+                                <span>Bijgewerkt op: {{teamTable[0].updatedAt | date:'dd/MM/yyyy HH:mm'}}</span>                                                             
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse" data-original-title="" title="">
