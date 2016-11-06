@@ -1,101 +1,161 @@
 <!-- BEGIN PAGE BREADCRUMB -->
 <ul class="page-breadcrumb breadcrumb ng-scope">
-    <li>
-        <a href="#">Home</a>
-        <i class="fa fa-circle"></i>
-    </li>
-    <li class="active"> Dashboard</li>
+	<li>
+		<a href="#">Home</a>
+		<i class="fa fa-circle"></i>
+	</li>
+	<li class="active"> Dashboard</li>
 </ul>
 <!-- END PAGE BREADCRUMB -->
 <!-- BEGIN MAIN CONTENT -->
 <div ng-controller="DashboardController">
-    <div class="note note-success note-bordered">
-        <h3>Welkom bij Super 11<span data-close="note"></span></h3>
-        <p>
-            Beste voetballiefhebber,
-            <br><br> Welkom op de gloednieuwe website van de Super 11! De Super 11 is een vrij eenvoudige voetbalpool waarbij
-            je een team selecteert van 11 eredivisiespelers (max. 1 speler per club). Je spelers verdienen punten door middel
-            van hun verrichtingen in de Eredivisie. Naast het maken van jouw eigen team voorspel je de eindstand van de Eredivisie,
-            beantwoord je een aantal bonusvragen en voorspel je de uitslagen van een aantal voetbalkrakers die komend seizoen
-            op de Europese velden gespeeld gaan worden.
-            <br><br> Er zijn een aantal veranderingen ten opzichte van de vorige jaargang. Zo krijgen je spelers nu ook punten
-            voor assists, is het geen verplichting dat je aanvoerder een verdediger is en kies je zelf je spelsysteem. Voor
-            de volledige uitleg en puntentelling verwijs ik je naar de spelregels.
-            <br><br> We starten met de puntentelling vanaf speelronde 5 en de inleg is 10 euro. Zorg ervoor dat je deelnameformulier
-            uiterlijk zaterdag 10 september 2016 om 18.30 uur ingestuurd is.
-            <br><br> Wie wordt de winnaar van de Super 11 seizoen 2016-2017?
-            <br><br> <b>De inschrijving is gesloten.</b>
-            <p>
-
-    </div>
-
-    <div class="row">
-
-        <div class="col-md-6 col-sm-6" ng-controller="HeadlinesApiController">
-            <div class="portlet light ">
-                <div class="portlet-title">
-                    <div class="caption caption-md">
-                        <i class="icon-bar-chart font-dark hide"></i>
-                        <span class="caption-subject font-green-steel bold uppercase">Updates:</span>
-                        <span class="caption-helper"></span>
+	<!-- BEGIN DASHBOARD STATS -->
+	<div class="row">
+		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+			<div class="dashboard-stat dashboard-stat-v2 green">
+				<div class="visual">
+					<i class="fa fa-clock-o"></i>
+				</div>
+				<div class="details">
+					<div class="desc">
+						Voor het laatst geupdate
+					</div>
+                    <div class="number">
+						{{laatsteupdate.updatedAt | date:'dd MMM hh:mm'}}
+					</div>
+					
+				</div>
+						</div>
+		</div>
+        
+		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+			<div class="dashboard-stat dashboard-stat-v2 green">
+				<div class="visual">
+					<i class="fa fa-line-chart"></i>
+				</div>
+				<div class="details">
+					<div class="desc">
+                        nummer 1 totaalstand met  {{nummereentotaalstand.TotalScore}} punten
                     </div>
-                </div>
-                <div class="portlet-body">
-                    
-                        <div class="scroller">
-                            <div class="general-item-list">
-                                <div class="item" ng-repeat="headline in headlines">
-                                    <div class="item-head">
-                                        <div class="item-details">
-                                            <img class="item-pic rounded" src="../assets/global/img/remy_verberkt.jpg">
-                                            <a href="" class="item-name primary-link">Remy Verberkt</a>
-                                            <span class="item-label">{{headline.createdAt | dateFormat}}</span>
-                                        </div>
-                                    </div>
-                                    <div class="item-body"> {{headline.content}} </div>
-                                </div>
-                            </div>
-                        </div>
-                    
-                </div>
-            </div>
-        </div>
+					<div class="number">
+						{{nummereentotaalstand.Name}}
+					</div>
+				</div>
+				<!--<a class="more" href="standen.html">
+                    View more <i class="m-icon-swapright m-icon-white"></i>
+                </a>-->
+			</div>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+			<div class="dashboard-stat dashboard-stat-v2 green">
+				<div class="visual">
+					<i class="fa fa-line-chart"></i>
+				</div>
+				<div class="details">
+					<div class="desc">
+						Beste team deze week met {{nummereenteamstandlaatsteronde.TotalTeamScore}} punten
+					</div>
+                    <div class="number">
+						{{nummereenteamstandlaatsteronde.Participant.Name}} 
+					</div>
+					
+				</div>
+				
+			</div>
+		</div>
 
-             <div class="col-md-6 col-sm-6" ng-controller="CommentsApiController">
-            <div class="portlet light ">
-                <div class="portlet-title">
-                    <div class="caption caption-md">
-                        <i class="icon-bar-chart font-dark hide"></i>
-                        <span class="caption-subject font-green-steel bold uppercase">Forum:</span>
-                        <span class="caption-helper"></span>
-                    </div>
-                </div>
-                <div class="portlet-body">
-                    
-                        <div class="scroller">
-                            <div class="general-item-list">
-                                <div class="item" ng-repeat="comment in comments">
-                                    <div class="item-head">
-                                        <div class="item-details">
-                                            <!--<img class="item-pic rounded" src="../assets/global/img/remy_verberkt.jpg">-->
-                                            <a href="" class="item-name primary-link">{{comment.name}}</a>
-                                            <span class="item-label">{{comment.createdAt | dateFormat}}</span>
-                                        </div>
-                                    </div>
-                                    <div class="item-body"> {{comment.content}} </div>
-                                </div>
-                            </div>
-                        </div>
-                    <div ng-if="isLoggedIn()" class="scroller-footer">
-                        <textarea  style="width: 100%; height: 100%;" ng-model="data.content"></textarea>
-                        <button class="btn green" ng-click="saveComment()" >Verstuur</button>
-                            </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	</div>
+	<!-- END DASHBOARD STATS -->
 
-<script type="text/javascript">
+	<!--<div class="note note-success note-bordered">
+		<h3>Welkom bij Super 11<span data-close="note"></span></h3>
+		<p>
+			Beste voetballiefhebber,
+			<br><br> Welkom op de gloednieuwe website van de Super 11! De Super 11 is een vrij eenvoudige voetbalpool waarbij je een
+			team selecteert van 11 eredivisiespelers (max. 1 speler per club). Je spelers verdienen punten door middel van hun verrichtingen
+			in de Eredivisie. Naast het maken van jouw eigen team voorspel je de eindstand van de Eredivisie, beantwoord je een aantal
+			bonusvragen en voorspel je de uitslagen van een aantal voetbalkrakers die komend seizoen op de Europese velden gespeeld
+			gaan worden.
+			<br><br> Er zijn een aantal veranderingen ten opzichte van de vorige jaargang. Zo krijgen je spelers nu ook punten voor
+			assists, is het geen verplichting dat je aanvoerder een verdediger is en kies je zelf je spelsysteem. Voor de volledige
+			uitleg en puntentelling verwijs ik je naar de spelregels.
+			<br><br> We starten met de puntentelling vanaf speelronde 5 en de inleg is 10 euro. Zorg ervoor dat je deelnameformulier
+			uiterlijk zaterdag 10 september 2016 om 18.30 uur ingestuurd is.
+			<br><br> Wie wordt de winnaar van de Super 11 seizoen 2016-2017?
+			<br><br> <b>De inschrijving is gesloten.</b>
+			<p>
+
+	</div>-->
+
+	<div class="row">
+
+		<div class="col-md-6 col-sm-6" ng-controller="HeadlinesApiController">
+			<div class="portlet light ">
+				<div class="portlet-title">
+					<div class="caption caption-md">
+						<i class="icon-bar-chart font-dark hide"></i>
+						<span class="caption-subject font-green-steel bold uppercase">Updates:</span>
+						<span class="caption-helper"></span>
+					</div>
+				</div>
+				<div class="portlet-body">
+
+					<div class="scroller">
+						<div class="general-item-list">
+							<div class="item" ng-repeat="headline in headlines">
+								<div class="item-head">
+									<div class="item-details">
+										<img class="item-pic rounded" src="../assets/global/img/remy_verberkt.jpg">
+										<a href="" class="item-name primary-link">Remy Verberkt</a>
+										<span class="item-label">{{headline.createdAt | dateFormat}}</span>
+									</div>
+								</div>
+								<div class="item-body"> {{headline.content}} </div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-sm-6" ng-controller="CommentsApiController">
+			<div class="portlet light ">
+				<div class="portlet-title">
+					<div class="caption caption-md">
+						<i class="icon-bar-chart font-dark hide"></i>
+						<span class="caption-subject font-green-steel bold uppercase">Forum:</span>
+						<span class="caption-helper"></span>
+					</div>
+				</div>
+				<div class="portlet-body">
+
+					<div class="scroller">
+						<div class="general-item-list">
+							<div class="item" ng-repeat="comment in comments">
+								<div class="item-head">
+									<div class="item-details">
+										<!--<img class="item-pic rounded" src="../assets/global/img/remy_verberkt.jpg">-->
+										<a href="" class="item-name primary-link">{{comment.name}}</a>
+										<span class="item-label">{{comment.createdAt | dateFormat}}</span>
+									</div>
+								</div>
+								<div class="item-body"> {{comment.content}} </div>
+							</div>
+						</div>
+					</div>
+					<div ng-if="isLoggedIn()" class="scroller-footer">
+						<textarea style="width: 100%; height: 100%;" ng-model="data.content"></textarea>
+						<button class="btn green" ng-click="saveComment()">Verstuur</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script type="text/javascript">
     $(function(){
     $('.scroller').slimScroll({
         height: '338'
@@ -103,7 +163,7 @@
 });
 </script>
 
-  
+
 </div>
 </div>
 </div>

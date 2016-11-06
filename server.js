@@ -327,8 +327,8 @@ apiRoutes.put("/matchesScoreform/", passport.authenticate('jwt', { session: fals
   }
 });
 
-apiRoutes.get("/eindstandscoreform", function (req,res,next) {
-    Eindstandscoreform.findOne(function (err, eindstand) {
+apiRoutes.get("/eindstandscoreform", function (req, res, next) {
+  Eindstandscoreform.findOne(function (err, eindstand) {
     if (err) {
       handleError(res, error.message, "failed tot get eindstandscoreform");
     }
@@ -382,26 +382,26 @@ apiRoutes.get("/totaalstand/", function (req, res, next) {
   console.log("log api call roundTable/");
 
   async.waterfall([
-  function(callback) {
-    RoundTeamScoreForms.find({}, { RoundId: 1, _id: 0 },{sort : { RoundId : -1}}, function (err, rounds) {
-      if (err) {
-        handleError(res, err.message, "failed to get rounds");
-      }
-      else {
-      var maxRoundId = rounds[0].RoundId;
-      callback(null,maxRoundId)
-      }
+    function (callback) {
+      RoundTeamScoreForms.find({}, { RoundId: 1, _id: 0 }, { sort: { RoundId: -1 } }, function (err, rounds) {
+        if (err) {
+          handleError(res, err.message, "failed to get rounds");
+        }
+        else {
+          var maxRoundId = rounds[0].RoundId;
+          callback(null, maxRoundId)
+        }
 
-    });
-  },
-    function (maxRoundId,callback) {
+      });
+    },
+    function (maxRoundId, callback) {
       //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
       totaalStand.find({ RoundId: maxRoundId }, {}, { sort: { TotalScore: -1 } }).lean().exec(function (err, roundTable) {
         if (err) return console.error(err);
-        callback(null, roundTable,maxRoundId);
+        callback(null, roundTable, maxRoundId);
       })
     },
-    function (roundTable,maxRoundId, callback) {
+    function (roundTable, maxRoundId, callback) {
       totaalStand.find({ RoundId: (maxRoundId - 1) }, {}, { sort: { TotalScore: -1 } }).lean().exec(function (err, previousRoundTable) {
         if (err) return console.error(err);
         callback(null, roundTable, previousRoundTable)
@@ -410,15 +410,15 @@ apiRoutes.get("/totaalstand/", function (req, res, next) {
     },
     function (roundTable, previousRoundTable, callback) {
       var totstand = {}
-      totstand.updatedAt = roundTable[0].updatedAt;      
+      totstand.updatedAt = roundTable[0].updatedAt;
       totstand.deelnemers = []
-      async.each(roundTable, function (regel, callback) { 
+      async.each(roundTable, function (regel, callback) {
         var stand = new totaalStand;
         stand = regel;
         if (previousRoundTable.length > 0) {
           var previous = _.find(previousRoundTable, function (o) { return o.Name === regel.Name });
           stand.previousPositie = previous.Positie;
-          stand.deltaPositie = previous.Positie - stand.Positie ;
+          stand.deltaPositie = previous.Positie - stand.Positie;
           stand.deltaTotalQuestionsScore = stand.TotalQuestionsScore - previous.TotalQuestionsScore;
           stand.deltaTotalMatchesScore = stand.TotalMatchesScore - previous.TotalMatchesScore;
           stand.deltaTotalTeamScore = stand.TotalTeamScore - previous.TotalTeamScore;
@@ -500,7 +500,7 @@ apiRoutes.get("/teamstatistieken/", function (req, res, next) {
         PlayerId: 1
       }
     },
-     { $sort: { Count: -1 } }
+    { $sort: { Count: -1 } }
   ], function (err, teamstatistieken) {
     if (err) {
       handleError(res, err.message, "failed to get teamstatistieke ")
@@ -671,10 +671,84 @@ apiRoutes.get("/gekozeneredivisieplayers", function (req, res, next) {
   });
 });
 
-apiRoutes.get("/nummereentotaalstand", function (req,res,next)
-{
-  
-})
+apiRoutes.get("/nummereentotaalstand", function (req, res, next) {
+  async.waterfall([
+    function (callback) {
+      RoundTeamScoreForms.find({}, { RoundId: 1, _id: 0 }, { sort: { RoundId: -1 } }, function (err, rounds) {
+        if (err) {
+          handleError(res, err.message, "failed to get rounds");
+        }
+        else {
+          var maxRoundId = rounds[0].RoundId;
+          callback(null, maxRoundId)
+        }
+      });
+    },
+    function (maxRoundId, callback) {
+      //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
+      totaalStand.findOne({ RoundId: maxRoundId }, { TeamScores: 0 }, { sort: { TotalScore: -1 } }).lean().exec(function (err, roundTable) {
+        if (err) return console.error(err);
+        res.status(200).json(roundTable);
+      })
+    }])
+});
+
+apiRoutes.get("/nummereenteamstandlaatsteronde", function (req, res, next) {
+  async.waterfall([
+    function (callback) {
+      RoundTeamScoreForms.find({}, { RoundId: 1, _id: 0 }, { sort: { RoundId: -1 } }, function (err, rounds) {
+        if (err) {
+          handleError(res, err.message, "failed to get rounds");
+        }
+        else {
+          var maxRoundId = rounds[0].RoundId;
+          callback(null, maxRoundId)
+        }
+      });
+    },
+    function (maxRoundId, callback) {
+      //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
+      newteamStand.findOne({ RoundId: maxRoundId }, {TeamScores : 0, _id:0, __v: 0, 'Participant.PhoneNumber': 0, 'Participant.Email' : 0}, { sort: { TotalTeamScore: -1 } }, function (err, roundTable) {
+        if (err) {
+          handleError(res, error.message, "failed tot get roundTable");
+        }
+        else {
+          res.status(200).json(roundTable);
+        }
+      });
+    }
+  ])
+});
+
+apiRoutes.get("/laatsteupdate", function (req, res, next) {
+  async.waterfall([
+    function (callback) {
+      RoundTeamScoreForms.find({}, { RoundId: 1, _id: 0 }, { sort: { RoundId: -1 } }, function (err, rounds) {
+        if (err) {
+          handleError(res, err.message, "failed to get rounds");
+        }
+        else {
+          var maxRoundId = rounds[0].RoundId;
+          callback(null, maxRoundId)
+        }
+      });
+    },
+    function (maxRoundId, callback) {
+      //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
+      newteamStand.findOne({ RoundId: maxRoundId }, {updatedAt : 1}, { sort: { TotalTeamScore: -1 } }, function (err, roundTable) {
+        if (err) {
+          handleError(res, error.message, "failed tot get roundTable");
+        }
+        else {
+          res.status(200).json(roundTable);
+        }
+      });
+    }
+  ])
+});
+
+
+
 
 app.use('/api', apiRoutes);
 
@@ -699,75 +773,75 @@ var leegFormulier =
       "SelectedTeam": "Ado Den Haag",
       "SelectedTeamId": ""
     }, {
-        "Position": 2,
-        "SelectedTeam": "Ajax",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 3,
-        "SelectedTeam": "AZ",
-        "SelectedTeamId": ""
-      }
+      "Position": 2,
+      "SelectedTeam": "Ajax",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 3,
+      "SelectedTeam": "AZ",
+      "SelectedTeamId": ""
+    }
       , {
-        "Position": 4,
-        "SelectedTeam": "Excelsior",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 5,
-        "SelectedTeam": "Feyenoord",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 6,
-        "SelectedTeam": "Go Ahead Eagles",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 7,
-        "SelectedTeam": "FC Groningen",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 8,
-        "SelectedTeam": "SC Heerenveen",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 9,
-        "SelectedTeam": "Heracles Almelo",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 10,
-        "SelectedTeam": "N.E.C.",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 11,
-        "SelectedTeam": "PEC Zwolle",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 12,
-        "SelectedTeam": "PSV",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 13,
-        "SelectedTeam": "Roda JC",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 14,
-        "SelectedTeam": "Sparta",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 15,
-        "SelectedTeam": "FC Twente",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 16,
-        "SelectedTeam": "FC Utrecht",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 17,
-        "SelectedTeam": "Vitesse",
-        "SelectedTeamId": ""
-      }, {
-        "Position": 18,
-        "SelectedTeam": "Willem II",
-        "SelectedTeamId": ""
-      }
+      "Position": 4,
+      "SelectedTeam": "Excelsior",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 5,
+      "SelectedTeam": "Feyenoord",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 6,
+      "SelectedTeam": "Go Ahead Eagles",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 7,
+      "SelectedTeam": "FC Groningen",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 8,
+      "SelectedTeam": "SC Heerenveen",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 9,
+      "SelectedTeam": "Heracles Almelo",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 10,
+      "SelectedTeam": "N.E.C.",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 11,
+      "SelectedTeam": "PEC Zwolle",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 12,
+      "SelectedTeam": "PSV",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 13,
+      "SelectedTeam": "Roda JC",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 14,
+      "SelectedTeam": "Sparta",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 15,
+      "SelectedTeam": "FC Twente",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 16,
+      "SelectedTeam": "FC Utrecht",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 17,
+      "SelectedTeam": "Vitesse",
+      "SelectedTeamId": ""
+    }, {
+      "Position": 18,
+      "SelectedTeam": "Willem II",
+      "SelectedTeamId": ""
+    }
     ],
     "Team": [{
       "Id": 1,
@@ -778,86 +852,86 @@ var leegFormulier =
       "Team": "",
       "Captain": false
     }, {
-        "Id": 2,
-        "Position": "V",
-        "PlayerId": "",
-        "PlayerName": "",
-        "TeamId": "",
-        "Team": "",
-        "Captain": false
-      }, {
-        "Id": 3,
-        "Position": "V",
-        "PlayerId": "",
-        "PlayerName": "",
-        "TeamId": "",
-        "Team": "",
-        "Captain": false
-      }, {
-        "Id": 4,
-        "Position": "V",
-        "PlayerId": "",
-        "PlayerName": "",
-        "TeamId": "",
-        "Team": "",
-        "Captain": false
-      }, {
-        "Id": 5,
-        "Position": "V",
-        "PlayerId": "",
-        "PlayerName": "",
-        "TeamId": "",
-        "Team": "",
-        "Captain": false
-      }, {
-        "Id": 6,
-        "Position": "M",
-        "PlayerId": "",
-        "PlayerName": "",
-        "TeamId": "",
-        "Team": "",
-        "Captain": false
-      }, {
-        "Id": 7,
-        "Position": "M",
-        "PlayerId": "",
-        "PlayerName": "",
-        "TeamId": "",
-        "Team": "",
-        "Captain": false
-      }, {
-        "Id": 8,
-        "Position": "M",
-        "PlayerId": "",
-        "PlayerName": "",
-        "TeamId": "",
-        "Team": "",
-        "Captain": false
-      }, {
-        "Id": 9,
-        "Position": "A",
-        "PlayerId": "",
-        "PlayerName": "",
-        "TeamId": "",
-        "Team": "",
-        "Captain": false
-      }, {
-        "Id": 10,
-        "Position": "A",
-        "PlayerId": "",
-        "PlayerName": "",
-        "TeamId": "",
-        "Team": "",
-        "Captain": false
-      }, {
-        "Id": 11,
-        "Position": "A",
-        "PlayerName": "",
-        "Name": "",
-        "TeamId": "",
-        "Team": "",
-        "Captain": false
-      }],
+      "Id": 2,
+      "Position": "V",
+      "PlayerId": "",
+      "PlayerName": "",
+      "TeamId": "",
+      "Team": "",
+      "Captain": false
+    }, {
+      "Id": 3,
+      "Position": "V",
+      "PlayerId": "",
+      "PlayerName": "",
+      "TeamId": "",
+      "Team": "",
+      "Captain": false
+    }, {
+      "Id": 4,
+      "Position": "V",
+      "PlayerId": "",
+      "PlayerName": "",
+      "TeamId": "",
+      "Team": "",
+      "Captain": false
+    }, {
+      "Id": 5,
+      "Position": "V",
+      "PlayerId": "",
+      "PlayerName": "",
+      "TeamId": "",
+      "Team": "",
+      "Captain": false
+    }, {
+      "Id": 6,
+      "Position": "M",
+      "PlayerId": "",
+      "PlayerName": "",
+      "TeamId": "",
+      "Team": "",
+      "Captain": false
+    }, {
+      "Id": 7,
+      "Position": "M",
+      "PlayerId": "",
+      "PlayerName": "",
+      "TeamId": "",
+      "Team": "",
+      "Captain": false
+    }, {
+      "Id": 8,
+      "Position": "M",
+      "PlayerId": "",
+      "PlayerName": "",
+      "TeamId": "",
+      "Team": "",
+      "Captain": false
+    }, {
+      "Id": 9,
+      "Position": "A",
+      "PlayerId": "",
+      "PlayerName": "",
+      "TeamId": "",
+      "Team": "",
+      "Captain": false
+    }, {
+      "Id": 10,
+      "Position": "A",
+      "PlayerId": "",
+      "PlayerName": "",
+      "TeamId": "",
+      "Team": "",
+      "Captain": false
+    }, {
+      "Id": 11,
+      "Position": "A",
+      "PlayerName": "",
+      "Name": "",
+      "TeamId": "",
+      "Team": "",
+      "Captain": false
+    }],
     "Questions": [
       {
         "Id": 1,

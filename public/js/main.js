@@ -187,7 +187,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'js/controllers/HeadlinesApiController.js',
                             'js/services/headlinesApi.js',
                             'js/controllers/CommentsApiController.js',
-                            'js/services/commentsApi.js'
+                            'js/services/commentsApi.js',
+                            'js/services/homepagestats.js'
                         ]
                     });
                 }]

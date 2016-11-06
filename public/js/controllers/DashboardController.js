@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('DashboardController', function ($rootScope, $scope, $http, $timeout, AuthService) {
+angular.module('MetronicApp').controller('DashboardController', function ($rootScope, $scope, $http, $timeout, AuthService, getlaatsteupdate, getnummereentotaalstand, getnummereenteamstandlaatsteronde) {
     $scope.$on('$viewContentLoaded', function () {
         // initialize core components
         App.initAjax();
@@ -11,4 +11,14 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
 
     $scope.isLoggedIn = AuthService.isAuthenticated;
 
+    getlaatsteupdate.async().then(function (data) {
+        $scope.laatsteupdate = data;
+    });
+
+    getnummereentotaalstand.async().then(function (data) {
+        $scope.nummereentotaalstand = data;
+    });
+    getnummereenteamstandlaatsteronde.async().then(function (data) {
+        $scope.nummereenteamstandlaatsteronde = data;
+    });
 });
