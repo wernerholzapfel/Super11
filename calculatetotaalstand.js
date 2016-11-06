@@ -104,7 +104,6 @@ exports.calculatetotaalstand = function () {
                   if (scorewedstrijden) {
                     roundTable[i].TotalMatchesScore = scorewedstrijden.TotalMatchesScore;
                   }
-
                   //todo onderstaande aanzetten om eredivisie eindstand punten toe te voegen.
                   // var scoreeindstand = _.find(eredivisieStand, function (o){ return o.Participant.Email === roundTable[i].Email});
                   // if (scoreeindstand){

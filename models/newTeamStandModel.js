@@ -26,7 +26,11 @@ var newTeamStandSchema = new mongoose.Schema({
 		CleanSheetScore: { type: Number, required: true },
         TotalScore: { type: Number, required: false }
 	}],
-	TotalTeamScore: { type: Number, required: true }
+	TotalTeamScore: { type: Number, required: true },
+	 updatedAt: {
+     type : Date,
+     default : Date.now
+   }
 });
 
 var newTeamStand = module.exports = mongoose.model('newTeamStand', newTeamStandSchema);

@@ -410,9 +410,8 @@ apiRoutes.get("/totaalstand/", function (req, res, next) {
     },
     function (roundTable, previousRoundTable, callback) {
       var totstand = {}
+      totstand.updatedAt = roundTable[0].updatedAt;      
       totstand.deelnemers = []
-      var date = roundTable[0]._id.getTimestamp();
-      totstand.lastupdated = date;
       async.each(roundTable, function (regel, callback) { 
         var stand = new totaalStand;
         stand = regel;
@@ -662,8 +661,6 @@ apiRoutes.get("/eredivisieplayers", function (req, res, next) {
 });
 
 
-
-
 apiRoutes.get("/gekozeneredivisieplayers", function (req, res, next) {
   EredivisiePlayers.find({}, { Player: 1 }, function (err, eredivisieplayersList) {
     if (err) {
@@ -673,6 +670,12 @@ apiRoutes.get("/gekozeneredivisieplayers", function (req, res, next) {
     }
   });
 });
+
+apiRoutes.get("/nummereentotaalstand", function (req,res,next)
+{
+  
+})
+
 app.use('/api', apiRoutes);
 
 // calculateeindstand.calculateEindstand();

@@ -27,7 +27,11 @@ var totaalStandSchema = new mongoose.Schema({
 		CleanSheetScore: { type: Number, required: false },
         TotalScore: { type: Number, required: false },
 		Captain: {type: Boolean, required: false}
-	}]
+	}],
+	 updatedAt: {
+     type : Date,
+     default : Date.now
+   }
 });
 
 var totaalStand = module.exports = mongoose.model('totaalStand', totaalStandSchema);
