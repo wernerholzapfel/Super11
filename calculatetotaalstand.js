@@ -115,14 +115,12 @@ exports.calculatetotaalstand = function () {
                   if (scorequestion) {
                     roundTable[i].TotalQuestionsScore = scorequestion.TotalQuestionsScore;
                     roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
-                    delete roundTable[i].Email;
                   }
 
                 
                   else {
                     roundTable[i].TotalQuestionsScore = 0;
                     roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
-                    delete roundTable[i].Email;
                   }
                 }
 

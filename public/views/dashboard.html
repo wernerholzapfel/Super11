@@ -20,14 +20,14 @@
 					<div class="desc">
 						Voor het laatst geupdate
 					</div>
-                    <div class="number">
+					<div class="number">
 						{{laatsteupdate.updatedAt | date:'dd MMMM HH:mm'}}
 					</div>
-					
+
 				</div>
-						</div>
+			</div>
 		</div>
-        
+
 		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 			<div class="dashboard-stat dashboard-stat-v2 green">
 				<div class="visual">
@@ -35,8 +35,8 @@
 				</div>
 				<div class="details">
 					<div class="desc">
-                        nummer 1 totaalstand met  {{nummereentotaalstand.TotalScore}} punten
-                    </div>
+						nummer 1 totaalstand met {{nummereentotaalstand.TotalScore}} punten
+					</div>
 					<div class="number">
 						{{nummereentotaalstand.Name}}
 					</div>
@@ -55,12 +55,12 @@
 					<div class="desc">
 						Beste team in ronde {{nummereenteamstandlaatsteronde.RoundId}} met {{nummereenteamstandlaatsteronde.TotalTeamScore}} punten
 					</div>
-                    <div class="number">
-						{{nummereenteamstandlaatsteronde.Participant.Name}} 
+					<div class="number">
+						{{nummereenteamstandlaatsteronde.Participant.Name}}
 					</div>
-					
+
 				</div>
-				
+
 			</div>
 		</div>
 
@@ -86,6 +86,22 @@
 			<p>
 
 	</div>-->
+
+	<div class="row" ng-if="isLoggedIn()">
+		<div class="col-lg-12">
+			<div class="note note-success note-bordered">
+				<div class="visual">
+					<i class="fa fa-graph-o"></i>
+				</div>
+				<div class="details" ng-if="showUserScore">
+					<h3>
+						{{totalscoreuser.Name}}, je weekscore is {{totalscoreuser.Weekscore}} dat maakt je totaal {{totalscoreuser.TotalScore}}. Hiermee {{totalscoreuser.Tekst}} in de totaalstand.
+					</h3>
+				
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="row">
 
@@ -152,6 +168,7 @@
 			</div>
 		</div>
 	</div>
+
 
 
 
