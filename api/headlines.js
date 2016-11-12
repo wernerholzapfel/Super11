@@ -6,7 +6,7 @@ var passport = require('passport');
 var jwt = require('jwt-simple');
 var config = require('../config/database');
 
-var headlines = require("../models/headlinesModel");
+var Headlines = require("../models/headlinesModel");
 var User = require('../models/user');
 
 
