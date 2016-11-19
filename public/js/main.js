@@ -9,7 +9,8 @@ var MetronicApp = angular.module("MetronicApp", [
     "oc.lazyLoad",
     "ngSanitize",
     "ui.sortable",
-    "angularModalService"
+    "angularModalService",
+    'auth0.lock', 'angular-jwt'
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -18,6 +19,7 @@ MetronicApp.config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
         // global configs go here
     });
 }]);
+
 
 /********************************************
  BEGIN: BREAKING CHANGE in AngularJS v1.3.x:
@@ -103,19 +105,12 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-MetronicApp.controller('HeaderController', ['$scope', 'AuthService', '$window', function ($scope, AuthService, $window) {
+MetronicApp.controller('HeaderController', ['$scope', '$window', function ($scope, $window) {
     $scope.$on('$includeContentLoaded', function () {
         Layout.initHeader(); // init header
-        $scope.isLoggedIn = AuthService.isAuthenticated;
         $scope.navigateTo = function (url) {
             $window.location.href = url;
         }
-
-        $scope.logout = function () {
-            AuthService.logout();
-                $window.location.href = '/#/dashboard.html';
-            
-        };
     });
 }]);
 
@@ -157,7 +152,7 @@ MetronicApp.controller('FooterController', ['$scope', function ($scope) {
 }]);
 
 /* Setup Rounting For All Pages */
-MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwtOptionsProvider', '$httpProvider', function ($stateProvider, lockProvider, $urlRouterProvider, jwtOptionsProvider, $httpProvider) {
     // Redirect any unmatched url
     $urlRouterProvider.otherwise("/dashboard.html");
 
@@ -181,9 +176,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             '../assets/global/plugins/jquery.sparkline.min.js',
 
                             '../assets/pages/scripts/dashboard.min.js',
-                             'js/services/authenticationService.js',
+                            'js/services/authenticationService.js',
                             'js/controllers/AuthenticationController.js',
                             'js/controllers/DashboardController.js',
+                            // 'js/controllers/LoginController.js',                            
                             'js/controllers/HeadlinesApiController.js',
                             'js/services/headlinesApi.js',
                             'js/controllers/CommentsApiController.js',
@@ -194,7 +190,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                 }]
             }
         })
-        
+
         //login
         .state('login', {
             url: "/login.html",
@@ -314,7 +310,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'js/services/questionsService.js',
                             'js/services/eredivisiePlayersApi.js',
                             'js/services/roundsApi.js',
-                                
+
                             'js/controllers/ScoreFormController.js',
                             'js/controllers/ScoreFormApiController.js'
                         ]
@@ -323,7 +319,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
             }
         })
 
-    // tablescoreform
+        // tablescoreform
         .state('tablescoreform', {
             url: "/tablescoreform.html",
             templateUrl: "views/tablescoreform.html",
@@ -353,7 +349,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'js/services/questionsService.js',
                             'js/services/eredivisiePlayersApi.js',
                             'js/services/roundsApi.js',
-                                
+
                             'js/controllers/ScoreFormController.js',
                             'js/controllers/ScoreFormApiController.js'
                         ]
@@ -396,7 +392,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
             }
         })
 
-      // Stand new
+        // Stand new
         .state('standen', {
             url: "/standen.html",
             templateUrl: "views/standen.html",
@@ -431,7 +427,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
             }
         })
 
-      // Stand new
+        // Stand new
         .state('eredivisieeindstand', {
             url: "/eredivisieeindstand.html",
             templateUrl: "views/eredivisieeindstand.html",
@@ -531,7 +527,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                 }]
             }
         })
-  
+
         // Predictions
         .state('predictions', {
             url: "/predictions/{id}",
@@ -603,11 +599,66 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
             }
         })
 
+
+    lockProvider.init({
+        clientID: 'WNjXlR4ChTqf2azaWhPk4MPzViNqoQft',
+        domain: 'werner.eu.auth0.com',
+        //  clientID: AUTH0_CLIENT_ID,
+        // domain: AUTH0_DOMAIN,
+        options: {
+            rememberLastLogin: true,
+            socialButtonStyle: 'small',
+            theme: {
+                logo: '',
+                primaryColor: "#32c5d2"
+            },
+            languageDictionary: {
+                emailInputPlaceholder: "please enter you email",
+                title: "Super Eleven"
+            }
+        }
+    });
+
+    // $urlRouterProvider.otherwise('/home');
+
+    // Configuration for angular-jwt
+    jwtOptionsProvider.config({
+        tokenGetter: function () {
+            return localStorage.getItem('id_token');
+        },
+        whiteListedDomains: ['localhost'],
+        unauthenticatedRedirectPath: '/login'
+    });
+
+    // Add the jwtInterceptor to the array of HTTP interceptors
+    // so that JWTs are attached as Authorization headers
+    $httpProvider.interceptors.push('jwtInterceptor');
+
+
 }]);
 
 /* Init global settings and run the app */
-MetronicApp.run(["$rootScope", "settings", "$state",'$anchorScroll', function ($rootScope, settings, $state,$anchorScroll) {
-    $rootScope.$state = $state; // state to be accessed from view
-    $rootScope.$settings = settings; // state to be accessed from view
-    $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
-}]);
+MetronicApp.run(["$rootScope", "settings", "$state", '$anchorScroll', 'authService', 'lock', 'authManager',
+    function ($rootScope, settings, $state, $anchorScroll, authService, lock, authManager) {
+        $rootScope.$state = $state; // state to be accessed from view
+        $rootScope.$settings = settings; // state to be accessed from view
+        $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
+
+        // Put the authService on $rootScope so its methods
+        // can be accessed from the nav bar
+        $rootScope.authService = authService;
+
+        // Register the authentication listener that is
+        // set up in auth.service.js
+        authService.registerAuthenticationListener();
+
+        // Use the authManager from angular-jwt to check for
+        // the user's authentication state when the page is
+        // refreshed and maintain authentication
+        authManager.checkAuthOnRefresh();
+        // Register the synchronous hash parser
+        // when using UI Router
+        lock.interceptHash();
+
+
+    }]);

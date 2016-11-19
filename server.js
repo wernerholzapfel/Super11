@@ -7,7 +7,11 @@ var bodyParser = require("body-parser");
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 var passport = require('passport');
-var jwt = require('jwt-simple');
+var jwt = require('express-jwt');
+var dotenv = require('dotenv');
+
+
+// var jwt = require('jwt-simple');
 var path = require("path");
 var assert = require("assert");
 var config = require('./config/database');
@@ -28,6 +32,8 @@ var allowCrossDomain = function (req, res, next) {
     next();
   }
 };
+
+dotenv.load();
 
 app.use(allowCrossDomain)
 app.use(express.static(__dirname + "/public"));
@@ -50,6 +56,11 @@ var server = app.listen(process.env.PORT || 8200, function () {
 
 require('./config/passport')(passport);
 
+var authenticateCall = jwt({
+  secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
+  audience: process.env.AUTH0_CLIENT_ID
+});
+
 var apiRoutes = express.Router();
 
 var comments = require('./api/comments');
@@ -62,34 +73,30 @@ app.use('/api', comments);
 // app.use('/api', predictionform);
 
 var authenticate = require('./api/authenticate');
-app.use('/api', authenticate);
 
 var homepagestats = require('./api/homepagestats');
-app.use('/api', homepagestats);
 
 var scoreforms = require('./api/scoreforms');
-app.use('/api', scoreforms);
 
 var standen = require('./api/standen');
-app.use('/api',standen);
 
 var totalscoreperuser = require('./api/totalscoreperuser')
-app.use('/api',totalscoreperuser);
 
 var headlines =require('./api/headlines');
-app.use('/api',headlines);
 
 var statistieken = require('./api/statistieken');
-app.use('/api', statistieken);
 
 var eredivisieplayers = require('./api/eredivisieplayers');
-app.use('/api', eredivisieplayers);
 
 var predictions = require('./api/predictions');
-app.use('/api',predictions);
 
 var rounds = require('./api/rounds');
-app.use('/api',rounds);
+
+app.use('/api',authenticate,homepagestats,standen,totalscoreperuser,headlines,statistieken,eredivisieplayers,predictions,rounds);
+app.use('/api',authenticateCall,scoreforms);
+
+
+
 
 getToken = function (headers) {
   if (headers && headers.authorization) {
@@ -103,6 +110,7 @@ getToken = function (headers) {
     return null;
   }
 };
+
 
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {

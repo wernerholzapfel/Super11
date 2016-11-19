@@ -2,9 +2,18 @@ var express = require("express");
 var apiRoutes = express.Router();
 var mongoose = require('mongoose');
 
+
+var ManagementClient = require('auth0').ManagementClient;
+
+var management = new ManagementClient({
+  //get users token read
+
+});
+
 var passport = require('passport');
 var jwt = require('jwt-simple');
 var config = require('../config/database');
+var jwtDecode = require('jwt-decode');
 
 var async = require("async");
 var _ = require('lodash');
@@ -13,11 +22,16 @@ var totaalStand = require("../models/totaalStandModel");
 var RoundTeamScoreForms = require("../models/roundteamscoreformsModel");
 var User = require('../models/user');
 
-apiRoutes.get("/totaalscoreuser/", passport.authenticate('jwt', { session: false }), function (req, res) {
+apiRoutes.get("/totaalscoreuser/", function (req, res) {
   var token = getToken(req.headers);
   if (token) {
-    var decoded = jwt.decode(token, config.secret);
-    User.findOne({ name: decoded.name }, function (err, user) {
+    var decoded = jwtDecode(token, config.secret);
+
+    management.getUser({ id: decoded.sub }, function (err, user) {
+      console.log(user);
+   
+
+    User.findOne({ name: user.email }, function (err, user) {
       if (err) throw err;
       if (!user) {
         return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
@@ -62,7 +76,8 @@ apiRoutes.get("/totaalscoreuser/", passport.authenticate('jwt', { session: false
           }
         ]);
       };
-    });
+    }); 
+  });
   }
 });
 

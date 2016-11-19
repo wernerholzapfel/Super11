@@ -19,9 +19,12 @@
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
                 <li>
-                    <button ng-if="isLoggedIn()" type="button" class="btn green" ng-click="logout()">Logout</button>
-                    <button ng-hide="isLoggedIn()" type="button" class="btn green" ng-click="navigateTo('/#/login.html')">Login</button>
-                    <!--<button ng-hide="isLoggedIn()" type="button" class="btn green" ng-click="navigateTo('/#/registreer.html')">Registreer</button>-->
+                    <button ng-hide="isAuthenticated" type="button" class="btn green" ng-click="authService.login()">Log
+                        In
+                    </button>
+                    <button ng-if="isAuthenticated" type="button" class="btn green" ng-click="authService.logout()()">
+                        Loguit
+                    </button>
                 </li>
             </ul>
         </div>
