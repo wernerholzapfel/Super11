@@ -90,8 +90,8 @@ var predictions = require('./api/predictions');
 
 var rounds = require('./api/rounds');
 
-app.use('/api',homepagestats,standen,totalscoreperuser,headlines,statistieken,eredivisieplayers,predictions,rounds);
-app.use('/api',authenticateCall,scoreforms);
+app.use('/api',homepagestats,standen,headlines,statistieken,eredivisieplayers,predictions,rounds);
+app.use('/api',authenticateCall,totalscoreperuser,scoreforms);
 
 
 getToken = function (headers) {
