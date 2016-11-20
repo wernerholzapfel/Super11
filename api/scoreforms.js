@@ -2,9 +2,19 @@ var express = require("express");
 var apiRoutes = express.Router();
 var mongoose = require('mongoose');
 
-var passport = require('passport');
-var jwt = require('jwt-simple');
 var config = require('../config/database');
+var ManagementClient = require('auth0').ManagementClient;
+var management = new ManagementClient({
+  //get users token read
+  token: process.env.token || config.token,
+  domain: process.env.domain || config.domain
+});
+
+
+var secret = process.env.secret || config.secret;
+
+var async = require("async");
+var jwtDecode = require('jwt-decode');
 
 var RoundTeamScoreForms = require("../models/roundteamscoreformsModel");
 var MatchesScoreForm = require("../models/wedstrijdenScoreformsModel.js");
@@ -28,32 +38,36 @@ apiRoutes.get("/roundteamscoreforms/:roundId", function (req, res, next) {
   });
 });
 
-apiRoutes.put("/roundteamscoreforms/:id", passport.authenticate('jwt', { session: false }), function (req, res) {
+apiRoutes.put("/roundteamscoreforms/:id", function (req, res) {
   var token = getToken(req.headers);
   if (token) {
-    var decoded = jwt.decode(token, config.secret);
-    User.findOne({ name: decoded.name }, function (err, user) {
-      if (err) throw err;
-      if (!user) {
-        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
-      }
-      if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
-        var updateScoreForm = {};
-        updateScoreForm = Object.assign(updateScoreForm, req.body);
-        delete updateScoreForm._id;
+    async.waterfall([
+      function (callback) {
+        var decoded = jwtDecode(token, secret);
 
-        RoundTeamScoreForms.findOneAndUpdate({ RoundId: req.params.id }, updateScoreForm, ({ upsert: true }), function (err, roundteamscoreforms) {
-          if (err) return handleError(res, err.message, "Failed to Update Players");
-          res.status(200).json(roundteamscoreforms);
-          console.log("put for roundId " + req.params.id)
-
-          calculateteam.calculateTeamPredictionsPerRound(req.params.id);
+        management.getUser({ id: decoded.sub }, function (err, user) {
+          if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+          callback(null, user);
         });
+      },
+      function (user, callback) {
+        if (user.app_metadata.roles.indexOf('admin') > -1) {
+          var updateScoreForm = {};
+          updateScoreForm = Object.assign(updateScoreForm, req.body);
+          delete updateScoreForm._id;
+
+          RoundTeamScoreForms.findOneAndUpdate({ RoundId: req.params.id }, updateScoreForm, ({ upsert: true }), function (err, roundteamscoreforms) {
+            if (err) return handleError(res, err.message, "Failed to Update Players");
+            res.status(200).json(roundteamscoreforms);
+            console.log("put for roundId " + req.params.id)
+
+            calculateteam.calculateTeamPredictionsPerRound(req.params.id);
+          });
+        } else {
+          return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging door te voeren' })
+        }
       }
-      else {
-        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
-      }
-    })
+    ])
   }
 });
 
@@ -68,27 +82,31 @@ apiRoutes.get("/questionsScoreform/", function (req, res, next) {
   });
 });
 
-apiRoutes.put("/questionsScoreform/", passport.authenticate('jwt', { session: false }), function (req, res) {
+apiRoutes.put("/questionsScoreform/", function (req, res) {
   var token = getToken(req.headers);
   if (token) {
-    var decoded = jwt.decode(token, config.secret);
-    User.findOne({ name: decoded.name }, function (err, user) {
-      if (err) throw err;
-      if (!user) {
-        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
-      }
-      if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
-        QuestionsScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, questionsScoreForm) {
-          if (err) return handleError(res, err.message, "Failed to Update questions");
-          res.status(200).json(questionsScoreForm);
-          console.log("saved questions")
-          calculatevragen.calculateQuestions();
+    async.waterfall([
+      function (callback) {
+        var decoded = jwt.decode(token, secret);
+        management.getUser({ id: decoded.sub }, function (err, user) {
+          if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+          callback(null, user);
         });
+      },
+      function (user, callback) {
+        if (user.app_metadata.roles.indexOf('admin') > -1) {
+          QuestionsScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, questionsScoreForm) {
+            if (err) return handleError(res, err.message, "Failed to Update questions");
+            res.status(200).json(questionsScoreForm);
+            console.log("saved questions")
+            calculatevragen.calculateQuestions();
+          });
+        }
+        else {
+          return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+        }
       }
-      else {
-        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
-      }
-    })
+    ])
   }
 });
 
@@ -103,27 +121,32 @@ apiRoutes.get("/matchesScoreform/", function (req, res, next) {
   });
 });
 
-apiRoutes.put("/matchesScoreform/", passport.authenticate('jwt', { session: false }), function (req, res) {
+apiRoutes.put("/matchesScoreform/", function (req, res) {
   var token = getToken(req.headers);
   if (token) {
-    var decoded = jwt.decode(token, config.secret);
-    User.findOne({ name: decoded.name }, function (err, user) {
-      if (err) throw err;
-      if (!user) {
-        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
-      }
-      if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
-        MatchesScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, matchesScoreform) {
-          if (err) return handleError(res, err.message, "Failed to Update questions");
-          res.status(200).json(matchesScoreform);
-          console.log("saved matches")
-          calculatewedstrijden.calculateWedstrijdScore();
+    async.waterfall([
+      function (callback) {
+        var decoded = jwt.decode(token, secret);
+        management.getUser({ id: decoded.sub }, function (err, user) {
+          if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+          callback(null, user);
         });
+
+      },
+      function (user, callback) {
+        if (user.app_metadata.roles.indexOf('admin') > -1) {
+          MatchesScoreForm.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, matchesScoreform) {
+            if (err) return handleError(res, err.message, "Failed to Update questions");
+            res.status(200).json(matchesScoreform);
+            console.log("saved matches")
+            calculatewedstrijden.calculateWedstrijdScore();
+          });
+        }
+        else {
+          return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+        }
       }
-      else {
-        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
-      }
-    })
+    ])
   }
 });
 
@@ -138,27 +161,31 @@ apiRoutes.get("/eindstandscoreform", function (req, res, next) {
   });
 });
 
-apiRoutes.put("/eindstandscoreform/", passport.authenticate('jwt', { session: false }), function (req, res) {
+apiRoutes.put("/eindstandscoreform/", function (req, res) {
   var token = getToken(req.headers);
   if (token) {
-    var decoded = jwt.decode(token, config.secret);
-    User.findOne({ name: decoded.name }, function (err, user) {
-      if (err) throw err;
-      if (!user) {
-        return res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
-      }
-      if (user.name === "werner.holzapfel@gmail.com" || user.name === 'rverberkt') {
-        Eindstandscoreform.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, eindstandscoreform) {
-          if (err) return handleError(res, err.message, "Failed to Update eindstand");
-          res.status(200).json(eindstandscoreform);
-          console.log("saved eindstand")
-          //todo calculate eindstand
+    async.waterfall([
+      function (callback) {
+        var decoded = jwt.decode(token, secret);
+        management.getUser({ id: decoded.sub }, function (err, user) {
+          if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+          callback(null, user);
         });
+      },
+      function (user, callback) {
+        if (user.app_metadata.roles.indexOf('admin') > -1) {
+          Eindstandscoreform.findOneAndUpdate({}, req.body, ({ upsert: true }), function (err, eindstandscoreform) {
+            if (err) return handleError(res, err.message, "Failed to Update eindstand");
+            res.status(200).json(eindstandscoreform);
+            console.log("saved eindstand")
+            //todo calculate eindstand
+          });
+        }
+        else {
+          return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
+        }
       }
-      else {
-        return res.status(403).send({ success: false, msg: 'Niet geautoriseerd om wijziging om headline toe te voegen' })
-      }
-    })
+    ])
   }
 });
 

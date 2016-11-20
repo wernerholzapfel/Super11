@@ -72,8 +72,6 @@ app.use('/api', comments);
 // var predictionform = require('./api/predictionform');
 // app.use('/api', predictionform);
 
-var authenticate = require('./api/authenticate');
-
 var homepagestats = require('./api/homepagestats');
 
 var scoreforms = require('./api/scoreforms');
@@ -92,10 +90,8 @@ var predictions = require('./api/predictions');
 
 var rounds = require('./api/rounds');
 
-app.use('/api',authenticate,homepagestats,standen,totalscoreperuser,headlines,statistieken,eredivisieplayers,predictions,rounds);
+app.use('/api',homepagestats,standen,totalscoreperuser,headlines,statistieken,eredivisieplayers,predictions,rounds);
 app.use('/api',authenticateCall,scoreforms);
-
-
 
 
 getToken = function (headers) {
@@ -110,7 +106,6 @@ getToken = function (headers) {
     return null;
   }
 };
-
 
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {

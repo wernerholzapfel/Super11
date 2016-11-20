@@ -61,6 +61,10 @@
         && userProfile.app_metadata.roles.indexOf('admin') > -1;
     }
 
+    function isVerified(){
+      return userProfile && userProfile.email_verified
+    }
+
     $rootScope.$on('$stateChangeStart', function(event, nextRoute) {
       if (nextRoute.controller === 'ScoreFormController') {
         if (!isAdmin()) {
