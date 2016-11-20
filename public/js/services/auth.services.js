@@ -29,6 +29,7 @@
       localStorage.removeItem('profile');
       authManager.unauthenticate();
       userProfile = null;
+      isAdmin = isAdmin();
     }
 
     // Set up the logic for when a user authenticates
@@ -46,6 +47,7 @@
           localStorage.setItem('profile', JSON.stringify(profile));
           userProfile = profile;
           deferredProfile.resolve(profile);
+
         });
 
       });
@@ -78,7 +80,9 @@
       login: login,
       logout: logout,
       registerAuthenticationListener: registerAuthenticationListener,
-      getProfileDeferred: getProfileDeferred
+      getProfileDeferred: getProfileDeferred,
+      isAdmin: isAdmin,
+      isVerified: isVerified
     }
   }
 })();
