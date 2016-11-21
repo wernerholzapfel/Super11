@@ -87,7 +87,7 @@ apiRoutes.put("/questionsScoreform/", function (req, res) {
   if (token) {
     async.waterfall([
       function (callback) {
-        var decoded = jwt.decode(token, secret);
+        var decoded = jwtDecode(token, secret);
         management.getUser({ id: decoded.sub }, function (err, user) {
           if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
           callback(null, user);
@@ -126,7 +126,7 @@ apiRoutes.put("/matchesScoreform/", function (req, res) {
   if (token) {
     async.waterfall([
       function (callback) {
-        var decoded = jwt.decode(token, secret);
+        var decoded = jwtDecode(token, secret);
         management.getUser({ id: decoded.sub }, function (err, user) {
           if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
           callback(null, user);
@@ -166,7 +166,7 @@ apiRoutes.put("/eindstandscoreform/", function (req, res) {
   if (token) {
     async.waterfall([
       function (callback) {
-        var decoded = jwt.decode(token, secret);
+        var decoded = jwtDecode(token, secret);
         management.getUser({ id: decoded.sub }, function (err, user) {
           if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
           callback(null, user);
