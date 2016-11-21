@@ -64,7 +64,7 @@ var authenticateCall = jwt({
 var apiRoutes = express.Router();
 
 var comments = require('./api/comments');
-app.use('/api', comments);
+var postcomments = require('./api/postcomments');
 
 // var signup = require('./api/signup');
 // app.use('/api',signup);
@@ -81,6 +81,7 @@ var standen = require('./api/standen');
 var totalscoreperuser = require('./api/totalscoreperuser')
 
 var headlines =require('./api/headlines');
+var postheadlines = require('./api/postheadlines');
 
 var statistieken = require('./api/statistieken');
 
@@ -90,8 +91,8 @@ var predictions = require('./api/predictions');
 
 var rounds = require('./api/rounds');
 
-app.use('/api',homepagestats,standen,headlines,statistieken,eredivisieplayers,predictions,rounds);
-app.use('/api',authenticateCall,totalscoreperuser,scoreforms);
+app.use('/api',homepagestats,comments,standen,headlines,statistieken,eredivisieplayers,predictions,rounds);
+app.use('/api',authenticateCall,totalscoreperuser,scoreforms,postheadlines,postcomments);
 
 
 getToken = function (headers) {
