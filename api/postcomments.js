@@ -3,7 +3,6 @@ var apiRoutes = express.Router();
 var mongoose = require('mongoose');
 var async = require("async");
 
-var async = require("async");
 var jwtDecode = require('jwt-decode');
 var config = require('../config/database');
 var ManagementClient = require('auth0').ManagementClient;

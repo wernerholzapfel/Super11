@@ -176,7 +176,6 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
                             '../assets/global/plugins/jquery.sparkline.min.js',
 
                             '../assets/pages/scripts/dashboard.min.js',
-                            'js/services/authenticationService.js',
                             'js/controllers/AuthenticationController.js',
                             'js/controllers/DashboardController.js',
                             // 'js/controllers/LoginController.js',                            
@@ -210,7 +209,6 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
 
                             '../assets/pages/scripts/dashboard.min.js',
                             'js/controllers/GeneralPageController.js',
-                            'js/services/authenticationService.js',
                             'js/controllers/AuthenticationController.js',
                             'js/services/constants.js'
                         ]
@@ -238,7 +236,6 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
 
         //                     '../assets/pages/scripts/dashboard.min.js',
         //                     'js/controllers/GeneralPageController.js',
-        //                     'js/services/authenticationService.js',
         //                     'js/controllers/AuthenticationController.js',
         //                     'js/services/constants.js'
         //                 ]
@@ -303,7 +300,6 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
 
                             '../../../assets/pages/scripts/profile.js',
 
-                            'js/services/authenticationService',
                             'js/services/playerListService.js',
                             'js/services/scoreFormService.js',
                             'js/services/matchesService.js',
@@ -342,7 +338,6 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
 
                             '../../../assets/pages/scripts/profile.js',
 
-                            'js/services/authenticationService',
                             'js/services/playerListService.js',
                             'js/services/scoreFormService.js',
                             'js/services/matchesService.js',
@@ -594,6 +589,43 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
                         files: [
                             'js/controllers/GeneralPageController.js'
                         ]
+                    });
+                }]
+            }
+        })
+
+   // Predictions
+        .state('transferperiode', {
+            url: "/transferperiode.html",
+            templateUrl: "views/transferperiode.html",
+            data: {
+                pageTitle: 'Transfers'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            '../../../assets/pages/css/profile.css',
+                            '../../../assets/pages/css/tasks.css',
+
+                            '../../../assets/global/plugins/jquery.sparkline.min.js',
+                            '../../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+
+                            '../../../assets/pages/scripts/profile.js',
+
+                            'js/services/playerListService.js',
+                            'js/services/teamListService.js',
+                            'js/services/transferperiodeservices.js',
+                            'js/services/eredivisiePlayersApi.js',
+                            'js/services/roundsApi.js',
+                            'js/services/istransfermarktopen.services.js',
+                            'js/controllers/GeneralPageController.js',
+                            'js/controllers/TransferApiController.js'
+                            ]
                     });
                 }]
             }

@@ -2,11 +2,25 @@ var express = require("express");
 var apiRoutes = express.Router();
 var mongoose = require('mongoose');
 
-var Predictions = require("../models/predictionModel");
+var TeamPredictions = require("../models/teamPredictionsModel");
 
 apiRoutes.get("/teamstatistieken/", function (req, res, next) {
-  Predictions.aggregate([
+  TeamPredictions.aggregate([
+    { $sort: { RoundId: -1 } },
+    {
+      $group: {
+        _id: {
+          email: "$Participant.Email",
+          playerName: "$TeamScores.Name",
 
+        },
+        RoundId: { $first: '$RoundId' },
+        Participant: { $first: "$Participant" },
+        Formation: { $first: "$Formation" },
+        CaptainId: { $first: "$CaptainId" },
+        Team: { $first: "$Team" },
+      },
+    },
     { $unwind: "$Team" },
     {
       $group: {

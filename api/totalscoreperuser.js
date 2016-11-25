@@ -54,8 +54,7 @@ apiRoutes.get("/totaalscoreuser/", function (req, res) {
       },
       function (user, roundTable, maxRoundId, callback) {
         if (!roundTable) return res.status(200).json("Het opgegeven mailadres is niet bekend bij ons. Neem contact op met Remy Verberkt.")
-        // totaalStand.findOne({ RoundId: (maxRoundId - 1), 'Email': user.name }, { Email: 0 }, { sort: { TotalScore: -1 } }).lean().exec(function (err, previousRoundTable) {
-        totaalStand.findOne({ RoundId: (maxRoundId - 1), 'Name': roundTable.Name }, { Email: 0 }, { sort: { TotalScore: -1 } }).lean().exec(function (err, previousRoundTable) {
+        totaalStand.findOne({ RoundId: (maxRoundId - 1), 'Email': user.email }, { Email: 0 }, { sort: { TotalScore: -1 } }).lean().exec(function (err, previousRoundTable) {
           if (err) return console.error(err);
           callback(null, roundTable, previousRoundTable)
         })

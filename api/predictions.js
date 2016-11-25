@@ -3,25 +3,62 @@ var apiRoutes = express.Router();
 var mongoose = require('mongoose');
 
 var Predictions = require("../models/predictionModel");
+var Teampredictions = require("../models/teamPredictionsModel");
 
-apiRoutes.get("/predictions/:Id", function (req, res, next) {
-  Predictions.findById(req.params.Id, { 'Participant.Email': 0, createDate: 0 }, function (err, prediction) {
-    if (err) {
-      handleError(res, err.message, "Failed to get prediction.");
-    } else {
-      res.status(200).json(prediction);
-    }
-  });
+apiRoutes.get("/predictions/:Id", function(req, res, next) {
+    Predictions.findById(req.params.Id, { createDate: 0 }, function(err, prediction) {
+        if (err) {
+            handleError(res, err.message, "Failed to get prediction.");
+        } else {
+            //overwrite team with latestteam
+            Teampredictions.findOne({ 'Participant.Email': prediction.Participant.Email },
+                { 'Participant.Email': 0, createDate: 0, Table: 0, __v: 0, _id: 0 },
+                { sort: { RoundId: -1 } },
+                function(err, teamprediction) {
+                    if (err) {
+                        handleError(res, err.message, "Failed to get prediction.");
+                    }
+                    else {
+                        prediction.Team = teamprediction.Team;
+                        prediction.Formation = teamprediction.Formation;
+                        prediction.CaptainId = teamprediction.CaptainId;
+                        prediction.Participant = teamprediction.Participant;
+                        res.status(200).json(prediction);
+                    }
+                });
+        }
+    });
 });
 
-apiRoutes.get("/predictions", function (req, res, next) {
-  Predictions.find({}, { 'Participant.Email': 0, "Team": 0, "Questions": 0, "Table": 0, createDate: 0 }, function (err, predictionsList) {
-    if (err) {
-      handleError(res, err.message, "Failed to get predictions.");
-    } else {
-      res.status(200).json(predictionsList);
-    }
-  });
+apiRoutes.get("/predictions", function(req, res, next) {
+
+    Teampredictions.aggregate(
+        [{ $match: { RoundId: { $lte: 8 } } },
+        { $sort: { RoundId: -1 } },
+        {
+            $group: {
+                _id: {
+                    email: "$Participant.Email",
+                    playerName: "$TeamScores.Name",
+
+                },
+                RoundId: { $first: '$RoundId' },
+                Participant: { $first: "$Participant" },
+                Formation: { $first: "$Formation" },
+                CaptainId: { $first: "$CaptainId" },
+                Team: { $first: "$Team" },
+
+
+            },
+        }
+        ],
+        function(err, predictionsList) {
+            if (err) {
+                handleError(res, err.message, "Failed to get predictions.");
+            } else {
+                res.status(200).json(predictionsList);
+            }
+        });
 });
 
 var determineifplayerisselected = require("../determineifplayerisselected");

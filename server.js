@@ -73,26 +73,21 @@ var postcomments = require('./api/postcomments');
 // app.use('/api', predictionform);
 
 var homepagestats = require('./api/homepagestats');
-
 var scoreforms = require('./api/scoreforms');
-
 var standen = require('./api/standen');
-
 var totalscoreperuser = require('./api/totalscoreperuser')
-
 var headlines =require('./api/headlines');
 var postheadlines = require('./api/postheadlines');
-
 var statistieken = require('./api/statistieken');
-
 var eredivisieplayers = require('./api/eredivisieplayers');
-
 var predictions = require('./api/predictions');
-
+var istransfermarktopen = require('./api/istransfermarktopen');
 var rounds = require('./api/rounds');
+var getlatestteam = require('./api/getlatestteam');
+var savetransfers = require('./api/savetransfers');
 
-app.use('/api',homepagestats,comments,standen,headlines,statistieken,eredivisieplayers,predictions,rounds);
-app.use('/api',authenticateCall,totalscoreperuser,scoreforms,postheadlines,postcomments);
+app.use('/api',homepagestats,comments,standen,headlines,statistieken,eredivisieplayers,predictions,rounds,istransfermarktopen);
+app.use('/api',authenticateCall,totalscoreperuser,scoreforms,postheadlines,postcomments,getlatestteam,savetransfers);
 
 
 getToken = function (headers) {
@@ -109,7 +104,8 @@ getToken = function (headers) {
 };
 
 // Generic error handler used by all endpoints.
-function handleError(res, reason, message, code) {
+handleError = function(res, reason, message, code) {
   console.log("ERROR: " + reason);
   res.status(code || 500).json({ "error": message });
 }
+
