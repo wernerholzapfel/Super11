@@ -22,7 +22,8 @@
     "angular-lock": "~1.0.2",
     "angular-ui-router": "~0.3.1",
     "bootstrap": "~3.3.7",
-    "angular-bootstrap": "^2.2.0"
+    "angular-bootstrap": "^2.2.0",
+    "angular-ui-sortable": "^0.16.0"
   },
   "resolutions": {
     "angular": "1.5.8"
