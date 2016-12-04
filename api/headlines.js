@@ -3,11 +3,9 @@ var apiRoutes = express.Router();
 var mongoose = require('mongoose');
 
 var passport = require('passport');
-var jwt = require('jwt-simple');
 var config = require('../config/database');
 
 var Headlines = require("../models/headlinesModel");
-var User = require('../models/user');
 
 
 apiRoutes.get("/headlines/", function (req, res, next) {
