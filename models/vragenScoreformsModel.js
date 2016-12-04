@@ -1,4 +1,4 @@
-console.log("vragenscoreforms is ingeladen")
+console.log("vragenscoreforms is ingeladen");
 
 var mongoose = require( 'mongoose' );
 var autoIncrement = require('mongoose-auto-increment');
@@ -7,7 +7,8 @@ var vragenScoreFormsSchema = new mongoose.Schema({
 	Questions: [{
 		Id: { type: Number, required: true },
 		Question: { type: String, required: true },
-		Answer: { type: String, required: false }
+		Answer: { type: String, required: false },
+		RoundId : {type: Number, required : false}		
 	}]
 });
 

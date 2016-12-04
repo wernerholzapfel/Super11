@@ -1,12 +1,12 @@
-var express = require("express");
-var apiRoutes = express.Router();
-var mongoose = require('mongoose');
-
-var passport = require('passport');
-var jwt = require('jwt-simple');
-var config = require('../config/database');
-
-var User = require("./models/user");
+// var express = require("express");
+// var apiRoutes = express.Router();
+// var mongoose = require('mongoose');
+//
+// var passport = require('passport');
+// var jwt = require('jwt-simple');
+// var config = require('../config/database');
+//
+// var User = require("./models/user");
 
 //apiRoutes.post('/signup', function (req, res) {
 //  if (!req.body.name || !req.body.password) {
