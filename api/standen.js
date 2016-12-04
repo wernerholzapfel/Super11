@@ -25,6 +25,61 @@ apiRoutes.get("/newteamStand/:roundId", function (req, res, next) {
   });
 });
 
+
+var QuestionsScoreForm = require("../models/vragenScoreformsModel.js");
+
+apiRoutes.get("/test/", function (req, res, next) {
+    QuestionsScoreForm.aggregate([
+        {
+            $project: {
+                Questions: {
+                    $filter: {
+                        input: "$Questions",
+                        as: "item",
+                        cond: {$eq: ["$$item.Id", 20]}
+                    }
+                }
+            }
+        }
+    ], function (err, questions) {
+        if (err) {
+            handleError(res, err.message, "failed to get rounds");
+
+        }
+        res.status(200).json(questions);
+
+    })
+
+});
+
+
+var vragenstand = require('../models/vragenStandModel');
+
+apiRoutes.get("/questionsPrediction/:id", function (req, res, next) {
+    vragenstand.aggregate([
+        {
+            $project: {
+                Participant: 1,
+                TotalQuestionsScore: 1,
+                QuestionsScore: {
+                    $filter: {
+                        input: "$QuestionsScore",
+                        as: "item",
+                        cond: {$eq: ["$$item.Id", parseInt(req.params.id)]}
+                    }
+                }
+            }
+        }
+    ], function (err, questions) {
+        if (err) {
+            handleError(res, err.message, "failed to get rounds");
+
+        }
+        res.status(200).json(questions);
+
+    })
+});
+
 apiRoutes.get("/totaalstand/", function (req, res, next) {
   console.log("log api call roundTable/");
   async.waterfall([
