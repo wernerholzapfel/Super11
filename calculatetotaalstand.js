@@ -110,7 +110,7 @@ exports.calculatetotaalstand = function (roundId) {
                     });
                     roundTable[i].TotalMatchesScore = 0;
                     for (var w = 0; w < gespeeldeWedstrijden.length; w += 1) {
-                      roundTable[i].TotalMatchesScore = roundTable[i].TotalMatchesScore + scorewedstrijden.MatchesScore[w].Score;
+                        roundTable[i].TotalMatchesScore = roundTable[i].TotalMatchesScore + gespeeldeWedstrijden[w].Score;
                     }
                   }
                   //todo onderstaande aanzetten om eredivisie eindstand punten toe te voegen.

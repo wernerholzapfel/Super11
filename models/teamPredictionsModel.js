@@ -1,4 +1,5 @@
-console.log("teampredictions is ingeladen")
+console.log("teampredictions is ingeladen");
+
 var mongoose = require( 'mongoose' );
 
 var teampredictionsSchema = new mongoose.Schema({

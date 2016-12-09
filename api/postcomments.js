@@ -5,6 +5,7 @@ var async = require("async");
 
 var jwtDecode = require('jwt-decode');
 var config = require('../config/database');
+
 var ManagementClient = require('auth0').ManagementClient;
 var management = new ManagementClient({
     //get users token read
@@ -31,7 +32,7 @@ apiRoutes.post("/comments/", function(req, res) {
             function(user, callback) {
                 if (user.email_verified) {
                     Predictions.findOne({ 'Participant.Email': user.email }, { 'Participant.Name': 1 }, function(err, name) {
-                        callback(null, name)
+                        callback(null, name);
                     });
                 }
                 else {
@@ -41,7 +42,7 @@ apiRoutes.post("/comments/", function(req, res) {
             function(name, callback) {
                 if (name) {
                     var comments = new Comments(req.body);
-                    comments.createdAt = new Date().toUTCString()
+                    comments.createdAt = new Date().toUTCString();
                     comments.name = name.Participant.Name;
                     comments.save(function(err, newComment) {
                         if (err) {
@@ -52,8 +53,8 @@ apiRoutes.post("/comments/", function(req, res) {
                         }
                     });
                 }
-            }  
-        ])
+            }
+        ]);
     }
 });
 

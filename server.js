@@ -35,7 +35,7 @@ var allowCrossDomain = function (req, res, next) {
 
 dotenv.load();
 
-app.use(allowCrossDomain)
+app.use(allowCrossDomain);
 app.use(express.static(__dirname + "/public"));
 
 // get our request parameters
@@ -75,7 +75,7 @@ var postcomments = require('./api/postcomments');
 var homepagestats = require('./api/homepagestats');
 var scoreforms = require('./api/scoreforms');
 var standen = require('./api/standen');
-var totalscoreperuser = require('./api/totalscoreperuser')
+var totalscoreperuser = require('./api/totalscoreperuser');
 var headlines =require('./api/headlines');
 var postheadlines = require('./api/postheadlines');
 var statistieken = require('./api/statistieken');
@@ -107,5 +107,4 @@ getToken = function (headers) {
 handleError = function(res, reason, message, code) {
   console.log("ERROR: " + reason);
   res.status(code || 500).json({ "error": message });
-}
-
+};

@@ -1,6 +1,7 @@
 var teamRoundScore = require("./models/roundteamscoreformsModel");
 var teamStand = require("./models/newTeamStandModel");
 var predictions = require("./models/predictionModel");
+var Teampredictions = require('./models/teamPredictionsModel');
 var async = require("async");
 var calculatetotaalstand = require("./calculatetotaalstand.js");
 var _ = require('lodash');
@@ -33,13 +34,13 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
       teamRoundScore.find({ RoundId: roundId }).exec(function (err, playerRoundScore) {
         if (err) return console.error(err);
         callback(null, playerRoundScore[0], roundId);
-      })
+      });
     },
     function (playerRoundScore, roundId, callback) {
       //hier worden alle voorspellingen ophgehaald van de deelnemers
       // console.log("playerRoundScore 2e lenght: " + playerRoundScore.length)
       Teampredictions.aggregate(
-        [{ $match: { RoundId: { $lte: roundId } } },
+          [{$match: {RoundId: {$lte: parseInt(roundId)}}},
         { $sort: { RoundId: -1 } },
         {
           $group: {
@@ -59,7 +60,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
           // console.log("predictions length: " + predictions.length)
           if (err) return console.error(err);
           callback(null, playerRoundScore, predictions);
-        })
+          });
     },
     function (playerRoundScore, predictions, callback) {
       async.each(predictions, function (prediction, callback) {

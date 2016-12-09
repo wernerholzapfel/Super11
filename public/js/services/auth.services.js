@@ -10,6 +10,15 @@
 
   function authService($rootScope, lock, authManager, $q) {
 
+      $rootScope.$on('$stateChangeStart', function (event, nextRoute) {
+          if (nextRoute.controller === 'ScoreFormController') {
+              if (!isAdmin()) {
+                  alert('You are not allowed to see the Admin content');
+                  return event.preventDefault();
+              }
+          }
+      });
+    
     var userProfile = JSON.parse(localStorage.getItem('profile')) || null;
     var deferredProfile = $q.defer();
 
@@ -64,25 +73,17 @@
     }
 
     function isVerified(){
-      return userProfile && userProfile.email_verified
+        return userProfile && userProfile.email_verified;
     }
 
-    $rootScope.$on('$stateChangeStart', function(event, nextRoute) {
-      if (nextRoute.controller === 'ScoreFormController') {
-        if (!isAdmin()) {
-          alert('You are not allowed to see the Admin content');
-          return event.preventDefault();
-        }
-      }
-    });
 
-    return {
+      return {
       login: login,
       logout: logout,
       registerAuthenticationListener: registerAuthenticationListener,
       getProfileDeferred: getProfileDeferred,
       isAdmin: isAdmin,
       isVerified: isVerified
-    }
+      };
   }
 })();

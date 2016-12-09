@@ -3,7 +3,7 @@ angular.module('MetronicApp').controller('TransferApiController',
   ['$anchorScroll', '$location', '$scope', "getlatestteamservice", "teamListService", "eredivisiePlayersApi", "roundsApi", 'istransfermarktopen', 'savetransfersservice',
     function ($anchorScroll, $location, $scope, getlatestteamservice, teamListService, eredivisiePlayersApi, roundsApi, istransfermarktopen, savetransfersservice) {
 
-      $scope.selectedFormation = "433"
+        $scope.selectedFormation = "433";
 
       istransfermarktopen.async().then(function (data) {
         $scope.istransfermarktopen = data;
@@ -51,7 +51,7 @@ angular.module('MetronicApp').controller('TransferApiController',
               $scope.data.Team[4].Position = "V";
               $scope.removeplayerfromteam($scope.data.Team[4]);
               $scope.data.Team[8].Position = "A";
-              $scope.data.Formation = formation
+                $scope.data.Formation = formation;
               $scope.formationChosen = true;
               break;
             case "442":
@@ -59,7 +59,7 @@ angular.module('MetronicApp').controller('TransferApiController',
               $scope.data.Team[4].Position = "V";
               $scope.removeplayerfromteam($scope.data.Team[8]);
               $scope.data.Team[8].Position = "M";
-              $scope.data.Formation = formation
+                $scope.data.Formation = formation;
               $scope.formationChosen = true;
               break;
             case "343":
@@ -67,7 +67,7 @@ angular.module('MetronicApp').controller('TransferApiController',
               $scope.data.Team[4].Position = "M";
               $scope.removeplayerfromteam($scope.data.Team[8]);
               $scope.data.Team[8].Position = "A";
-              $scope.data.Formation = formation
+                $scope.data.Formation = formation;
               $scope.formationChosen = true;
               break;
 
@@ -76,7 +76,7 @@ angular.module('MetronicApp').controller('TransferApiController',
               $scope.data.Team[4].Position = "V";
               $scope.removeplayerfromteam($scope.data.Team[8]);
               $scope.data.Team[8].Position = "A";
-              $scope.data.Formation = formation
+                $scope.data.Formation = formation;
               $scope.formationChosen = true;
 
           }
@@ -209,11 +209,11 @@ angular.module('MetronicApp').controller('TransferApiController',
           $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt! Nadat het inschrijfgeld is ontvangen speel je definitief mee. Tot zaterdag 10 september 18:30 uur kun je jouw voorspellingen nog wijzigen. Veel plezier met Super 11!' });
         });
 
-        registration.error(function () {
+          registration.error(function (message) {
           $scope.showConfirm = false;
           $scope.showMatches = true;
           //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
-          $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
+              $scope.alerts.push({type: 'danger', msg: message});
         });
       };
 
