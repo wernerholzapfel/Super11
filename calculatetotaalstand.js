@@ -12,13 +12,13 @@ var exports = module.exports = {};
 exports.calculatetotaalstand = function (roundId) {
 
   newteamStand.aggregate([
-    { $match: { RoundId: { $lte: roundId } } },
+      {$match: {RoundId: {$lte: parseInt(roundId)}}},
     { $unwind: "$TeamScores" },
     {
       $group: {
         _id: {
           email: "$Participant.Email",
-          playerName: "$TeamScores.Name",
+            playerName: "$TeamScores.Name"
 
         },
         Id: { $first: "$TeamScores.Id" },

@@ -84,7 +84,7 @@ apiRoutes.get("/totaalstand/", function (req, res, next) {
   console.log("log api call roundTable/");
   async.waterfall([
     function (callback) {
-      RoundTeamScoreForms.find({}, { RoundId: 1, _id: 0 }, { sort: { RoundId: -1 } }, function (err, rounds) {
+        totaalStand.find({}, {RoundId: 1, _id: 0}, {sort: {RoundId: -1}}, function (err, rounds) {
         if (err) {
           handleError(res, err.message, "failed to get rounds");
         }
