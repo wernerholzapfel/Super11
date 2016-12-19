@@ -206,7 +206,10 @@ angular.module('MetronicApp').controller('TransferApiController',
         var registration = savetransfersservice.post($scope.data);
 
         registration.success(function () {
-          $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt! Nadat het inschrijfgeld is ontvangen speel je definitief mee. Tot zaterdag 10 september 18:30 uur kun je jouw voorspellingen nog wijzigen. Veel plezier met Super 11!' });
+            $scope.alerts.push({
+                type: 'success',
+                msg: 'Het opslaan is gelukt! Je kan tot 1 februari je team nog wijzigen.'
+            });
         });
 
           registration.error(function (message) {

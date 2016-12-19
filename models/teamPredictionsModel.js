@@ -10,6 +10,7 @@ var teampredictionsSchema = new mongoose.Schema({
 		Gender: { type: String, required: true },
 		PhoneNumber: { type: String, required: false }
 	},
+    RoundId: {type: Number, required: true},
 	Formation: {type: String, required: false},
 	CaptainId: {type: String, required: false},
 	Team: [{
@@ -20,7 +21,7 @@ var teampredictionsSchema = new mongoose.Schema({
 		TeamId: { type: String, required: false },
 		Team: {type: String, required: false},
 		Captain: {type: Boolean, required: false}
-	}],
+    }]
 });
 
 var teampredictions = module.exports = mongoose.model('teampredictions', teampredictionsSchema);

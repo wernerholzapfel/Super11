@@ -38,7 +38,6 @@ apiRoutes.post("/savetransfers", function (req, res) {
                 //we zijn open.
                 var token = getToken(req.headers);
                 if (token) {
-                    //todo user ophalen
                     async.waterfall([
                         function (callback) {
                             var decoded = jwtDecode(token, secret);
@@ -48,16 +47,21 @@ apiRoutes.post("/savetransfers", function (req, res) {
                         },
                         function (user, callback) {
                             if (user.email_verified) {
-                                var teampredictions = new Teampredictions(req.body);
+
+                                var teampredictions = {};
+                                teampredictions = Object.assign(teampredictions, req.body);
                                 teampredictions.Participant.Email = user.email;
+                                delete teampredictions._id;
+
+                                // var teampredictions = new Teampredictions(req.body);
                                 Teampredictions.findOneAndUpdate({
                                     'Participant.Email': user.email,
                                     RoundId: req.body.RoundId
-                                }, teampredictions, ({upsert: true}), function (err, newPrediction) {
+                                }, teampredictions, ({upsert: true}), function (err, newTeampredictions) {
                                     if (err) {
                                         handleError(res, err.message, "Failed to create new prediction.");
                                     } else {
-                                        res.status(201).json(teampredictions);
+                                        res.status(201).json(newTeampredictions);
                                         // determineifplayerisselected.setNumberOfTimesAplayerIsSelected()
                                     }
                                 });
