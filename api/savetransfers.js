@@ -51,12 +51,13 @@ apiRoutes.post("/savetransfers", function (req, res) {
                                 var teampredictions = {};
                                 teampredictions = Object.assign(teampredictions, req.body);
                                 teampredictions.Participant.Email = user.email;
+                                teampredictions.RoundId = req.body.RoundId + 1;
                                 delete teampredictions._id;
 
                                 // var teampredictions = new Teampredictions(req.body);
                                 Teampredictions.findOneAndUpdate({
                                     'Participant.Email': user.email,
-                                    RoundId: req.body.RoundId
+                                    RoundId: teampredictions.RoundId
                                 }, teampredictions, ({upsert: true}), function (err, newTeampredictions) {
                                     if (err) {
                                         handleError(res, err.message, "Failed to create new prediction.");

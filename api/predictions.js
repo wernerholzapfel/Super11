@@ -5,16 +5,16 @@ var mongoose = require('mongoose');
 var Predictions = require("../models/predictionModel");
 var Teampredictions = require("../models/teamPredictionsModel");
 
-apiRoutes.get("/predictions/:Id", function(req, res, next) {
-    Predictions.findById(req.params.Id, { createDate: 0 }, function(err, prediction) {
+apiRoutes.get("/predictions/:Id", function (req, res, next) {
+    Predictions.findOne({'Participant.Name': req.params.Id}, {createDate: 0}, function (err, prediction) {
         if (err) {
             handleError(res, err.message, "Failed to get prediction.");
         } else {
             //overwrite team with latestteam
-            Teampredictions.findOne({ 'Participant.Email': prediction.Participant.Email },
-                { 'Participant.Email': 0, createDate: 0, Table: 0, __v: 0, _id: 0 },
-                { sort: { RoundId: -1 } },
-                function(err, teamprediction) {
+            Teampredictions.findOne({'Participant.Email': prediction.Participant.Email},
+                {'Participant.Email': 0, createDate: 0, Table: 0, __v: 0, _id: 0},
+                {sort: {RoundId: -1}},
+                function (err, teamprediction) {
                     if (err) {
                         handleError(res, err.message, "Failed to get prediction.");
                     }
@@ -30,29 +30,44 @@ apiRoutes.get("/predictions/:Id", function(req, res, next) {
     });
 });
 
-apiRoutes.get("/predictions", function(req, res, next) {
+apiRoutes.get("/predictions", function (req, res, next) {
 
     Teampredictions.aggregate(
-        [{ $match: { RoundId: { $lte: 8 } } },
-        { $sort: { RoundId: -1 } },
-        {
-            $group: {
-                _id: {
-                    email: "$Participant.Email",
-                    playerName: "$TeamScores.Name",
+        [{$match: {RoundId: {$lte: 100}}},
+            {$sort: {RoundId: -1}},
+            {
+                $group: {
+                    _id: {
+                        email: "$Participant.Email",
+                        playerName: "$TeamScores.Name"
 
-                },
-                RoundId: { $first: '$RoundId' },
-                Participant: { $first: "$Participant" },
-                Formation: { $first: "$Formation" },
-                CaptainId: { $first: "$CaptainId" },
-                Team: { $first: "$Team" },
-
-
+                    },
+                    // id : {$first: '_id.$oid'},
+                    RoundId: {$first: '$RoundId'},
+                    Name: {$first: "$Participant.Name"},
+                    Location: {$first: "$Participant.Location"},
+                    Gender: {$first: "$Participant.Gender"},
+                    Formation: {$first: "$Formation"},
+                    CaptainId: {$first: "$CaptainId"},
+                    Team: {$first: "$Team"}
+                }
             },
-        }
+            {
+                $project: {
+                    _id: 0,
+                    // id: 1,
+                    RoundId: 1,
+                    Name: 1,
+                    Gender: 1,
+                    Location: 1,
+                    Formation: 1,
+                    CaptainId: 1,
+                    Team: 1
+                }
+            }
+
         ],
-        function(err, predictionsList) {
+        function (err, predictionsList) {
             if (err) {
                 handleError(res, err.message, "Failed to get predictions.");
             } else {
