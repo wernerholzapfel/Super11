@@ -15,12 +15,34 @@
 </div>
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
-<div id="contentPage" class="row" ng-controller="TransferApiController" ng-if=isAuthenticated>
+<div id="contentPage" class="row" ng-controller="TransferApiController">
     <div class="col-md-12">
         <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
         </uib-alert>
 
-        <div ng-if=!istransfermarktopen>
+
+        <div ng-show=!isAuthenticated>
+            <div class="note note-danger note-bordered">
+                <h4> Je moet ingelogd zijn om een transfer door te voeren. Klik rechtsboven op inloggen.<br>
+                    Mocht je nog geen nieuw account hebben aangemaakt, dan klik je ook op inloggen en dan de tab sign
+                    up.
+                    <br><br>
+                    Het is nu ook mogelijk om je met je Facebook of Gmail account aan te melden,
+                    bedenk wel goed dat het email adres dat daar geregistreerd is hetzelfde moet zijn als het emailadres
+                    bij Super Eleven.
+                    Mocht je niet via Facebook of Gmail een account aanmaken, dan ontvang je na het inschrijven een
+                    email ter verificatie.
+                    <br><br><br>
+
+                    Veel plezier na de winterstop!<br><br>
+
+                    Werner
+
+                </h4>
+            </div>
+        </div>
+
+        <div ng-if="!istransfermarktopen && isAuthenticated">
             <div class="note note-danger note-bordered">
                 <h4> Momenteel is de transfermarkt gesloten. De transfermarkt is vanaf 19 december geopend van maandag
                     00:00 tot en met vrijdag 18:00.
@@ -28,7 +50,7 @@
             </div>
         </div>
 
-        <div ng-if=istransfermarktopen>
+        <div ng-if="istransfermarktopen && isAuthenticated">
             <div class="note note-success note-bordered">
                 <h3>Jouw Super11<span data-close="note"></span></h3>
                 <p>
@@ -61,7 +83,7 @@
                                                         ng-value="formation.Formation" value="{{formation.Formation}}" >
                                                     {{formation.Formation}}
                                                 </option>
-
+                                                    </select>
                                                 </td>
                                             </tr>
                                         </thead>

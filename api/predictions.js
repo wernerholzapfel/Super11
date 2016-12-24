@@ -42,7 +42,7 @@ apiRoutes.get("/predictions", function (req, res, next) {
                         playerName: "$TeamScores.Name"
 
                     },
-                    // id : {$first: '_id.$oid'},
+                    Id: {$first: '$_id'},
                     RoundId: {$first: '$RoundId'},
                     Name: {$first: "$Participant.Name"},
                     Location: {$first: "$Participant.Location"},
@@ -54,6 +54,7 @@ apiRoutes.get("/predictions", function (req, res, next) {
             },
             {
                 $project: {
+                    Id: 1,
                     _id: 0,
                     // id: 1,
                     RoundId: 1,
