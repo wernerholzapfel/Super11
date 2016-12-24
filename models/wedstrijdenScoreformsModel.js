@@ -1,4 +1,4 @@
-console.log("wedstrijdscoreforms is ingeladen")
+console.log("wedstrijdscoreforms is ingeladen");
 
 var mongoose = require( 'mongoose' );
 var autoIncrement = require('mongoose-auto-increment');

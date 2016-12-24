@@ -762,8 +762,8 @@ Page Header
     /* Top navigation menu*/ }
     .page-header .page-header-top .top-menu {
       display: block;
-      clear: both;
-      margin-top: -10px; }
+      clear: none;
+      margin-top: 22px; }
       .page-header .page-header-top .top-menu:before, .page-header .page-header-top .top-menu:after {
         content: " ";
         display: table; }

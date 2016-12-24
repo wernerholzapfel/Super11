@@ -2,22 +2,23 @@ var vragenStand = require("./models/vragenStandModel");
 var wedstrijdenStand = require("./models/wedstrijdenStandModel");
 var newteamStand = require("./models/newTeamStandModel");
 var totaalStand = require("./models/totaalStandModel");
-var eredivisieStand = require("./models/eindstandStandModel")
+var eredivisieStand = require("./models/eindstandStandModel");
 var async = require("async");
 var _ = require('lodash');
 
 
 var exports = module.exports = {};
 
-exports.calculatetotaalstand = function () {
+exports.calculatetotaalstand = function (roundId) {
 
   newteamStand.aggregate([
+      {$match: {RoundId: {$lte: parseInt(roundId)}}},
     { $unwind: "$TeamScores" },
     {
       $group: {
         _id: {
           email: "$Participant.Email",
-          playerName: "$TeamScores.Name",
+            playerName: "$TeamScores.Name"
 
         },
         Id: { $first: "$TeamScores.Id" },
@@ -100,24 +101,32 @@ exports.calculatetotaalstand = function () {
               eredivisieStand.find({}, function (err, eredivisieStand) {
 
                 for (var i = 0; i < roundTable.length; i += 1) {
-                  var scorewedstrijden = _.find(wedstrijden, function (o) { return o.Participant.Email === roundTable[i].Email });
+                  var scorewedstrijden = _.find(wedstrijden, function (o) {
+                    return o.Participant.Email === roundTable[i].Email;
+                  });
                   if (scorewedstrijden) {
-                    roundTable[i].TotalMatchesScore = scorewedstrijden.TotalMatchesScore;
+                      var gespeeldeWedstrijden = _.filter(scorewedstrijden.MatchesScore, function (o) {
+                      return o.RoundId <= roundTable[i].RoundId;
+                    });
+                    roundTable[i].TotalMatchesScore = 0;
+                    for (var w = 0; w < gespeeldeWedstrijden.length; w += 1) {
+                        roundTable[i].TotalMatchesScore = roundTable[i].TotalMatchesScore + gespeeldeWedstrijden[w].Score;
+                    }
                   }
                   //todo onderstaande aanzetten om eredivisie eindstand punten toe te voegen.
                   // var scoreeindstand = _.find(eredivisieStand, function (o){ return o.Participant.Email === roundTable[i].Email});
                   // if (scoreeindstand){
                   //   roundTable[i].TotalEindstandScore = scoreeindstand.TotalEindstandScore;
-                    roundTable[i].TotalEindstandScore = 0;
+                  roundTable[i].TotalEindstandScore = 0;
                   // }
 
-                  var scorequestion = _.find(vragen, function (o) { return o.Participant.Email === roundTable[i].Email });
+                  var scorequestion = _.find(vragen, function (o) { return o.Participant.Email === roundTable[i].Email; });
                   if (scorequestion) {
                     roundTable[i].TotalQuestionsScore = scorequestion.TotalQuestionsScore;
                     roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
                   }
 
-                
+
                   else {
                     roundTable[i].TotalQuestionsScore = 0;
                     roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
@@ -139,16 +148,17 @@ exports.calculatetotaalstand = function () {
                       roundTable[i].Positie = i + 1;
                     }
                   }
-                  totaalStand.findOneAndUpdate({ RoundId: roundTable[i].RoundId, Name: roundTable[i].Name }, roundTable[i], ({ upsert: true }), function (err, totaalStand) {
-                    if (err) return handleError(res, err.message, "Failed to save totaalstand");
-                    console.log("saved totalstand")
-                  });
+                  console.log(roundTable[i]);
+                     totaalStand.findOneAndUpdate({ RoundId: roundTable[i].RoundId, Name: roundTable[i].Name }, roundTable[i], ({ upsert: true }), function (err, totaalStand) {
+                   if (err) return handleError(res, err.message, "Failed to save totaalstand");
+                   console.log("saved totalstand");
+                   });
                 }
-              })
+              });
             }
-          })
+          });
         }
-      })
+      });
     }
   });
-}
+  };

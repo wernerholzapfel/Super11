@@ -13,8 +13,8 @@ var vragenStandSchema = new mongoose.Schema({
 		Question: { type: String, required: true },
 		Answer: { type: String, required: false },
         Score: { type: Number, required: false },
-		Uitslag : {type: String, required: false}
-
+		Uitslag : {type: String, required: false},
+		RoundId: {type: Number, required: false}
 	}],	
 	TotalQuestionsScore: { type: Number, required: true }
 });

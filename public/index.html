@@ -26,7 +26,8 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <!--<meta content="width=device-width, initial-scale=1" name="viewport"/>-->
     <meta content="" name="description"/>
     <meta content="" name="author"/>
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
@@ -142,7 +143,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="js/main.js" type="text/javascript"></script>
 <script src="js/directives.js" type="text/javascript"></script>
 <script src="../js/services/constants.js" type="text/javascript"></script>
-<script src="../js/services/authenticationService.js" type="text/javascript"></script>
+<script src="../js/services/auth.services.js" type="text/javascript"></script>
 
 <!-- END APP LEVEL ANGULARJS SCRIPTS -->
 <!-- BEGIN APP LEVEL JQUERY SCRIPTS -->
@@ -150,6 +151,10 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="../assets/layouts/layout3/scripts/layout.min.js" type="text/javascript"></script>
 <script src="../assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
 <script src="../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+
+<script src="bower_components/auth0-lock/build/lock.js"></script>
+<script src="bower_components/angular-lock/dist/angular-lock.js"></script>
+<script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
 <!-- END APP LEVEL JQUERY SCRIPTS -->
 <!-- END JAVASCRIPTS -->
 </body>

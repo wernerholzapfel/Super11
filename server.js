@@ -7,7 +7,11 @@ var bodyParser = require("body-parser");
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 var passport = require('passport');
-var jwt = require('jwt-simple');
+var jwt = require('express-jwt');
+var dotenv = require('dotenv');
+
+
+// var jwt = require('jwt-simple');
 var path = require("path");
 var assert = require("assert");
 var config = require('./config/database');
@@ -29,7 +33,9 @@ var allowCrossDomain = function (req, res, next) {
   }
 };
 
-app.use(allowCrossDomain)
+dotenv.load();
+
+app.use(allowCrossDomain);
 app.use(express.static(__dirname + "/public"));
 
 // get our request parameters
@@ -50,10 +56,15 @@ var server = app.listen(process.env.PORT || 8200, function () {
 
 require('./config/passport')(passport);
 
+var authenticateCall = jwt({
+  secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
+  audience: process.env.AUTH0_CLIENT_ID
+});
+
 var apiRoutes = express.Router();
 
 var comments = require('./api/comments');
-app.use('/api', comments);
+var postcomments = require('./api/postcomments');
 
 // var signup = require('./api/signup');
 // app.use('/api',signup);
@@ -61,35 +72,23 @@ app.use('/api', comments);
 // var predictionform = require('./api/predictionform');
 // app.use('/api', predictionform);
 
-var authenticate = require('./api/authenticate');
-app.use('/api', authenticate);
-
 var homepagestats = require('./api/homepagestats');
-app.use('/api', homepagestats);
-
 var scoreforms = require('./api/scoreforms');
-app.use('/api', scoreforms);
-
 var standen = require('./api/standen');
-app.use('/api',standen);
-
-var totalscoreperuser = require('./api/totalscoreperuser')
-app.use('/api',totalscoreperuser);
-
+var totalscoreperuser = require('./api/totalscoreperuser');
 var headlines =require('./api/headlines');
-app.use('/api',headlines);
-
+var postheadlines = require('./api/postheadlines');
 var statistieken = require('./api/statistieken');
-app.use('/api', statistieken);
-
 var eredivisieplayers = require('./api/eredivisieplayers');
-app.use('/api', eredivisieplayers);
-
 var predictions = require('./api/predictions');
-app.use('/api',predictions);
-
+var istransfermarktopen = require('./api/istransfermarktopen');
 var rounds = require('./api/rounds');
-app.use('/api',rounds);
+var getlatestteam = require('./api/getlatestteam');
+var savetransfers = require('./api/savetransfers');
+
+app.use('/api',homepagestats,comments,standen,headlines,statistieken,eredivisieplayers,predictions,rounds,istransfermarktopen);
+app.use('/api',authenticateCall,totalscoreperuser,scoreforms,postheadlines,postcomments,getlatestteam,savetransfers);
+
 
 getToken = function (headers) {
   if (headers && headers.authorization) {
@@ -105,7 +104,7 @@ getToken = function (headers) {
 };
 
 // Generic error handler used by all endpoints.
-function handleError(res, reason, message, code) {
+handleError = function(res, reason, message, code) {
   console.log("ERROR: " + reason);
   res.status(code || 500).json({ "error": message });
-}
+};

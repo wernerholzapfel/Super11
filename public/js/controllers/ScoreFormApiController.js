@@ -1,10 +1,10 @@
-
-angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, roundsApi, eredivisiePlayersApi, getQuestionsService, updateQuestionsService, getMatchesService, updateMatchesService, saveScoreFormService, getScoreFormService, eindstandscoreform, updateEindstandform, findAndUpdatePlayerList) {
+angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, roundsApi, eredivisiePlayersApi, getQuestionsService, updateQuestionsService, getMatchesService, updateMatchesService, saveScoreFormService, getScoreFormService, eindstandscoreform, updateEindstandform, getGivenAnswersForQuestionService, findAndUpdatePlayerList) {
     $scope.alerts = [];
     $scope.closeAlert = function (index) {
         $scope.alerts.splice(index, 1);
     };
 
+    $scope.selectedQuestion = 1;
     roundsApi.async().then(function (roundsdata) {
         $scope.rounds = roundsdata;
         if ($scope.rounds.length < 1) {
@@ -26,6 +26,10 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
 
     });
 
+    getGivenAnswersForQuestionService.async(1).then(function (data) {
+        $scope.givenAnswersForQuestion = data;
+    });
+
 
     eindstandscoreform.async().then(function (data) {
         $scope.eindstandscoreform = data;
@@ -43,9 +47,13 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
         getScoreFormService.async(roundId).then(function (data) {
             $scope.oldScoreForms = data;
         });
-
     };
 
+    $scope.getGivenAnswersForQuestion = function (questionId) {
+        getGivenAnswersForQuestionService.async(questionId).then(function (data) {
+            $scope.givenAnswersForQuestion = data;
+        });
+    };
 
     $scope.disableCleanSheat = function (position) {
         if (position == 'M' || position == "A") {
@@ -194,6 +202,13 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
                 }
             }
         }
+    }
+
+    $scope.setAnswer = function (selectedQuestion) {
+        for (var i = 0; i < $scope.givenAnswersForQuestion.length; i += 1) {
+            $scope.givenAnswersForQuestion[i].QuestionsScore[0].Uitslag = $scope.vragenScoreform.Questions[selectedQuestion - 1].Answer
+        }
+        console.log(selectedQuestion);
     }
 });
 

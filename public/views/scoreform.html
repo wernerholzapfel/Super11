@@ -139,7 +139,8 @@
                             <div class="portlet-title">
                                 <div class="caption">
                                     <i class="fa fa-user"></i>Vragen lijst invullen
-                                     <button style="color=black;color: black;" value="Save" ng-click="updateVragenForm()">Save
+                                    <button style="color=black;color: black;" value="Save"
+                                            ng-click="updateVragenForm()">Save
                                 </button>
                                 </div>
                                 <div class="tools">
@@ -148,26 +149,43 @@
                                 </div>
                             </div>
                             <div class="portlet-body">
+                                <select style="color=black;color: black;" ng-model="selectedQuestion"
+                                        ng-options="question.Id as question.Question for question in vragenScoreform.Questions | orderBy:'Id'"
+                                        ng-init="selectedQuestion == selectedQuestion"
+                                        ng-change="getGivenAnswersForQuestion(selectedQuestion)">
+                                </select>
+                                <input ng-model="vragenScoreform.Questions[selectedQuestion-1].Answer"
+                                       ng-change="setAnswer(selectedQuestion)"></input>
                                 <div class="table-scrollable">
                                     <table class="table table-striped table-bordered table-hover table-header-fixed dataTable">
                                         <thead>
                                         <tr>
                                             <th>
-                                                Vraag
+                                                Naam
                                             </th>
                                             <th>
                                                 Antwoord
                                             </th>
+                                            <th>Goed?</th>
+                                            <th>
+                                                Ronde
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr ng-repeat="question in vragenScoreform.Questions ">
+                                        <tr ng-repeat="question in givenAnswersForQuestion | orderBy:'QuestionsScore[0].Answer'">
                                             <td>
-                                                {{ question.Question }}
+                                                {{ question.Participant.Name }}
                                             </td>
                                             <td>
-                                                <input type="text" ng-model="question.Answer"
-                                                       ng-change="setRoundForQuestion(question,newScoreFormList.RoundId)"></input>
+                                                {{question.QuestionsScore[0].Answer}}
+                                            </td>
+                                            <td><input type="checkbox" ng-model="question.QuestionsScore[0].Score"
+                                                       ng-true-value="15" ng-false-value="0">
+                                            </td>
+
+                                            <td>
+                                                <input type="number" ng-model="question.RoundId"></input>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -185,7 +203,8 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-user"></i>Wedstrijden lijst invullen
-                                 <button style="color=black;color: black;" value="Save" ng-click="updateWedstrijdenForm()">Save
+                                <button style="color=black;color: black;" value="Save"
+                                        ng-click="updateWedstrijdenForm()">Save
                                 </button>
                             </div>
                             <div class="tools">
@@ -204,6 +223,9 @@
                                             <th>
                                                 Uitslag
                                             </th>
+                                             <th>
+                                                Ronde
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -214,6 +236,9 @@
                                             <td>
                                                 <input type="number" ng-model="matches.Home"></input>-
                                                 <input type="number" ng-model="matches.Away"></input>
+                                            </td>
+                                            <td>
+                                                <input type="number" ng-model="matches.RoundId"></input>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -331,13 +356,13 @@
         </uib-tabset>
     </div>
 
-<!-- END MAIN CONTENT -->
-<!-- BEGIN MAIN JS -->
-<script>
+    <!-- END MAIN CONTENT -->
+    <!-- BEGIN MAIN JS -->
+    <script>
 	function AdvancedDatatablesDemoCtrl($scope) {
 		TableAdvanced.init();
 	}
 
 
 </script>
-<!-- END MAIN JS -->
+    <!-- END MAIN JS -->
