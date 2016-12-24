@@ -48,15 +48,15 @@
                         <tbody>
                             <tr ng-repeat="participant in participants">
                                 <td>
-                                    <a href="#/predictions/{{participant._id}}"> 
-                                    {{ participant.Participant.Name }} 
+                                    <a href="#/predictions/{{participant.Name}}">
+                                        {{ participant.Name }}
                                     </a>
                                 </td>
                                 <td>
-                                    {{ participant.Participant.Location }}
+                                    {{ participant.Location }}
                                 </td>
                                 <td>
-                                    {{ participant.Participant.Gender }}
+                                    {{ participant.Gender }}
                                 </td>
 
                             </tr>

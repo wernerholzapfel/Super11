@@ -1,6 +1,7 @@
 var teamRoundScore = require("./models/roundteamscoreformsModel");
 var teamStand = require("./models/newTeamStandModel");
 var predictions = require("./models/predictionModel");
+var Teampredictions = require('./models/teamPredictionsModel');
 var async = require("async");
 var calculatetotaalstand = require("./calculatetotaalstand.js");
 var _ = require('lodash');
@@ -32,17 +33,34 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
       //hier worden de scores opgehaald die de voetballers hebben gehaald in 1 ronde
       teamRoundScore.find({ RoundId: roundId }).exec(function (err, playerRoundScore) {
         if (err) return console.error(err);
-        callback(null, playerRoundScore[0]);
+        callback(null, playerRoundScore[0], roundId);
       });
     },
-    function (playerRoundScore, callback) {
+    function (playerRoundScore, roundId, callback) {
       //hier worden alle voorspellingen ophgehaald van de deelnemers
       // console.log("playerRoundScore 2e lenght: " + playerRoundScore.length)
-      predictions.find({}, {}).exec(function (err, predictions) {
-        // console.log("predictions length: " + predictions.length)
-        if (err) return console.error(err);
-        callback(null, playerRoundScore, predictions);
-      });
+      Teampredictions.aggregate(
+          [{$match: {RoundId: {$lte: parseInt(roundId)}}},
+        { $sort: { RoundId: -1 } },
+        {
+          $group: {
+            _id: {
+              email: "$Participant.Email",
+              playerName: "$TeamScores.Name",
+
+            },
+            RoundId: { $first: '$RoundId' },
+            Participant: { $first: "$Participant" },
+            Formation: { $first: "$Formation" },
+            CaptainId: { $first: "$CaptainId" },
+            Team: { $first: "$Team" },
+          },
+        }
+        ], function (err, predictions) {
+          // console.log("predictions length: " + predictions.length)
+          if (err) return console.error(err);
+          callback(null, playerRoundScore, predictions);
+          });
     },
     function (playerRoundScore, predictions, callback) {
       async.each(predictions, function (prediction, callback) {
@@ -53,7 +71,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
         stand.RoundId = roundId;
         stand.Participant = prediction.Participant;
         stand.TeamScores = [];
-    
+
         async.each(prediction.Team, function (player, callback) {
           var teamPlayer = _.find(playerRoundScore.Player, function (o) { return o.Id === parseInt(player.PlayerId); });
 
@@ -64,16 +82,16 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.Name = teamPlayer.Name;
             playerScore.Team = teamPlayer.Team;
             playerScore.Position = teamPlayer.Position;
-            playerScore.Captain = player.Captain;            
-            playerScore.Won = setWinScore(teamPlayer,captainFactor);
-            playerScore.Draw = setDrawScore(teamPlayer,captainFactor);
-            playerScore.Played = setPlayedScore(teamPlayer,captainFactor);
-            playerScore.RedCard = setRedCardScore(teamPlayer,captainFactor);
-            playerScore.YellowCard = setYellowCardScore(teamPlayer,captainFactor);
-            playerScore.Assist = setAssistScore(teamPlayer,captainFactor);
-            playerScore.Goals = setGoalScore(teamPlayer,captainFactor);
-            playerScore.OwnGoals = setOwnGoalScore(teamPlayer,captainFactor);
-            playerScore.CleanSheetScore = setCleanSheetScore(teamPlayer,captainFactor);
+            playerScore.Captain = player.Captain;
+            playerScore.Won = setWinScore(teamPlayer, captainFactor);
+            playerScore.Draw = setDrawScore(teamPlayer, captainFactor);
+            playerScore.Played = setPlayedScore(teamPlayer, captainFactor);
+            playerScore.RedCard = setRedCardScore(teamPlayer, captainFactor);
+            playerScore.YellowCard = setYellowCardScore(teamPlayer, captainFactor);
+            playerScore.Assist = setAssistScore(teamPlayer, captainFactor);
+            playerScore.Goals = setGoalScore(teamPlayer, captainFactor);
+            playerScore.OwnGoals = setOwnGoalScore(teamPlayer, captainFactor);
+            playerScore.CleanSheetScore = setCleanSheetScore(teamPlayer, captainFactor);
             playerScore.TotalScore = playerScore.Won + playerScore.Draw + playerScore.Played + playerScore.RedCard + playerScore.YellowCard + playerScore.Assist + playerScore.OwnGoals + playerScore.Goals + playerScore.CleanSheetScore;
 
             stand.TotalTeamScore = stand.TotalTeamScore + playerScore.TotalScore;
@@ -114,43 +132,43 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
           if (err) return console.error("error: " + err);
           console.log("saved stand for round: " + roundId);
           callback();
-      });
-      }, 
-       function(err) {
-    // if any of the file processing produced an error, err would equal that error
-    if( err ) {
-      // One of the iterations produced an error.
-      // All processing will now stop.
-      console.log('A file failed to process');
-    } else {
-      console.log('Go calculate totaalstand');
-      calculatetotaalstand.calculatetotaalstand(roundId);
+        });
+      },
+        function (err) {
+          // if any of the file processing produced an error, err would equal that error
+          if (err) {
+            // One of the iterations produced an error.
+            // All processing will now stop.
+            console.log('A file failed to process');
+          } else {
+            console.log('Go calculate totaalstand');
+            calculatetotaalstand.calculatetotaalstand(roundId);
+          }
+        });
     }
-});
-    }
-  ],function (err){
+  ], function (err) {
     if (err) console.log("error occured");
   });
 };
 
-var setPlayedScore = function (player,factor) {
+var setPlayedScore = function (player, factor) {
   if (player.Played) {
     return playedScore * factor;
   }
   return 0;
 };
 
-var setGoalScore = function (player,factor) {
+var setGoalScore = function (player, factor) {
   if (player.Goals > 0) {
     switch (player.Position) {
       case "K":
         return player.Goals * goalForGKScore * factor;
       case "V":
-        return player.Goals * goalForDFScore  * factor;
+        return player.Goals * goalForDFScore * factor;
       case "M":
-        return player.Goals * goalForMFScore  * factor;
+        return player.Goals * goalForMFScore * factor;
       case "A":
-        return player.Goals * goalForFWScore  * factor;
+        return player.Goals * goalForFWScore * factor;
       default:
         return 0;
     }
@@ -158,7 +176,7 @@ var setGoalScore = function (player,factor) {
   return 0;
 };
 
-var setAssistScore = function (player,factor) {
+var setAssistScore = function (player, factor) {
   if (player.Assists > 0) {
     switch (player.Position) {
       case "K":
@@ -185,7 +203,7 @@ var determineIfCaptain = function (player) {
   }
 };
 
-var setWinScore = function (player,factor) {
+var setWinScore = function (player, factor) {
   if (player.Win) {
     return winScore * factor;
   }
@@ -219,7 +237,7 @@ var setCleanSheetScore = function (player, factor) {
       case "K":
         return cleanSheetGKScore * factor;
       case "V":
-        return cleanSheetDFScore* factor;
+        return cleanSheetDFScore * factor;
       default:
         return 0;
     }

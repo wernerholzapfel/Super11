@@ -44,5 +44,6 @@ require("./models/newTeamStandModel");
 require("./models/headlinesModel"); 
 require("./models/commentsModel");
 require("./models/user");
+require("./models/teamPredictionsModel");
 
 

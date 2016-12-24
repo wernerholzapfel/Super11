@@ -12,13 +12,13 @@ var exports = module.exports = {};
 exports.calculatetotaalstand = function (roundId) {
 
   newteamStand.aggregate([
-    { $match: { RoundId: { $lte: roundId } } },
+      {$match: {RoundId: {$lte: parseInt(roundId)}}},
     { $unwind: "$TeamScores" },
     {
       $group: {
         _id: {
           email: "$Participant.Email",
-          playerName: "$TeamScores.Name",
+            playerName: "$TeamScores.Name"
 
         },
         Id: { $first: "$TeamScores.Id" },
@@ -110,7 +110,7 @@ exports.calculatetotaalstand = function (roundId) {
                     });
                     roundTable[i].TotalMatchesScore = 0;
                     for (var w = 0; w < gespeeldeWedstrijden.length; w += 1) {
-                      roundTable[i].TotalMatchesScore = roundTable[i].TotalMatchesScore + scorewedstrijden.MatchesScore[w].Score;
+                        roundTable[i].TotalMatchesScore = roundTable[i].TotalMatchesScore + gespeeldeWedstrijden[w].Score;
                     }
                   }
                   //todo onderstaande aanzetten om eredivisie eindstand punten toe te voegen.
