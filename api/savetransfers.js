@@ -15,6 +15,7 @@ var secret = process.env.secret || config.secret;
 var moment = require('moment-timezone');
 var _ = require('lodash');
 
+var determineifplayerisselected = require("../determineifplayerisselected");
 var Teampredictions = require('../models/teamPredictionsModel');
 
 apiRoutes.post("/savetransfers", function (req, res) {
@@ -82,13 +83,13 @@ var saveTransfers = function (req, res) {
                             handleError(res, err.message, "Failed to create new prediction.");
                         } else {
                             res.status(201).json(newTeampredictions);
-                            // determineifplayerisselected.setNumberOfTimesAplayerIsSelected()
+                            determineifplayerisselected.setNumberOfTimesAplayerIsSelected()
                         }
                     });
                 }
             }
         ])
     }
-}
+};
 
 module.exports = apiRoutes;
