@@ -22,7 +22,7 @@ exports.calculatetotaalstand = function (roundId) {
 
                 },
                 Id: {$first: "$TeamScores.Id"},
-                RoundId: {$max: "$RoundId"},
+                TeamScoresRoundId: {$max: "$TeamScores.RoundId"},
                 ParticipantName: {$first: "$Participant.Name"},
                 playerName: {$first: "$TeamScores.Name"},
                 Team: {$first: "$TeamScores.Team"},
@@ -65,7 +65,7 @@ exports.calculatetotaalstand = function (roundId) {
                         CleanSheetScore: "$CleanSheetScore",
                         TotalScore: "$TotalPlayerScore",
                         Captain: "$Captain",
-                        RoundId: "$RoundId"
+                        RoundId: "TeamScoresRoundId"
                     }
                 }
             }
