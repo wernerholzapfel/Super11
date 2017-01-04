@@ -62,12 +62,14 @@ a:hover {
     background-color: #97bf12;
     border-color: #97bf12;
 }
+
 .btn.green:not(.btn-outline).focus, .btn.green:not(.btn-outline):focus {
     color: #FFF;
     background-color: #97bf12;
     border-color: #97bf12;
 
 }
+
 .dashboard-stat.green {
     background-color: #97bf12;
 }
@@ -115,7 +117,7 @@ a:hover {
 .page-prefooter .subscribe-form .btn:focus,
 .page-prefooter .subscribe-form .btn:visited,
 .page-header .page-header-menu .hor-menu .navbar-nav > li > a:active,
-.page-header .page-header-menu .hor-menu .navbar-nav>li>a:focus{
+.page-header .page-header-menu .hor-menu .navbar-nav > li > a:focus {
 
     color: #fff;
     background-color: #162459 !important;
@@ -137,6 +139,20 @@ a {
 .primary-link {
     color: #162459;
     font-weight: 600;
+}
+
+.wisselspelers {
+    color: lightgray;
+}
+
+.wisselspelersIcon {
+    opacity: 0.4;
+    /*filter: alpha(opacity=40c); !* msie *!*/
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    filter: grayscale(100%);
 }
 
 @media (max-width: 991px) {
@@ -162,6 +178,5 @@ a {
         color: #97bf12 !important;
         background: #fff !important;
     }
-
 
 }
