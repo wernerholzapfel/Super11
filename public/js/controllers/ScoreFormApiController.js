@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, roundsApi, eredivisiePlayersApi, getQuestionsService, updateQuestionsService, getMatchesService, updateMatchesService, saveScoreFormService, getScoreFormService, eindstandscoreform, updateEindstandform, getGivenAnswersForQuestionService, findAndUpdatePlayerList) {
+angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, roundsApi, postpushnotification, eredivisiePlayersApi, getQuestionsService, updateQuestionsService, getMatchesService, updateMatchesService, saveScoreFormService, getScoreFormService, eindstandscoreform, updateEindstandform, getGivenAnswersForQuestionService, findAndUpdatePlayerList) {
     $scope.alerts = [];
     $scope.closeAlert = function (index) {
         $scope.alerts.splice(index, 1);
@@ -106,6 +106,18 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
 
             //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
             $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
+        });
+    };
+
+    $scope.pushNotification = function () {
+        var pushMessage = postpushnotification.post();
+        pushMessage.success(function () {
+            $scope.alerts.push({type: 'success', msg: "Push message verzonden"});
+        });
+        pushMessage.error(function () {
+            $scope.showConfirm = false;
+
+            $scope.alerts.push({type: 'danger', msg: "Er is iets misgegaan met push notificatie versturen"});
         });
     };
 

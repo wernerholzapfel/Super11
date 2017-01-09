@@ -16,6 +16,13 @@ angular.module('MetronicApp').factory('getScoreFormService', function ($http,API
   return myService;
 });
 
+angular.module('MetronicApp').service('postpushnotification', function ($http, API_ENDPOINT) {
+    this.post = function (questions) {
+        var req = $http.post(API_ENDPOINT.url + '/pushnotification/');
+        return req;
+    }
+});
+
 angular.module('MetronicApp').factory('getwedstrijdenService', function ($http,API_ENDPOINT) {
   var myService = {
     async: function () {

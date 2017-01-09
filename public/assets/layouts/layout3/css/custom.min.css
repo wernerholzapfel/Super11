@@ -112,6 +112,12 @@ a:hover {
     border-color: #97bf12;
 }
 
+.alert-success {
+    background-color: #d8e2ae;
+    border-color: #d8e2ae;
+    color: #97bf12;
+}
+
 .page-prefooter .subscribe-form .btn:hover,
 .page-prefooter .subscribe-form .btn:active,
 .page-prefooter .subscribe-form .btn:focus,
