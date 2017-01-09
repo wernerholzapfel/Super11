@@ -46,7 +46,6 @@ apiRoutes.post("/pushnotification/", function (req, res) {
             function (callback) {
                 var decoded = jwtDecode(token, secret);
                 management.getUser({id: decoded.sub}, function (err, user) {
-                    if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
                     callback(null, user);
                 });
             },
