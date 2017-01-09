@@ -52,9 +52,9 @@ apiRoutes.post("/pushnotification/", function (req, res) {
             },
             function (user, callback) {
                 if (user.app_metadata.roles.indexOf('admin') > -1) {
-
+                    console.log(user.name + " is admin");
                     var ionicPushServer = require('ionic-push-server');
-
+                    console.log("this is the app id:" + ionicApplicationId)
                     var credentials = {
                         IonicApplicationID: ionicApplicationId,
                         IonicApplicationAPItoken: ionicApplicationAPItoken
@@ -71,7 +71,7 @@ apiRoutes.post("/pushnotification/", function (req, res) {
                             "message": "De stand is weer geüpdated"
                         }
                     };
-
+                    console.log("going to send push");
                     ionicPushServer(credentials, notification);
                     res.status(201).json("{push verzonden!}");
 
