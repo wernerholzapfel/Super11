@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, roundsApi, eredivisiePlayersApi, getQuestionsService, updateQuestionsService, getMatchesService, updateMatchesService, saveScoreFormService, getScoreFormService, eindstandscoreform, updateEindstandform, getGivenAnswersForQuestionService, findAndUpdatePlayerList) {
+angular.module('MetronicApp').controller('ScoreFormApiController', function ($scope, roundsApi, postpushnotification, eredivisiePlayersApi, getQuestionsService, updateQuestionsService, getMatchesService, updateMatchesService, saveScoreFormService, getScoreFormService, eindstandscoreform, updateEindstandform, getGivenAnswersForQuestionService, findAndUpdatePlayerList) {
     $scope.alerts = [];
     $scope.closeAlert = function (index) {
         $scope.alerts.splice(index, 1);
@@ -67,18 +67,21 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
     $scope.updateScoreForm = function () {
         $scope.showConfirm = true;
         console.log("het bericht dat gepost wordt: " + $scope.NewList);
-        $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
+        $scope.alerts.push({type: 'warning', msg: "Bezig met updaten"});
 
         var playerList = findAndUpdatePlayerList.put($scope.oldScoreForms, $scope.oldScoreForms.RoundId);
 
         playerList.success(function () {
-            $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
+            $scope.alerts.push({type: 'success', msg: 'Het updaten is gelukt!'});
         });
         playerList.error(function () {
             $scope.showConfirm = false;
 
             //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
-            $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
+            $scope.alerts.push({
+                type: 'danger',
+                msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw"
+            });
         });
 
     };
@@ -94,36 +97,54 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
 
         };
 
-        $scope.alerts.push({ type: 'warning', msg: "Bezig met opslaan" });
+        $scope.alerts.push({type: 'warning', msg: "Bezig met opslaan"});
 
         var playerList = findAndUpdatePlayerList.put($scope.NewList, $scope.NewList.RoundId);
 
         playerList.success(function () {
-            $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt!' });
+            $scope.alerts.push({type: 'success', msg: 'Het opslaan is gelukt!'});
         });
         playerList.error(function () {
             $scope.showConfirm = false;
 
             //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
-            $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
+            $scope.alerts.push({
+                type: 'danger',
+                msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw"
+            });
+        });
+    };
+
+    $scope.pushNotification = function () {
+        postpushnotification.async().then(function (response) {
+            if (response.status === 201) {
+                $scope.alerts.push({type: 'success', msg: response.data});
+            }
+            else {
+                $scope.showConfirm = false;
+                $scope.alerts.push({type: 'danger', msg: response.data});
+            }
         });
     };
 
     $scope.updateVragenForm = function () {
         $scope.showConfirm = true;
         console.log("het bericht dat gepost wordt: " + $scope.NewList);
-        $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
+        $scope.alerts.push({type: 'warning', msg: "Bezig met updaten"});
 
         var vragenlijst = updateQuestionsService.put($scope.vragenScoreform);
 
         vragenlijst.success(function () {
-            $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
+            $scope.alerts.push({type: 'success', msg: 'Het updaten is gelukt!'});
         });
         vragenlijst.error(function () {
             $scope.showConfirm = false;
 
             //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
-            $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
+            $scope.alerts.push({
+                type: 'danger',
+                msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw"
+            });
         });
 
     };
@@ -131,26 +152,29 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
     $scope.updateWedstrijdenForm = function () {
         $scope.showConfirm = true;
         console.log("het bericht dat gepost wordt: " + $scope.NewList);
-        $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
+        $scope.alerts.push({type: 'warning', msg: "Bezig met updaten"});
 
         var wedstrijdenlijst = updateMatchesService.put($scope.wedstrijdenScoreform);
 
         wedstrijdenlijst.success(function () {
-            $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
+            $scope.alerts.push({type: 'success', msg: 'Het updaten is gelukt!'});
         });
         wedstrijdenlijst.error(function () {
             $scope.showConfirm = false;
 
             //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
-            $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
+            $scope.alerts.push({
+                type: 'danger',
+                msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw"
+            });
         });
 
-    }
+    };
 
     $scope.saveEindstandForm = function () {
         $scope.showConfirm = true;
         console.log("het bericht dat gepost wordt: " + $scope.NewList);
-        $scope.alerts.push({ type: 'warning', msg: "Bezig met updaten" });
+        $scope.alerts.push({type: 'warning', msg: "Bezig met updaten"});
 
         SCOPE = $scope.$root.$new();
 
@@ -163,29 +187,32 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
         var eindstand = updateEindstandform.put($scope.eindstandscoreform);
 
         eindstand.success(function () {
-            $scope.alerts.push({ type: 'success', msg: 'Het updaten is gelukt!' });
+            $scope.alerts.push({type: 'success', msg: 'Het updaten is gelukt!'});
         });
 
         eindstand.error(function () {
             $scope.showConfirm = false;
 
             //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
-            $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
+            $scope.alerts.push({
+                type: 'danger',
+                msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw"
+            });
         });
 
-    }
+    };
     $scope.showRoundScoreForm = false;
     $scope.showNewScoreForm = true;
 
     $scope.addNewRound = function () {
         $scope.showRoundScoreForm = false;
         $scope.showNewScoreForm = true;
-    }
+    };
 
     $scope.changeOldRound = function () {
         $scope.showRoundScoreForm = true;
         $scope.showNewScoreForm = false;
-    }
+    };
 
     $scope.setRoundForQuestion = function (question, roundId) {
         console.log(question)
@@ -202,7 +229,7 @@ angular.module('MetronicApp').controller('ScoreFormApiController', function ($sc
                 }
             }
         }
-    }
+    };
 
     $scope.setAnswer = function (selectedQuestion) {
         for (var i = 0; i < $scope.givenAnswersForQuestion.length; i += 1) {

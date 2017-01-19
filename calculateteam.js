@@ -53,8 +53,8 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             Participant: { $first: "$Participant" },
             Formation: { $first: "$Formation" },
             CaptainId: { $first: "$CaptainId" },
-            Team: { $first: "$Team" },
-          },
+              Team: {$first: "$Team"}
+          }
         }
         ], function (err, predictions) {
           // console.log("predictions length: " + predictions.length)
@@ -82,6 +82,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.Name = teamPlayer.Name;
             playerScore.Team = teamPlayer.Team;
             playerScore.Position = teamPlayer.Position;
+              playerScore.RoundId = roundId;
             playerScore.Captain = player.Captain;
             playerScore.Won = setWinScore(teamPlayer, captainFactor);
             playerScore.Draw = setDrawScore(teamPlayer, captainFactor);

@@ -2,8 +2,9 @@
 // Bring Mongoose into the app
 var mongoose = require( 'mongoose' );
 
+var config = require('./config/database');
 // Build the connection string
-var dbURI ='mongodb://heroku_kxnktwsj:9cbcg3g2r9defoist09f3vduu1@ds023902.mlab.com:23902/heroku_kxnktwsj';
+var dbURI = process.env.database || config.database;
 
 // Create the database connection
 mongoose.connect(dbURI);

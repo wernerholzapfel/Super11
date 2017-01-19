@@ -643,7 +643,7 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
             socialButtonStyle: 'small',
             theme: {
                 logo: '',
-                primaryColor: "#32c5d2"
+                primaryColor: "#97bf12"
             },
             languageDictionary: {
                 emailInputPlaceholder: "please enter you email",
