@@ -37,7 +37,7 @@ exports.calculatetotaalstand = function (roundId) {
                 OwnGoals: {$sum: "$TeamScores.OwnGoals"},
                 CleanSheetScore: {$sum: "$TeamScores.CleanSheetScore"},
                 TotalPlayerScore: {$sum: "$TeamScores.TotalScore"},
-                Captain: {$first: "$TeamScores.Captain"},
+                Captain: {$last: "$TeamScores.Captain"},
                 RoundId: {$max: "$RoundId"}
             }
         }
