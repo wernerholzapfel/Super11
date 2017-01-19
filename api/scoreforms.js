@@ -62,7 +62,7 @@ apiRoutes.post("/pushnotification/", function (req, res) {
 
                     var notification = {
                         "send_to_all": true,
-                        "profile": "superelevendev",
+                        "profile": "prod",
                         "notification": {
                             "ios": {
                                 "badge": 1,
