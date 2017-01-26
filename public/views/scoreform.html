@@ -42,50 +42,50 @@
                                 <table class="table table-striped table-bordered table-hover table-header-fixed dataTable"
                                        id="newScoreTable">
                                     <thead>
-                                        <tr>
-                                            <th>
-                                                Speler
-                                            </th>
-                                            <th>
-                                                Club
-                                            </th>
-                                            <th>
-                                                P
-                                            </th>
-                                            <th>
-                                                W
-                                            </th>
-                                            <th>
-                                                D
-                                            </th>
-                                            <th>
-                                                CS
-                                            </th>
-                                            <th>
-                                                G
-                                            </th>
-                                            <th>
-                                                A
-                                            </th>
-                                            <th>
-                                                OG
-                                            </th>
-                                            <th>
-                                                Y
-                                            </th>
-                                            <th>
-                                                R
-                                            </th>
-                                        </tr>
+                                    <tr>
+                                        <th>
+                                            Speler
+                                        </th>
+                                        <th>
+                                            Club
+                                        </th>
+                                        <th>
+                                            P
+                                        </th>
+                                        <th>
+                                            W
+                                        </th>
+                                        <th>
+                                            D
+                                        </th>
+                                        <th>
+                                            CS
+                                        </th>
+                                        <th>
+                                            G
+                                        </th>
+                                        <th>
+                                            A
+                                        </th>
+                                        <th>
+                                            OG
+                                        </th>
+                                        <th>
+                                            Y
+                                        </th>
+                                        <th>
+                                            R
+                                        </th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="player in newScoreFormList.Player | filter:{Selected:true} | orderBy:['Team']">
                                         <td>
                                             {{ player.Name }} ({{player.Position}})
-                                            </td>
+                                        </td>
                                         <td>
                                             {{ player.Team}}
-                                            </td>
+                                        </td>
                                         <td>
                                             <input type="checkbox" ng-model="player.Played"
                                                    ng-value="player.Played"></input>
@@ -122,7 +122,7 @@
                                             <input type="number" ng-model="player.Red" size="1" min="0" max="1"
                                                    ng-value="player.Red"></input>
                                         </td>
-                                        </tr>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -141,7 +141,7 @@
                                     <i class="fa fa-user"></i>Vragen lijst invullen
                                     <button style="color=black;color: black;" value="Save"
                                             ng-click="updateVragenForm()">Save
-                                </button>
+                                    </button>
                                 </div>
                                 <div class="tools">
                                     <a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -167,27 +167,31 @@
                                                 Antwoord
                                             </th>
                                             <th>Goed?</th>
-                                            <th>
-                                                Ronde
-                                            </th>
+                                            <!--<th>-->
+                                            <!--Ronde-->
+                                            <!--</th>-->
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr ng-repeat="question in givenAnswersForQuestion | orderBy:'QuestionsScore[0].Answer'">
-                                            <td>
-                                                {{ question.Participant.Name }}
+                                        <tr ng-repeat-start="vraag in vragenstand">
+                                            <!--<td>-->
+                                            <!--{{ vraag.Participant.Name }}-->
+                                            <!--</td>-->
+                                        </tr>
+                                        <tr ng-repeat="question in vraag.QuestionsScore"
+                                            ng-if="question.Id === selectedQuestion">
+                                            <td> {{question.Answer}} {{question.Id}}
                                             </td>
-                                            <td>
-                                                {{question.QuestionsScore[0].Answer}}
-                                            </td>
-                                            <td><input type="checkbox" ng-model="question.QuestionsScore[0].Score"
+                                            <td>{{question.Uitslag}}</td>
+                                            <td><input type="checkbox" ng-model="question.Score"
                                                        ng-true-value="15" ng-false-value="0">
                                             </td>
 
-                                            <td>
-                                                <input type="number" ng-model="question.RoundId"></input>
-                                            </td>
+                                            <!--<td>-->
+                                            <!--<input type="number" ng-model="question.RoundId"></input>-->
+                                            <!--</td>-->
                                         </tr>
+                                        <tr ng-repeat-end></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -216,31 +220,31 @@
                             <div class="table-scrollable">
                                 <table class="table table-striped table-bordered table-hover table-header-fixed dataTable">
                                     <thead>
-                                        <tr>
-                                            <th>
-                                                Wedstrijd
-                                            </th>
-                                            <th>
-                                                Uitslag
-                                            </th>
-                                             <th>
-                                                Ronde
-                                            </th>
-                                        </tr>
+                                    <tr>
+                                        <th>
+                                            Wedstrijd
+                                        </th>
+                                        <th>
+                                            Uitslag
+                                        </th>
+                                        <th>
+                                            Ronde
+                                        </th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="matches in wedstrijdenScoreform.Matches">
-                                            <td>
-                                                {{ matches.Match }}
-                                            </td>
-                                            <td>
-                                                <input type="number" ng-model="matches.Home"></input>-
-                                                <input type="number" ng-model="matches.Away"></input>
-                                            </td>
-                                            <td>
-                                                <input type="number" ng-model="matches.RoundId"></input>
-                                            </td>
-                                        </tr>
+                                        <td>
+                                            {{ matches.Match }}
+                                        </td>
+                                        <td>
+                                            <input type="number" ng-model="matches.Home"></input>-
+                                            <input type="number" ng-model="matches.Away"></input>
+                                        </td>
+                                        <td>
+                                            <input type="number" ng-model="matches.RoundId"></input>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -274,80 +278,90 @@
                         </div>
                         <div class="portlet-body">
                             <div class="table-scrollable">
-                                <table class="table table-striped table-bordered table-hover table-header-fixed dataTable" id="newScoreTable">
+                                <table class="table table-striped table-bordered table-hover table-header-fixed dataTable"
+                                       id="newScoreTable">
                                     <thead>
-                                        <tr>
-                                            <th>
-                                                Speler
-                                            </th>
-                                            <th>
-                                                Club
-                                            </th>
-                                            <th>
-                                                P
-                                            </th>
-                                            <th>
-                                                W
-                                            </th>
-                                            <th>
-                                                D
-                                            </th>
-                                            <th>
-                                                CS
-                                            </th>
-                                            <th>
-                                                G
-                                            </th>
-                                            <th>
-                                                A
-                                            </th>
-                                            <th>
-                                                OG
-                                            </th>
-                                            <th>
-                                                Y
-                                            </th>
-                                            <th>
-                                                R
-                                            </th>
-                                        </tr>
+                                    <tr>
+                                        <th>
+                                            Speler
+                                        </th>
+                                        <th>
+                                            Club
+                                        </th>
+                                        <th>
+                                            P
+                                        </th>
+                                        <th>
+                                            W
+                                        </th>
+                                        <th>
+                                            D
+                                        </th>
+                                        <th>
+                                            CS
+                                        </th>
+                                        <th>
+                                            G
+                                        </th>
+                                        <th>
+                                            A
+                                        </th>
+                                        <th>
+                                            OG
+                                        </th>
+                                        <th>
+                                            Y
+                                        </th>
+                                        <th>
+                                            R
+                                        </th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="player in oldScoreForms.Player | filter:{Selected:true} | orderBy:['Team']">
-                                            <td>
-                                                {{ player.Name }} ({{player.Position}})
-                                            </td>
-                                            <td>
-                                                {{ player.Team}}
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" ng-model="player.Played" ng-value="player.Played"></input>
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" ng-model="player.Win" ng-value="player.Win"></input>
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" ng-model="player.Draw" ng-value="player.Draw"></input>
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" ng-model="player.CleanSheet" ng-disabled="disableCleanSheat(player.Position)" ng-value="player.CleanSheet"></input>
-                                            </td>
-                                            <td>
-                                                <input type="number" ng-model="player.Goals" size="1" min="0" max="9" ng-value="player.Goals"></input>
-                                            </td>
-                                            <td>
-                                                <input type="number" ng-model="player.Assists" size="1" min="0" max="9" ng-value="player.Assists">                                                </input>
-                                            </td>
-                                            <td>
-                                                <input type="number" ng-model="player.OwnGoal" size="1" min="0" max="9" ng-value="player.OwnGoal"></input>
-                                            </td>
-                                            <td>
-                                                <input type="number" ng-model="player.Yellow" size="1" min="0" max="2" ng-value="player.Yellow">                                                </input>
-                                            </td>
-                                            <td>
-                                                <input type="number" ng-model="player.Red" size="1" min="0" max="1" ng-value="player.Red"></input>
-                                            </td>
-                                        </tr>
+                                        <td>
+                                            {{ player.Name }} ({{player.Position}})
+                                        </td>
+                                        <td>
+                                            {{ player.Team}}
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" ng-model="player.Played"
+                                                   ng-value="player.Played"></input>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" ng-model="player.Win" ng-value="player.Win"></input>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" ng-model="player.Draw"
+                                                   ng-value="player.Draw"></input>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" ng-model="player.CleanSheet"
+                                                   ng-disabled="disableCleanSheat(player.Position)"
+                                                   ng-value="player.CleanSheet"></input>
+                                        </td>
+                                        <td>
+                                            <input type="number" ng-model="player.Goals" size="1" min="0" max="9"
+                                                   ng-value="player.Goals"></input>
+                                        </td>
+                                        <td>
+                                            <input type="number" ng-model="player.Assists" size="1" min="0" max="9"
+                                                   ng-value="player.Assists">                                                </input>
+                                        </td>
+                                        <td>
+                                            <input type="number" ng-model="player.OwnGoal" size="1" min="0" max="9"
+                                                   ng-value="player.OwnGoal"></input>
+                                        </td>
+                                        <td>
+                                            <input type="number" ng-model="player.Yellow" size="1" min="0" max="2"
+                                                   ng-value="player.Yellow">                                                </input>
+                                        </td>
+                                        <td>
+                                            <input type="number" ng-model="player.Red" size="1" min="0" max="1"
+                                                   ng-value="player.Red"></input>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -361,10 +375,10 @@
     <!-- END MAIN CONTENT -->
     <!-- BEGIN MAIN JS -->
     <script>
-	function AdvancedDatatablesDemoCtrl($scope) {
-		TableAdvanced.init();
-	}
+        function AdvancedDatatablesDemoCtrl($scope) {
+            TableAdvanced.init();
+        }
 
 
-</script>
+    </script>
     <!-- END MAIN JS -->

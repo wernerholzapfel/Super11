@@ -21,7 +21,8 @@ var RoundTeamScoreForms = require("../models/roundteamscoreformsModel");
 var MatchesScoreForm = require("../models/wedstrijdenScoreformsModel.js");
 var QuestionsScoreForm = require("../models/vragenScoreformsModel.js");
 var Eindstandscoreform = require("../models/eindstandScoreformsModel.js");
-var User = require("../models/user");
+var vragenStand = require("../models/vragenStandModel");
+
 
 var calculateteam = require("../calculateteam.js");
 var calculatevragen = require("../calculatevragen.js");
@@ -126,6 +127,67 @@ apiRoutes.get("/questionsScoreform/", function (req, res, next) {
     });
 });
 
+apiRoutes.put("/vragenstand/", function (req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+        async.waterfall([
+            function (callback) {
+                var decoded = jwtDecode(token, secret);
+                management.getUser({id: decoded.sub}, function (err, user) {
+                    if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+                    callback(null, user);
+                });
+            },
+            function (user, callback) {
+                if (user.app_metadata.roles.indexOf('admin') > -1) {
+                    console.log(req.body);
+                    async.each(req.body, function (prediction, callback) {
+                            var stand = new vragenStand;
+                            stand.TotalQuestionsScore = 0;
+                            stand.Participant = prediction.Participant;
+                            stand.QuestionsScore = prediction.QuestionsScore;
+
+                            async.each(prediction.QuestionsScore, function (question, callback) {
+                                    stand.TotalQuestionsScore = stand.TotalQuestionsScore + question.Score;
+                                    callback();
+                                },
+                                function (err) {
+                                    console.log("err: " + err);
+                                }
+                            );
+                            //necessary to overwrite vragenStand
+                            var standToUpdate = {};
+                            standToUpdate = Object.assign(standToUpdate, stand._doc);
+                            delete standToUpdate._id;
+
+                            vragenStand.findOneAndUpdate({'Participant.Email': prediction.Participant.Email}, standToUpdate, ({upsert: true}), function (err, stand) {
+                                if (err) return console.error("error: " + err);
+                                console.log("saved vragenstand for : " + prediction.Participant.Name);
+                                callback();
+                            });
+                        },
+                        function (err) {
+                            // if any of the file processing produced an error, err would equal that error
+                            if (err) {
+                                console.log('A file failed to process');
+                            } else {
+                                console.log('Go calculate totaalstand');
+                                calculatetotaalstand.calculatetotaalstand(50);
+                            }
+                        });
+
+                    return res.status(200).json("stand opgeslagen");
+                }
+                else {
+                    return res.status(403).send({
+                        success: false,
+                        msg: 'Niet geautoriseerd om wijziging om headline toe te voegen'
+                    })
+                }
+            }
+        ])
+    }
+});
 
 apiRoutes.put("/questionsScoreform/", function (req, res) {
     var token = getToken(req.headers);

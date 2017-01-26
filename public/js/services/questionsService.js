@@ -18,7 +18,7 @@ angular.module('MetronicApp').factory('getQuestionsService', function ($http, AP
 
 angular.module('MetronicApp').service('updateQuestionsService', function ($http, API_ENDPOINT) {
     this.put = function (questions) {
-        var req = $http.put(API_ENDPOINT.url + '/questionsScoreform/', questions);
+        var req = $http.put(API_ENDPOINT.url + '/vragenstand/', questions);
         return req;
   }
 });

@@ -306,6 +306,7 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
                             'js/services/questionsService.js',
                             'js/services/eredivisiePlayersApi.js',
                             'js/services/roundsApi.js',
+                            'js/services/teamTableApi.js',
 
                             'js/controllers/ScoreFormController.js',
                             'js/controllers/ScoreFormApiController.js'
