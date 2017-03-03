@@ -7,12 +7,12 @@ var _ = require('lodash');
 apiRoutes.get("/istransfermarktopen", function (req, res, next) {
     var date = new Date;
     var startdatum = moment("2016-12-19");
-    var einddatum = moment("2017-02-01");
+    var einddatum = moment("2017-02-04");
     var speeldatums = [];
     speeldatums.push("2017-1-13", "2017-1-14", "2017-1-15");
     speeldatums.push("2017-1-20", "2017-1-21", "2017-1-22");
     speeldatums.push("2017-1-27", "2017-1-28", "2017-1-29");
-    // speeldatums.push("2017-2-03", "2017-2-04", "2017-2-05");
+    speeldatums.push("2017-2-3", "2017-2-4", "2017-2-5");
 
     var nu = moment(date).tz("Europe/Amsterdam");
     var nuInString = (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());

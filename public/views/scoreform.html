@@ -162,9 +162,12 @@
                                         <tr>
                                             <th>
                                                 Naam
+
                                             </th>
                                             <th>
                                                 Antwoord
+                                            </th>
+                                            <th>
                                             </th>
                                             <th>Goed?</th>
                                             <!--<th>-->
@@ -174,22 +177,19 @@
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat-start="vraag in vragenstand">
-                                            <!--<td>-->
-                                            <!--{{ vraag.Participant.Name }}-->
-                                            <!--</td>-->
+
                                         </tr>
                                         <tr ng-repeat="question in vraag.QuestionsScore"
                                             ng-if="question.Id === selectedQuestion">
-                                            <td> {{question.Answer}} {{question.Id}}
+                                            <td>
+                                                {{vraag.Participant.Name}}
+                                            </td>
+                                            <td> {{question.Answer}}
                                             </td>
                                             <td>{{question.Uitslag}}</td>
-                                            <td><input type="checkbox" ng-model="question.Score"
-                                                       ng-true-value="20" ng-false-value="0">
+                                            <td>
+                                                <input type="number" ng-model="question.Score">
                                             </td>
-
-                                            <!--<td>-->
-                                            <!--<input type="number" ng-model="question.RoundId"></input>-->
-                                            <!--</td>-->
                                         </tr>
                                         <tr ng-repeat-end></tr>
                                         </tbody>

@@ -11,7 +11,6 @@ var jwt = require('express-jwt');
 var dotenv = require('dotenv');
 
 
-// var jwt = require('jwt-simple');
 var path = require("path");
 var assert = require("assert");
 var config = require('./config/database');
@@ -54,7 +53,6 @@ var server = app.listen(process.env.PORT || 8200, function () {
     console.log("App now running on port", port);
 });
 
-require('./config/passport')(passport);
 
 var authenticateCall = jwt({
     secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
