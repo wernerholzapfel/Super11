@@ -150,7 +150,7 @@ exports.calculatetotaalstand = function (roundId) {
                                             roundTable[i].Positie = i + 1;
                                         }
                                     }
-                                    console.log(roundTable[i]);
+                                    // console.log(roundTable[i]);
                                     totaalStand.findOneAndUpdate({
                                         RoundId: roundTable[i].RoundId,
                                         Name: roundTable[i].Name
