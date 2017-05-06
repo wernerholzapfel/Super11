@@ -57,7 +57,7 @@ angular.module('MetronicApp').controller('TeamTableApiController', function (tea
 
     $scope.showEredivisieStandModel = function (data) {
         var modalInstance = $uibModal.open({
-            templateUrl: 'eredivisiestandModel.html',
+            templateUrl: 'eredivisiestandmodal.html',
             controller: "ModalController",
             size: "lg",
             resolve: {
@@ -86,10 +86,10 @@ angular.module('MetronicApp').controller('TeamTableApiController', function (tea
     });
 
     //todo omzetten voor eindstand eredivisie score op halen.
-    // eredivisiestandStandApi.async().then(function(data){
+    eredivisiestandStandApi.async().then(function (data) {
    $scope.eredivisiestandstand = [];
-    //     $scope.eredivisiestandstand = data;
-    // });
+        $scope.eredivisiestandstand = data;
+    });
 
     totaalstandApi.async().then(function (data) {
         $scope.newTotalTeamTable = data;
