@@ -291,7 +291,6 @@ apiRoutes.put("/eindstandscoreform/", function (req, res) {
                         if (err) return handleError(res, err.message, "Failed to Update eindstand");
                         res.status(200).json(eindstandscoreform);
                         console.log("saved eindstand");
-                        //todo calculate eindstand
                         calculateeindstand.calculateEindstand(50);
                     });
                 }

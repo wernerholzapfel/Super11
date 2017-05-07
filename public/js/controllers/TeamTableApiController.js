@@ -85,7 +85,6 @@ angular.module('MetronicApp').controller('TeamTableApiController', function (tea
 
     });
 
-    //todo omzetten voor eindstand eredivisie score op halen.
     eredivisiestandStandApi.async().then(function (data) {
    $scope.eredivisiestandstand = [];
         $scope.eredivisiestandstand = data;

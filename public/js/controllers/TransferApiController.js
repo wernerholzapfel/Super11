@@ -215,7 +215,6 @@ angular.module('MetronicApp').controller('TransferApiController',
           registration.error(function (message) {
           $scope.showConfirm = false;
           $scope.showMatches = true;
-          //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
               $scope.alerts.push({type: 'danger', msg: message});
         });
       };

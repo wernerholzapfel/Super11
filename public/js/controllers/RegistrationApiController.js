@@ -214,7 +214,6 @@ angular.module('MetronicApp').controller('RegistrationApiController',
         registration.error(function () {
           $scope.showConfirm = false;
           $scope.showMatches = true;
-          //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
           $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
         });
       };
@@ -226,10 +225,10 @@ angular.module('MetronicApp').controller('RegistrationApiController',
       $scope.formationChosen = false;
 
       $scope.showParticipant = true;
-      $scope.showTable = false;
-      $scope.showTeam = false;
-      $scope.showQuestions = false;
-            $scope.showMatches = false;
+            $scope.showTable = true;
+            $scope.showTeam = true;
+            $scope.showQuestions = true;
+            $scope.showMatches = true;
 
       $scope.participantView = function () {
         $scope.showParticipant = true;

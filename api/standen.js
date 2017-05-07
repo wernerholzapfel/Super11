@@ -143,7 +143,6 @@ apiRoutes.get("/wedstrijdenstand/", function (req, res, next) {
             handleError(res, error.message, "failed tot get wedstrijdenstand");
         }
         else {
-            //todo positie toevoegen?
             res.status(200).json(roundTable);
         }
     });
@@ -156,7 +155,6 @@ apiRoutes.get("/vragenstand/", function (req, res, next) {
             handleError(res, error.message, "failed tot get vragenstand");
         }
         else {
-            //todo positie toevoegen?
             res.status(200).json(roundTable);
         }
     });
@@ -169,7 +167,6 @@ apiRoutes.get("/eindstandstand/", function (req, res, next) {
             handleError(res, error.message, "failed tot get eindstand stand");
         }
         else {
-            //todo positie toevoegen?
             res.status(200).json(roundTable);
         }
     });
