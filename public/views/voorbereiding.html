@@ -100,7 +100,8 @@
                                     <tbody>
                                     <tr ng-repeat="matches in wedstrijdenScoreform.Matches | orderBy:['Date']">
                                         <td>
-                                            <input style="width: 100%;" type="text" ng-model="matches.Date"></input>
+                                            <input style="width: 100%;" type="datetime-local" ng-model="matches.Date">
+                                            </input>
                                         </td>
                                         <td>
                                             <input type="text" ng-model="matches.Match" style="width: 100%;"></input>

@@ -10,11 +10,19 @@ angular.module('MetronicApp').controller('VoorbereidingApiController',
 
 
         getMatchesService.async().then(function (data) {
+            $scope.wedstrijdenScoreform = [];
+            for (var i = 0; i < data.Matches.length; i++) {
+                var date = new Date(data.Matches[i].Date);
+                data.Matches[i].Date = date;
+                // $scope.wedstrijdenScoreform.push(data.Matches[i])
+            }
             $scope.wedstrijdenScoreform = data;
         });
 
         //lijst van vragen
         getQuestionsService.async().then(function (data) {
+
+
             $scope.vragenScoreform = data;
         });
 
