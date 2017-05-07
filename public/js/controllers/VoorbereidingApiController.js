@@ -14,7 +14,6 @@ angular.module('MetronicApp').controller('VoorbereidingApiController',
             for (var i = 0; i < data.Matches.length; i++) {
                 var date = new Date(data.Matches[i].Date);
                 data.Matches[i].Date = date;
-                // $scope.wedstrijdenScoreform.push(data.Matches[i])
             }
             $scope.wedstrijdenScoreform = data;
         });
