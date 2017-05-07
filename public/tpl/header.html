@@ -20,10 +20,18 @@
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
                 <li>
-                    <button ng-hide="isAuthenticated" type="button" class="btn green" ng-click="authService.login()">Log
+                    <!--<a ng-show="isAuthenticated" href="#/scoreform.html"-->
+                    <!--id="sidebar_menu_link_scoreform">-->
+                    <button onclick="location.href='#/scoreform.html';" ng-show="authService.isAdmin()" type="button"
+                            class="btn green">
+                        Uitslagen invullen
+                    </button>
+                    <!--</a>-->
+                    <button ng-show="!isAuthenticated" type="button" class="btn green" ng-click="authService.login()">
+                        Log
                         In
                     </button>
-                    <button ng-if="isAuthenticated" type="button" class="btn green" ng-click="authService.logout()()">
+                    <button ng-show="isAuthenticated" type="button" class="btn green" ng-click="authService.logout()()">
                         Loguit
                     </button>
                 </li>
@@ -60,12 +68,12 @@
                         <span class="title">Home</span>
                     </a>
                 </li>
-                <!--<li>
+                <li>
                     <a href="#/registration.html" id="sidebar_menu_link_registration">
                         <i class="icon-puzzle"></i>
                         <span class="title">Inschrijven</span>
                     </a>
-                </li>-->
+                </li>
                 <li>
                     <a href="#/standen.html" id="sidebar_menu_link_standen">
                         <i class="icon-graph"></i>
@@ -84,6 +92,7 @@
                 <!--<span class="title">Transferperiode</span>-->
                 <!--</a>-->
                 <!--</li>-->
+
                 <li>
                     <a href="#/spelregels.html" id="sidebar_menu_link_spelregels">
                         <i class="icon-puzzle"></i>
@@ -102,12 +111,6 @@
                         <span class="title">Hall of Fame</span>
                     </a>
                 </li>
-                <!--<li>
-                    <a href="#/predictions.html" id="sidebar_menu_link_prediction">
-                        <i class="icon-puzzle"></i>
-                        <span class="title">Voorspellingen</span>
-                    </a>
-                </li>-->
                 <!--<li>
                     <a href="#/headlines.html" id="sidebar_menu_link_scoreform">
                         <i class="icon-puzzle"></i>

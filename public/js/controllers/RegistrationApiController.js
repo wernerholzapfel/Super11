@@ -1,7 +1,7 @@
 ﻿
 angular.module('MetronicApp').controller('RegistrationApiController',
-  ['$anchorScroll', '$location', '$scope', "getRegistrationForm", "registrationService", "teamListService", "eredivisiePlayersApi",
-    function ($anchorScroll, $location, $scope, getRegistrationForm, registrationService, teamListService, eredivisiePlayersApi) {
+    ['$anchorScroll', '$location', '$scope', "getRegistrationForm", "registrationService", "teamListService", "eredivisiePlayersApi", "savetransfersservice",
+        function ($anchorScroll, $location, $scope, getRegistrationForm, registrationService, teamListService, eredivisiePlayersApi, savetransfersservice) {
 
       $scope.selectedFormation = "433"
 
@@ -205,6 +205,7 @@ angular.module('MetronicApp').controller('RegistrationApiController',
 
 
         var registration = registrationService.post($scope.data);
+          savetransfersservice.post($scope.data);
 
         registration.success(function () {
           $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt! Nadat het inschrijfgeld is ontvangen speel je definitief mee. Tot zaterdag 10 september 18:30 uur kun je jouw voorspellingen nog wijzigen. Veel plezier met Super 11!'});

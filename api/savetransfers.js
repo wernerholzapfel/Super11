@@ -21,7 +21,7 @@ var Teampredictions = require('../models/teamPredictionsModel');
 apiRoutes.post("/savetransfers", function (req, res) {
     var date = new Date;
     var startdatum = moment("2016-12-19");
-    var einddatum = moment("2017-02-04");
+    var einddatum = moment("2017-08-01");
     var speeldatums = [];
     speeldatums.push("2017-1-13", "2017-1-14", "2017-1-15");
     speeldatums.push("2017-1-20", "2017-1-21", "2017-1-22");
@@ -72,8 +72,9 @@ var saveTransfers = function (req, res) {
                     var teampredictions = {};
                     teampredictions = Object.assign(teampredictions, req.body);
                     teampredictions.Participant.Email = user.email;
-                    teampredictions.RoundId = req.body.RoundId + 1;
+                    teampredictions.RoundId = (req.body.RoundId) ? req.body.RoundId + 1 : 1;
                     delete teampredictions._id;
+                    delete teampredictions.__v;
 
                     // var teampredictions = new Teampredictions(req.body);
                     Teampredictions.findOneAndUpdate({

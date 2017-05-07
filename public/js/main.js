@@ -217,32 +217,32 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
             }
         })
 
-        // //registreer
-        // .state('registreer', {
-        //     url: "/registreer.html",
-        //     templateUrl: "views/registreer.html",
-        //     data: { pageTitle: 'Admin Dashboard Template' },
-        //     controller: "GeneralPageController",
-        //     resolve: {
-        //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-        //             return $ocLazyLoad.load({
-        //                 name: 'MetronicApp',
-        //                 insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-        //                 files: [
-        //                     '../assets/global/plugins/morris/morris.css',
-        //                     '../assets/global/plugins/morris/morris.min.js',
-        //                     '../assets/global/plugins/morris/raphael-min.js',
-        //                     '../assets/global/plugins/jquery.sparkline.min.js',
+        //registreer
+        .state('registreer', {
+            url: "/registreer.html",
+            templateUrl: "views/registreer.html",
+            data: {pageTitle: 'Admin Dashboard Template'},
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            '../assets/global/plugins/morris/morris.css',
+                            '../assets/global/plugins/morris/morris.min.js',
+                            '../assets/global/plugins/morris/raphael-min.js',
+                            '../assets/global/plugins/jquery.sparkline.min.js',
 
-        //                     '../assets/pages/scripts/dashboard.min.js',
-        //                     'js/controllers/GeneralPageController.js',
-        //                     'js/controllers/AuthenticationController.js',
-        //                     'js/services/constants.js'
-        //                 ]
-        //             });
-        //         }]
-        //     }
-        // })
+                            '../assets/pages/scripts/dashboard.min.js',
+                            'js/controllers/GeneralPageController.js',
+                            'js/controllers/AuthenticationController.js',
+                            'js/services/constants.js'
+                        ]
+                    });
+                }]
+            }
+        })
 
         // Participants
         .state('participants', {
@@ -379,6 +379,7 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
                             'js/services/teamListService.js',
                             'js/services/registrationApi.js',
                             'js/services/eredivisiePlayersApi.js',
+                            'js/services/transferperiodeservices.js',
 
                             'js/controllers/RegistrationController.js',
                             'js/controllers/RegistrationApiController.js'

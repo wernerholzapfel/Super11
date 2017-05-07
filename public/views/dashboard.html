@@ -11,7 +11,7 @@
 <div ng-controller="DashboardController">
 	<!-- BEGIN DASHBOARD STATS -->
 	<div class="row">
-		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-if="laatsteupdate">
 			<div class="dashboard-stat dashboard-stat-v2 green">
 				<div class="visual">
 					<i class="fa fa-clock-o"></i>
@@ -28,7 +28,7 @@
 			</div>
 		</div>
 
-		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-if="nummereentotaalstand">
 			<div class="dashboard-stat dashboard-stat-v2 green">
 				<div class="visual">
 					<i class="fa fa-line-chart"></i>
@@ -46,7 +46,7 @@
                 </a>-->
 			</div>
 		</div>
-		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-if="nummereenteamstandlaatsteronde">
 			<div class="dashboard-stat dashboard-stat-v2 green">
 				<div class="visual">
 					<i class="fa fa-line-chart"></i>
@@ -67,7 +67,7 @@
 	</div>
 	<!-- END DASHBOARD STATS -->
 
-	<!--<div class="note note-success note-bordered">
+    <div class="note note-success note-bordered">
 		<h3>Welkom bij Super 11<span data-close="note"></span></h3>
 		<p>
 			Beste voetballiefhebber,
@@ -85,15 +85,15 @@
 			<br><br> <b>De inschrijving is gesloten.</b>
 			<p>
 
-	</div>-->
+    </div>
 
-    <div class="row" ng-if="isAuthenticated">
+    <div class="row" ng-if="isAuthenticated && totalscoreuser !== false">
 		<div class="col-lg-12">
 			<div class="note note-success note-bordered">
 				<div class="visual">
 					<i class="fa fa-graph-o"></i>
 				</div>
-				<div class="details" ng-if="showUserScore">
+                <div class="details">
 					<h3>
 						{{totalscoreuser}}
 					</h3>

@@ -15,7 +15,27 @@
 </div>
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
-<div id="contentPage" class="row" ng-controller="RegistrationApiController" ng-if=isLoggedIn()>
+
+<div ng-show=!isAuthenticated>
+    <div class="note note-danger note-bordered">
+        <h4> Je moet een account hebben en ingelogd zijn om je voorspellingen op te slaan. Heb je vorig jaar meegedaan
+            dan kan je met hetzelfde account mee doen.
+            Klik rechtsboven op inloggen.<br>
+
+            Mocht je niet via Facebook of Gmail een account aanmaken, dan ontvang je na het inschrijven een
+            email ter verificatie.
+            <br><br><br>
+
+            Veel plezier met een nieuw seizoen Super Eleven!<br><br>
+
+            Remy & Werner
+
+        </h4>
+    </div>
+</div>
+
+
+<div id="contentPage" class="row" ng-controller="RegistrationApiController" ng-if=isAuthenticated>
     <div class="col-md-12">
         <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
         </uib-alert>
@@ -375,12 +395,12 @@
                         </div>
                     </div>
                 </div>
+        </div>
 
                 <button class="btn green" value="Previous" ng-click="questionsView()" ng-show="showMatches">Terug</button>
-                <button class="btn green" value="Next" ng-show="showMatches" ng-click="save()">Opslaan
+        <button class="btn green" value="Next" ng-show="showParticipant" ng-click="save()">Opslaan
                 </button>
             </form>
-        </div>
 
     </div>
     <!-- END TABLE PORTLET-->

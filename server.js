@@ -67,8 +67,8 @@ var postcomments = require('./api/postcomments');
 // var signup = require('./api/signup');
 // app.use('/api',signup);
 
-// var predictionform = require('./api/predictionform');
-// app.use('/api', predictionform);
+var predictionform = require('./api/predictionform');
+app.use('/api', predictionform);
 
 var homepagestats = require('./api/homepagestats');
 var scoreforms = require('./api/scoreforms');

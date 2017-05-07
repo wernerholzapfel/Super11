@@ -99,67 +99,74 @@ exports.calculatetotaalstand = function (roundId) {
                         }
                         else {
                             eredivisieStand.find({}, function (err, eredivisieStand) {
+                                if (err) {
+                                    handleError(res, err.message, "failed to get eredivisiestand");
 
-                                for (var i = 0; i < roundTable.length; i += 1) {
-                                    var scorewedstrijden = _.find(wedstrijden, function (o) {
-                                        return o.Participant.Email === roundTable[i].Email;
-                                    });
-                                    if (scorewedstrijden) {
-                                        var gespeeldeWedstrijden = _.filter(scorewedstrijden.MatchesScore, function (o) {
-                                            return o.RoundId <= roundTable[i].RoundId;
-                                        });
-                                        roundTable[i].TotalMatchesScore = 0;
-                                        for (var w = 0; w < gespeeldeWedstrijden.length; w += 1) {
-                                            roundTable[i].TotalMatchesScore = roundTable[i].TotalMatchesScore + gespeeldeWedstrijden[w].Score;
-                                        }
-                                    }
-                                    //todo onderstaande aanzetten om eredivisie eindstand punten toe te voegen.
-                                    var scoreeindstand = _.find(eredivisieStand, function (o) {
-                                        return o.Participant.Email === roundTable[i].Email
-                                    });
-                                    if (scoreeindstand) {
-                                        roundTable[i].TotalEindstandScore = scoreeindstand.TotalEindstandScore;
-                                        // roundTable[i].TotalEindstandScore = 0;
-                                    }
-
-                                    var scorequestion = _.find(vragen, function (o) {
-                                        return o.Participant.Email === roundTable[i].Email;
-                                    });
-                                    if (scorequestion) {
-                                        roundTable[i].TotalQuestionsScore = scorequestion.TotalQuestionsScore;
-                                        roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore + roundTable[i].TotalEindstandScore;
-                                    }
-
-
-                                    else {
-                                        roundTable[i].TotalQuestionsScore = 0;
-                                        roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore + roundTable[i].TotalEindstandScore;
-                                    }
                                 }
+                                else {
 
-                                roundTable = _.sortBy(roundTable, 'TotalScore').reverse();
+                                    for (var i = 0; i < roundTable.length; i += 1) {
+                                        roundTable[i].TotalQuestionsScore = 0;
+                                        roundTable[i].TotalMatchesScore = 0;
+                                        roundTable[i].TotalEindstandScore = 0;
 
-                                for (var i = 0; i < roundTable.length; i += 1) {
-
-                                    if (i === 0) {
-                                        roundTable[i].Positie = i + 1;
-                                    }
-                                    else {
-                                        if (roundTable[i].TotalScore === roundTable[i - 1].TotalScore) {
-                                            roundTable[i].Positie = roundTable[i - 1].Positie;
+                                        var scorewedstrijden = _.find(wedstrijden, function (o) {
+                                            return o.Participant.Email === roundTable[i].Email;
+                                        });
+                                        if (scorewedstrijden) {
+                                            var gespeeldeWedstrijden = _.filter(scorewedstrijden.MatchesScore, function (o) {
+                                                return o.RoundId <= roundTable[i].RoundId;
+                                            });
+                                            for (var w = 0; w < gespeeldeWedstrijden.length; w += 1) {
+                                                roundTable[i].TotalMatchesScore = roundTable[i].TotalMatchesScore + gespeeldeWedstrijden[w].Score;
+                                            }
                                         }
+                                        //todo onderstaande aanzetten om eredivisie eindstand punten toe te voegen.
+                                        var scoreeindstand = _.find(eredivisieStand, function (o) {
+                                            return o.Participant.Email === roundTable[i].Email
+                                        });
+                                        if (scoreeindstand) {
+                                            roundTable[i].TotalEindstandScore = scoreeindstand.TotalEindstandScore;
+                                        }
+
+                                        var scorequestion = _.find(vragen, function (o) {
+                                            return o.Participant.Email === roundTable[i].Email;
+                                        });
+                                        if (scorequestion) {
+                                            roundTable[i].TotalQuestionsScore = scorequestion.TotalQuestionsScore;
+                                            roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore + roundTable[i].TotalEindstandScore;
+                                        }
+
+
                                         else {
+                                            roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore + roundTable[i].TotalEindstandScore;
+                                        }
+                                    }
+
+                                    roundTable = _.sortBy(roundTable, 'TotalScore').reverse();
+
+                                    for (var i = 0; i < roundTable.length; i += 1) {
+
+                                        if (i === 0) {
                                             roundTable[i].Positie = i + 1;
                                         }
+                                        else {
+                                            if (roundTable[i].TotalScore === roundTable[i - 1].TotalScore) {
+                                                roundTable[i].Positie = roundTable[i - 1].Positie;
+                                            }
+                                            else {
+                                                roundTable[i].Positie = i + 1;
+                                            }
+                                        }
+                                        // console.log(roundTable[i]);
+                                        totaalStand.findOneAndUpdate({
+                                            RoundId: roundTable[i].RoundId,
+                                            Name: roundTable[i].Name
+                                        }, roundTable[i], ({upsert: true}), function (err, totaalStand) {
+                                            if (err) return handleError(err, err.message, "Failed to save totaalstand");
+                                            console.log("saved totalstand");
+                                        });
                                     }
-                                    // console.log(roundTable[i]);
-                                    totaalStand.findOneAndUpdate({
-                                        RoundId: roundTable[i].RoundId,
-                                        Name: roundTable[i].Name
-                                    }, roundTable[i], ({upsert: true}), function (err, totaalStand) {
-                                        if (err) return handleError(err, err.message, "Failed to save totaalstand");
-                                        console.log("saved totalstand");
-                                    });
                                 }
                             });
                         }

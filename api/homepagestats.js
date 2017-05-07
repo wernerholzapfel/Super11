@@ -17,8 +17,8 @@ apiRoutes.get("/nummereentotaalstand", function (req, res, next) {
           handleError(res, err.message, "failed to get rounds");
         }
         else {
-          var maxRoundId = rounds[0].RoundId;
-          callback(null, maxRoundId)
+            var maxRoundId = (rounds[0]) ? rounds[0].RoundId : 0;
+            callback(null, maxRoundId)
         }
       });
     },
@@ -39,8 +39,8 @@ apiRoutes.get("/nummereenteamstandlaatsteronde", function (req, res, next) {
           handleError(res, err.message, "failed to get rounds");
         }
         else {
-          var maxRoundId = rounds[0].RoundId;
-          callback(null, maxRoundId)
+            var maxRoundId = (rounds[0]) ? rounds[0].RoundId : 0;
+            callback(null, maxRoundId)
         }
       });
     },
@@ -66,7 +66,7 @@ apiRoutes.get("/laatsteupdate", function (req, res, next) {
           handleError(res, err.message, "failed to get rounds");
         }
         else {
-          var maxRoundId = rounds[0].RoundId;
+            var maxRoundId = (rounds[0]) ? rounds[0].RoundId : 0;
           callback(null, maxRoundId)
         }
       });

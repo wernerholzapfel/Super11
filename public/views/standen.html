@@ -249,9 +249,12 @@
 
             </div>
         </script>
+        <div class="note note-success note-bordered" ng-if="newTotalTeamTable.updatedAt === false">
+            <h3>Welkom bij Super 11<span data-close="note"></span></h3>
+            <p> Na de 1e speelronde zal hier de stand komen te staan</p>
+        </div>
 
-
-        <div class="col-md-12" ng-show="newTotalTeamTable">
+        <div class="col-md-12" ng-show="newTotalTeamTable" ng-if="newTotalTeamTable.updatedAt !== false">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <uib-tabset active="active">
                 <uib-tab heading="Totaal">
@@ -399,7 +402,7 @@
                         </div>
                     </div>
                 </uib-tab>
-                <uib-tab heading="Wedstrijden">
+                <uib-tab heading="Wedstrijden" ng-show="wedstrijdenstand.length > 0">
                     <div class="portlet box green">
                         <div class="portlet-title">
                             <div class="tools">
@@ -448,7 +451,7 @@
                         </div>
                     </div>
                 </uib-tab>
-                <uib-tab heading="Vragen">
+                <uib-tab heading="Vragen" ng-show="vragenstand.length > 0">
                     <div class="portlet box green">
                         <div class="portlet-title">
                             <div class="caption">
@@ -502,7 +505,7 @@
                         </div>
                     </div>
                 </uib-tab>
-                <uib-tab heading="Eredivisiestand">
+                <uib-tab heading="Eredivisiestand" ng-show="eredivisiestand.length > 0">
                     <div class="portlet box green">
                         <div class="portlet-title">
                             <div class="caption">
