@@ -220,6 +220,37 @@ apiRoutes.put("/questionsScoreform/", function (req, res) {
     }
 });
 
+
+apiRoutes.put("/updateQuestionsScoreform/", function (req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+        async.waterfall([
+            function (callback) {
+                var decoded = jwtDecode(token, secret);
+                management.getUser({id: decoded.sub}, function (err, user) {
+                    if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+                    callback(null, user);
+                });
+            },
+            function (user, callback) {
+                if (user.app_metadata.roles.indexOf('admin') > -1) {
+                    QuestionsScoreForm.findOneAndUpdate({}, req.body, ({upsert: true}), function (err, questionsScoreForm) {
+                        if (err) return handleError(res, err.message, "Failed to Update questions");
+                        res.status(200).json(questionsScoreForm);
+                        console.log("saved questions")
+                    });
+                }
+                else {
+                    return res.status(403).send({
+                        success: false,
+                        msg: 'Niet geautoriseerd om wijziging om headline toe te voegen'
+                    })
+                }
+            }
+        ])
+    }
+});
+
 apiRoutes.get("/matchesScoreform/", function (req, res, next) {
     MatchesScoreForm.findOne(function (err, questions) {
         if (err) {
@@ -250,6 +281,37 @@ apiRoutes.put("/matchesScoreform/", function (req, res) {
                         res.status(200).json(matchesScoreform);
                         console.log("saved matches")
                         calculatewedstrijden.calculateWedstrijdScore();
+                    });
+                }
+                else {
+                    return res.status(403).send({
+                        success: false,
+                        msg: 'Niet geautoriseerd om wijziging om headline toe te voegen'
+                    })
+                }
+            }
+        ])
+    }
+});
+
+apiRoutes.put("/updateMatchesScoreform/", function (req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+        async.waterfall([
+            function (callback) {
+                var decoded = jwtDecode(token, secret);
+                management.getUser({id: decoded.sub}, function (err, user) {
+                    if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+                    callback(null, user);
+                });
+
+            },
+            function (user, callback) {
+                if (user.app_metadata.roles.indexOf('admin') > -1) {
+                    MatchesScoreForm.findOneAndUpdate({}, req.body, ({upsert: true}), function (err, matchesScoreform) {
+                        if (err) return handleError(res, err.message, "Failed to Update questions");
+                        res.status(200).json(matchesScoreform);
+                        console.log("saved matches")
                     });
                 }
                 else {

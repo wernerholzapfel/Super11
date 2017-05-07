@@ -1,0 +1,128 @@
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title ng-scope">
+    Voor bereiding
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb breadcrumb ng-scope">
+        <li>
+            <a href="#/dashboard.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">Score Formulier</li>
+    </ul>
+    <div class="page-toolbar">
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row" ng-controller="VoorbereidingApiController">
+
+    <div class="note note-success note-bordered" ng-show="!authService.isAdmin()">
+        <h3>Deze pagina is alleen beschikbaar voor de administrators van deze website<span data-close="note"></span>
+        </h3>
+        <p> Log eerst in om de standen bij te kunnen werken</p>
+    </div>
+
+    <div class="col-md-12" ng-show="authService.isAdmin()">
+        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
+        </uib-alert>
+        <uib-tabset active="active">
+            <uib-tab heading="Vragen formulier">
+                <div class="portlet-body form">
+                    <form name="questionForm" class="form-horizontal form-bordered">
+                        <!-- BEGIN TABLE PORTLET-->
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>De vragen
+                                    <button style="color=black;color: black;" value="Save"
+                                            ng-click="updateVragenForm()">Save
+                                    </button>
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-striped table-bordered table-hover table-header-fixed dataTable">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Vraag
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="question in vragenScoreform.Questions ">
+                                            <td>
+                                                <input type="text" ng-model="question.Question" style="width: 100%;">
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </uib-tab>
+            <uib-tab heading="Wedstrijden Formulier">
+                <form name="matchesForm" class="form-horizontal form-bordered">
+                    <!-- BEGIN TABLE PORTLET-->
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-user"></i>Wedstrijden lijst invullen
+                                <button style="color=black;color: black;" value="Save"
+                                        ng-click="updateWedstrijdenForm()">Save
+                                </button>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-scrollable">
+                                <table class="table table-striped table-bordered table-hover table-header-fixed dataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            Datum
+                                        </th>
+                                        <th>
+                                            Wedstrijd
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="matches in wedstrijdenScoreform.Matches | orderBy:['Date']">
+                                        <td>
+                                            <input style="width: 100%;" type="text" ng-model="matches.Date"></input>
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="matches.Match" style="width: 100%;"></input>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+
+    <!-- END MAIN CONTENT -->
+    <!-- BEGIN MAIN JS -->
+    <script>
+        function AdvancedDatatablesDemoCtrl($scope) {
+            TableAdvanced.init();
+        }
+
+
+    </script>
+    <!-- END MAIN JS -->

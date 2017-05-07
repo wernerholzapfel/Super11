@@ -225,10 +225,10 @@ angular.module('MetronicApp').controller('RegistrationApiController',
       $scope.formationChosen = false;
 
       $scope.showParticipant = true;
-            $scope.showTable = true;
-            $scope.showTeam = true;
-            $scope.showQuestions = true;
-            $scope.showMatches = true;
+            $scope.showTable = false;
+            $scope.showTeam = false;
+            $scope.showQuestions = false;
+            $scope.showMatches = false;
 
       $scope.participantView = function () {
         $scope.showParticipant = true;

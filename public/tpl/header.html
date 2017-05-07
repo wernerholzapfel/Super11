@@ -26,6 +26,11 @@
                             class="btn green">
                         Uitslagen invullen
                     </button>
+                    <button onclick="location.href='#/voorbereiding.html';" ng-show="authService.isAdmin()"
+                            type="button"
+                            class="btn green">
+                        Voorbereiding
+                    </button>
                     <!--</a>-->
                     <button ng-show="!isAuthenticated" type="button" class="btn green" ng-click="authService.login()">
                         Log
