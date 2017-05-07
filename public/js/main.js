@@ -348,7 +348,7 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
                             'js/services/teamTableApi.js',
 
                             'js/controllers/ScoreFormController.js',
-                            'js/controllers/voorbereidingApiController.js'
+                            'js/controllers/VoorbereidingApiController.js'
                         ]
                     });
                 }]

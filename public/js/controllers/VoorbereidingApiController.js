@@ -1,9 +1,7 @@
 angular.module('MetronicApp').controller('VoorbereidingApiController',
     function ($scope, eredivisiePlayersApi,
               getQuestionsService, updateQuestionsScoreform, getMatchesService,
-              updateMatchesScoreform, saveScoreFormService, vragenStandApi,
-              getScoreFormService, eindstandscoreform, updateEindstandform,
-              getGivenAnswersForQuestionService, findAndUpdatePlayerList) {
+              updateMatchesScoreform) {
 
         $scope.alerts = [];
         $scope.closeAlert = function (index) {
