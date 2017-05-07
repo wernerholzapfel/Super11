@@ -47,9 +47,6 @@ apiRoutes.get('/predictionform', function (req, res) {
                     if (err) {
                         handleError(res, err.message, "Failed to get prediction.");
                     }
-                    if (prediction) {
-                        res.status(200).json(prediction)
-                    }
                     callback(null, prediction)
                 });
             },
@@ -252,9 +249,9 @@ apiRoutes.get('/predictionform', function (req, res) {
 
                     }
                 });
-                callback(null, form)
+                callback(null, predictionForm, form)
             },
-            function (form, callback) {
+            function (predictionForm, form, callback) {
                 VragenScoreForm.findOne(function (err, vragen) {
                     if (err) {
                         handleError(res, error.message, "failed tot get matches");
@@ -265,7 +262,14 @@ apiRoutes.get('/predictionform', function (req, res) {
                             form.Questions.push(vraag)
                         });
 
-                        res.status(200).json(form)
+                        if (predictionForm) {
+                            res.status(200).json(predictionForm)
+
+                        }
+                        else {
+                            res.status(200).json(form)
+
+                        }
                     }
                 });
             }
