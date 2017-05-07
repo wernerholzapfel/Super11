@@ -228,6 +228,9 @@
                                     <thead>
                                     <tr>
                                         <th>
+                                            Datum
+                                        </th>
+                                        <th>
                                             Wedstrijd
                                         </th>
                                         <th>
@@ -239,7 +242,10 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="matches in wedstrijdenScoreform.Matches">
+                                    <tr ng-repeat="matches in wedstrijdenScoreform.Matches | orderBy:['Date']">
+                                        <td>
+                                            {{matches.Date | date:'yyyy-MM-dd HH:mm' }}
+                                        </td>
                                         <td>
                                             {{ matches.Match }}
                                         </td>

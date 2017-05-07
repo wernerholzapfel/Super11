@@ -57,6 +57,8 @@ apiRoutes.get('/predictionform', function (req, res) {
     }
 });
 
+
+//todo create leegFormulier depending on database scoreforms
 var leegFormulier =
     {
         "Participant": {
@@ -360,184 +362,226 @@ var leegFormulier =
         ],
         "Matches": [
             {
-                "Id": 2,
+                "Id": 1,
                 "Match": "Manchester City - Manchester United",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
+            },
+            {
+                "Id": 2,
+                "Match": "FC Barcelona - Real Madrid",
+                "Home": "",
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
             },
             {
                 "Id": 3,
-                "Match": "FC Barcelona - Real Madrid",
+                "Match": "Real Madrid - FC Barcelona",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
             },
             {
                 "Id": 4,
-                "Match": "Real Madrid - FC Barcelona",
+                "Match": "AC Milan - Internazionale",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
             },
             {
                 "Id": 5,
-                "Match": "AC Milan - Internazionale",
+                "Match": "Internazionale - AC Milan",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
             },
             {
                 "Id": 6,
-                "Match": "Internazionale - AC Milan",
+                "Match": "Bayern Munchen - Bor. Dortmund",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
             },
             {
                 "Id": 7,
-                "Match": "Bayern Munchen - Bor. Dortmund",
+                "Match": "Bor. Dortmund - Bayern Munchen",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
+
             },
             {
                 "Id": 8,
-                "Match": "Bor. Dortmund - Bayern Munchen",
+                "Match": "Ajax - Feyenoord",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
             },
             {
                 "Id": 9,
-                "Match": "Ajax - Feyenoord",
+                "Match": "Feyenoord - Ajax",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
             },
             {
                 "Id": 10,
-                "Match": "Feyenoord - Ajax",
+                "Match": "PSV - Feyenoord ",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2016-01-01T12:30:00.000Z"
             },
             {
                 "Id": 11,
-                "Match": "PSV - Feyenoord ",
+                "Match": "Feyenoord - PSV",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
             },
             {
                 "Id": 12,
-                "Match": "Feyenoord - PSV",
+                "Match": "PSV - Ajax",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
             },
             {
                 "Id": 13,
-                "Match": "PSV - Ajax",
+                "Match": "Ajax - PSV",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-05-08T12:30:00.000Z"
             },
             {
                 "Id": 14,
-                "Match": "Ajax - PSV",
+                "Match": "Fenerbahce - Galatasaray",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
             },
             {
                 "Id": 15,
-                "Match": "Fenerbahce - Galatasaray",
+                "Match": "Galatasaray - Fenerbahce",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
             },
             {
                 "Id": 16,
-                "Match": "Galatasaray - Fenerbahce",
+                "Match": "Vitesse - NEC",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
+
             },
             {
                 "Id": 17,
-                "Match": "Vitesse - NEC",
+                "Match": "NEC - Vitesse",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
+
             },
             {
                 "Id": 18,
-                "Match": "NEC - Vitesse",
-                "Home": "",
-                "Away": ""
-            },
-            {
-                "Id": 19,
                 "Match": "Sparta Rotterdam - Excelsior",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
+
+            }, {
+                "Id": 19,
+                "Match": "Benfica - Porto",
+                "Home": "",
+                "Away": "",
+                "Date": "2017-02-01T13:30:00.000Z"
             },
             {
                 "Id": 20,
                 "Match": "Excelsior - Sparta Rotterdam",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-01T12:30:00.000Z"
+
             },
             {
                 "Id": 21,
                 "Match": "AS Roma - Lazio Roma",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-02-03T12:30:00.000Z"
+
             },
             {
                 "Id": 22,
                 "Match": "Lazio Roma - AS Roma",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-02-02T12:30:00.000Z"
+
             },
             {
                 "Id": 23,
                 "Match": "Atletico Madrid - Real Madrid",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-02-01T12:30:00.000Z"
+
             },
             {
                 "Id": 24,
                 "Match": "Real Madrid - Atletico Madrid",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-01-09T12:30:00.000Z"
+
+
             },
             {
                 "Id": 25,
                 "Match": "Tottenham Hotspur - Arsenal",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-02-01T12:30:00.000Z"
+
+
             },
             {
                 "Id": 26,
                 "Match": "Arsenal - Tottenham Hotspur",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-02-01T09:30:00.000Z"
             },
             {
                 "Id": 27,
                 "Match": "Liverpool - Everton",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-02-01T10:30:00.000Z"
             },
             {
                 "Id": 28,
                 "Match": "Everton - Liverpool",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-02-01T11:30:00.000Z"
             },
             {
                 "Id": 29,
                 "Match": "PSG - AS Monaco",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-02-01T12:30:00.000Z"
             },
+
             {
-                "Id": 31,
-                "Match": "Benfica - Porto",
-                "Home": "",
-                "Away": ""
-            },
-            {
-                "Id": 32,
+                "Id": 30,
                 "Match": "Porto - Benfica",
                 "Home": "",
-                "Away": ""
+                "Away": "",
+                "Date": "2017-02-01T14:30:00.000Z"
             }
         ]
     };

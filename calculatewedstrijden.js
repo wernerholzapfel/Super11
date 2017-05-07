@@ -42,6 +42,7 @@ exports.calculateWedstrijdScore = function () {
             matchScore.Home = match.Home;
             matchScore.Away = match.Away;
             matchScore.Id = match.Id;
+              matchScore.Date = match.Date;
             matchScore.Uitslag = scoreMatches.Home + "-" + scoreMatches.Away,
               matchScore.RoundId = scoreMatches.RoundId,
               stand.TotalMatchesScore = stand.TotalMatchesScore + matchScore.Score;

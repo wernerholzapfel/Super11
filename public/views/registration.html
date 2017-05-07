@@ -371,16 +371,20 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
+                                            <td>Datum</td>
                                             <td>Wedstrijd</td>
                                             <td>Thuis</td>
                                             <td>Uit</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="match in data.Matches">
+                                    <tr ng-repeat="match in data.Matches | orderBy:['Date']">
                                             <td>
-                                                {{match.Match}}
+                                                {{match.Date | date:'yyyy-MM-dd HH:mm' }}
                                             </td>
+                                        <td>
+                                            {{match.Match}}
+                                        </td>
                                             <td><input type="number" size="1" min="0" max="9" name="Home" required custom ng-minlength="1" ng-model="match.Home"
                                                 />
                                             </td>
@@ -395,12 +399,12 @@
                         </div>
                     </div>
                 </div>
-        </div>
 
                 <button class="btn green" value="Previous" ng-click="questionsView()" ng-show="showMatches">Terug</button>
-        <button class="btn green" value="Next" ng-show="showParticipant" ng-click="save()">Opslaan
+                <button class="btn green" value="Next" ng-show="showMatches" ng-click="save()">Opslaan
                 </button>
             </form>
+        </div>
 
     </div>
     <!-- END TABLE PORTLET-->
