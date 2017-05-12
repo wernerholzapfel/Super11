@@ -240,15 +240,16 @@ apiRoutes.get('/predictionform', function (req, res) {
                     if (err) {
                         handleError(res, error.message, "failed tot get matches");
                     }
-                    else {
-                        async.each(matches.Matches, function (match, callback) {
-                            match.Home = null;
-                            match.Away = null;
-                            form.Matches.push(match)
-                        });
-
-                    }
+                    callback(null, predictionForm, form, matches)
                 });
+            },
+            function (predictionForm, form, matches, callback) {
+                async.each(matches.Matches, function (match, callback) {
+                    match.Home = null;
+                    match.Away = null;
+                    form.Matches.push(match)
+                });
+
                 callback(null, predictionForm, form)
             },
             function (predictionForm, form, callback) {
