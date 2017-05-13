@@ -19,7 +19,6 @@ angular.module('MetronicApp').controller('RegistrationApiController',
         });
       });
 
-
       $scope.alerts = [];
 
       $scope.predictionTypes = [{ Id: 4, Title: "Halve Finale" }, { Id: 5, Title: "Finale" }];

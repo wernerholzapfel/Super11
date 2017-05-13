@@ -23,20 +23,22 @@
                     <!--<a ng-show="isAuthenticated" href="#/scoreform.html"-->
                     <!--id="sidebar_menu_link_scoreform">-->
                     <button onclick="location.href='#/scoreform.html';" ng-show="authService.isAdmin()" type="button"
-                            class="btn green">
+                            class="btn green btn-outline">
                         Uitslagen invullen
                     </button>
                     <button onclick="location.href='#/voorbereiding.html';" ng-show="authService.isAdmin()"
                             type="button"
-                            class="btn green">
+                            class="btn green btn-outline">
                         Voorbereiding
                     </button>
                     <!--</a>-->
-                    <button ng-show="!isAuthenticated" type="button" class="btn green" ng-click="authService.login()">
+                    <button ng-show="!isAuthenticated" type="button" class="btn green btn-outline"
+                            ng-click="authService.login()">
                         Log
                         In
                     </button>
-                    <button ng-show="isAuthenticated" type="button" class="btn green" ng-click="authService.logout()()">
+                    <button ng-show="isAuthenticated" type="button" class="btn green btn-outline"
+                            ng-click="authService.logout()()">
                         Loguit
                     </button>
                 </li>

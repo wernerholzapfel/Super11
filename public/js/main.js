@@ -340,6 +340,7 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
                             '../../../assets/pages/scripts/profile.js',
 
                             'js/services/playerListService.js',
+                            'js/services/teamListService.js',
                             'js/services/scoreFormService.js',
                             'js/services/matchesService.js',
                             'js/services/questionsService.js',

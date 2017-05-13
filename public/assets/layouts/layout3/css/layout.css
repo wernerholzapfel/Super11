@@ -1002,7 +1002,8 @@ Theme Panel
         font-weight: 300;
         padding-top: -4px; }
       .theme-panel .theme-colors > li.theme-color.theme-color-default .theme-color-view {
-        background: #32c5d2; }
+          background: #97bf12;
+      }
       .theme-panel .theme-colors > li.theme-color.theme-color-red-sunglo .theme-color-view {
         background: #E26A6A; }
       .theme-panel .theme-colors > li.theme-color.theme-color-red-intense .theme-color-view {

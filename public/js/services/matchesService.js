@@ -30,3 +30,10 @@ angular.module('MetronicApp').service('updateMatchesScoreform', function ($http,
         return req;
     }
 });
+
+angular.module('MetronicApp').service('updatePlayersScoreform', function ($http, API_ENDPOINT) {
+    this.put = function (questions) {
+        var req = $http.put(API_ENDPOINT.url + '/updatePlayersScoreform/', questions);
+        return req;
+    }
+});

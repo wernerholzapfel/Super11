@@ -22,6 +22,7 @@ var MatchesScoreForm = require("../models/wedstrijdenScoreformsModel.js");
 var QuestionsScoreForm = require("../models/vragenScoreformsModel.js");
 var Eindstandscoreform = require("../models/eindstandScoreformsModel.js");
 var vragenStand = require("../models/vragenStandModel");
+var EredivisiePlayers = require("../models/eredivisiePlayersModel");
 
 
 var calculateteam = require("../calculateteam.js");
@@ -366,5 +367,37 @@ apiRoutes.put("/eindstandscoreform/", function (req, res) {
         ])
     }
 });
+
+
+apiRoutes.put("/updatePlayersScoreform/", function (req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+        async.waterfall([
+            function (callback) {
+                var decoded = jwtDecode(token, secret);
+                management.getUser({id: decoded.sub}, function (err, user) {
+                    if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+                    callback(null, user);
+                });
+            },
+            function (user, callback) {
+                if (user.app_metadata.roles.indexOf('admin') > -1) {
+                    EredivisiePlayers.findOneAndUpdate({}, req.body, ({upsert: true}), function (err, playersscoreform) {
+                        if (err) return handleError(res, err.message, "Failed to Update eindstand");
+                        res.status(200).json(playersscoreform);
+                        console.log("saved eindstand");
+                    });
+                }
+                else {
+                    return res.status(403).send({
+                        success: false,
+                        msg: 'Niet geautoriseerd om wijziging om headline toe te voegen'
+                    })
+                }
+            }
+        ])
+    }
+});
+
 
 module.exports = apiRoutes;

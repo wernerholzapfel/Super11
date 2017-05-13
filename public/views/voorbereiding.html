@@ -27,6 +27,132 @@
         <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
         </uib-alert>
         <uib-tabset active="active">
+            <uib-tab heading="Spelers formulier">
+                <div class="portlet-body form">
+                    <form name="spelersForm" class="form-horizontal form-bordered">
+                        <!-- BEGIN TABLE PORTLET-->
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>De spelers
+                                    <button class="btn btn-default" value="Save"
+                                            ng-click="updateSpelersForm('Wijziging opgeslagen')">Save
+                                    </button>
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-striped table-bordered table-hover table-header-fixed dataTable">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Speler
+                                            </th>
+                                            <th>
+                                                Club
+                                            </th>
+                                            <th>
+                                                Positie
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="text" ng-model="nieuwPlayer.Name" style="width: 100%;">
+                                            </td>
+                                            <td>
+                                                <select style="color=black;color: black;" ng-model="nieuwPlayer.Team"
+                                                        ng-options="team.Team as team.Team for team in teams"
+                                                        ng-init="nieuwPlayer.Team == nieuwPlayer.Team"
+                                                        ng-change="setTeamNieuwPlayer(nieuwPlayer,nieuwPlayer.Team)">
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select style="color=black;color: black;"
+                                                        ng-model="nieuwPlayer.Position"
+                                                        ng-options="positie.positie as positie.positie for positie in Posities"
+                                                        ng-init="nieuwPlayer.Position == nieuwPlayer.Position"
+                                                        ng-change="setPositieNieuwPlayer(nieuwPlayer,nieuwPlayer.Position)">
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button class="btn green btn-outline"
+                                                        ng-click="voegSpelerToe(nieuwPlayer)">Voeg toe
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-striped table-bordered table-hover table-header-fixed dataTable">
+                                        <thead>
+                                        <tr>
+                                            <th>Naam:
+                                                <input type="text" ng-model="searchName"/>
+                                            </th>
+                                            <th>Club:
+                                                <select ng-name="selectedTeam" required ng-model="selectedTeam">
+                                                    <option ng-model="team.Team" ng-repeat="team in teams"
+                                                            ng-value="team.Team">
+                                                        {{team.Team}}
+                                                    </option>
+                                                    <option ng-selected=true></option>
+                                                </select>
+                                            </th>
+                                            <th>Positie:
+                                                <select ng-name="selectedPositie" required ng-model="selectedPositie">
+                                                    <option ng-model="positie.Position" ng-repeat="positie in Posities"
+                                                            ng-model="positie.Position" ng-value="positie.Position">
+                                                        {{positie.PositionUi}}
+                                                    </option>
+                                                    <option ng-selected=true></option>
+
+                                                </select>
+                                            </th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="player in playersScoreform.Player | filter:{Team:selectedTeam} | filter:{Name:searchName} | orderBy:['Team','PositionSort','Name']">
+                                            <td>
+                                                <input type="text" ng-model="player.Name" style="width: 100%;">
+                                            </td>
+                                            <td>
+                                                <select style="color=black;color: black;" ng-model="player.Team"
+                                                        ng-options="team.Team as team.Team for team in teams"
+                                                        ng-init="player.Team == player.Team"
+                                                        ng-change="setTeam(player,player.Team)">
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select style="color=black;color: black;" ng-model="player.Position"
+                                                        ng-options="positie.positie as positie.positie for positie in Posities"
+                                                        ng-init="player.Position == player.Position"
+                                                        ng-change="setPositie(player,player.Position)">
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button class="btn green btn-outline"
+                                                        ng-click="verwijderSpeler(player)">Verwijder
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </uib-tab>
             <uib-tab heading="Vragen formulier">
                 <div class="portlet-body form">
                     <form name="questionForm" class="form-horizontal form-bordered">
@@ -35,7 +161,7 @@
                             <div class="portlet-title">
                                 <div class="caption">
                                     <i class="fa fa-user"></i>De vragen
-                                    <button style="color=black;color: black;" value="Save"
+                                    <button class="btn btn-default" value="Save"
                                             ng-click="updateVragenForm()">Save
                                     </button>
                                 </div>
@@ -75,7 +201,7 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-user"></i>Wedstrijden lijst invullen
-                                <button style="color=black;color: black;" value="Save"
+                                <button class="btn btn-default" value="Save"
                                         ng-click="updateWedstrijdenForm()">Save
                                 </button>
                             </div>
