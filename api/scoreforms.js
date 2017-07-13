@@ -290,8 +290,9 @@ apiRoutes.put("/eindstandscoreform/", function (req, res) {
                     Eindstandscoreform.findOneAndUpdate({}, req.body, ({upsert: true}), function (err, eindstandscoreform) {
                         if (err) return handleError(res, err.message, "Failed to Update eindstand");
                         res.status(200).json(eindstandscoreform);
-                        console.log("saved eindstand")
+                        console.log("saved eindstand");
                         //todo calculate eindstand
+                        calculateeindstand.calculateEindstand(50);
                     });
                 }
                 else {

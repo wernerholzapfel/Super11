@@ -252,6 +252,42 @@
                     </div>
                 </form>
             </uib-tab>
+            <uib-tab heading="Eindstand Formulier">
+                <form name="matchesForm" class="form-horizontal form-bordered">
+                    <!-- BEGIN TABLE PORTLET-->
+
+                    <div class="portlet box green ">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-user"></i>Eindstand Eredivisie
+                                <button style="color=black;color: black;" value="Save" ng-click="saveEindstandForm()">
+                                    Save
+
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <div class="mt-element-list">
+                                <!--<div class="mt-list-head list-simple font-white">
+                                    <div class="list-head-title-container">
+                                    </div>
+                                </div>-->
+                                <div class="mt-list-container list-simple">
+                                    <ul ui-sortable="sortableOptions" ng-model="eindstandscoreform.Table">
+                                        <li ng-repeat="team in eindstandscoreform.Table"
+                                            class="mt-list-item draggablePointer">
+                                            {{$index+1}} {{team.SelectedTeam}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </uib-tab>
             <uib-tab heading="Vorige rondes">
                 <form name="oldScoreForm" class="form-horizontal form-bordered">
                     <!-- BEGIN TABLE PORTLET-->

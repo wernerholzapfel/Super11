@@ -114,24 +114,26 @@ exports.calculatetotaalstand = function (roundId) {
                                         }
                                     }
                                     //todo onderstaande aanzetten om eredivisie eindstand punten toe te voegen.
-                                    // var scoreeindstand = _.find(eredivisieStand, function (o){ return o.Participant.Email === roundTable[i].Email});
-                                    // if (scoreeindstand){
-                                    //   roundTable[i].TotalEindstandScore = scoreeindstand.TotalEindstandScore;
-                                    roundTable[i].TotalEindstandScore = 0;
-                                    // }
+                                    var scoreeindstand = _.find(eredivisieStand, function (o) {
+                                        return o.Participant.Email === roundTable[i].Email
+                                    });
+                                    if (scoreeindstand) {
+                                        roundTable[i].TotalEindstandScore = scoreeindstand.TotalEindstandScore;
+                                        // roundTable[i].TotalEindstandScore = 0;
+                                    }
 
                                     var scorequestion = _.find(vragen, function (o) {
                                         return o.Participant.Email === roundTable[i].Email;
                                     });
                                     if (scorequestion) {
                                         roundTable[i].TotalQuestionsScore = scorequestion.TotalQuestionsScore;
-                                        roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
+                                        roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore + roundTable[i].TotalEindstandScore;
                                     }
 
 
                                     else {
                                         roundTable[i].TotalQuestionsScore = 0;
-                                        roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore;
+                                        roundTable[i].TotalScore = roundTable[i].TotalQuestionsScore + roundTable[i].TotalTeamScore + roundTable[i].TotalMatchesScore + roundTable[i].TotalEindstandScore;
                                     }
                                 }
 
@@ -150,7 +152,7 @@ exports.calculatetotaalstand = function (roundId) {
                                             roundTable[i].Positie = i + 1;
                                         }
                                     }
-                                    console.log(roundTable[i]);
+                                    // console.log(roundTable[i]);
                                     totaalStand.findOneAndUpdate({
                                         RoundId: roundTable[i].RoundId,
                                         Name: roundTable[i].Name

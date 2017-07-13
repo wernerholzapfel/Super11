@@ -216,6 +216,39 @@
 
             </div>
         </script>
+        <script type="text/ng-template" id="eredivisiestandmodal.html">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click=close()>&times;</button>
+                <h4>{{score.Participant.Name}} heeft {{score.TotalEindstandScore}} punten voor de Eredivisie
+                    eindstand.</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-scrollable">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th> Positie</th>
+                            <th> Club</th>
+                            <th> Voorspelling</th>
+                            <th> Score</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="team in score.TableScore | orderBy :'UitslagPosition'">
+                            <td> {{team.UitslagPosition}}</td>
+                            <td> {{team.UitslagSelectedTeam}}</td>
+                            <td> {{team.Position}}</td>
+                            <td> {{team.Score}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </script>
 
 
         <div class="col-md-12" ng-show="newTotalTeamTable">
@@ -252,6 +285,7 @@
                                         <th>Team</th>
                                         <th>Wedstrijden</th>
                                         <th>Vragen</th>
+                                        <th>Eredivisie stand</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -293,6 +327,9 @@
                                             <span ng-if="table.deltaTotalQuestionsScore" class="previousScore">    
                                                  ({{table.deltaTotalQuestionsScore > 0 ? '+' : ''}}{{table.deltaTotalQuestionsScore}}) </span>
 
+                                        </td>
+                                        <td>
+                                            {{table.TotalEindstandScore}}
                                         </td>
 
                                     </tr>
@@ -453,6 +490,61 @@
                                         </td>
                                         <td>
                                             {{regel.TotalQuestionsScore}}
+                                        </td>
+                                        <td></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+                <uib-tab heading="Eredivisiestand">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <div class="table-scrollable">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>
+                                            Naam
+                                        </th>
+                                        <th>
+                                            Punten
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="regel in eredivisiestandstand">
+                                        <td ng-model="position" ng-value="$index+1"
+                                            ng-if="regel.TotalEindstandScore !== eredivisiestandstand[$index-1].TotalEindstandScore">
+                                            {{$index +1}}
+                                        </td>
+                                        <td ng-model="position" ng-value="eredivisiestandstand[$index-1].position"
+                                            ng-if="regel.TotalEindstandScore === eredivisiestandstand[$index-1].TotalEindstandScore">
+                                            <span ng-bind="position"> </span>
+                                            {{eredivisiestandstand[$index-1].position}}
+                                        </td>
+                                        <td>
+
+                                            <a href="#" ng-click="showEredivisieStandModel(regel)">{{
+                                                regel.Participant.Name}}</a>
+                                        </td>
+                                        <td>
+                                            {{regel.TotalEindstandScore}}
                                         </td>
                                         <td></td>
                                     </tr>

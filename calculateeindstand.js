@@ -1,13 +1,13 @@
 var eindstandUitslag = require("./models/eindstandScoreformsModel");
 var eindstandStand = require("./models/eindstandStandModel");
 var predictions = require("./models/predictionModel");
-// var calculatetotaalstand = require("./calculatetotaalstand.js");
+var calculatetotaalstand = require("./calculatetotaalstand.js");
 var async = require("async");
 var _ = require('lodash');
 
 var exports = module.exports = {};
 
-exports.calculateEindstand = function () {
+exports.calculateEindstand = function (roundId) {
 
   async.waterfall([
     function (callback) {
@@ -26,23 +26,25 @@ exports.calculateEindstand = function () {
         callback(null, eindstandscore, predictions);
       })
     },
-    function (playerRoundScore, predictions, callback) {
+      function (eindstandscore, predictions, callback) {
       async.each(predictions, function (prediction, callback) {
         var stand = new eindstandStand;
         stand.TotalEindstandScore = 0;
         stand.Participant = prediction.Participant;
         stand.TableScore = []
 
-        async.each(prediction.Table, function (line, callback) {
-          var predictedLine = _.find(playerRoundScore.Table, function (o) { return o.SelectedTeam === line.SelectedTeam; });
+              async.each(prediction.Table, function (voorspelling, callback) {
+                      var werkelijk = _.find(eindstandscore.Table, function (o) {
+                          return o.SelectedTeam === voorspelling.SelectedTeam;
+                      });
 
-          if (predictedLine) {
+                      if (werkelijk) {
             var lineScore = new Object;
-            lineScore.Score = setLineScore(predictedLine, line),
-              lineScore.UitslagPosition = line.Position,
-              lineScore.UitslagSelectedTeam = line.SelectedTeam,
-              lineScore.SelectedTeam = predictedLine.SelectedTeam,
-              lineScore.Position = predictedLine.Position
+                          lineScore.Score = setLineScore(werkelijk, voorspelling),
+                              lineScore.UitslagPosition = werkelijk.Position,
+                              lineScore.UitslagSelectedTeam = werkelijk.SelectedTeam,
+                              lineScore.SelectedTeam = voorspelling.SelectedTeam,
+                              lineScore.Position = voorspelling.Position,
             stand.TotalEindstandScore = stand.TotalEindstandScore + lineScore.Score;
 
             stand.TableScore.push(lineScore);
@@ -79,7 +81,7 @@ exports.calculateEindstand = function () {
             console.log('A file failed to process');
           } else {
             console.log('Go calculate totaalstand');
-            calculatetotaalstand.calculatetotaalstand();
+              calculatetotaalstand.calculatetotaalstand(roundId);
           }
         });
     }
