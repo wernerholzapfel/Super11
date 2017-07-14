@@ -3,12 +3,12 @@ angular.module('MetronicApp').controller('RegistrationApiController',
     ['$anchorScroll', '$location', '$scope', "getRegistrationForm", "registrationService", "teamListService", "eredivisiePlayersApi", "savetransfersservice",
         function ($anchorScroll, $location, $scope, getRegistrationForm, registrationService, teamListService, eredivisiePlayersApi, savetransfersservice) {
 
-      $scope.selectedFormation = "433"
+            $scope.selectedFormation = "433";
 
       getRegistrationForm.async().then(function (data) {
         $scope.data = data;
         if ($scope.data.Formation) {
-          $scope.selectedFormation = $scope.data.Formation
+            $scope.selectedFormation = $scope.data.Formation;
           $scope.captainId = $scope.data.CaptainId
         }
         eredivisiePlayersApi.async().then(function (data) {

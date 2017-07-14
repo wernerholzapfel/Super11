@@ -43,23 +43,6 @@ apiRoutes.get("/predictions/:Id", function (req, res, next) {
     });
 });
 
-apiRoutes.get("/participants", function (req, res, next) {
-    Predictions.find({}, {
-        'Participant.Email': 0,
-        "Team": 0,
-        "Questions": 0,
-        "Table": 0,
-        "Matches": 0,
-        createDate: 0
-    }, function (err, predictionsList) {
-        if (err) {
-            handleError(res, err.message, "Failed to get predictions.");
-        } else {
-            res.status(200).json(predictionsList);
-        }
-    });
-});
-
 
 apiRoutes.get("/predictions", function (req, res, next) {
 

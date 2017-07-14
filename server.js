@@ -83,9 +83,13 @@ var istransfermarktopen = require('./api/istransfermarktopen');
 var rounds = require('./api/rounds');
 var getlatestteam = require('./api/getlatestteam');
 var savetransfers = require('./api/savetransfers');
+var participants = require('./api/participants');
 
-app.use('/api', homepagestats, comments, standen, headlines, statistieken, eredivisieplayers, predictions, rounds, istransfermarktopen);
+
+app.use('/api', homepagestats, comments, headlines, eredivisieplayers, predictions, rounds, istransfermarktopen);
 app.use('/api', authenticateCall, totalscoreperuser, scoreforms, postheadlines, postcomments, getlatestteam, savetransfers);
+//authorisatie  tijdens transfermarkt;
+app.use('/api', authenticateCall, standen, statistieken, participants);
 
 
 getToken = function (headers) {

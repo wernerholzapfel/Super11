@@ -81,24 +81,24 @@
                         <span class="title">Inschrijven</span>
                     </a>
                 </li>
-                <li>
+                <li ng-show="authService.isAdmin()">
                     <a href="#/standen.html" id="sidebar_menu_link_standen">
                         <i class="icon-graph"></i>
                         <span class="title">Stand</span>
                     </a>
                 </li>
-                <li>
+                <li ng-show="authService.isAdmin()">
                     <a href="#/participants.html" id="sidebar_menu_link_participant">
                         <i class="icon-users"></i>
                         <span class="title">Deelnemers</span>
                     </a>
                 </li>
-                <!--<li>-->
-                <!--<a href="#/transferperiode.html" id="sidebar_menu_link_transferperiode">-->
-                <!--<i class="icon-badge"></i>-->
-                <!--<span class="title">Transferperiode</span>-->
-                <!--</a>-->
-                <!--</li>-->
+                <li ng-show="false">
+                    <a href="#/transferperiode.html" id="sidebar_menu_link_transferperiode">
+                        <i class="icon-badge"></i>
+                        <span class="title">Transferperiode</span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="#/spelregels.html" id="sidebar_menu_link_spelregels">
@@ -106,7 +106,7 @@
                         <span class="title">Spelregels</span>
                     </a>
                 </li>
-                <li>
+                <li ng-show="authService.isAdmin()">
                     <a href="#/statistieken.html" id="sidebar_menu_link_statistieken">
                         <i class="icon-bar-chart"></i>
                         <span class="title">Statistieken</span>
