@@ -85,7 +85,7 @@ apiRoutes.get('/predictionform', function (req, res) {
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 6,
-                                "SelectedTeam": "Go Ahead Eagles",
+                                "SelectedTeam": "VVV Venlo",
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 7,
@@ -101,7 +101,7 @@ apiRoutes.get('/predictionform', function (req, res) {
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 10,
-                                "SelectedTeam": "N.E.C.",
+                                "SelectedTeam": "NAC Breda",
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 11,

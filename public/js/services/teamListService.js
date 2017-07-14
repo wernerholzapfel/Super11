@@ -28,7 +28,7 @@ angular.module('MetronicApp').factory('teamListService', function ($http) {
     PlayerSelected: false
   }, {
     Id: 9,
-    Team: "Go Ahead Eagles",
+          Team: "VVV",
     Selected: false,
     PlayerSelected: false
   }, {
@@ -48,7 +48,7 @@ angular.module('MetronicApp').factory('teamListService', function ($http) {
     PlayerSelected: false
   }, {
     Id: 11,
-    Team: "NEC",
+          Team: "NAC Breda",
     Selected: false,
     PlayerSelected: false
   }, {
