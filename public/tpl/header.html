@@ -22,11 +22,13 @@
                 <li>
                     <!--<a ng-show="isAuthenticated" href="#/scoreform.html"-->
                     <!--id="sidebar_menu_link_scoreform">-->
-                    <button onclick="location.href='#/scoreform.html';" ng-show="authService.isAdmin()" type="button"
+                    <button onclick="location.href='#/scoreform.html';"
+                            ng-show="authService.isAdmin() && isAuthenticated" type="button"
                             class="btn green btn-outline">
                         Uitslagen invullen
                     </button>
-                    <button onclick="location.href='#/voorbereiding.html';" ng-show="authService.isAdmin()"
+                    <button onclick="location.href='#/voorbereiding.html';"
+                            ng-show="authService.isAdmin() && isAuthenticated"
                             type="button"
                             class="btn green btn-outline">
                         Voorbereiding
@@ -81,13 +83,13 @@
                         <span class="title">Inschrijven</span>
                     </a>
                 </li>
-                <li ng-show="authService.isAdmin()">
+                <li ng-show="authService.isAdmin() && isAuthenticated">
                     <a href="#/standen.html" id="sidebar_menu_link_standen">
                         <i class="icon-graph"></i>
                         <span class="title">Stand</span>
                     </a>
                 </li>
-                <li ng-show="authService.isAdmin()">
+                <li ng-show="authService.isAdmin() && isAuthenticated">
                     <a href="#/participants.html" id="sidebar_menu_link_participant">
                         <i class="icon-users"></i>
                         <span class="title">Deelnemers</span>
