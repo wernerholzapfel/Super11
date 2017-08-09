@@ -16,6 +16,24 @@ angular.module('MetronicApp').controller('RegistrationApiController',
           for (var i = 0; i < $scope.data.Team.length; i += 1) {
             $scope.selectPlayersOfThisTeam($scope.data.Team[i]);
           }
+            for (var i = 0; 1 < $scope.players.length; i += 1) {
+                switch ($scope.players[i].Position) {
+                    case "K":
+                        $scope.players[i].PositionSort = 1;
+                        break;
+                    case "V":
+                        $scope.players[i].PositionSort = 2;
+                        break;
+                    case "M":
+                        $scope.players[i].PositionSort = 3;
+                        break;
+                    case "A":
+                        $scope.players[i].PositionSort = 4;
+                        break;
+                    default:
+                        $scope.players[i].PositionSort = 5;
+                }
+            }
         });
       });
 
@@ -207,7 +225,10 @@ angular.module('MetronicApp').controller('RegistrationApiController',
           savetransfersservice.post($scope.data);
 
         registration.success(function () {
-          $scope.alerts.push({ type: 'success', msg: 'Het opslaan is gelukt! Nadat het inschrijfgeld is ontvangen speel je definitief mee. Tot zaterdag 10 september 18:30 uur kun je jouw voorspellingen nog wijzigen. Veel plezier met Super 11!'});
+            $scope.alerts.push({
+                type: 'success',
+                msg: 'Het opslaan is gelukt! Nadat het inschrijfgeld is ontvangen speel je definitief mee. Tot zaterdag 9 september 18:30 uur kun je jouw voorspellingen nog wijzigen. Veel plezier met Super 11!'
+            });
         });
 
         registration.error(function () {
