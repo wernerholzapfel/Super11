@@ -32,12 +32,14 @@ apiRoutes.get("/predictions/:Id", function (req, res, next) {
                         handleError(res, err.message, "Failed to get prediction.");
                     }
                     else {
-                        prediction.Team = teamprediction.Team;
-                        prediction.Formation = teamprediction.Formation;
-                        prediction.CaptainId = teamprediction.CaptainId;
-                        prediction.Participant = teamprediction.Participant;
-                        res.status(200).json(prediction);
+                        if (teamprediction) {
+                            prediction.Team = teamprediction.Team;
+                            prediction.Formation = teamprediction.Formation;
+                            prediction.CaptainId = teamprediction.CaptainId;
+                            prediction.Participant = teamprediction.Participant;
+                        }
                     }
+                        res.status(200).json(prediction);
                 });
         }
     });
