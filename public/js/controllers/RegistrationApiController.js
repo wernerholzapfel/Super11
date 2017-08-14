@@ -202,7 +202,9 @@
                     $scope.data.Table[i].Position = i + 1
                 }
                 SCOPE.$apply
-                var registration = registrationService.post($scope.data);
+
+                savetransfersservice.post($scope.data);
+                registrationService.post($scope.data);
             }
 
             $scope.save = function () {
@@ -223,8 +225,8 @@
                 SCOPE.$apply
 
 
-                var registration = registrationService.post($scope.data);
                 savetransfersservice.post($scope.data);
+                var registration = registrationService.post($scope.data);
 
                 registration.success(function () {
                     $scope.alerts.push({
@@ -256,6 +258,7 @@
             $scope.showMatches = false;
 
             $scope.participantView = function () {
+                $scope.saveTemp();
                 $scope.showParticipant = true;
                 $scope.showTable = false;
                 $scope.showTeam = false;
@@ -269,6 +272,7 @@
             };
 
             $scope.tableView = function () {
+                $scope.saveTemp();
                 $scope.showParticipant = false;
                 $scope.showTable = true;
                 $scope.showTeam = false;
@@ -282,6 +286,7 @@
             };
 
             $scope.teamView = function () {
+                $scope.saveTemp();
                 $scope.showParticipant = false;
                 $scope.showTable = false;
                 $scope.showTeam = true;
@@ -295,6 +300,7 @@
             };
 
             $scope.questionsView = function () {
+                $scope.saveTemp();
                 $scope.showParticipant = false;
                 $scope.showTable = false;
                 $scope.showTeam = false;
@@ -308,6 +314,7 @@
             };
 
             $scope.matchesView = function () {
+                $scope.saveTemp();
                 $scope.showParticipant = false;
                 $scope.showTable = false;
                 $scope.showTeam = false;
