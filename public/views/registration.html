@@ -144,7 +144,9 @@
                                     <div class="mt-list-container list-simple">
                                         <ul ui-sortable="sortableOptions" ng-model="data.Table">
                                             <li ng-repeat="team in data.Table" class="mt-list-item draggablePointer">
-                                                {{$index+1}} {{team.SelectedTeam}}
+                                                {{$index+1}}
+                                                <img class="clubicon" ng-src="tableclubicons/{{team.SelectedTeam}}.png">
+                                                {{team.SelectedTeam}}
                                             </li>
                                         </ul>
                                     </div>
@@ -213,6 +215,7 @@
                                                 <button class="btn green" ng-if="player.PlayerName != ''"
                                                         ng-click="removeplayerfromteam(player)">-
                                                 </button>
+                                                <img class="clubicon" ng-src="tableclubicons/{{player.Team}}.png">
                                                 <span ng-if="player.PlayerName == ''"> Kies een {{pos.PositionUi}}</span>
                                                 {{player.PlayerName}} ({{player.Team}})
                                             </td>
@@ -351,7 +354,7 @@
                                         <td>
                                             {{question.Question}}
                                         </td>
-                                        <td><input type="text" name="Location" required ng-model="question.Answer"/>
+                                        <td><input type="text" ng-model="question.Answer"/>
                                         </td>
                                     </tr>
 
@@ -376,7 +379,7 @@
                 <p>
             </div>
             <form name="matchesForm" class="form-horizontal form-bordered">
-                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{questionMsg}}
+                <uib-alert type="success" ng-show="matchesForm.$invalid" close="closeAlert($index)">{{questionMsg}}
                 </uib-alert>
                 <div class="row">
                     <div class="col-md-12">

@@ -345,7 +345,7 @@
                             nextinput[0].focus();
                         }
                         else {
-                            var nextinput = element.parent().parent().next().find('input').first()
+                            var nextinput = element.parent().parent().next().find('input').first();
                             if (nextinput.length === 1) {
                                 nextinput[0].focus();
                             }
