@@ -1,5 +1,16 @@
-﻿
-angular.module('MetronicApp').controller('TeamTableApiController', function (teamTableApi,eredivisiestandStandApi, vragenStandApi, totaalstandApi, wedstrijdenStandApi, roundsApi, $uibModal, $scope) {
+﻿angular.module('MetronicApp').controller('TeamTableApiController', function (teamTableApi, eredivisiestandStandApi, vragenStandApi, totaalstandApi, wedstrijdenStandApi, roundsApi, $uibModal, $scope) {
+
+
+    $scope.sortType = 'TotalScore'; // set the default sort type
+    $scope.sortReverse = true;  // set the default sort order
+
+    $scope.sortTable = function (sortType) {
+        if (this.sortType === sortType) {
+            $scope.sortReverse = !$scope.sortReverse;
+            return;
+        }
+        this.sortType = sortType;
+    };
 
     $scope.showTeamStand = function (data, template) {
 
@@ -86,7 +97,7 @@ angular.module('MetronicApp').controller('TeamTableApiController', function (tea
     });
 
     eredivisiestandStandApi.async().then(function (data) {
-   $scope.eredivisiestandstand = [];
+        $scope.eredivisiestandstand = [];
         $scope.eredivisiestandstand = data;
     });
 
