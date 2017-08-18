@@ -1,10 +1,42 @@
-﻿
-angular.module('MetronicApp').controller('StatistiekenApiController', function (gekozenspelersstatistieken, $scope) {
-    // Call the async method and then do stuff with what is returned inside our own then function
+﻿angular.module('MetronicApp').controller('StatistiekenApiController',
+    function (gekozenspelersstatistieken, welkedeelnemershebbendezespeler, $uibModal, $scope) {
 
-    gekozenspelersstatistieken.async().then(function (data) {
+        gekozenspelersstatistieken.async().then(function (data) {
 
-        $scope.gekozenspelers = data;
-});
+            $scope.gekozenspelers = data;
+        });
+
+        $scope.showDeelnemersMetSpeler = function (speler) {
+
+            welkedeelnemershebbendezespeler.async(speler.PlayerId).then(function (data) {
+
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'deelnemersmetspeler.html',
+                    controller: "ModalController",
+                    size: "lg",
+                    resolve: {
+                        items: function () {
+                            return data;
+                        },
+                        gekozenspeler: function () {
+                            return speler;
+                        }
+                    }
+                });
+            });
+        };
+    }
+);
+
+
+angular.module('MetronicApp').controller('ModalController', function ($scope, $modalInstance, items, gekozenspeler) {
+
+
+    $scope.close = function () {
+        $modalInstance.close();
+    };
+
+    $scope.deelnemers = items;
+    $scope.gekozenspeler = gekozenspeler;
 
 });

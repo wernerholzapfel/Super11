@@ -51,7 +51,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="gekozenspeler in gekozenspelers">
+                                    <tr ng-repeat="gekozenspeler in gekozenspelers"
+                                        ng-click="showDeelnemersMetSpeler(gekozenspeler)">
                                             <td>{{gekozenspeler.PlayerName}}</td>
                                             <td>
                                              {{ gekozenspeler.Count}}
@@ -72,6 +73,32 @@
     </div>
     <!-- END MAIN CONTENT -->
     <!-- BEGIN MAIN JS -->
+    <script type="text/ng-template" id="deelnemersmetspeler.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click=close()>&times;</button>
+            <h4>{{gekozenspeler.PlayerName}} van {{gekozenspeler.Team}} is {{gekozenspeler.Count}}x gekozen</h4>
+        </div>
+        <div class="modal-body">
+            <div class="table-scrollable">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th> Deelnemer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="deelnemer in deelnemers | orderBy :['Participant.Name']">
+                        <td>{{deelnemer.Participant.Name}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </script>
+
+
     <script>
 	function AdvancedDatatablesDemoCtrl($scope) {
 		TableAdvanced.init();
