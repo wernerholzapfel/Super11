@@ -60,7 +60,7 @@ exports.setNumberOfTimesAplayerIsSelected = function () {
             async.each(predictionsList, function (predictionItem, callback) {
                 async.each(predictionItem.Team, function (player, callback) {
                     //save to mongodb;
-                    if (player) {
+                    if (player && player.PlayerId) {
                         eredivisiePlayers.update({'Player.Id': parseInt(player.PlayerId)}, {
                             '$set': {
                                 'Player.$.Selected': true
