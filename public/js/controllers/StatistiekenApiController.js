@@ -1,10 +1,15 @@
 ﻿angular.module('MetronicApp').controller('StatistiekenApiController',
-    function (gekozenspelersstatistieken, welkedeelnemershebbendezespeler, $uibModal, $scope) {
+    function (gekozenspelersstatistieken, welkedeelnemershebbendezespeler, spelerstotaalpunten, $uibModal, $scope) {
 
         gekozenspelersstatistieken.async().then(function (data) {
 
             $scope.gekozenspelers = data;
         });
+
+        spelerstotaalpunten.async().then(function (data) {
+            $scope.spelerstotaalpunten = data;
+        });
+
 
         $scope.showDeelnemersMetSpeler = function (speler) {
 

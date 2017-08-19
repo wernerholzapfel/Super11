@@ -53,11 +53,67 @@
                                     <tbody>
                                     <tr ng-repeat="gekozenspeler in gekozenspelers"
                                         ng-click="showDeelnemersMetSpeler(gekozenspeler)">
-                                            <td>{{gekozenspeler.PlayerName}}</td>
+                                        <td><img class="clubicon" ng-src="clubicons/{{gekozenspeler.Team}}.png">
+                                            {{gekozenspeler.PlayerName}}
+                                        </td>
                                             <td>
                                              {{ gekozenspeler.Count}}
                                             </td>
                                         </tr>
+                                    </tbody>
+                                </table>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+
+                <uib-tab heading="Speler punten">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa"></i>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <div class="table-scrollable">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th> Naam</th>
+                                        <th> Gesp</th>
+                                        <th> W</th>
+                                        <th> G</th>
+                                        <th> 0</th>
+                                        <th> D</th>
+                                        <th> E.D.</th>
+                                        <th> A</th>
+                                        <th> G</th>
+                                        <th> R</th>
+                                        <th> Tot.</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="player in spelerstotaalpunten">
+                                        <td><img class="clubicon" ng-src="clubicons/{{player.Team}}.png">
+                                            {{player.Name}}
+                                        </td>
+                                        <td> {{player.Played}}</td>
+                                        <td> {{player.Won}}</td>
+                                        <td> {{player.Draw}}</td>
+                                        <td> {{player.CleanSheetScore}}</td>
+                                        <td> {{player.Goals}}</td>
+                                        <td> {{player.OwnGoals}}</td>
+                                        <td> {{player.Assist}}</td>
+                                        <td> {{player.YellowCard}}</td>
+                                        <td> {{player.RedCard}}</td>
+                                        <td> {{player.TotalScore}}</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                                 </tbody>
