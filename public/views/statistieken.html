@@ -25,51 +25,8 @@
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <uib-tabset active="active">
-                <uib-tab heading="Gekozen spelers">
-                    <div class="portlet box green">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <i class="fa"></i>
-                            </div>
-                            <div class="tools">
-                                <a href="javascript:;" class="collapse" data-original-title="" title="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="portlet-body form">
-                            <div class="table-scrollable">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
 
-                                            <th>
-                                                Naam
-                                            </th>
-                                            <th>
-                                                Aantal x gekozen
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="gekozenspeler in gekozenspelers"
-                                        ng-click="showDeelnemersMetSpeler(gekozenspeler)">
-                                        <td><img class="clubicon" ng-src="clubicons/{{gekozenspeler.Team}}.png">
-                                            {{gekozenspeler.PlayerName}}
-                                        </td>
-                                            <td>
-                                             {{ gekozenspeler.Count}}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </uib-tab>
-
-                <uib-tab heading="Speler punten">
+                <uib-tab heading="Speler totaalpunten">
                     <div class="portlet box green">
                         <div class="portlet-title">
                             <div class="caption">
@@ -122,6 +79,50 @@
                         </div>
                     </div>
                 </uib-tab>
+                <uib-tab heading="Gekozen spelers">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa"></i>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <div class="table-scrollable">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+
+                                            <th>
+                                                Naam
+                                            </th>
+                                            <th>
+                                                Aantal x gekozen
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="gekozenspeler in gekozenspelers"
+                                        ng-click="showDeelnemersMetSpeler(gekozenspeler)">
+                                        <td><img class="clubicon" ng-src="clubicons/{{gekozenspeler.Team}}.png">
+                                            {{gekozenspeler.PlayerName}}
+                                        </td>
+                                            <td>
+                                             {{ gekozenspeler.Count}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+
 
             </uib-tabset>
             <!-- END EXAMPLE TABLE PORTLET-->
