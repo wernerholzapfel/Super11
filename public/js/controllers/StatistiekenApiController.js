@@ -1,6 +1,7 @@
 ﻿angular.module('MetronicApp').controller('StatistiekenApiController',
     function (gekozenspelersstatistieken, welkedeelnemershebbendezespeler, spelerstotaalpunten, $uibModal, $scope) {
 
+
         gekozenspelersstatistieken.async().then(function (data) {
 
             $scope.gekozenspelers = data;
@@ -11,9 +12,9 @@
         });
 
 
-        $scope.showDeelnemersMetSpeler = function (speler) {
+        $scope.showDeelnemersMetSpeler = function (playerId) {
 
-            welkedeelnemershebbendezespeler.async(speler.PlayerId).then(function (data) {
+            welkedeelnemershebbendezespeler.async(playerId).then(function (data) {
 
                 var modalInstance = $uibModal.open({
                     templateUrl: 'deelnemersmetspeler.html',
@@ -24,7 +25,7 @@
                             return data;
                         },
                         gekozenspeler: function () {
-                            return speler;
+                            return data[0].LatestTeam;
                         }
                     }
                 });
@@ -35,7 +36,16 @@
 
 
 angular.module('MetronicApp').controller('ModalController', function ($scope, $modalInstance, items, gekozenspeler) {
+    $scope.sortType = 'TotalScore'; // set the default sort type
+    $scope.sortReverse = true;  // set the default sort order
 
+    $scope.sortTable = function (sortType) {
+        if (this.sortType === sortType) {
+            $scope.sortReverse = !$scope.sortReverse;
+            return;
+        }
+        this.sortType = sortType;
+    };
 
     $scope.close = function () {
         $modalInstance.close();

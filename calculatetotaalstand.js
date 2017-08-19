@@ -25,6 +25,7 @@ exports.calculatetotaalstand = function (roundId) {
                 TeamScoresRoundId: {$max: "$TeamScores.RoundId"},
                 ParticipantName: {$first: "$Participant.Name"},
                 playerName: {$first: "$TeamScores.Name"},
+                playerId: {$first: "$TeamScores.PlayerId"},
                 Team: {$first: "$TeamScores.Team"},
                 Position: {$first: "$TeamScores.Position"},
                 Won: {$sum: "$TeamScores.Won"},
@@ -52,6 +53,7 @@ exports.calculatetotaalstand = function (roundId) {
                 TeamScores: {
                     $push: {
                         Id: '$Id',
+                        PlayerId: '$playerId',
                         Name: '$playerName',
                         Position: "$Position",
                         Team: "$Team",

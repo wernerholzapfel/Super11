@@ -79,6 +79,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             var captainFactor = determineIfCaptain(player);
             var playerScore = new Object;
             playerScore.Id = player.Id;
+              playerScore.PlayerId = player.PlayerId;
             playerScore.Name = teamPlayer.Name;
             playerScore.Team = teamPlayer.Team;
             playerScore.Position = teamPlayer.Position;

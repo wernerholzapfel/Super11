@@ -8,6 +8,7 @@ var _ = require('lodash');
 // var Predictions = require("../models/predictionModel");
 var Teampredictions = require("../models/teamPredictionsModel");
 var Roundteamscoreforms = require("../models/roundteamscoreformsModel");
+var TotaalStands = require("../models/totaalStandModel");
 
 apiRoutes.get("/spelerstotaalpunten/", function (req, res, next) {
     Roundteamscoreforms.aggregate([
@@ -124,30 +125,30 @@ apiRoutes.get("/teamstatistieken/", function (req, res, next) {
 
 
 apiRoutes.get("/welkedeelnemershebbendezespeler/:Id", function (req, res, next) {
-    Teampredictions.aggregate([
+    TotaalStands.aggregate([
             {$sort: {RoundId: 1}},
             {
                 $group: {
                     _id: {
-                        email: "$Participant.Email"
+                        email: "$Name"
                     },
-                    LatestTeam: {$last: "$Team"},
-                    Participant: {$last: "$Participant"}
+                    LatestTeam: {$last: "$TeamScores"},
+                    Name: {$last: "$Name"},
+                    TotalTeamScore: {$last: "$TotalTeamScore"},
+                    TotalQuestionsScore: {$last: "$TotalQuestionsScore"},
+                    TotalMatchesScore: {$last: "$TotalMatchesScore"},
+                    TotalEindstandScore: {$last: "$TotalEindstandScore"},
+                    TotalScore: {$last: "$TotalScore"},
+                    Positie: {$last: "$Positie"}
                 }
             }, {
                 $project: {
                     _id: 0,
-                    LatestTeam: 1,
-                    Participant: 1
+
                 }
             },
-            {$match: {'LatestTeam.PlayerId': req.params.Id}},
-            {
-                $project: {
-                    "Participant.Name": 1,
-                    _id: 0
-                }
-            }
+            {$unwind: "$LatestTeam"},
+            {$match: {'LatestTeam.PlayerId': parseInt(req.params.Id)}},
         ],
         function (err, spelersoverzicht) {
             if (err) {
