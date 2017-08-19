@@ -95,26 +95,28 @@
                             <div class="table-scrollable">
                                 <table class="table table-striped">
                                     <thead>
-                                        <tr>
+                                    <tr>
 
-                                            <th>
-                                                Naam
-                                            </th>
-                                            <th>
-                                                Aantal x gekozen
-                                            </th>
-                                        </tr>
+                                        <th>
+                                            Naam
+                                        </th>
+                                        <th>
+                                            Aantal x gekozen
+                                        </th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="gekozenspeler in gekozenspelers"
                                         ng-click="showDeelnemersMetSpeler(gekozenspeler)">
-                                        <td><img class="clubicon" ng-src="clubicons/{{gekozenspeler.Team}}.png">
-                                            {{gekozenspeler.PlayerName}}
+                                        <td>
+                                            <a><img class="clubicon" ng-src="clubicons/{{gekozenspeler.Team}}.png">
+                                                {{gekozenspeler.PlayerName}}
+                                            </a>
                                         </td>
-                                            <td>
-                                             {{ gekozenspeler.Count}}
-                                            </td>
-                                        </tr>
+                                        <td>
+                                            {{ gekozenspeler.Count}}
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                                 </tbody>
@@ -160,10 +162,10 @@
 
 
     <script>
-	function AdvancedDatatablesDemoCtrl($scope) {
-		TableAdvanced.init();
-	}
+        function AdvancedDatatablesDemoCtrl($scope) {
+            TableAdvanced.init();
+        }
 
 
-</script>
+    </script>
     <!-- END MAIN JS -->

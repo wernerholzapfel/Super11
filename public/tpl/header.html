@@ -108,7 +108,7 @@
                         <span class="title">Spelregels</span>
                     </a>
                 </li>
-                <li ng-show="authService.isAdmin()">
+                <li ng-show="authService.isAdmin() && isAuthenticated">
                     <a href="#/statistieken.html" id="sidebar_menu_link_statistieken">
                         <i class="icon-bar-chart"></i>
                         <span class="title">Statistieken</span>
