@@ -116,8 +116,12 @@ apiRoutes.post("/predictions", function (req, res) {
                 }
             },
             function (user, callback) {
-                var predictions = new Predictions(req.body);
+                var predictions = {};
+                predictions = Object.assign(predictions, req.body);
                 predictions.Participant.Email = user.email;
+                delete predictions._id;
+                delete predictions.__v;
+
                 Predictions.findOneAndUpdate({'Participant.Email': user.email}, predictions, ({upsert: true}), function (err, newPrediction) {
                     if (err) {
                         handleError(res, err.message, "Failed to create new prediction.");
