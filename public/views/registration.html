@@ -16,14 +16,19 @@
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
 
-<div ng-show=!isAuthenticated>
+<div ng-show="!isAuthenticated || !authService.isVerified()">
+    <div ng-hide="authService.isVerified()" class="note note-danger note-bordered">
+        <h4> Er is een mail gestuurd naar je account. Deze moet je eerst verifieren. Log daarna opnieuw in.
+        </h4>
+    </div>
     <div class="note note-success note-bordered">
         <h4> Je moet een account hebben en ingelogd zijn om je voorspellingen op te slaan. Heb je vorig jaar meegedaan
             dan kan je met hetzelfde account mee doen.
             Klik rechtsboven op inloggen.<br>
 
             Mocht je niet via Facebook of Gmail een account aanmaken, dan ontvang je na het inschrijven een
-            email ter verificatie.
+            email ter verificatie. Deze moet je eerst verifieren alvorens je verder kunt. Log na het verifieren opnieuw
+            in.
             <br><br><br>
 
             Veel plezier met een nieuw seizoen Super Eleven!<br><br>
@@ -35,7 +40,8 @@
 </div>
 
 
-<div id="contentPage" class="row" ng-controller="RegistrationApiController" ng-if=isAuthenticated>
+<div id="contentPage" class="row" ng-controller="RegistrationApiController"
+     ng-if="isAuthenticated && authService.isVerified()">
     <div class="col-md-12">
         <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
         </uib-alert>
