@@ -14,6 +14,10 @@ var management = new ManagementClient({
 });
 var secret = process.env.secret || config.secret;
 
+var Logger = require('le_node');
+var logger = new Logger({
+    token: '145cff06-bee3-4fe4-bd13-2091c87eca42'
+});
 
 var Predictions = require("../models/predictionModel");
 var Teampredictions = require("../models/teamPredictionsModel");
@@ -108,6 +112,7 @@ apiRoutes.post("/predictions", function (req, res) {
             function (user, callback) {
                 if (user.email_verified) {
                     console.log("sla de gegevens op voor: " + user.email);
+                    logger.log("sla de gegevens op voor: " + user.email);
                     Predictions.findOne({'Participant.Email': user.email}, {'Participant.Name': 1}, function (err, name) {
                         callback(null, user);
                     });
@@ -123,6 +128,7 @@ apiRoutes.post("/predictions", function (req, res) {
                 delete predictions._id;
                 delete predictions.__v;
                 console.log(predictions);
+                logger.log(predictions);
                 Predictions.findOneAndUpdate({'Participant.Email': user.email}, predictions, ({upsert: true}), function (err, newPrediction) {
                     if (err) {
                         handleError(res, err.message, "Failed to create new prediction.");
