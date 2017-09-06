@@ -204,7 +204,17 @@
                 SCOPE.$apply
 
                 savetransfersservice.post($scope.data);
-                registrationService.post($scope.data);
+                var registration = registrationService.post($scope.data);
+
+                registration.error(function () {
+                    $scope.showConfirm = false;
+                    $scope.showMatches = true;
+                    $scope.alerts.push({
+                        type: 'danger',
+                        msg: "Er is iets misgegaan bij het opslaan. Leeg je cache van de browser en herstart de browser en probeer het opnieuw. " +
+                        "Indien dit probleem zich blijft voordoen, neem dan contact op met Remy of Werner"
+                    });
+                });
             }
 
             $scope.save = function () {
