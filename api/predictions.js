@@ -107,6 +107,7 @@ apiRoutes.post("/predictions", function (req, res) {
             },
             function (user, callback) {
                 if (user.email_verified) {
+                    console.log("sla de gegevens op voor: " + user.email);
                     Predictions.findOne({'Participant.Email': user.email}, {'Participant.Name': 1}, function (err, name) {
                         callback(null, user);
                     });
@@ -121,7 +122,7 @@ apiRoutes.post("/predictions", function (req, res) {
                 predictions.Participant.Email = user.email;
                 delete predictions._id;
                 delete predictions.__v;
-
+                console.log(predictions);
                 Predictions.findOneAndUpdate({'Participant.Email': user.email}, predictions, ({upsert: true}), function (err, newPrediction) {
                     if (err) {
                         handleError(res, err.message, "Failed to create new prediction.");
