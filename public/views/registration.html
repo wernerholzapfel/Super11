@@ -17,7 +17,7 @@
 <!-- BEGIN MAIN CONTENT -->
 
 <div ng-show="!isAuthenticated || !authService.isVerified()">
-    <div ng-hide="authService.isVerified()" class="note note-danger note-bordered">
+    <div ng-if="isAuthenticated && !authService.isVerified()" class="note note-danger note-bordered">
         <h4> Er is een mail gestuurd naar je account. Deze moet je eerst verifieren. Log daarna opnieuw in.
         </h4>
     </div>
