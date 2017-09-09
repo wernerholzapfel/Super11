@@ -30,7 +30,7 @@ apiRoutes.get("/predictions/:Id", function (req, res, next) {
         } else {
             //overwrite team with latestteam
             Teampredictions.findOne({'Participant.Email': prediction.Participant.Email},
-                {'Participant.Email': 0, createDate: 0, Table: 0, __v: 0, _id: 0},
+                {'Participant.Email': 0, 'Participant.PhoneNumber': 0, createDate: 0, Table: 0, __v: 0, _id: 0},
                 {sort: {RoundId: -1}},
                 function (err, teamprediction) {
                     if (err) {

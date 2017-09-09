@@ -9,7 +9,12 @@ var Predictions = require("../models/predictionModel");
 
 apiRoutes.get("/participants", function (req, res, next) {
     Predictions.find({}, {
+        '_id': 0,
+        '__v': 0,
+        'Formation': 0,
+        'CaptainId': 0,
         'Participant.Email': 0,
+        'Participant.PhoneNumber': 0,
         "Team": 0,
         "Questions": 0,
         "Table": 0,
