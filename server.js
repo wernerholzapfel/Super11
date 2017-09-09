@@ -87,8 +87,7 @@ var participants = require('./api/participants');
 
 
 app.use('/api', homepagestats, comments, headlines, eredivisieplayers, predictions, rounds, istransfermarktopen);
-//authorisatie  tijdens transfermarkt;
-app.use('/api', authenticateCall, standen, statistieken, participants);
+app.use('/api', standen, statistieken, participants);
 app.use('/api', authenticateCall, totalscoreperuser, scoreforms, postheadlines, postcomments, getlatestteam, savetransfers);
 
 
@@ -110,3 +109,8 @@ handleError = function (res, reason, message, code) {
     console.log("ERROR: " + reason);
     res.status(code || 500).json({"error": message});
 };
+
+//
+// var copy = require('./copyTeamsToNewTable');
+//
+// copy.copyTeamsToNewTable();
