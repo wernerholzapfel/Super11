@@ -108,7 +108,8 @@
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="gekozenspeler in gekozenspelers"
-                                        ng-click="showDeelnemersMetSpeler(gekozenspeler.PlayerId)">
+                                        ng-click="showDeelnemersMetSpeler(gekozenspeler.PlayerId)"
+                                        ng-if="gekozenspeler.PlayerName">
                                         <td>
                                             <a><img class="clubicon" ng-src="clubicons/{{gekozenspeler.Team}}.png">
                                                 {{gekozenspeler.PlayerName}}
