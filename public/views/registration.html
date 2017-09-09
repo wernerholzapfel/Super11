@@ -15,8 +15,14 @@
 </div>
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
+<div ng-if="!isinschrijvingopen" class="note note-success note-bordered">
+    <h4> De inschrijving is gesloten
 
-<div ng-show="!isAuthenticated || !authService.isVerified()">
+    </h4>
+</div>
+
+
+<div ng-show="(!isAuthenticated || !authService.isVerified()) && isinschrijvingopen">
     <div ng-if="isAuthenticated && !authService.isVerified()" class="note note-danger note-bordered">
         <h4> Er is een mail gestuurd naar je account. Deze moet je eerst verifieren. Log daarna opnieuw in.
         </h4>
@@ -221,7 +227,8 @@
                                                 <button class="btn green" ng-if="player.PlayerName != ''"
                                                         ng-click="removeplayerfromteam(player)">-
                                                 </button>
-                                                <img class="clubicon" ng-src="tableclubicons/{{player.Team}}.png">
+                                                <img ng-if="player.PlayerName != ''" class="clubicon"
+                                                     ng-src="tableclubicons/{{player.Team}}.png">
                                                 <span ng-if="player.PlayerName == ''"> Kies een {{pos.PositionUi}}</span>
                                                 {{player.PlayerName}} ({{player.Team}})
                                             </td>

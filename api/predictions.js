@@ -2,6 +2,7 @@ var express = require("express");
 var apiRoutes = express.Router();
 var mongoose = require('mongoose');
 var async = require("async");
+var moment = require('moment-timezone');
 
 var jwtDecode = require('jwt-decode');
 var config = require('../config/database');
@@ -100,45 +101,61 @@ apiRoutes.get("/predictions", function (req, res, next) {
 var determineifplayerisselected = require("../determineifplayerisselected");
 
 apiRoutes.post("/predictions", function (req, res) {
-    var token = getToken(req.headers);
-    if (token) {
-        async.waterfall([
-            function (callback) {
-                var decoded = jwtDecode(token, secret);
-                management.getUser({id: decoded.sub}, function (err, user) {
-                    callback(null, user);
-                });
-            },
-            function (user, callback) {
-                if (user.email_verified) {
-                    console.log("sla de gegevens op voor: " + user.email);
-                    logger.log("sla de gegevens op voor: " + user.email);
-                    Predictions.findOne({'Participant.Email': user.email}, {'Participant.Name': 1}, function (err, name) {
+    var date = new Date;
+    var einddatum = moment("2017-09-09").tz("Europe/Amsterdam");
+    const uren = 18;
+    const minuten = 30;
+
+    var nuDateTime = moment(date).tz("Europe/Amsterdam");
+    var nuDate = moment(date).startOf('Day').tz("Europe/Amsterdam");
+
+    if (nuDate.isAfter(einddatum) ||
+        (nuDate.isSame(einddatum) && nuDateTime.hours() == uren && nuDateTime.minutes() >= minuten) ||
+        (nuDate.isSame(einddatum) && nuDateTime.hours() > uren)) {
+        res.status(403).json("De inschrijving is gesloten.");
+    }
+    else {
+
+        var token = getToken(req.headers);
+        if (token) {
+            async.waterfall([
+                function (callback) {
+                    var decoded = jwtDecode(token, secret);
+                    management.getUser({id: decoded.sub}, function (err, user) {
                         callback(null, user);
                     });
-                }
-                else {
-                    res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
-                }
-            },
-            function (user, callback) {
-                var predictions = {};
-                predictions = Object.assign(predictions, req.body);
-                predictions.Participant.Email = user.email;
-                delete predictions._id;
-                delete predictions.__v;
-                console.log(predictions);
-                logger.log(predictions);
-                Predictions.findOneAndUpdate({'Participant.Email': user.email}, predictions, ({upsert: true}), function (err, newPrediction) {
-                    if (err) {
-                        handleError(res, err.message, "Failed to create new prediction.");
-                    } else {
-                        res.status(201).json(predictions);
-                        determineifplayerisselected.setNumberOfTimesAplayerIsSelected()
+                },
+                function (user, callback) {
+                    if (user.email_verified) {
+                        console.log("sla de gegevens op voor: " + user.email);
+                        logger.log("sla de gegevens op voor: " + user.email);
+                        Predictions.findOne({'Participant.Email': user.email}, {'Participant.Name': 1}, function (err, name) {
+                            callback(null, user);
+                        });
                     }
-                });
-            }
-        ])
+                    else {
+                        res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+                    }
+                },
+                function (user, callback) {
+                    var predictions = {};
+                    predictions = Object.assign(predictions, req.body);
+                    predictions.Participant.Email = user.email;
+                    delete predictions._id;
+                    delete predictions.__v;
+                    console.log(predictions);
+                    logger.log(predictions);
+                    Predictions.findOneAndUpdate({'Participant.Email': user.email}, predictions, ({upsert: true}), function (err, newPrediction) {
+                        if (err) {
+                            handleError(res, err.message, "Failed to create new prediction.");
+                        } else {
+                            res.status(201).json(predictions);
+                            determineifplayerisselected.setNumberOfTimesAplayerIsSelected()
+                        }
+                    });
+                }
+            ])
+        }
     }
 });
 

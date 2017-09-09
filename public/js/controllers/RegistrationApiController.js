@@ -1,6 +1,6 @@
 ﻿angular.module('MetronicApp').controller('RegistrationApiController',
-    ['$anchorScroll', '$location', '$scope', "getRegistrationForm", "registrationService", "teamListService", "eredivisiePlayersApi", "savetransfersservice",
-        function ($anchorScroll, $location, $scope, getRegistrationForm, registrationService, teamListService, eredivisiePlayersApi, savetransfersservice) {
+    ['$anchorScroll', '$location', '$scope', "getRegistrationForm", "registrationService", "teamListService", "eredivisiePlayersApi", "saveteamservice",
+        function ($anchorScroll, $location, $scope, getRegistrationForm, registrationService, teamListService, eredivisiePlayersApi, saveteamservice) {
 
             getRegistrationForm.async().then(function (data) {
                 $scope.data = data;
@@ -203,19 +203,33 @@
                 }
                 SCOPE.$apply
 
-                savetransfersservice.post($scope.data);
+                saveteamservice.post($scope.data);
                 var registration = registrationService.post($scope.data);
 
-                registration.error(function () {
+                registration.error(function (error) {
                     $scope.showConfirm = false;
                     $scope.showMatches = true;
-                    $scope.alerts.push({
-                        type: 'danger',
-                        msg: "Er is iets misgegaan bij het opslaan. Leeg je cache van de browser en herstart de browser en probeer het opnieuw. " +
-                        "Indien dit probleem zich blijft voordoen, neem dan contact op met Remy of Werner"
-                    });
+
+                    if (error == "De inschrijving is gesloten.") {
+                        $scope.alerts.push({
+                            type: 'danger',
+                            msg: error
+                        });
+                        $scope.showParticipant = true;
+                        $scope.showTable = false;
+                        $scope.showTeam = false;
+                        $scope.showQuestions = false;
+                        $scope.showMatches = false;
+                    }
+                    else {
+                        $scope.alerts.push({
+                            type: 'danger',
+                            msg: "Er is iets misgegaan bij het opslaan. Leeg je cache van de browser en herstart de browser en probeer het opnieuw. " +
+                            "Indien dit probleem zich blijft voordoen, neem dan contact op met Remy of Werner"
+                        });
+                    }
                 });
-            }
+            };
 
             $scope.save = function () {
                 $scope.showConfirm = true;
@@ -235,7 +249,7 @@
                 SCOPE.$apply
 
 
-                savetransfersservice.post($scope.data);
+                saveteamservice.post($scope.data);
                 var registration = registrationService.post($scope.data);
 
                 registration.success(function () {

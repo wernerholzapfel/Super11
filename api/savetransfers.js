@@ -18,15 +18,18 @@ var _ = require('lodash');
 var determineifplayerisselected = require("../determineifplayerisselected");
 var Teampredictions = require('../models/teamPredictionsModel');
 
+apiRoutes.post("/saveteam", function (req, res) {
+    saveTransfers(req, res)
+})
+
+
 apiRoutes.post("/savetransfers", function (req, res) {
     var date = new Date;
-    var startdatum = moment("2017-08-01");
-    var einddatum = moment("2017-09-09");
+    var startdatum = moment("2017-12-25");
+    var einddatum = moment("2018-02-02");
     var speeldatums = [];
-    speeldatums.push("2017-1-13", "2017-1-14", "2017-1-15");
-    speeldatums.push("2017-1-20", "2017-1-21", "2017-1-22");
-    speeldatums.push("2017-1-27", "2017-1-28", "2017-1-29");
-    speeldatums.push("2017-2-3", "2017-2-4", "2017-2-5");
+    speeldatums.push("2018-1-19", "2018-1-20", "2018-1-21");
+    speeldatums.push("2018-1-26", "2018-1-27", "2018-1-28");
 
     var nu = moment(date).tz("Europe/Amsterdam");
     var nuInString = (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
@@ -51,7 +54,7 @@ apiRoutes.post("/savetransfers", function (req, res) {
     }
     else {
         //we zijn dicht
-        return res.status(403).json("De transfermarkt is geopend van " + startdatum + "tot " + einddatum);
+        return res.status(403).json("De transfermarkt is geopend van " + startdatum.format('DD-MM-YYYY') + " tot " + einddatum.format('DD-MM-YYYY'));
 
     }
 });
