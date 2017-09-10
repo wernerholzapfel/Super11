@@ -15,7 +15,10 @@ var eindstandStand = require("../models/eindstandStandModel");
 
 apiRoutes.get("/newteamStand/:roundId", function (req, res, next) {
     console.log("log api call roundTable/" + req.params.roundId);
-    newteamStand.find({RoundId: req.params.roundId}, {}, {sort: {TotalTeamScore: -1}}, function (err, roundTable) {
+    newteamStand.find({RoundId: req.params.roundId}, {
+        'Participant.Email': 0,
+        'Participant.PhoneNumber': 0
+    }, {sort: {TotalTeamScore: -1}}, function (err, roundTable) {
         if (err) {
             handleError(res, error.message, "failed tot get roundTable");
         }
