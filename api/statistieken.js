@@ -70,9 +70,71 @@ apiRoutes.get("/spelerstotaalpunten/", function (req, res, next) {
         }
     )
 
+});
+
+apiRoutes.get("/spelerstotaalpunten/:RoundId", function (req, res, next) {
+    Roundteamscoreforms.aggregate([
+            {$match: {'RoundId': parseInt(req.params.RoundId)}},
+            {$unwind: "$Player"},
+            {
+                $project: {
+                    Player: 1,
+                    Cleansheet: {$cond: ["$Player.CleanSheet", 1, 0]},
+                    Draw: {$cond: ["$Player.Draw", 1, 0]},
+                    Win: {$cond: ["$Player.Win", 1, 0]},
+                    Played: {$cond: ["$Player.Played", 1, 0]}
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        playerId: "$Player.Id"
+                    },
+                    CleanSheet: {$sum: "$Cleansheet"},
+                    Draw: {$sum: "$Draw"},
+                    Win: {$sum: "$Win"},
+                    Played: {$sum: "$Played"},
+                    OwnGoal: {$sum: "$Player.OwnGoal"},
+                    Red: {$sum: "$Player.Red"},
+                    Yellow: {$sum: "$Player.Yellow"},
+                    Assists: {$sum: "$Player.Assists"},
+                    Goals: {$sum: "$Player.Goals"},
+                    Position: {$first: "$Player.Position"},
+                    Team: {$first: "$Player.Team"},
+                    Name: {$first: "$Player.Name"}
+                }
+            }
+        ],
+        function (err, spelersoverzicht) {
+            if (err) {
+                handleError(res, err.message, "failed to get spelersoverzicht " + err.message)
+            }
+            else {
+                async.each(spelersoverzicht, function (player, callback) {
+
+                    if (player) {
+                        var playerScore = new Object;
+                        player.Won = setWinScore(player);
+                        player.Draw = setDrawScore(player);
+                        player.Played = setPlayedScore(player);
+                        player.RedCard = setRedCardScore(player);
+                        player.YellowCard = setYellowCardScore(player);
+                        player.Assist = setAssistScore(player);
+                        player.Goals = setGoalScore(player);
+                        player.OwnGoals = setOwnGoalScore(player);
+                        player.CleanSheetScore = setCleanSheetScore(player);
+                        player.TotalScore = player.Won + player.Draw + player.Played + player.RedCard + player.YellowCard + player.Assist + player.OwnGoals + player.Goals + player.CleanSheetScore;
+
+                    }
+                });
+                res.status(200).json(_.orderBy(spelersoverzicht, ['TotalScore', 'Name'], ['desc', 'asc']));
+
+            }
+        }
+    )
+
 })
 ;
-
 apiRoutes.get("/teamstatistieken/", function (req, res, next) {
     Teampredictions.aggregate([
         {$sort: {RoundId: 1}},
