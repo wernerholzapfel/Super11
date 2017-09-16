@@ -10,7 +10,7 @@
 <!-- BEGIN MAIN CONTENT -->
 <div ng-controller="DashboardController">
 	<!-- BEGIN DASHBOARD STATS -->
-    <div class="row" ng-show="false">
+	<div class="row">
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-if="laatsteupdate">
 			<div class="dashboard-stat dashboard-stat-v2 green">
 				<div class="visual">
@@ -71,7 +71,7 @@
             inloggen.
         </h4>
     </div>
-    <div class="note note-success note-bordered">
+	<div ng-if="!isAuthenticated" class="note note-success note-bordered">
 		<h3>Welkom bij Super 11<span data-close="note"></span></h3>
 		<p>
 			Beste voetballiefhebber,
@@ -92,7 +92,7 @@
 
     </div>
 
-    <div class="row" ng-show="false" ng-if="isAuthenticated && totalscoreuser !== false">
+	<div class="row" ng-if="isAuthenticated && totalscoreuser">
 		<div class="col-lg-12">
 			<div class="note note-success note-bordered">
 				<div class="visual">
