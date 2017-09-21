@@ -105,7 +105,7 @@ apiRoutes.post("/pushnotification/", function (req, res) {
                         headings: {"en": "Super Eleven"},
                         contents: {"en": "De stand is weer bijgewerkt"},
                         included_segments: ["All"],
-                        ios_badgeType: "setTo",
+                        ios_badgeType: "SetTo",
                         ios_badgeCount: 1
                     };
 
