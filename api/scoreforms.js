@@ -13,6 +13,9 @@ var management = new ManagementClient({
 var ionicApplicationAPItoken = process.env.IonicApplicationAPItoken;
 var secret = process.env.secret || config.secret;
 var ionicApplicationId = process.env.IonicApplicationID;
+var onesignalHttpkey = process.env.ONESIGNAL_HTTPKEY;
+var onesignalAppID = process.env.ONESIGNAL_APPID;
+
 
 var async = require("async");
 var jwtDecode = require('jwt-decode');
@@ -55,28 +58,62 @@ apiRoutes.post("/pushnotification/", function (req, res) {
             function (user, callback) {
                 if (user.app_metadata.roles.indexOf('admin') > -1) {
                     console.log(user.name + " is admin");
-                    var ionicPushServer = require('ionic-push-server');
-                    console.log("this is the app id:" + ionicApplicationId)
-                    var credentials = {
-                        IonicApplicationID: ionicApplicationId,
-                        IonicApplicationAPItoken: ionicApplicationAPItoken
+                    var sendNotification = function (data) {
+                        var headers = {
+                            "Content-Type": "application/json; charset=utf-8",
+                            "Authorization": "Basic " + onesignalHttpkey
+                        };
+
+
+                        var options = {
+                            host: "onesignal.com",
+                            port: 443,
+                            path: "/api/v1/notifications",
+                            method: "POST",
+                            headers: headers
+                        };
+
+                        var https = require('https');
+                        var req = https.request(options, function (res) {
+                            res.on('data', function (data) {
+                                console.log("Response:");
+                                console.log(JSON.parse(data));
+                            });
+                        });
+
+                        req.on('error', function (e) {
+                            console.log("ERROR:");
+                            console.log(e);
+                        });
+
+                        req.write(JSON.stringify(data));
+                        req.end();
                     };
 
-                    var notification = {
-                        "send_to_all": true,
-                        "profile": "prod",
-                        "notification": {
-                            "ios": {
-                                "badge": 1,
-                                "sound": "ping.aiff"
-                            },
-                            "message": "De stand is weer geüpdated"
-                        }
+                    // todo get all users from onesignal
+                    // https://onesignal.com/api/v1/players?app_id=eb25a650-dde9-4137-9b48-e4e1323c93a7
+                    var promise = $http.get('https://onesignal.com/api/v1/players?app_id=eb25a650-dde9-4137-9b48-e4e1323c93a7').then(function (response) {
+                        // The then function here is an opportunity to modify the response
+                        console.log(response);
+                        // The return value gets picked up by the then in the controller.
+
+                        //underscore foreach
+                    });
+
+                    var message = {
+                        app_id: onesignalAppID,
+                        headings: {"en": "Super Eleven"},
+                        contents: {"en": "De stand is weer bijgewerkt"},
+                        included_segments: ["All"],
+                        filters: [
+                            {"field": "email", "relation": "=", "value": "werner.holzapfel@gmail.com"}
+                        ],
+                        ios_badgeType: "setTo",
+                        ios_badgeCount: 1
                     };
-                    console.log("going to send push");
-                    ionicPushServer(credentials, notification);
+
+                    sendNotification(message);
                     res.status(201).json("{push verzonden!}");
-
 
                 }
             }
