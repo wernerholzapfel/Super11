@@ -92,22 +92,19 @@ apiRoutes.post("/pushnotification/", function (req, res) {
 
                     // todo get all users from onesignal
                     // https://onesignal.com/api/v1/players?app_id=eb25a650-dde9-4137-9b48-e4e1323c93a7
-                    var promise = $http.get('https://onesignal.com/api/v1/players?app_id=eb25a650-dde9-4137-9b48-e4e1323c93a7').then(function (response) {
+                    // var promise = $http.get('https://onesignal.com/api/v1/players?app_id=eb25a650-dde9-4137-9b48-e4e1323c93a7').then(function (response) {
                         // The then function here is an opportunity to modify the response
-                        console.log(response);
+                    // console.log(response);
                         // The return value gets picked up by the then in the controller.
 
                         //underscore foreach
-                    });
+                    // });
 
                     var message = {
                         app_id: onesignalAppID,
                         headings: {"en": "Super Eleven"},
                         contents: {"en": "De stand is weer bijgewerkt"},
                         included_segments: ["All"],
-                        filters: [
-                            {"field": "email", "relation": "=", "value": "werner.holzapfel@gmail.com"}
-                        ],
                         ios_badgeType: "setTo",
                         ios_badgeCount: 1
                     };
