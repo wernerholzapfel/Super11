@@ -18,7 +18,7 @@
 
                 var modalInstance = $uibModal.open({
                     templateUrl: 'deelnemersmetspeler.html',
-                    controller: "ModalController",
+                    controller: "statsController",
                     size: "lg",
                     resolve: {
                         items: function () {
@@ -35,7 +35,7 @@
 );
 
 
-angular.module('MetronicApp').controller('ModalController', function ($scope, $modalInstance, items, gekozenspeler) {
+angular.module('MetronicApp').controller('statsController', function ($scope, $modalInstance, items, gekozenspeler) {
     $scope.sortType = 'TotalScore'; // set the default sort type
     $scope.sortReverse = true;  // set the default sort order
 
