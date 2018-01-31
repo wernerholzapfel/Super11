@@ -208,7 +208,7 @@ angular.module('MetronicApp').controller('TransferApiController',
         registration.success(function () {
             $scope.alerts.push({
                 type: 'success',
-                msg: 'Het opslaan is gelukt! Je kan tot 3 februari 18:00 je team nog wijzigen.'
+                msg: 'Het opslaan is gelukt! Je kan tot 2 februari 18:00 je team nog wijzigen.'
             });
         });
 
