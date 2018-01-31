@@ -108,6 +108,7 @@ exports.calculateTeamPredictionsPerRound = function (roundId) {
             playerScore.Captain = player.Captain;
               playerScore.Id = player.Id;
               playerScore.PlayerId = player.PlayerId;
+              playerScore.RoundId = roundId;
             playerScore.Won = 0;
             playerScore.Draw = 0;
             playerScore.Played = 0;
