@@ -39,7 +39,7 @@ apiRoutes.post("/savetransfers", function (req, res) {
         //check of speeldag is
         if (_.includes(speeldatums, nuInString)) {
             //check of het vrijdag voor 18h is
-            if (nu.day() == 5 && nu.hours() < 18) {
+            if (nu.day() == 5 && nu.hours() < 22) {
                 saveTransfers(req, res);
             }
             else {
