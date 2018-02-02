@@ -28,10 +28,10 @@ apiRoutes.get("/isinschrijvingopen", function (req, res, next) {
 apiRoutes.get("/istransfermarktopen", function (req, res, next) {
     var date = new Date;
     var startdatum = moment("2017-12-25");
-    var einddatum = moment("2018-02-02");
+    var einddatum = moment("2018-02-03");
     var speeldatums = [];
     speeldatums.push("2018-1-19", "2018-1-20", "2017-1-21");
-    speeldatums.push("2018-1-26", "2018-1-27", "2018-1-28");
+    speeldatums.push("2018-1-26", "2018-1-27", "2018-1-28", "2018-2-2");
 
     var nu = moment(date).tz("Europe/Amsterdam");
     var nuInString = (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
