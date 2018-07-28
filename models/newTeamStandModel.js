@@ -11,6 +11,7 @@ var newTeamStandSchema = new mongoose.Schema({
     },
     TeamScores: [{
         Id: {type: Number, required: true},
+        PlayerId: {type: Number, required: false},
         Name: {type: String, required: false},
         Captain: {type: Boolean, required: false},
         Position: {type: String, required: false},

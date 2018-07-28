@@ -1,3 +1,4 @@
+
 var express = require("express");
 var apiRoutes = express.Router();
 var mongoose = require('mongoose');
@@ -40,8 +41,8 @@ apiRoutes.get("/totaalscoreuser/", function (req, res) {
             handleError(res, err.message, "failed to get rounds");
           }
           else {
-            var maxRoundId = rounds[0].RoundId;
-            callback(null, user, maxRoundId)
+              var maxRoundId = (rounds[0]) ? rounds[0].RoundId : 0;
+              callback(null, user, maxRoundId)
           }
 
         });
@@ -53,7 +54,7 @@ apiRoutes.get("/totaalscoreuser/", function (req, res) {
         })
       },
       function (user, roundTable, maxRoundId, callback) {
-        if (!roundTable) return res.status(200).json("Het opgegeven mailadres is niet bekend bij ons. Neem contact op met Remy Verberkt.")
+          if (!roundTable) return res.status(200).json(false);
         totaalStand.findOne({ RoundId: (maxRoundId - 1), 'Email': user.email }, { Email: 0 }, { sort: { TotalScore: -1 } }).lean().exec(function (err, previousRoundTable) {
           if (err) return console.error(err);
           callback(null, roundTable, previousRoundTable)
@@ -61,9 +62,9 @@ apiRoutes.get("/totaalscoreuser/", function (req, res) {
       },
       function (roundTable, previousRoundTable, callback) {
 
-        roundTable.previousPositie = previousRoundTable.Positie;
-        roundTable.deltaPositie = previousRoundTable.Positie - roundTable.Positie;
-        roundTable.Weekscore = roundTable.TotalScore - previousRoundTable.TotalScore;
+          roundTable.previousPositie = (previousRoundTable) ? previousRoundTable.Positie : 1;
+          roundTable.deltaPositie = roundTable.previousPositie - roundTable.Positie;
+          roundTable.Weekscore = (previousRoundTable) ? roundTable.TotalScore - previousRoundTable.TotalScore : roundTable.TotalScore;
         if (roundTable.deltaPositie > 0) roundTable.Tekst = "stijg je naar plek " + roundTable.Positie;
         if (roundTable.deltaPositie == 0) roundTable.Tekst = "blijf je op plek" + roundTable.Positie + " staan";
         if (roundTable.deltaPositie < 0) roundTable.Tekst = "zak je naar plek " + roundTable.Positie;

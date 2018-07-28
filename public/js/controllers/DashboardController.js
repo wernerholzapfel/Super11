@@ -9,13 +9,11 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
     $rootScope.settings.layout.pageBodySolid = false;
     $rootScope.settings.layout.pageSidebarClosed = false;
 
-    $scope.showUserScore = false;
 
     $scope.profile = authService.getProfileDeferred();
 
     gettotalscoreuser.async().then(function (data) {
         $scope.totalscoreuser = data;
-        $scope.showUserScore = true;
 
     });
 

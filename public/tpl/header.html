@@ -4,7 +4,7 @@
         <!-- BEGIN LOGO -->
         <div class="page-logo">
             <a class="font-green" href="/#/dashboard.html">
-                <img class="logo" src="../assets/global/img/Logo_Super11_klein.png">
+                <img class="logo" src="../assets/global/img/logo_super11.png">
                 <!--<h2>Super 11</h2>-->
             </a>
 
@@ -20,10 +20,27 @@
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
                 <li>
-                    <button ng-hide="isAuthenticated" type="button" class="btn green" ng-click="authService.login()">Log
+                    <!--<a ng-show="isAuthenticated" href="#/scoreform.html"-->
+                    <!--id="sidebar_menu_link_scoreform">-->
+                    <button onclick="location.href='#/scoreform.html';"
+                            ng-show="authService.isAdmin() && isAuthenticated" type="button"
+                            class="btn green btn-outline">
+                        Uitslagen invullen
+                    </button>
+                    <button onclick="location.href='#/voorbereiding.html';"
+                            ng-show="authService.isAdmin() && isAuthenticated"
+                            type="button"
+                            class="btn green btn-outline">
+                        Voorbereiding
+                    </button>
+                    <!--</a>-->
+                    <button ng-show="!isAuthenticated" type="button" class="btn green btn-outline"
+                            ng-click="authService.login()">
+                        Log
                         In
                     </button>
-                    <button ng-if="isAuthenticated" type="button" class="btn green" ng-click="authService.logout()()">
+                    <button ng-show="isAuthenticated" type="button" class="btn green btn-outline"
+                            ng-click="authService.logout()()">
                         Loguit
                     </button>
                 </li>
@@ -60,37 +77,38 @@
                         <span class="title">Home</span>
                     </a>
                 </li>
-                <!--<li>
+                <li ng-if="isinschrijvingopen">
                     <a href="#/registration.html" id="sidebar_menu_link_registration">
                         <i class="icon-puzzle"></i>
                         <span class="title">Inschrijven</span>
                     </a>
-                </li>-->
-                <li>
+                </li>
+                <li ng-if="authService.isAdmin() && isAuthenticated || !isinschrijvingopen">
                     <a href="#/standen.html" id="sidebar_menu_link_standen">
                         <i class="icon-graph"></i>
                         <span class="title">Stand</span>
                     </a>
                 </li>
-                <li>
+                <li ng-if="authService.isAdmin() && isAuthenticated || !isinschrijvingopen">
                     <a href="#/participants.html" id="sidebar_menu_link_participant">
                         <i class="icon-users"></i>
                         <span class="title">Deelnemers</span>
                     </a>
                 </li>
-                <!--<li>-->
-                <!--<a href="#/transferperiode.html" id="sidebar_menu_link_transferperiode">-->
-                <!--<i class="icon-badge"></i>-->
-                <!--<span class="title">Transferperiode</span>-->
-                <!--</a>-->
-                <!--</li>-->
+                <li ng-if="istransfermarktopen">
+                    <a href="#/transferperiode.html" id="sidebar_menu_link_transferperiode">
+                        <i class="icon-badge"></i>
+                        <span class="title">Transferperiode</span>
+                    </a>
+                </li>
+
                 <li>
                     <a href="#/spelregels.html" id="sidebar_menu_link_spelregels">
                         <i class="icon-puzzle"></i>
                         <span class="title">Spelregels</span>
                     </a>
                 </li>
-                <li>
+                <li ng-if="authService.isAdmin() && isAuthenticated || !isinschrijvingopen">
                     <a href="#/statistieken.html" id="sidebar_menu_link_statistieken">
                         <i class="icon-bar-chart"></i>
                         <span class="title">Statistieken</span>
@@ -102,12 +120,6 @@
                         <span class="title">Hall of Fame</span>
                     </a>
                 </li>
-                <!--<li>
-                    <a href="#/predictions.html" id="sidebar_menu_link_prediction">
-                        <i class="icon-puzzle"></i>
-                        <span class="title">Voorspellingen</span>
-                    </a>
-                </li>-->
                 <!--<li>
                     <a href="#/headlines.html" id="sidebar_menu_link_scoreform">
                         <i class="icon-puzzle"></i>

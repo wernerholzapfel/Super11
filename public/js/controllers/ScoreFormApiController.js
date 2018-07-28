@@ -87,7 +87,6 @@ angular.module('MetronicApp').controller('ScoreFormApiController',
             playerList.error(function () {
                 $scope.showConfirm = false;
 
-                //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
                 $scope.alerts.push({
                     type: 'danger',
                     msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw"
@@ -117,7 +116,6 @@ angular.module('MetronicApp').controller('ScoreFormApiController',
             playerList.error(function () {
                 $scope.showConfirm = false;
 
-                //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
                 $scope.alerts.push({
                     type: 'danger',
                     msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw"
@@ -151,7 +149,6 @@ angular.module('MetronicApp').controller('ScoreFormApiController',
             vragenlijst.error(function () {
                 $scope.showConfirm = false;
 
-                //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
                 $scope.alerts.push({
                     type: 'danger',
                     msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw"
@@ -173,7 +170,6 @@ angular.module('MetronicApp').controller('ScoreFormApiController',
             wedstrijdenlijst.error(function () {
                 $scope.showConfirm = false;
 
-                //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
                 $scope.alerts.push({
                     type: 'danger',
                     msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw"
@@ -204,7 +200,6 @@ angular.module('MetronicApp').controller('ScoreFormApiController',
             eindstand.error(function () {
                 $scope.showConfirm = false;
 
-                //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
                 $scope.alerts.push({
                     type: 'danger',
                     msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw"

@@ -19,7 +19,7 @@ exports.copyTeamsToNewTable = function () {
         function (predictionsList, callback) {
             async.each(predictionsList, function (teampredictions, callback) {
                 var updatedteamprediction = new Teampredictions;
-                updatedteamprediction.RoundId = 0;
+                updatedteamprediction.RoundId = 1;
                 updatedteamprediction.Team = teampredictions.Team;
                 updatedteamprediction.Participant = teampredictions.Participant;
                 updatedteamprediction.Formation = teampredictions.Formation;
@@ -27,7 +27,7 @@ exports.copyTeamsToNewTable = function () {
 
                 Teampredictions.findOneAndUpdate({
                     'Participant.Email': updatedteamprediction.Participant.Email,
-                    RoundId: 0
+                    RoundId: 1
                 }, updatedteamprediction, ({upsert: true}), function (err, newPrediction) {
                     if (err) {
                         console.log("er is iets misgegaan bij verhuizen van teams");

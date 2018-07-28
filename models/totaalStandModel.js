@@ -13,6 +13,7 @@ var totaalStandSchema = new mongoose.Schema({
 	Positie: {type: Number,required: true},
 	TeamScores: [{
 		Id : {type: Number, required: true},
+        PlayerId: {type: Number, required: false},
 		Name: { type: String, required: false },
 		Position: { type: String, required: false },
 		Team: { type: String, required: false },

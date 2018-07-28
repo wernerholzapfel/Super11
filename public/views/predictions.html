@@ -59,6 +59,7 @@
                                         {{ player.Position }}
                                     </td>
                                     <td>
+                                        <img class="clubicon" ng-src="clubicons/{{player.Team}}.png">
                                         {{ player.Team }}
                                     </td>
                                    
@@ -85,6 +86,9 @@
                             <thead>
                                 <tr>
                                     <th>
+                                        Datum
+                                    </th>
+                                    <th>
                                         Wedstrijd
                                     </th>
                                     <th>
@@ -93,7 +97,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="match in predictions.Matches">
+                            <tr ng-repeat="match in predictions.Matches | orderBy:['Date']">
+                                <td>
+                                    {{match.Date | date:'yyyy-MM-dd HH:mm' }}
+                                </td>
                                     <td>
                                         {{match.Match}}
                                     </td>

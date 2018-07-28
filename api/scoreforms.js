@@ -13,6 +13,9 @@ var management = new ManagementClient({
 var ionicApplicationAPItoken = process.env.IonicApplicationAPItoken;
 var secret = process.env.secret || config.secret;
 var ionicApplicationId = process.env.IonicApplicationID;
+var onesignalHttpkey = process.env.ONESIGNAL_HTTPKEY;
+var onesignalAppID = process.env.ONESIGNAL_APPID;
+
 
 var async = require("async");
 var jwtDecode = require('jwt-decode');
@@ -22,6 +25,7 @@ var MatchesScoreForm = require("../models/wedstrijdenScoreformsModel.js");
 var QuestionsScoreForm = require("../models/vragenScoreformsModel.js");
 var Eindstandscoreform = require("../models/eindstandScoreformsModel.js");
 var vragenStand = require("../models/vragenStandModel");
+var EredivisiePlayers = require("../models/eredivisiePlayersModel");
 
 
 var calculateteam = require("../calculateteam.js");
@@ -54,28 +58,59 @@ apiRoutes.post("/pushnotification/", function (req, res) {
             function (user, callback) {
                 if (user.app_metadata.roles.indexOf('admin') > -1) {
                     console.log(user.name + " is admin");
-                    var ionicPushServer = require('ionic-push-server');
-                    console.log("this is the app id:" + ionicApplicationId)
-                    var credentials = {
-                        IonicApplicationID: ionicApplicationId,
-                        IonicApplicationAPItoken: ionicApplicationAPItoken
+                    var sendNotification = function (data) {
+                        var headers = {
+                            "Content-Type": "application/json; charset=utf-8",
+                            "Authorization": "Basic " + onesignalHttpkey
+                        };
+
+
+                        var options = {
+                            host: "onesignal.com",
+                            port: 443,
+                            path: "/api/v1/notifications",
+                            method: "POST",
+                            headers: headers
+                        };
+
+                        var https = require('https');
+                        var req = https.request(options, function (res) {
+                            res.on('data', function (data) {
+                                console.log("Response:");
+                                console.log(JSON.parse(data));
+                            });
+                        });
+
+                        req.on('error', function (e) {
+                            console.log("ERROR:");
+                            console.log(e);
+                        });
+
+                        req.write(JSON.stringify(data));
+                        req.end();
                     };
 
-                    var notification = {
-                        "send_to_all": true,
-                        "profile": "prod",
-                        "notification": {
-                            "ios": {
-                                "badge": 1,
-                                "sound": "ping.aiff"
-                            },
-                            "message": "De stand is weer geüpdated"
-                        }
+                    // todo get all users from onesignal
+                    // https://onesignal.com/api/v1/players?app_id=eb25a650-dde9-4137-9b48-e4e1323c93a7
+                    // var promise = $http.get('https://onesignal.com/api/v1/players?app_id=eb25a650-dde9-4137-9b48-e4e1323c93a7').then(function (response) {
+                        // The then function here is an opportunity to modify the response
+                    // console.log(response);
+                        // The return value gets picked up by the then in the controller.
+
+                        //underscore foreach
+                    // });
+
+                    var message = {
+                        app_id: onesignalAppID,
+                        headings: {"en": "Super Eleven"},
+                        contents: {"en": "De stand is weer bijgewerkt"},
+                        included_segments: ["All"],
+                        ios_badgeType: "SetTo",
+                        ios_badgeCount: 1
                     };
-                    console.log("going to send push");
-                    ionicPushServer(credentials, notification);
+
+                    sendNotification(message);
                     res.status(201).json("{push verzonden!}");
-
 
                 }
             }
@@ -220,6 +255,37 @@ apiRoutes.put("/questionsScoreform/", function (req, res) {
     }
 });
 
+
+apiRoutes.put("/updateQuestionsScoreform/", function (req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+        async.waterfall([
+            function (callback) {
+                var decoded = jwtDecode(token, secret);
+                management.getUser({id: decoded.sub}, function (err, user) {
+                    if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+                    callback(null, user);
+                });
+            },
+            function (user, callback) {
+                if (user.app_metadata.roles.indexOf('admin') > -1) {
+                    QuestionsScoreForm.findOneAndUpdate({}, req.body, ({upsert: true}), function (err, questionsScoreForm) {
+                        if (err) return handleError(res, err.message, "Failed to Update questions");
+                        res.status(200).json(questionsScoreForm);
+                        console.log("saved questions")
+                    });
+                }
+                else {
+                    return res.status(403).send({
+                        success: false,
+                        msg: 'Niet geautoriseerd om wijziging om headline toe te voegen'
+                    })
+                }
+            }
+        ])
+    }
+});
+
 apiRoutes.get("/matchesScoreform/", function (req, res, next) {
     MatchesScoreForm.findOne(function (err, questions) {
         if (err) {
@@ -263,6 +329,37 @@ apiRoutes.put("/matchesScoreform/", function (req, res) {
     }
 });
 
+apiRoutes.put("/updateMatchesScoreform/", function (req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+        async.waterfall([
+            function (callback) {
+                var decoded = jwtDecode(token, secret);
+                management.getUser({id: decoded.sub}, function (err, user) {
+                    if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+                    callback(null, user);
+                });
+
+            },
+            function (user, callback) {
+                if (user.app_metadata.roles.indexOf('admin') > -1) {
+                    MatchesScoreForm.findOneAndUpdate({}, req.body, ({upsert: true}), function (err, matchesScoreform) {
+                        if (err) return handleError(res, err.message, "Failed to Update questions");
+                        res.status(200).json(matchesScoreform);
+                        console.log("saved matches")
+                    });
+                }
+                else {
+                    return res.status(403).send({
+                        success: false,
+                        msg: 'Niet geautoriseerd om wijziging om headline toe te voegen'
+                    })
+                }
+            }
+        ])
+    }
+});
+
 apiRoutes.get("/eindstandscoreform", function (req, res, next) {
     Eindstandscoreform.findOne(function (err, eindstand) {
         if (err) {
@@ -291,7 +388,6 @@ apiRoutes.put("/eindstandscoreform/", function (req, res) {
                         if (err) return handleError(res, err.message, "Failed to Update eindstand");
                         res.status(200).json(eindstandscoreform);
                         console.log("saved eindstand");
-                        //todo calculate eindstand
                         calculateeindstand.calculateEindstand(50);
                     });
                 }
@@ -305,5 +401,37 @@ apiRoutes.put("/eindstandscoreform/", function (req, res) {
         ])
     }
 });
+
+
+apiRoutes.put("/updatePlayersScoreform/", function (req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+        async.waterfall([
+            function (callback) {
+                var decoded = jwtDecode(token, secret);
+                management.getUser({id: decoded.sub}, function (err, user) {
+                    if (!user.email_verified) return res.status(200).json("Om wijzigingen door te kunnen voeren moet je eerst je mail verifieren. Kijk in je mailbox voor meer informatie.")
+                    callback(null, user);
+                });
+            },
+            function (user, callback) {
+                if (user.app_metadata.roles.indexOf('admin') > -1) {
+                    EredivisiePlayers.findOneAndUpdate({}, req.body, ({upsert: true}), function (err, playersscoreform) {
+                        if (err) return handleError(res, err.message, "Failed to Update eindstand");
+                        res.status(200).json(playersscoreform);
+                        console.log("saved eindstand");
+                    });
+                }
+                else {
+                    return res.status(403).send({
+                        success: false,
+                        msg: 'Niet geautoriseerd om wijziging om headline toe te voegen'
+                    })
+                }
+            }
+        ])
+    }
+});
+
 
 module.exports = apiRoutes;

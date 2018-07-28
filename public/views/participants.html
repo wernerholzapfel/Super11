@@ -18,6 +18,11 @@
 <div class="row" ng-controller="ParticipantApiController">
     <div class="col-md-12">
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="note note-success note-bordered">
+            <p>
+                Klik op de naam van een deelnemer om zijn of haar voorspellingen te zien.
+            <p>
+        </div>
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
@@ -48,15 +53,15 @@
                         <tbody>
                             <tr ng-repeat="participant in participants">
                                 <td>
-                                    <a href="#/predictions/{{participant.Name}}">
-                                        {{ participant.Name }}
+                                    <a href="#/predictions/{{participant.Participant.Name}}">
+                                        {{ participant.Participant.Name }}
                                     </a>
                                 </td>
                                 <td>
-                                    {{ participant.Location }}
+                                    {{ participant.Participant.Location }}
                                 </td>
                                 <td>
-                                    {{ participant.Gender }}
+                                    {{ participant.Participant.Gender }}
                                 </td>
 
                             </tr>

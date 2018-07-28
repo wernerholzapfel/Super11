@@ -16,7 +16,14 @@
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
 <div class="row" ng-controller="ScoreFormApiController">
-    <div class="col-md-12">
+
+    <div class="note note-success note-bordered" ng-show="!authService.isAdmin()">
+        <h3>Deze pagina is alleen beschikbaar voor de administrators van deze website<span data-close="note"></span>
+        </h3>
+        <p> Log eerst in om de standen bij te kunnen werken</p>
+    </div>
+
+    <div class="col-md-12" ng-show="authService.isAdmin()">
         <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
         </uib-alert>
         <uib-tabset active="active">
@@ -27,7 +34,7 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-user"></i>Scores voor nieuwe ronde {{newScoreFormList.RoundId}}
-                                <button style="color=black;color: black;" value="Save"
+                                <button class="btn btn-default" value="Save"
                                         ng-click="saveNewScoreFormList()">Save nieuwe ronde
                                 </button>
                             </div>
@@ -130,7 +137,6 @@
                     </div>
                 </form>
             </uib-tab>
-
             <uib-tab heading="Vragen formulier">
                 <div class="portlet-body form">
                     <form name="questionForm" class="form-horizontal form-bordered">
@@ -139,7 +145,7 @@
                             <div class="portlet-title">
                                 <div class="caption">
                                     <i class="fa fa-user"></i>Vragen lijst invullen
-                                    <button style="color=black;color: black;" value="Save"
+                                    <button class="btn btn-default" value="Save"
                                             ng-click="updateVragenForm()">Save
                                     </button>
                                 </div>
@@ -207,7 +213,7 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-user"></i>Wedstrijden lijst invullen
-                                <button style="color=black;color: black;" value="Save"
+                                <button class="btn btn-default" value="Save"
                                         ng-click="updateWedstrijdenForm()">Save
                                 </button>
                             </div>
@@ -222,6 +228,9 @@
                                     <thead>
                                     <tr>
                                         <th>
+                                            Datum
+                                        </th>
+                                        <th>
                                             Wedstrijd
                                         </th>
                                         <th>
@@ -233,7 +242,10 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="matches in wedstrijdenScoreform.Matches">
+                                    <tr ng-repeat="matches in wedstrijdenScoreform.Matches | orderBy:['Date']">
+                                        <td>
+                                            {{matches.Date | date:'yyyy-MM-dd HH:mm' }}
+                                        </td>
                                         <td>
                                             {{ matches.Match }}
                                         </td>
@@ -260,9 +272,9 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-user"></i>Eindstand Eredivisie
-                                <button style="color=black;color: black;" value="Save" ng-click="saveEindstandForm()">
+                                <button class="btn btn-default" value="Save" ng-click="saveEindstandForm()">
                                     Save
-
+                                </button>
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -301,10 +313,10 @@
                                         ng-change="getscoreformbyroundid(selectedRound)">
                                 </select>
                                 <i class="fa fa-user"></i>
-                                <button style="color=black;color: black;" value="Save" ng-click="updateScoreForm()">Save
+                                <button class="btn btn-default" value="Save" ng-click="updateScoreForm()">Save
                                     ronde {{oldScoreForms.RoundId}}
                                 </button>
-                                <button style="color=black;color: black;" ng-click="pushNotification()">stuur push
+                                <button class="btn btn-default" ng-click="pushNotification()">stuur push
                                 </button>
                             </div>
                             <div class="tools">
