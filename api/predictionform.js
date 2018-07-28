@@ -113,15 +113,15 @@ apiRoutes.get('/predictionform', function (req, res) {
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 13,
-                                "SelectedTeam": "Roda JC",
+                                "SelectedTeam": "FC Emmen",
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 14,
-                                "SelectedTeam": "Sparta",
+                                "SelectedTeam": "Fortuna Sittard",
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 15,
-                                "SelectedTeam": "FC Twente",
+                                "SelectedTeam": "De Graafschap",
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 16,

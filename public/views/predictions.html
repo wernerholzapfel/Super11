@@ -18,7 +18,10 @@
     <!-- END PAGE HEADER-->
     <!-- BEGIN MAIN CONTENT -->
     <div class="row">
-        <div class="col-md-12">
+        <div ng-if="isinschrijvingopen" class="note note-success note-bordered">Na de deadline kan je hier de
+            voorspellingen zien
+        </div>
+        <div class="col-md-12" ng-if="!isinschrijvingopen">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <div class="portlet box green">
                 <div class="portlet-title">
@@ -39,14 +42,14 @@
                                      <th>
                                         Speler
                                     </th>
-                                   
+
                                     <th>
                                         Positie
                                     </th>
                                     <th>
                                         Team
                                     </th>
-                                  
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,7 +65,7 @@
                                         <img class="clubicon" ng-src="clubicons/{{player.Team}}.png">
                                         {{ player.Team }}
                                     </td>
-                                   
+
                                 </tr>
                             </tbody>
                         </table>
@@ -192,7 +195,7 @@
                 </div>
             </div>
 
-         
+
         </div>
     </div>
 </div>
