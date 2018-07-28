@@ -7,7 +7,7 @@ var _ = require('lodash');
 
 apiRoutes.get("/isinschrijvingopen", function (req, res, next) {
     var date = new Date;
-    var einddatum = moment("2017-09-09").tz("Europe/Amsterdam");
+    var einddatum = moment("2018-09-14").tz("Europe/Amsterdam");
     const uren = 18;
     const minuten = 30;
 
@@ -36,7 +36,7 @@ apiRoutes.get("/istransfermarktopen", function (req, res, next) {
     var nu = moment(date).tz("Europe/Amsterdam");
     var nuInString = (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
 
-    //check of transferperiode open is 
+    //check of transferperiode open is
     if (nu >= startdatum && nu < einddatum) {
         //check of speeldag is
         if (_.includes(speeldatums, nuInString)) {
