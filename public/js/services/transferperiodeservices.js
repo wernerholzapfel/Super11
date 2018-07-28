@@ -26,3 +26,13 @@ angular.module('MetronicApp').service('savetransfersservice', function ($http,AP
     }
 });
 
+
+angular.module('MetronicApp').service('saveteamservice', function ($http, API_ENDPOINT) {
+    //Create new record
+    this.post = function (registrationForm) {
+        var req = $http.post(API_ENDPOINT.url + '/saveteam', registrationForm);
+        return req;
+//
+    }
+});
+

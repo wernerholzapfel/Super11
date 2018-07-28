@@ -67,8 +67,8 @@ var postcomments = require('./api/postcomments');
 // var signup = require('./api/signup');
 // app.use('/api',signup);
 
-// var predictionform = require('./api/predictionform');
-// app.use('/api', predictionform);
+var predictionform = require('./api/predictionform');
+app.use('/api', predictionform);
 
 var homepagestats = require('./api/homepagestats');
 var scoreforms = require('./api/scoreforms');
@@ -83,8 +83,11 @@ var istransfermarktopen = require('./api/istransfermarktopen');
 var rounds = require('./api/rounds');
 var getlatestteam = require('./api/getlatestteam');
 var savetransfers = require('./api/savetransfers');
+var participants = require('./api/participants');
 
-app.use('/api', homepagestats, comments, standen, headlines, statistieken, eredivisieplayers, predictions, rounds, istransfermarktopen);
+
+app.use('/api', homepagestats, comments, headlines, eredivisieplayers, predictions, rounds, istransfermarktopen);
+app.use('/api', standen, statistieken, participants);
 app.use('/api', authenticateCall, totalscoreperuser, scoreforms, postheadlines, postcomments, getlatestteam, savetransfers);
 
 
@@ -106,3 +109,8 @@ handleError = function (res, reason, message, code) {
     console.log("ERROR: " + reason);
     res.status(code || 500).json({"error": message});
 };
+
+//
+// var copy = require('./copyTeamsToNewTable');
+//
+// copy.copyTeamsToNewTable();

@@ -11,7 +11,7 @@
 <div ng-controller="DashboardController">
 	<!-- BEGIN DASHBOARD STATS -->
 	<div class="row">
-		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-if="laatsteupdate">
 			<div class="dashboard-stat dashboard-stat-v2 green">
 				<div class="visual">
 					<i class="fa fa-clock-o"></i>
@@ -28,7 +28,7 @@
 			</div>
 		</div>
 
-		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-if="nummereentotaalstand">
 			<div class="dashboard-stat dashboard-stat-v2 green">
 				<div class="visual">
 					<i class="fa fa-line-chart"></i>
@@ -46,7 +46,7 @@
                 </a>-->
 			</div>
 		</div>
-		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-if="nummereenteamstandlaatsteronde">
 			<div class="dashboard-stat dashboard-stat-v2 green">
 				<div class="visual">
 					<i class="fa fa-line-chart"></i>
@@ -66,34 +66,39 @@
 
 	</div>
 	<!-- END DASHBOARD STATS -->
-
-	<!--<div class="note note-success note-bordered">
+    <div ng-if="isAuthenticated && !authService.isVerified()" class="note note-danger note-bordered">
+        <h4> Er is een mail gestuurd om je account te verifieren. Nadat je je account hebt geverifieerd moet je opnieuw
+            inloggen.
+        </h4>
+    </div>
+	<div ng-if="!isAuthenticated" class="note note-success note-bordered">
 		<h3>Welkom bij Super 11<span data-close="note"></span></h3>
 		<p>
 			Beste voetballiefhebber,
-			<br><br> Welkom op de gloednieuwe website van de Super 11! De Super 11 is een vrij eenvoudige voetbalpool waarbij je een
+			<br><br> Welkom op de website van de Super 11! De Super 11 is een eenvoudige voetbalpool waarbij je een
 			team selecteert van 11 eredivisiespelers (max. 1 speler per club). Je spelers verdienen punten door middel van hun verrichtingen
 			in de Eredivisie. Naast het maken van jouw eigen team voorspel je de eindstand van de Eredivisie, beantwoord je een aantal
-			bonusvragen en voorspel je de uitslagen van een aantal voetbalkrakers die komend seizoen op de Europese velden gespeeld
+			bonusvragen en voorspel je de uitslagen van een aantal voetbalkrakers die komend seizoen op de velden
+			gespeeld
 			gaan worden.
-			<br><br> Er zijn een aantal veranderingen ten opzichte van de vorige jaargang. Zo krijgen je spelers nu ook punten voor
-			assists, is het geen verplichting dat je aanvoerder een verdediger is en kies je zelf je spelsysteem. Voor de volledige
-			uitleg en puntentelling verwijs ik je naar de spelregels.
-			<br><br> We starten met de puntentelling vanaf speelronde 5 en de inleg is 10 euro. Zorg ervoor dat je deelnameformulier
-			uiterlijk zaterdag 10 september 2016 om 18.30 uur ingestuurd is.
-			<br><br> Wie wordt de winnaar van de Super 11 seizoen 2016-2017?
-			<br><br> <b>De inschrijving is gesloten.</b>
+			<br><br>Voor de volledige
+            uitleg en puntentelling verwijzen we je naar de spelregels.
+			<br><br> We starten met de puntentelling vanaf speelronde 4. Zorg ervoor dat je
+			deelnameformulier uiterlijk zaterdag 9 september 2017 om 18.30 uur ingestuurd is.
+			Na je inschrijving kun je je voorspellingen nog wijzigen tot 9 september 18:30.
+			<br><br> Wie wordt de winnaar van de Super 11 seizoen 2017-2018?
+			<br>
 			<p>
 
-	</div>-->
+    </div>
 
-    <div class="row" ng-if="isAuthenticated">
+	<div class="row" ng-if="isAuthenticated && totalscoreuser">
 		<div class="col-lg-12">
 			<div class="note note-success note-bordered">
 				<div class="visual">
 					<i class="fa fa-graph-o"></i>
 				</div>
-				<div class="details" ng-if="showUserScore">
+                <div class="details">
 					<h3>
 						{{totalscoreuser}}
 					</h3>

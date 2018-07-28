@@ -8,11 +8,11 @@ var _ = require('lodash');
 var exports = module.exports = {};
 
 exports.setNumberOfTimesAplayerIsSelected = function () {
-    console.log("start determine if player is selected");
+    // console.log("start determine if player is selected");
     async.waterfall([
         function (callback) {
             eredivisiePlayers.find({}, {}).exec(function (err, eredivisiePlayersList) {
-                console.log("eredivisiePlayersList length: " + eredivisiePlayersList[0].Player.length)
+                // console.log("eredivisiePlayersList length: " + eredivisiePlayersList[0].Player.length)
                 if (err) return console.error(err);
 
                 callback(null, eredivisiePlayersList);
@@ -36,7 +36,7 @@ exports.setNumberOfTimesAplayerIsSelected = function () {
                         }
                     }
                 ], function (err, predictionsList) {
-                    console.log("predictions length: " + predictionsList.length)
+                    // console.log("predictions length: " + predictionsList.length)
                     if (err) return console.error(err);
                     callback(null, eredivisiePlayersList, predictionsList);
                 });
@@ -50,7 +50,7 @@ exports.setNumberOfTimesAplayerIsSelected = function () {
                         }
                     }, function (err, updatedPlayer) {
                         if (err) return console.error("error: " + err);
-                        console.log("set player unselected ");
+                        // console.log("set player unselected ");
                     });
                 }
             });
@@ -60,14 +60,14 @@ exports.setNumberOfTimesAplayerIsSelected = function () {
             async.each(predictionsList, function (predictionItem, callback) {
                 async.each(predictionItem.Team, function (player, callback) {
                     //save to mongodb;
-                    if (player) {
+                    if (player && player.PlayerId) {
                         eredivisiePlayers.update({'Player.Id': parseInt(player.PlayerId)}, {
                             '$set': {
                                 'Player.$.Selected': true
                             }
                         }, function (err, updatedPlayer) {
                             if (err) return console.error("error: " + err);
-                            console.log("set player selected " + player);
+                            // console.log("set player selected " + player);
                         });
                     }
                 }, function (err) {

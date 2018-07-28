@@ -4,15 +4,34 @@ var mongoose = require('mongoose');
 var moment = require('moment-timezone');
 var _ = require('lodash');
 
+
+apiRoutes.get("/isinschrijvingopen", function (req, res, next) {
+    var date = new Date;
+    var einddatum = moment("2017-09-09").tz("Europe/Amsterdam");
+    const uren = 18;
+    const minuten = 30;
+
+    var nuDateTime = moment(date).tz("Europe/Amsterdam");
+    var nuDate = moment(date).startOf('Day').tz("Europe/Amsterdam");
+
+    if (nuDate.isAfter(einddatum) ||
+        (nuDate.isSame(einddatum) && nuDateTime.hours() == uren && nuDateTime.minutes() >= minuten) ||
+        (nuDate.isSame(einddatum) && nuDateTime.hours() > uren)) {
+        res.status(200).json(false);
+    }
+    else {
+        res.status(200).json(true)
+    }
+});
+
+
 apiRoutes.get("/istransfermarktopen", function (req, res, next) {
     var date = new Date;
-    var startdatum = moment("2016-12-19");
-    var einddatum = moment("2017-02-04");
+    var startdatum = moment("2017-12-25");
+    var einddatum = moment("2018-02-03");
     var speeldatums = [];
-    speeldatums.push("2017-1-13", "2017-1-14", "2017-1-15");
-    speeldatums.push("2017-1-20", "2017-1-21", "2017-1-22");
-    speeldatums.push("2017-1-27", "2017-1-28", "2017-1-29");
-    speeldatums.push("2017-2-3", "2017-2-4", "2017-2-5");
+    speeldatums.push("2018-1-19", "2018-1-20", "2017-1-21");
+    speeldatums.push("2018-1-26", "2018-1-27", "2018-1-28", "2018-2-2");
 
     var nu = moment(date).tz("Europe/Amsterdam");
     var nuInString = (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());

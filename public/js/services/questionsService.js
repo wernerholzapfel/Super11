@@ -23,6 +23,13 @@ angular.module('MetronicApp').service('updateQuestionsService', function ($http,
   }
 });
 
+angular.module('MetronicApp').service('updateQuestionsScoreform', function ($http, API_ENDPOINT) {
+    this.put = function (questions) {
+        var req = $http.put(API_ENDPOINT.url + '/updateQuestionsScoreform/', questions);
+        return req;
+    }
+});
+
 
 angular.module('MetronicApp').factory('getGivenAnswersForQuestionService', function ($http, API_ENDPOINT) {
     var myService = {

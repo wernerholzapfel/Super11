@@ -32,7 +32,6 @@ angular.module('MetronicApp').controller('HeadlinesApiController', function (hea
     headline.error(function () {
       $scope.showConfirm = false;
 
-      //todo http://stackoverflow.com/questions/23086664/how-to-render-errors-to-client-angularjs-webapi-modelstate
       $scope.alerts.push({ type: 'danger', msg: "Er is iets misgegaan, controleer of alle velden zijn ingevuld en probeer het opnieuw" });
     });
   };

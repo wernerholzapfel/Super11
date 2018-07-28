@@ -15,7 +15,8 @@ var wedstrijdenStandSchema = new mongoose.Schema({
 		Away: { type: Number, required: false },
         Score: { type: Number, required: false },
 		Uitslag : {type: String, required: false},
-		RoundId: {type: Number, required: false}
+        RoundId: {type: Number, required: false},
+        Date: {type: Date, required: true}
 	}],
 	TotalMatchesScore: { type: Number, required: true }
 });

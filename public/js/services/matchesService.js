@@ -23,3 +23,17 @@ angular.module('MetronicApp').service('updateMatchesService', function($http,API
         return req;
   }
 });
+
+angular.module('MetronicApp').service('updateMatchesScoreform', function ($http, API_ENDPOINT) {
+    this.put = function (questions) {
+        var req = $http.put(API_ENDPOINT.url + '/updateMatchesScoreform/', questions);
+        return req;
+    }
+});
+
+angular.module('MetronicApp').service('updatePlayersScoreform', function ($http, API_ENDPOINT) {
+    this.put = function (questions) {
+        var req = $http.put(API_ENDPOINT.url + '/updatePlayersScoreform/', questions);
+        return req;
+    }
+});

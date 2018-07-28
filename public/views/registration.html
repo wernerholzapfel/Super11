@@ -1,0 +1,466 @@
+﻿<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title ng-scope">
+    Inschrijven
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb breadcrumb ng-scope">
+        <li>
+            <a href="#/dashboard.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li class="active">Inschrijven</li>
+    </ul>
+    <div class="page-toolbar">
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div ng-if="!isinschrijvingopen" class="note note-success note-bordered">
+    <h4> De inschrijving is gesloten
+
+    </h4>
+</div>
+
+
+<div ng-show="(!isAuthenticated || !authService.isVerified()) && isinschrijvingopen">
+    <div ng-if="isAuthenticated && !authService.isVerified()" class="note note-danger note-bordered">
+        <h4> Er is een mail gestuurd naar je account. Deze moet je eerst verifieren. Log daarna opnieuw in.
+        </h4>
+    </div>
+    <div class="note note-success note-bordered">
+        <h4> Je moet een account hebben en ingelogd zijn om je voorspellingen op te slaan. Heb je vorig jaar meegedaan
+            dan kan je met hetzelfde account mee doen.
+            Klik rechtsboven op inloggen.<br>
+
+            Mocht je niet via Facebook of Gmail een account aanmaken, dan ontvang je na het inschrijven een
+            email ter verificatie. Deze moet je eerst verifieren alvorens je verder kunt. Log na het verifieren opnieuw
+            in.
+            <br><br><br>
+
+            Veel plezier met een nieuw seizoen Super Eleven!<br><br>
+
+            Remy & Werner
+
+        </h4>
+    </div>
+</div>
+
+
+<div id="contentPage" class="row" ng-controller="RegistrationApiController"
+     ng-if="isAuthenticated && authService.isVerified()">
+    <div class="col-md-12">
+        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
+        </uib-alert>
+        <div ng-show="showParticipant">
+
+            <form name="participantForm" class="form-horizontal form-bordered">
+                <!-- BEGIN TABLE PORTLET-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Schrijf je nu in
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <td>Voor- en achternaam</td>
+                                        <td>
+                                            <input type="text" name="Name" required ng-model="data.Participant.Name"/>
+                                            <br/>
+
+                                            <div ng-show="form.$submitted || form.Name.$touched">
+                                                <div ng-show="form.Name.$error.required">Wat is je naam?</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Woonplaats</td>
+                                        <td>
+                                            <input type="text" name="Location" required
+                                                   ng-model="data.Participant.Location"/>
+                                            <br/>
+
+                                            <div ng-show="form.$submitted || form.Location.$touched">
+                                                <div ng-show="form.Location.$error.required">Wat is je woonplaats?</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Geslacht</td>
+                                        <td>
+                                            <input type="radio" name="Gender" required
+                                                   ng-model="data.Participant.Gender" value="Man"> Man
+                                            <input type="radio" name="Gender" required
+                                                   ng-model="data.Participant.Gender" value="Vrouw"> Vrouw
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Telefoon</td>
+                                        <td>
+                                            <input type="tel" name="PhoneNumber" required
+                                                   ng-model="data.Participant.PhoneNumber"/>
+                                            <br/>
+
+                                            <div ng-show="form.$submitted || form.PhoneNumber.$touched">
+                                                <span ng-show="form.PhoneNumber.$error.required">Wat is je telefoonnummer?</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn green" value="Next" ng-disabled="participantForm.$invalid" ng-click="tableView()">
+                    Volgende
+                </button>
+            </form>
+        </div>
+
+        <div ng-show="showTable">
+            <div class="note note-success note-bordered">
+                <h3>Eindstand Eredivisie 2017-2018<span data-close="note"></span></h3>
+                <p>
+                    Voorspel de eindstand van de Eredivisie 2017-2018 door de clubs naar de juiste positie te slepen.
+                <p>
+            </div>
+            <form name="tableForm" class="form-horizontal form-bordered">
+                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{tableMsg}}
+                </uib-alert>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="portlet box green ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Eindstand Eredivisie
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+                                <div class="mt-element-list">
+                                    <!--<div class="mt-list-head list-simple font-white">
+                                        <div class="list-head-title-container">
+                                        </div>
+                                    </div>-->
+                                    <div class="mt-list-container list-simple">
+                                        <ul ui-sortable="sortableOptions" ng-model="data.Table">
+                                            <li ng-repeat="team in data.Table" class="mt-list-item draggablePointer">
+                                                {{$index+1}}
+                                                <img class="clubicon" ng-src="tableclubicons/{{team.SelectedTeam}}.png">
+                                                {{team.SelectedTeam}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <button class="btn green" value="Previous" ng-click="participantView()" ng-show="showTable">Terug
+                </button>
+                <button class="btn green" value="Next" ng-disabled="tableForm.$invalid" ng-click="teamView()">Volgende
+                </button>
+            </form>
+        </div>
+
+        <div ng-show="showTeam">
+            <div class="note note-success note-bordered">
+                <p>
+                    Stel jouw Super11 team samen. Kies als eerst een spelsysteem waarin je jouw team wil gaan laten
+                    spelen. Vervolgens kun je per club 1 speler opnemen in het team door op het plus-icoon te klikken
+                    voor de naam van de speler. In de spelerslijst kun je zoeken op club, positie en naam van de speler.
+                    Selecteer als laatste je aanvoerder.
+                <p>
+            </div>
+            <form name="teamForm" class="form-horizontal form-bordered">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Kies je team
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+
+                                <div class="table-scrollable">
+
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <td>Formatie:
+                                                <select ng-name="selectedFormation" required
+                                                        ng-model="selectedFormation"
+                                                        ng-change="setFormation(selectedFormation)">
+                                                    <option ng-model="formations" ng-repeat="formation in formations"
+                                                            ng-value="formation.Formation"
+                                                            value="{{formation.Formation}}">
+                                                        {{formation.Formation}}
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        </thead>
+                                        <tbody ng-repeat="pos in playerPositions">
+                                        <tr>
+                                            <td> {{pos.PositionUi}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr ng-repeat="player in data.Team | filter : {Position:pos.Position}">
+                                            <td>
+                                                <button class="btn green" ng-if="player.PlayerName != ''"
+                                                        ng-click="removeplayerfromteam(player)">-
+                                                </button>
+                                                <img ng-if="player.PlayerName != ''" class="clubicon"
+                                                     ng-src="tableclubicons/{{player.Team}}.png">
+                                                <span ng-if="player.PlayerName == ''"> Kies een {{pos.PositionUi}}</span>
+                                                {{player.PlayerName}} ({{player.Team}})
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr>
+                                            <td>Captain:
+                                                <select ng-name="captain" required ng-model="captainId"
+                                                        ng-blur=updateCaptain(captainId)
+                                                        ng-change="updateCaptain(captainId)">
+                                                    <option ng-model="captainId" ng-value="player.PlayerId"
+                                                            ng-repeat="player in data.Team | orderBy:['Team']"
+                                                            value="{{player.PlayerId}}">{{player.PlayerName}}
+                                                        ({{player.Team}})
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn green" value="Previous" ng-click="tableView()" ng-show="showTeam">Terug
+                        </button>
+                        <button class="btn green" value="Next" ng-disabled="poulesForm.$invalid" ng-show="showTeam"
+                                ng-click="questionsView()">Volgende
+                        </button>
+
+                    </div>
+
+                    <!--playerlist tabel-->
+                    <div class="col-md-6">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Spelerslijst
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+
+                                <div class="table-scrollable">
+
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <td>Club:
+                                                <select ng-name="selectedTeam" required ng-model="selectedTeam">
+                                                    <option ng-model="team.Team" ng-repeat="team in teams"
+                                                            ng-value="team.Team">
+                                                        {{team.Team}}
+                                                    </option>
+                                                    <option ng-selected=true></option>
+
+                                                </select>
+                                            </td>
+                                            <td>Positie:
+                                                <select ng-name="selectedPositie" required ng-model="selectedPositie">
+                                                    <option ng-model="positie.Position"
+                                                            ng-repeat="positie in playerPositions"
+                                                            ng-model="positie.Position" ng-value="positie.Position">
+                                                        {{positie.PositionUi}}
+                                                    </option>
+                                                    <option ng-selected=true></option>
+
+                                                </select>
+                                            </td>
+                                            <td>Naam:
+                                                <input type="text" ng-model="searchName"/>
+                                            </td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <tr ng-repeat="player in players | filter:{Position:selectedPositie} | filter:{Team:selectedTeam} | filter:{Name:searchName} | orderBy:['Team','PositionSort','Name']"
+                                            ng-hide="player.PreSelected">
+                                            <td colspan="2">
+                                                <button class="btn green" ng-click="addPlayerToSelection(player)">+
+                                                </button>
+                                                {{player.Name}} ({{player.Position}})
+                                            </td>
+                                            <td>
+                                                {{player.Team}}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div ng-show="showQuestions">
+            <div class="note note-success note-bordered">
+                <h3>Bonusvragen<span data-close="note"></span></h3>
+                <p>
+                    Beantwoord deze 25 bonusvragen. Vul je antwoord zo volledig mogelijk in (Manchester United ipv Man.
+                    Utd). Bij getallen kun je gewoon de cijfers gebruiken.
+                <p>
+            </div>
+            <form name="questionsForm" class="form-horizontal form-bordered">
+                <uib-alert type="success" ng-show="tableForm.$invalid" close="closeAlert($index)">{{questionMsg}}
+                </uib-alert>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Beantwoord deze {{data.Questions.length}} vragen!
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <td>Vraag</td>
+                                        <td>Antwoord</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="question in data.Questions">
+                                        <td>
+                                            {{question.Question}}
+                                        </td>
+                                        <td><input type="text" ng-model="question.Answer"/>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn green" value="Previous" ng-click="teamView()" ng-show="showQuestions">Terug</button>
+                <button class="btn green" value="Next" ng-show="showQuestions" ng-click="matchesView()">Volgende
+                </button>
+            </form>
+        </div>
+
+        <div ng-show="showMatches">
+            <div class="note note-success note-bordered">
+                <h3>Uitslagen wedstrijden<span data-close="note"></span></h3>
+                <p>
+                    Voorspel de uitslag van de onderstaande wedstrijden.
+                <p>
+            </div>
+            <form name="matchesForm" class="form-horizontal form-bordered">
+                <uib-alert type="success" ng-show="matchesForm.$invalid" close="closeAlert($index)">{{questionMsg}}
+                </uib-alert>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-user"></i>Voorspel de {{data.Matches.length}} wedstrijden!
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body form">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <td>Datum</td>
+                                        <td>Wedstrijd</td>
+                                        <td>Thuis</td>
+                                        <td>Uit</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="match in data.Matches | orderBy:['Date']">
+                                        <td>
+                                            {{match.Date | date:'dd-MM-yyyy HH:mm' }}
+                                        </td>
+                                        <td>
+                                            {{match.Match}}
+                                        </td>
+                                        <td><input type="number" size="1" min="0" max="9" name="Home" required custom
+                                                   ng-minlength="1" ng-model="match.Home"
+                                        />
+                                        </td>
+                                        <td><input type="number" size="1" min="0" max="9" name="Away" required custom
+                                                   ng-minlength="1" ng-model="match.Away"
+                                        />
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn green" value="Previous" ng-click="questionsView()" ng-show="showMatches">Terug
+                </button>
+                <button class="btn green" value="Next" ng-show="showMatches" ng-click="save()">Opslaan
+                </button>
+            </form>
+        </div>
+
+    </div>
+    <!-- END TABLE PORTLET-->
+</div>
+
+
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS -->
+<script>
+    function AdvancedDatatablesDemoCtrl($scope) {
+        TableAdvanced.init();
+    }
+
+
+</script>
+<!-- END MAIN JS -->

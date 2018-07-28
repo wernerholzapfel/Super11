@@ -1,7 +1,7 @@
 <!-- BEGIN PAGE HEADER-->
 <div ng-controller="StatistiekenApiController">
     <h3 class="page-title ng-scope">
-        Super 11 Statistieken
+        Statistieken
     </h3>
     <div class="page-bar">
         <ul class="page-breadcrumb breadcrumb ng-scope">
@@ -16,12 +16,71 @@
     </div>
     <!-- END PAGE HEADER-->
     <!-- BEGIN MAIN CONTENT -->
-
-    <div class="row">
+    <div class="note note-success note-bordered" ng-if="gekozenspelers.length === 0">
+        <h3>Welkom bij Super 11<span data-close="note"></span></h3>
+        <p> Na de deadline komt hier een overzicht van de gekozen spelers voor dit seizoen.</p>
+    </div>
+    <div class="row" ng-if="gekozenspelers.length > 0">
 
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <uib-tabset active="active">
+
+                <uib-tab heading="Speler totaalpunten">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa"></i>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <div class="table-scrollable">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th> Naam</th>
+                                        <th> Gesp</th>
+                                        <th> W</th>
+                                        <th> G</th>
+                                        <th> 0</th>
+                                        <th> D</th>
+                                        <th> E.D.</th>
+                                        <th> A</th>
+                                        <th> G</th>
+                                        <th> R</th>
+                                        <th> Tot.</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="player in spelerstotaalpunten" ng-if="player.TotalScore > 0"
+                                        ng-click="showDeelnemersMetSpeler(player._id.playerId)">
+                                        <td>
+                                            <img class="clubicon" ng-src="clubicons/{{player.Team}}.png">
+                                            <a>{{player.Name}}</a>
+                                        </td>
+                                        <td> {{player.Played}}</td>
+                                        <td> {{player.Won}}</td>
+                                        <td> {{player.Draw}}</td>
+                                        <td> {{player.CleanSheetScore}}</td>
+                                        <td> {{player.Goals}}</td>
+                                        <td> {{player.OwnGoals}}</td>
+                                        <td> {{player.Assist}}</td>
+                                        <td> {{player.YellowCard}}</td>
+                                        <td> {{player.RedCard}}</td>
+                                        <td> {{player.TotalScore}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
                 <uib-tab heading="Gekozen spelers">
                     <div class="portlet box green">
                         <div class="portlet-title">
@@ -37,23 +96,29 @@
                             <div class="table-scrollable">
                                 <table class="table table-striped">
                                     <thead>
-                                        <tr>
+                                    <tr>
 
-                                            <th>
-                                                Naam
-                                            </th>
-                                            <th>
-                                                Aantal x gekozen
-                                            </th>
-                                        </tr>
+                                        <th>
+                                            Naam
+                                        </th>
+                                        <th>
+                                            Aantal x gekozen
+                                        </th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="gekozenspeler in gekozenspelers">
-                                            <td>{{gekozenspeler.PlayerName}}</td>
-                                            <td>
-                                             {{ gekozenspeler.Count}}
-                                            </td>
-                                        </tr>
+                                    <tr ng-repeat="gekozenspeler in gekozenspelers"
+                                        ng-click="showDeelnemersMetSpeler(gekozenspeler.PlayerId)"
+                                        ng-if="gekozenspeler.PlayerName">
+                                        <td>
+                                            <a><img class="clubicon" ng-src="clubicons/{{gekozenspeler.Team}}.png">
+                                                {{gekozenspeler.PlayerName}}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ gekozenspeler.Count}}
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                                 </tbody>
@@ -63,17 +128,94 @@
                     </div>
                 </uib-tab>
 
+
             </uib-tabset>
             <!-- END EXAMPLE TABLE PORTLET-->
         </div>
     </div>
     <!-- END MAIN CONTENT -->
     <!-- BEGIN MAIN JS -->
+    <script type="text/ng-template" id="deelnemersmetspeler.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click=close()>&times;</button>
+            <h4>
+                <img class="clubicon" ng-src="clubicons/{{gekozenspeler.Team}}.png">
+                {{gekozenspeler.Name}} is {{deelnemers.length}}x gekozen</h4>
+        </div>
+        <div class="modal-body">
+            <div class="table-scrollable">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th ng-click="sortTable('Name')"><a>
+                            Naam
+                            <span ng-show="sortType == 'Name' && !sortReverse"
+                                  class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'Name' && sortReverse"
+                                  class="fa fa-caret-up"></span></a>
+                        </th>
+                        <th ng-click="sortTable('TotalScore')"><a>
+                            Totaal
+                            <span ng-show="sortType == 'TotalScore' && !sortReverse"
+                                  class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'TotalScore' && sortReverse"
+                                  class="fa fa-caret-up"></span></a>
+                        </th>
+                        <th ng-click="sortTable('TotalTeamScore')"><a>
+                            Team
+                            <span ng-show="sortType == 'TotalTeamScore' && !sortReverse"
+                                  class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'TotalTeamScore' && sortReverse"
+                                  class="fa fa-caret-up"></span>
+                        </a>
+                        </th>
+                        <th ng-click="sortTable('TotalMatchesScore')"><a>
+                            Wedstrijden
+                            <span ng-show="sortType == 'TotalMatchesScore' && !sortReverse"
+                                  class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'TotalMatchesScore' && sortReverse"
+                                  class="fa fa-caret-up"></span></a>
+                        </th>
+                        <th ng-click="sortTable('TotalQuestionsScore')"><a>
+                            Vragen
+                            <span ng-show="sortType == 'TotalQuestionsScore' && !sortReverse"
+                                  class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'TotalQuestionsScore' && sortReverse"
+                                  class="fa fa-caret-up"></span></a>
+                        </th>
+                        <th ng-click="sortTable('TotalEindstandScore')"><a>
+                            Eredivisie stand
+                            <span ng-show="sortType == 'TotalEindstandScore' && !sortReverse"
+                                  class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'TotalEindstandScore' && sortReverse"
+                                  class="fa fa-caret-up"></span></a></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="deelnemer in deelnemers | orderBy:sortType:sortReverse">
+                        <td>{{deelnemer.Positie}}</td>
+                        <td>{{deelnemer.Name}}</td>
+                        <td>{{deelnemer.TotalScore}}</td>
+                        <td>{{deelnemer.TotalTeamScore}}</td>
+                        <td>{{deelnemer.TotalMatchesScore}}</td>
+                        <td>{{deelnemer.TotalQuestionsScore}}</td>
+                        <td>{{deelnemer.TotalEindstandScore}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </script>
+
+
     <script>
-	function AdvancedDatatablesDemoCtrl($scope) {
-		TableAdvanced.init();
-	}
+        function AdvancedDatatablesDemoCtrl($scope) {
+            TableAdvanced.init();
+        }
 
 
-</script>
+    </script>
     <!-- END MAIN JS -->
