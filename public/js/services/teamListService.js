@@ -63,17 +63,17 @@ angular.module('MetronicApp').factory('teamListService', function ($http) {
     PlayerSelected: false
   }, {
     Id: 14,
-    Team: "Roda JC",
+          Team: "Fortuna Sittard",
     Selected: false,
     PlayerSelected: false
   }, {
     Id: 16,
-    Team: "Sparta Rotterdam",
+          Team: "Emmen",
     Selected: false,
     PlayerSelected: false
   }, {
     Id: 6,
-    Team: "FC Twente",
+          Team: "De Graafschap",
     Selected: false,
     PlayerSelected: false
   }, {
