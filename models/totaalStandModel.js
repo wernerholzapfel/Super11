@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var totaalStandSchema = new mongoose.Schema({
-	
+
     RoundId: { type: Number, required: true },
 	Name: { type: String, required: true },
 	Email: { type: String, required: true },
@@ -22,10 +22,13 @@ var totaalStandSchema = new mongoose.Schema({
         Played: { type: Number, required: false },
         RedCard: { type: Number, required: false },
         YellowCard: { type: Number, required: false },
+        SecondYellowCard: {type: Number, required: false},
         Assist: { type: Number, required: false },
         Goals: { type: Number, required: false },
         OwnGoals: { type: Number, required: false },
 		CleanSheetScore: { type: Number, required: false },
+        PenaltyStoppedScore: {type: Number, required: false},
+        PenaltyMissed: {type: Number, required: false},
         TotalScore: { type: Number, required: false },
         Captain: {type: Boolean, required: false},
         RoundId: {type: Number, required: false}

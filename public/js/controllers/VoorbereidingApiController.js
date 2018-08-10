@@ -39,17 +39,23 @@ angular.module('MetronicApp').controller('VoorbereidingApiController',
                 Draw: false,
                 Goals: 0,
                 Assists: 0,
-                Yellow: 0,
-                Red: 0,
+                Yellow: false,
+                SecondYellow: false,
+                Red: false,
                 CleanSheet: false,
+                PenaltyStopped: 0,
+                PenaltyMissed: 0,
                 OwnGoal: 0,
                 PositionSort: 1
             }
         });
 
 
-        $scope.teams = teamListService;
-
+        $scope.teams = teamListService.sort(function (a, b) {
+            if (a.Team < b.Team) return -1;
+            if (a.Team > b.Team) return 1;
+            return 0;
+        });
         $scope.Posities = [{
             positie: "K",
             positionSort: 1
@@ -179,9 +185,12 @@ angular.module('MetronicApp').controller('VoorbereidingApiController',
                 Draw: false,
                 Goals: 0,
                 Assists: 0,
-                Yellow: 0,
-                Red: 0,
+                Yellow: false,
+                SecondYellow: false,
+                Red: false,
                 CleanSheet: false,
+                PenaltyStopped: 0,
+                PenaltyMissed: 0,
                 OwnGoal: 0,
                 PositionSort: 1
             }

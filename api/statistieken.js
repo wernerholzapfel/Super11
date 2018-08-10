@@ -19,7 +19,10 @@ apiRoutes.get("/spelerstotaalpunten/", function (req, res, next) {
                     Cleansheet: {$cond: ["$Player.CleanSheet", 1, 0]},
                     Draw: {$cond: ["$Player.Draw", 1, 0]},
                     Win: {$cond: ["$Player.Win", 1, 0]},
-                    Played: {$cond: ["$Player.Played", 1, 0]}
+                    Played: {$cond: ["$Player.Played", 1, 0]},
+                    YellowCard: {$cond: ["$Player.Yellow", 1, 0]},
+                    SecondYellowCard: {$cond: ["$Player.SecondYellow", 1, 0]},
+                    RedCard: {$cond: ["$Player.Red", 1, 0]}
                 }
             },
             {
@@ -32,8 +35,11 @@ apiRoutes.get("/spelerstotaalpunten/", function (req, res, next) {
                     Win: {$sum: "$Win"},
                     Played: {$sum: "$Played"},
                     OwnGoal: {$sum: "$Player.OwnGoal"},
-                    Red: {$sum: "$Player.Red"},
-                    Yellow: {$sum: "$Player.Yellow"},
+                    PenaltyStopped: {$sum: "$Player.PenaltyStopped"},
+                    PenaltyMissed: {$sum: "$Player.PenaltyStopped"},
+                    Red: {$sum: "$RedCard"},
+                    Yellow: {$sum: "$YellowCard"},
+                    SecondYellow: {$sum: "$SecondYellowCard"},
                     Assists: {$sum: "$Player.Assists"},
                     Goals: {$sum: "$Player.Goals"},
                     Position: {$first: "$Player.Position"},
@@ -59,8 +65,10 @@ apiRoutes.get("/spelerstotaalpunten/", function (req, res, next) {
                         player.Assist = setAssistScore(player);
                         player.Goals = setGoalScore(player);
                         player.OwnGoals = setOwnGoalScore(player);
+                        player.PenaltyStopped = setPenaltyStoppedScore(player);
+                        player.PenaltyMissed = setPenaltyMissedScore(player);
                         player.CleanSheetScore = setCleanSheetScore(player);
-                        player.TotalScore = player.Won + player.Draw + player.Played + player.RedCard + player.YellowCard + player.Assist + player.OwnGoals + player.Goals + player.CleanSheetScore;
+                        player.TotalScore = player.Won + player.Draw + player.Played + player.PenaltyStopped + player.PenaltyMissed + player.RedCard + player.YellowCard + player.Assist + player.OwnGoals + player.Goals + player.CleanSheetScore;
 
                     }
                 });
@@ -95,6 +103,8 @@ apiRoutes.get("/spelerstotaalpunten/:RoundId", function (req, res, next) {
                     Win: {$sum: "$Win"},
                     Played: {$sum: "$Played"},
                     OwnGoal: {$sum: "$Player.OwnGoal"},
+                    PenaltyStopped: {$sum: "$Player.PenaltyStopped"},
+                    PenaltyMissed: {$sum: "$Player.PenaltyMissed"},
                     Red: {$sum: "$Player.Red"},
                     Yellow: {$sum: "$Player.Yellow"},
                     Assists: {$sum: "$Player.Assists"},
@@ -123,7 +133,9 @@ apiRoutes.get("/spelerstotaalpunten/:RoundId", function (req, res, next) {
                         player.Goals = setGoalScore(player);
                         player.OwnGoals = setOwnGoalScore(player);
                         player.CleanSheetScore = setCleanSheetScore(player);
-                        player.TotalScore = player.Won + player.Draw + player.Played + player.RedCard + player.YellowCard + player.Assist + player.OwnGoals + player.Goals + player.CleanSheetScore;
+                        player.PenaltyStopped = setPenaltyStoppedScore(player);
+                        player.PenaltyMissed = setPenaltyMissedScore(player);
+                        player.TotalScore = player.Won + player.Draw + player.Played + player.PenaltyStopped + player.RedCard + player.YellowCard + player.Assist + player.OwnGoals + player.Goals + player.CleanSheetScore;
 
                     }
                 });
@@ -278,6 +290,10 @@ var setYellowCardScore = function (player) {
     return player.Yellow * yellowCardScore;
 };
 
+var setSecondYellowCardScore = function (player) {
+    return player.SecondYellow * secondYellowCardScore;
+};
+
 var setRedCardScore = function (player) {
     return player.Red * redCardScore;
 };
@@ -297,21 +313,31 @@ var setOwnGoalScore = function (player) {
     return player.OwnGoal * ownGoalScore;
 };
 
-// todo remove to scoresheet;
+var setPenaltyStoppedScore = function (player) {
+    return player.PenaltyStopped * penaltyStoppedScore;
+};
+
+var setPenaltyMissedScore = function (player) {
+    return player.PenaltyMissed * penaltyMissedScore;
+};
+
+
 var playedScore = 1;
 var goalForGKScore = 10;
-var goalForDFScore = 7;
-var goalForMFScore = 5;
+var goalForDFScore = 6;
+var goalForMFScore = 4;
 var goalForFWScore = 3;
 var assistGKScore = 8;
-var assistDFScore = 5;
+var assistDFScore = 4;
 var assistMFScore = 3;
 var assistFWScore = 2;
-var winScore = 3;
+var winScore = 2;
 var drawScore = 1;
-var hattrickScore = 3;
+var penaltyStoppedScore = 6;
+var penaltyMissedScore = -3;
 var cleanSheetGKScore = 4;
 var cleanSheetDFScore = 2;
 var ownGoalScore = -4;
-var redCardScore = -6;
+var redCardScore = -8;
 var yellowCardScore = -2;
+var secondYellowCardScore = -6;

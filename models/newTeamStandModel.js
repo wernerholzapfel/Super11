@@ -21,10 +21,13 @@ var newTeamStandSchema = new mongoose.Schema({
         Played: {type: Number, required: false},
         RedCard: {type: Number, required: false},
         YellowCard: {type: Number, required: false},
+        SecondYellowCard: {type: Number, required: false},
         Assist: {type: Number, required: false},
         Goals: {type: Number, required: false},
         OwnGoals: {type: Number, required: false},
         CleanSheetScore: {type: Number, required: true},
+        PenaltyStoppedScore: {type: Number, required: false},
+        PenaltyMissed: {type: Number, required: false},
         TotalScore: {type: Number, required: false},
         RoundId: {type: Number, required: false}
     }],

@@ -95,16 +95,16 @@ var setLineScore = function (scoreLine, line) {
   var positiveDiff = Math.abs(diff);
 
   if (positiveDiff === 0 && scoreLine.Position === 1) {
-    return 20;
+      return 15;
   }
   if (positiveDiff === 0) {
     return 10;
   }
   if (positiveDiff === 1) {
-    return 3;
+      return 5;
   }
-  if (positiveDiff === 2) {
-    return 1;
+    if (positiveDiff === 2) {
+        return 3;
   }
   else {
     return 0;

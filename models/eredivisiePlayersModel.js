@@ -20,10 +20,13 @@ var eredivisiePlayersSchema = new mongoose.Schema({
 		Draw: { type: Boolean, required: false },
 		Goals: { type: Number, required: false },
 		Assists: { type: Number, required: false },
-		Yellow: { type: Number, required: false },
-		Red: { type: Number, required: false },
+        Yellow: {type: Boolean, required: false},
+        SecondYellow: {type: Boolean, required: false},
+        Red: {type: Boolean, required: false},
 		CleanSheet: { type: Boolean, required: false },
-		OwnGoal: { type: Number, required: false }
+        OwnGoal: {type: Number, required: false},
+        PenaltyStopped: {type: Number, required: false},
+        PenaltyMissed: {type: Number, required: false}
 	}]
 });
 

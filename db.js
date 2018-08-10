@@ -7,7 +7,7 @@ var config = require('./config/database');
 var dbURI = process.env.database || config.database;
 
 // Create the database connection
-mongoose.connect(dbURI);
+mongoose.connect(dbURI, {useNewUrlParser: true});
 
 // CONNECTION EVENTS
 // When successfully connected
@@ -42,7 +42,7 @@ require("./models/eredivisiePlayersModel");
 require("./models/eindstandScoreformsModel");
 require("./models/teamStandModel");
 require("./models/newTeamStandModel");
-require("./models/headlinesModel"); 
+require("./models/headlinesModel");
 require("./models/commentsModel");
 require("./models/user");
 require("./models/teamPredictionsModel");

@@ -139,7 +139,7 @@ apiRoutes.put("/roundteamscoreforms/:id", function (req, res) {
                     RoundTeamScoreForms.findOneAndUpdate({RoundId: req.params.id}, updateScoreForm, ({upsert: true}), function (err, roundteamscoreforms) {
                         if (err) return handleError(res, err.message, "Failed to Update Players");
                         res.status(200).json(roundteamscoreforms);
-                        console.log("put for roundId " + req.params.id)
+                        console.log("put for roundId " + req.params.id);
 
                         calculateteam.calculateTeamPredictionsPerRound(req.params.id);
                     });

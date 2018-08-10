@@ -69,7 +69,13 @@
                                             CS
                                         </th>
                                         <th>
+                                            PS
+                                        </th>
+                                        <th>
                                             G
+                                        </th>
+                                        <th>
+                                            PM
                                         </th>
                                         <th>
                                             A
@@ -79,6 +85,9 @@
                                         </th>
                                         <th>
                                             Y
+                                        </th>
+                                        <th>
+                                            2*Y
                                         </th>
                                         <th>
                                             R
@@ -110,23 +119,38 @@
                                                    ng-value="player.CleanSheet"></input>
                                         </td>
                                         <td>
+                                            <input type="number" ng-model="player.PenaltyStopped" size="1" min="0"
+                                                   max="9"
+                                                   ng-value="player.PenaltyStopped"></input>
+                                        </td>
+                                        <td>
                                             <input type="number" ng-model="player.Goals" size="1" min="0" max="9"
                                                    ng-value="player.Goals"></input>
                                         </td>
                                         <td>
+                                            <input type="number" ng-model="player.PenaltyMissed" size="1" min="0"
+                                                   max="9"
+                                                   ng-value="player.Goals"></input>
+                                        </td>
+                                        <td>
                                             <input type="number" ng-model="player.Assists" size="1" min="0" max="9"
-                                                   ng-value="player.Assists">                                                </input>
+                                                   ng-value="player.Assists"></input>
                                         </td>
                                         <td>
                                             <input type="number" ng-model="player.OwnGoal" size="1" min="0" max="9"
                                                    ng-value="player.OwnGoal"></input>
                                         </td>
                                         <td>
-                                            <input type="number" ng-model="player.Yellow" size="1" min="0" max="2"
-                                                   ng-value="player.Yellow">                                                </input>
+                                            <input type="checkbox" ng-model="player.Yellow" size="1" min="0" max="2"
+                                                   ng-value="player.Yellow"></input>
                                         </td>
                                         <td>
-                                            <input type="number" ng-model="player.Red" size="1" min="0" max="1"
+                                            <input type="checkbox" ng-model="player.SecondYellow" size="1" min="0"
+                                                   max="2"
+                                                   ng-value="player.SecondYellow"></input>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" ng-model="player.Red" size="1" min="0" max="1"
                                                    ng-value="player.Red"></input>
                                         </td>
                                     </tr>
@@ -349,7 +373,13 @@
                                             CS
                                         </th>
                                         <th>
+                                            PS
+                                        </th>
+                                        <th>
                                             G
+                                        </th>
+                                        <th>
+                                            PM
                                         </th>
                                         <th>
                                             A
@@ -359,6 +389,9 @@
                                         </th>
                                         <th>
                                             Y
+                                        </th>
+                                        <th>
+                                            2x Y
                                         </th>
                                         <th>
                                             R
@@ -390,8 +423,18 @@
                                                    ng-value="player.CleanSheet"></input>
                                         </td>
                                         <td>
+                                            <input type="number" ng-model="player.PenaltyStopped" size="1" min="0"
+                                                   max="9"
+                                                   ng-value="player.PenaltyStopped"></input>
+                                        </td>
+                                        <td>
                                             <input type="number" ng-model="player.Goals" size="1" min="0" max="9"
                                                    ng-value="player.Goals"></input>
+                                        </td>
+                                        <td>
+                                            <input type="number" ng-model="player.PenaltyMissed" size="1" min="0"
+                                                   max="9"
+                                                   ng-value="player.PenaltyMissed"></input>
                                         </td>
                                         <td>
                                             <input type="number" ng-model="player.Assists" size="1" min="0" max="9"
@@ -402,11 +445,15 @@
                                                    ng-value="player.OwnGoal"></input>
                                         </td>
                                         <td>
-                                            <input type="number" ng-model="player.Yellow" size="1" min="0" max="2"
+                                            <input type="checkbox" ng-model="player.Yellow"
                                                    ng-value="player.Yellow">                                                </input>
                                         </td>
                                         <td>
-                                            <input type="number" ng-model="player.Red" size="1" min="0" max="1"
+                                            <input type="checkbox" ng-model="player.SecondYellow"
+                                                   ng-value="player.SecondYellow">                                                </input>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" ng-model="player.Red"
                                                    ng-value="player.Red"></input>
                                         </td>
                                     </tr>

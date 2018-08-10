@@ -134,6 +134,22 @@ apiRoutes.get("/totaalstand/", function (req, res, next) {
             }, function (err) {
                 return console.error("error: " + err);
             });
+            var admin = require('firebase-admin');
+
+            var db = admin.database();
+            var ref = db.ref('2019');
+
+            var standRef = ref.child('stand');
+            standRef.set(totstand.deelnemers);
+
+            // var firestore = admin.firestore();
+            // var settings = {/* your settings... */ timestampsInSnapshots: true};
+            // firestore.settings(settings);
+            //
+            // var docRef = firestore.collection('2019').doc('stand');
+            //
+            // var setStand = docRef.set(totstand.deelnemers[0].toJSON());
+
             res.status(200).json(totstand);
         }
     ]);

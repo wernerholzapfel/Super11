@@ -39,17 +39,19 @@
                             <th> W</th>
                             <th> G</th>
                             <th> 0</th>
+                            <th> P.S.</th>
                             <th> D</th>
+                            <th> P.M.</th>
                             <th> E.D.</th>
                             <th> A</th>
                             <th> G</th>
+                            <th> 2x G</th>
                             <th> R</th>
                             <th> Tot.</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr
-                                ng-repeat="player in score.TeamScores | orderBy :['-RoundId','Id'] | limitTo: 11">
+                        <tr ng-repeat="player in score.TeamScores | orderBy :['-RoundId','Id'] | limitTo: 11">
                             <td>
                                 <img class="clubicon" ng-src="clubicons/{{player.Team}}.png">
                             </td>
@@ -61,10 +63,13 @@
                             <td> {{player.Won}}</td>
                             <td> {{player.Draw}}</td>
                             <td> {{player.CleanSheetScore}}</td>
+                            <td> {{player.PenaltyStoppedScore}}</td>
                             <td> {{player.Goals}}</td>
+                            <td> {{player.PenaltyMissed}}</td>
                             <td> {{player.OwnGoals}}</td>
                             <td> {{player.Assist}}</td>
                             <td> {{player.YellowCard}}</td>
+                            <td> {{player.SecondYellowCard}}</td>
                             <td> {{player.RedCard}}</td>
                             <td> {{player.TotalScore}}</td>
                         </tr>
@@ -81,10 +86,13 @@
                             <td> {{player.Won}}</td>
                             <td> {{player.Draw}}</td>
                             <td> {{player.CleanSheetScore}}</td>
+                            <td> {{player.PenaltyStoppedScore}}</td>
                             <td> {{player.Goals}}</td>
+                            <td> {{player.PenaltyMissed}}</td>
                             <td> {{player.OwnGoals}}</td>
                             <td> {{player.Assist}}</td>
                             <td> {{player.YellowCard}}</td>
+                            <td> {{player.SecondYellowCard}}</td>
                             <td> {{player.RedCard}}</td>
                             <td> {{player.TotalScore}}</td>
                         </tr>
@@ -114,10 +122,13 @@
                             <th> Winst</th>
                             <th> Gelijk</th>
                             <th> de 0</th>
+                            <th> Penalty gestopt</th>
                             <th> Doelpunt</th>
+                            <th> Penalty gemist</th>
                             <th> Eigen Goal</th>
                             <th> Assist</th>
                             <th> Geel</th>
+                            <th> 2x Geel</th>
                             <th> Rood</th>
                             <th> Totaal</th>
                         </tr>
@@ -136,10 +147,13 @@
                             <td> {{player.Won}}</td>
                             <td> {{player.Draw}}</td>
                             <td> {{player.CleanSheetScore}}</td>
+                            <td> {{player.PenaltyStoppedScore}}</td>
                             <td> {{player.Goals}}</td>
+                            <td> {{player.PenaltyMissed}}</td>
                             <td> {{player.OwnGoals}}</td>
                             <td> {{player.Assist}}</td>
                             <td> {{player.YellowCard}}</td>
+                            <td> {{player.SecondYellowCard}}</td>
                             <td> {{player.RedCard}}</td>
                             <td> {{player.TotalScore}}</td>
                         </tr>
@@ -254,12 +268,13 @@
 
             </div>
         </script>
-        <div class="note note-success note-bordered" ng-if="newTotalTeamTable.updatedAt === false">
+        <div class="note note-success note-bordered"
+             ng-if="newTotalTeamTable.updatedAt === false || isinschrijvingopen">
             <h3>Welkom bij Super 11<span data-close="note"></span></h3>
             <p> Na de 1e speelronde zal hier de stand komen te staan</p>
         </div>
 
-        <div class="col-md-12" ng-show="newTotalTeamTable.updatedAt !== false">
+        <div class="col-md-12" ng-show="newTotalTeamTable.updatedAt !== false && !isinschrijvingopen">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <uib-tabset active="active">
                 <uib-tab heading="Totaal">
@@ -348,7 +363,7 @@
                                         </td>
                                         <td>
                                             {{table.TotalTeamScore}}
-                                            <span ng-if="table.deltaTotalTeamScore" class="previousScore">   
+                                            <span ng-if="table.deltaTotalTeamScore" class="previousScore">
                                                  ({{table.deltaTotalTeamScore > 0 ? '+' : ''}}{{table.deltaTotalTeamScore}})</span>
 
                                         </td>
@@ -360,7 +375,7 @@
                                         </td>
                                         <td>
                                             {{table.TotalQuestionsScore}}
-                                            <span ng-if="table.deltaTotalQuestionsScore" class="previousScore">    
+                                            <span ng-if="table.deltaTotalQuestionsScore" class="previousScore">
                                                  ({{table.deltaTotalQuestionsScore > 0 ? '+' : ''}}{{table.deltaTotalQuestionsScore}}) </span>
 
                                         </td>
