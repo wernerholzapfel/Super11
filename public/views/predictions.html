@@ -21,7 +21,7 @@
         <div ng-if="isinschrijvingopen" class="note note-success note-bordered">Na de deadline kan je hier de
             voorspellingen zien
         </div>
-        <div class="col-md-12" ng-if="!isinschrijvingopen">
+        <div class="col-md-12" ng-if="!isinschrijvingopen || authService.isAdmin()">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <div class="portlet box green">
                 <div class="portlet-title">

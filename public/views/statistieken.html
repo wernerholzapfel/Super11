@@ -20,7 +20,7 @@
         <h3>Welkom bij Super 11<span data-close="note"></span></h3>
         <p> Na de deadline komt hier een overzicht van de gekozen spelers voor dit seizoen.</p>
     </div>
-    <div class="row" ng-if="spelerstotaalpunten.length > 0 && !isinschrijvingopen">
+    <div class="row" ng-if="spelerstotaalpunten.length > 0 && (!isinschrijvingopen || authService.isAdmin())">
 
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->

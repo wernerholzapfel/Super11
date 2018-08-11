@@ -10,7 +10,7 @@
 <!-- BEGIN MAIN CONTENT -->
 <div ng-controller="DashboardController">
 	<!-- BEGIN DASHBOARD STATS -->
-	<div class="row" ng-if="!isinschrijvingopen">
+	<div class="row" ng-if="!isinschrijvingopen || (authService.isAdmin() && isAuthenticated)">
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-if="laatsteupdate">
 			<div class="dashboard-stat dashboard-stat-v2 green">
 				<div class="visual">
@@ -92,7 +92,7 @@
 
     </div>
 
-	<div class="row" ng-if="isAuthenticated && totalscoreuser && !isinschrijvingopen">
+	<div class="row" ng-if="isAuthenticated && totalscoreuser && (!isinschrijvingopen || authService.isAdmin())">
 		<div class="col-lg-12">
 			<div class="note note-success note-bordered">
 				<div class="visual">

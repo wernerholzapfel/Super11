@@ -274,7 +274,8 @@
             <p> Na de 1e speelronde zal hier de stand komen te staan</p>
         </div>
 
-        <div class="col-md-12" ng-show="newTotalTeamTable.updatedAt !== false && !isinschrijvingopen">
+        <div class="col-md-12"
+             ng-show="newTotalTeamTable.updatedAt !== false && (!isinschrijvingopen || authService.isAdmin())">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <uib-tabset active="active">
                 <uib-tab heading="Totaal">
