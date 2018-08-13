@@ -127,14 +127,16 @@ var saveTransfers = function (req, res) {
                 })
             },
             function (roundTable, maxRoundId, user, callback) {
-                var numberOfPreviousTransfers = _.filter(roundTable.TeamScores, function (o) {
-                    return o.RoundId < maxRoundId;
-                }).length;
-                if (numberOfPreviousTransfers === 6) {
-                    return res.status(403).json("Je hebt al te veel transfers doorgevoerd");
+                if (roundTable && roundTable.TeamScores) {
+                    var numberOfPreviousTransfers = _.filter(roundTable.TeamScores, function (o) {
+                        return o.RoundId < maxRoundId;
+                    }).length;
+                    if (numberOfPreviousTransfers === 6) {
+                        return res.status(403).json("Je hebt al te veel transfers doorgevoerd");
+                    }
+                } else {
+                    callback(null, user);
                 }
-
-                callback(null, user);
             },
             function (user, callback) {
                 console.log('ik ben stapje 5');
