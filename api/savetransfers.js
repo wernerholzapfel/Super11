@@ -114,7 +114,7 @@ var saveTransfers = function (req, res) {
                         handleError(res, err.message, "failed to get rounds");
                     }
                     else {
-                        var maxRoundId = (rounds[0]) ? rounds[0].RoundId : 0;
+                        var maxRoundId = (rounds[0] && rounds[0].RoundId) ? rounds[0].RoundId : 0;
                         callback(null, maxRoundId, user)
                     }
                 });
@@ -133,6 +133,8 @@ var saveTransfers = function (req, res) {
                     }).length;
                     if (numberOfPreviousTransfers === 6) {
                         return res.status(403).json("Je hebt al te veel transfers doorgevoerd");
+                    } else {
+                        callback(null, user);
                     }
                 } else {
                     callback(null, user);
