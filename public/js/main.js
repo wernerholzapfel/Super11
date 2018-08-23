@@ -94,7 +94,7 @@ MetronicApp.factory('settings', ['$rootScope', function ($rootScope) {
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function ($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function () {
         App.initComponents(); // init core components
-        //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
+        //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive
     });
 }]);
 
@@ -125,7 +125,7 @@ MetronicApp.controller('SidebarController', ['$scope', function ($scope) {
 MetronicApp.controller('QuickSidebarController', ['$scope', function ($scope) {
     $scope.$on('$includeContentLoaded', function () {
         setTimeout(function () {
-            QuickSidebar.init(); // init quick sidebar        
+            QuickSidebar.init(); // init quick sidebar
         }, 2000)
     });
 }]);
@@ -178,7 +178,7 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
                             '../assets/pages/scripts/dashboard.min.js',
                             'js/controllers/AuthenticationController.js',
                             'js/controllers/DashboardController.js',
-                            // 'js/controllers/LoginController.js',                            
+                            // 'js/controllers/LoginController.js',
                             'js/controllers/HeadlinesApiController.js',
                             'js/services/headlinesApi.js',
                             'js/controllers/CommentsApiController.js',
@@ -740,7 +740,9 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
     // so that JWTs are attached as Authorization headers
     $httpProvider.interceptors.push('jwtInterceptor');
 
-
+    $httpProvider.defaults.headers.common['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+    $httpProvider.defaults.headers.common['Pragma'] = 'no-cache';
+    $httpProvider.defaults.headers.common['Expires'] = '0';
 }]);
 
 /* Init global settings and run the app */
