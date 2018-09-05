@@ -10,7 +10,7 @@ var MetronicApp = angular.module("MetronicApp", [
     "ngSanitize",
     "ui.sortable",
     "angularModalService",
-    'auth0.lock', 'angular-jwt'
+    'auth0.auth0', 'angular-jwt'
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -152,7 +152,7 @@ MetronicApp.controller('FooterController', ['$scope', function ($scope) {
 }]);
 
 /* Setup Rounting For All Pages */
-MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwtOptionsProvider', '$httpProvider', function ($stateProvider, lockProvider, $urlRouterProvider, jwtOptionsProvider, $httpProvider) {
+MetronicApp.config(['$stateProvider', 'angularAuth0Provider', '$urlRouterProvider', 'jwtOptionsProvider', '$httpProvider', '$locationProvider', function ($stateProvider, angularAuth0Provider, $urlRouterProvider, jwtOptionsProvider, $httpProvider, $locationProvider) {
     // Redirect any unmatched url
     $urlRouterProvider.otherwise("/dashboard.html");
 
@@ -673,55 +673,57 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
             }
         })
 
+    // $locationProvider.hashPrefix('#/');
 
-    lockProvider.init({
+    angularAuth0Provider.init({
         clientID: 'WNjXlR4ChTqf2azaWhPk4MPzViNqoQft',
         domain: 'werner.eu.auth0.com',
-        //  clientID: AUTH0_CLIENT_ID,
-        // domain: AUTH0_DOMAIN,
-        options: {
-            autofocus: true,
-            rememberLastLogin: true,
-            socialButtonStyle: 'small',
-            theme: {
-                logo: '',
-                primaryColor: "#97bf12"
-            },
-            languageDictionary: {
-                emailInputPlaceholder: "please enter you email",
-                title: "Super Eleven"
-            },
-            additionalSignUpFields: [
-                {
-                    name: "name",
-                    placeholder: "Voornaam",
-                    validator: function (name) {
-                        return {
-                            valid: name.length >= 1,
-                            hint: "Voornaam is verplicht" // optional
-                        };
-                    }
-                }, {
-                    name: "family_name",
-                    placeholder: "Achternaam",
-                    validator: function (family_name) {
-                        return {
-                            valid: family_name.length >= 1,
-                            hint: "Achternaam is verplicht" // optional
-                        };
-                    }
-                },
-                {
-                    name: "city",
-                    placeholder: "Woonplaats",
-                    validator: function (city) {
-                        return {
-                            valid: city.length >= 1,
-                            hint: "Woonplaats is verplicht" // optional
-                        };
-                    }
-                }]
-        }
+        responseType: 'token id_token',
+        redirectUri: 'http://localhost:8200',
+        scope: 'openid, profile'
+        // options: {
+        //     autofocus: true,
+        //     rememberLastLogin: true,
+        //     socialButtonStyle: 'small',
+        //     theme: {
+        //         logo: '',
+        //         primaryColor: "#97bf12"
+        //     },
+        //     languageDictionary: {
+        //         emailInputPlaceholder: "please enter you email",
+        //         title: "Super Eleven"
+        //     },
+        //     additionalSignUpFields: [
+        //         {
+        //             name: "name",
+        //             placeholder: "Voornaam",
+        //             validator: function (name) {
+        //                 return {
+        //                     valid: name.length >= 1,
+        //                     hint: "Voornaam is verplicht" // optional
+        //                 };
+        //             }
+        //         }, {
+        //             name: "family_name",
+        //             placeholder: "Achternaam",
+        //             validator: function (family_name) {
+        //                 return {
+        //                     valid: family_name.length >= 1,
+        //                     hint: "Achternaam is verplicht" // optional
+        //                 };
+        //             }
+        //         },
+        //         {
+        //             name: "city",
+        //             placeholder: "Woonplaats",
+        //             validator: function (city) {
+        //                 return {
+        //                     valid: city.length >= 1,
+        //                     hint: "Woonplaats is verplicht" // optional
+        //                 };
+        //             }
+        //         }]
+        // }
 
     });
 
@@ -746,8 +748,8 @@ MetronicApp.config(['$stateProvider', 'lockProvider', '$urlRouterProvider', 'jwt
 }]);
 
 /* Init global settings and run the app */
-MetronicApp.run(["$rootScope", "settings", "$state", '$anchorScroll', 'authService', 'lock', 'authManager', 'isinschrijvingopen', 'istransfermarktopen',
-    function ($rootScope, settings, $state, $anchorScroll, authService, lock, authManager, isinschrijvingopen, istransfermarktopen) {
+MetronicApp.run(["$rootScope", "settings", "$state", '$anchorScroll', 'authService', 'authManager', 'isinschrijvingopen', 'istransfermarktopen',
+    function ($rootScope, settings, $state, $anchorScroll, authService, authManager, isinschrijvingopen, istransfermarktopen) {
         $rootScope.$state = $state; // state to be accessed from view
         $rootScope.$settings = settings; // state to be accessed from view
         $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
@@ -758,15 +760,16 @@ MetronicApp.run(["$rootScope", "settings", "$state", '$anchorScroll', 'authServi
 
         // Register the authentication listener that is
         // set up in auth.service.js
-        authService.registerAuthenticationListener();
+        // authService.registerAuthenticationListener();
 
         // Use the authManager from angular-jwt to check for
         // the user's authentication state when the page is
         // refreshed and maintain authentication
         authManager.checkAuthOnRefresh();
         // Register the synchronous hash parser
-        // when using UI Router
-        lock.interceptHash();
+
+        authService.handleAuthentication();
+        authService.scheduleRenewal();
 
         isinschrijvingopen.async().then(function (data) {
             $rootScope.isinschrijvingopen = data;
