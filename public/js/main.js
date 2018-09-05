@@ -679,7 +679,7 @@ MetronicApp.config(['$stateProvider', 'angularAuth0Provider', '$urlRouterProvide
         clientID: 'WNjXlR4ChTqf2azaWhPk4MPzViNqoQft',
         domain: 'werner.eu.auth0.com',
         responseType: 'token id_token',
-        redirectUri: 'http://localhost:8200',
+        redirectUri: 'http://www.supereleven.nl',
         scope: 'openid, profile'
         // options: {
         //     autofocus: true,

@@ -76,8 +76,6 @@
         }
 
         function isAuthenticated() {
-            console.log('isAuthenticated is aangeroepen');
-
             // Check whether the current time is past the
             // access token's expiry time
             var expiresAt = JSON.parse(localStorage.getItem('expires_at'));
@@ -85,7 +83,6 @@
         }
 
         function isLoggedIn() {
-            console.log('ik ben aangeroepen isLoggedIn');
             // Check whether the current time is past the
             // access token's expiry time
             var expiresAt = JSON.parse(localStorage.getItem('expires_at'));
@@ -117,7 +114,6 @@
         }
 
         function isAdmin() {
-            console.log('is admin is aangeroepen');
             return userProfile && userProfile.app_metadata
                 && userProfile.app_metadata.roles
                 && userProfile.app_metadata.roles.indexOf('admin') > -1;
