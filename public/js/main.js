@@ -671,7 +671,7 @@ MetronicApp.config(['$stateProvider', 'angularAuth0Provider', '$urlRouterProvide
                     });
                 }]
             }
-        })
+        });
 
     // $locationProvider.hashPrefix('#/');
 

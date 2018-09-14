@@ -53,7 +53,7 @@
                         <tbody>
                         <tr ng-repeat="player in score.TeamScores | orderBy :['-RoundId','Id'] | limitTo: 11">
                             <td>
-                                <img class="clubicon" ng-src="clubicons/{{player.Team}}.png">
+                                <img class="clubicon" ng-src="clubicons/{{player.Team | lowercase}}.png">
                             </td>
                             <td> {{player.Name}}
                                 <span class="previousScore">({{player.Position}})</span>
@@ -78,7 +78,8 @@
                         <tr
                                 ng-repeat="player in score.TeamScores | orderBy :['RoundId','Id'] | limitTo: score.TeamScores.length - 11">
                             <td>
-                                <img class="clubicon wisselspelersIcon" ng-src="clubicons/{{player.Team}}.png"></td>
+                                <img class="clubicon wisselspelersIcon"
+                                     ng-src="clubicons/{{player.Team | lowercase}}.png"></td>
                             <td> {{player.Name}}
                                 <span class="previousScore">({{player.Position}})</span>
                             </td>
@@ -137,7 +138,7 @@
                         <tr
                                 ng-repeat="player in score.TeamScores | orderBy :'Id'">
                             <td>
-                                <img class="clubicon" ng-src="clubicons/{{player.Team}}.png">
+                                <img class="clubicon" ng-src="clubicons/{{player.Team | lowercase}}.png">
                             </td>
                             <td>{{player.Name}}
                                 <span class="previousScore"> ({{player.Position}})</span>
@@ -253,7 +254,8 @@
                         <tr ng-repeat="team in score.TableScore | orderBy :'UitslagPosition'">
                             <td> {{team.UitslagPosition}}</td>
                             <td>
-                                <img class="clubicon" ng-src="tableclubicons/{{team.UitslagSelectedTeam}}.png">
+                                <img class="clubicon"
+                                     ng-src="tableclubicons/{{team.UitslagSelectedTeam | lowercase}}.png">
                                 {{team.UitslagSelectedTeam}}
                             </td>
                             <td> {{team.Position}}</td>

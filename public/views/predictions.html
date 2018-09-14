@@ -62,7 +62,7 @@
                                         {{ player.Position }}
                                     </td>
                                     <td>
-                                        <img class="clubicon" ng-src="clubicons/{{player.Team}}.png">
+                                        <img class="clubicon" ng-src="clubicons/{{player.Team  | lowercase}}.png">
                                         {{ player.Team }}
                                     </td>
 
@@ -185,7 +185,9 @@
                                         {{club.Position}}
                                     </td>
                                     <td>
-                                       <img class="clubicon" ng-src="tableclubicons/{{club.SelectedTeam}}.png"> {{player.Position}} {{player.Name}}
+                                        <img class="clubicon"
+                                             ng-src="tableclubicons/{{club.SelectedTeam  | lowercase}}.png">
+                                        {{player.Position}} {{player.Name}}
                                             {{ club.SelectedTeam }}
                                     </td>
                                 </tr>

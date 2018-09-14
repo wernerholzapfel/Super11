@@ -39,7 +39,8 @@
                                     <tbody>
                                         <tr ng-repeat="line in score.TableScore | orderBy :'Position'">
                                             <td> {{line.Position}}</td>
-                                            <td>  <img class="clubicon" ng-src="tableclubicons/{{line.SelectedTeam}}.png">
+                                            <td><img class="clubicon"
+                                                     ng-src="tableclubicons/{{line.SelectedTeam  | lowercase}}.png">
                                             {{line.SelectedTeam}}</td>
                                             <td> {{line.UitslagPosition}}</td>
                                             <td> {{line.Score}}</td>
@@ -53,11 +54,11 @@
 
                     </div>
                 </script>
-  
+
         <div class="col-md-12" ng-show="newTotalTeamTable">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <uib-tabset active="active">
-          
+
                 <uib-tab heading="Eredivisie">
                     <div class="portlet box green">
                         <div class="portlet-title">
@@ -104,7 +105,7 @@
                         </div>
                     </div>
                 </uib-tab>
-      
+
             </uib-tabset>
             <!-- END EXAMPLE TABLE PORTLET-->
         </div>

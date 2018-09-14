@@ -157,7 +157,8 @@
                                         <ul ui-sortable="sortableOptions" ng-model="data.Table">
                                             <li ng-repeat="team in data.Table" class="mt-list-item draggablePointer">
                                                 {{$index+1}}
-                                                <img class="clubicon" ng-src="tableclubicons/{{team.SelectedTeam}}.png">
+                                                <img class="clubicon"
+                                                     ng-src="tableclubicons/{{team.SelectedTeam | lowercase}}.png">
                                                 {{team.SelectedTeam}}
                                             </li>
                                         </ul>
@@ -228,7 +229,7 @@
                                                         ng-click="removeplayerfromteam(player)">-
                                                 </button>
                                                 <img ng-if="player.PlayerName != ''" class="clubicon"
-                                                     ng-src="tableclubicons/{{player.Team}}.png">
+                                                     ng-src="tableclubicons/{{player.Team | lowercase}}.png">
                                                 <span ng-if="player.PlayerName == ''"> Kies een {{pos.PositionUi}}</span>
                                                 {{player.PlayerName}} ({{player.Team}})
                                             </td>

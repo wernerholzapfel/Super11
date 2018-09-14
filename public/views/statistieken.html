@@ -61,7 +61,7 @@
                                     <tr ng-repeat="player in spelerstotaalpunten" ng-if="player.TotalScore != 0"
                                         ng-click="showDeelnemersMetSpeler(player._id.playerId)">
                                         <td>
-                                            <img class="clubicon" ng-src="clubicons/{{player.Team}}.png">
+                                            <img class="clubicon" ng-src="clubicons/{{player.Team | lowercase}}.png">
                                             <a>{{player.Name}}</a>
                                         </td>
                                         <td> {{player.Played}}</td>
@@ -115,7 +115,8 @@
                                         ng-click="showDeelnemersMetSpeler(gekozenspeler.PlayerId)"
                                         ng-if="gekozenspeler.PlayerName">
                                         <td>
-                                            <a><img class="clubicon" ng-src="clubicons/{{gekozenspeler.Team}}.png">
+                                            <a><img class="clubicon"
+                                                    ng-src="clubicons/{{gekozenspeler.Team  | lowercase}}.png">
                                                 {{gekozenspeler.PlayerName}}
                                             </a>
                                         </td>
@@ -143,7 +144,7 @@
         <div class="modal-header">
             <button type="button" class="close" ng-click=close()>&times;</button>
             <h4>
-                <img class="clubicon" ng-src="clubicons/{{gekozenspeler.Team}}.png">
+                <img class="clubicon" ng-src="clubicons/{{gekozenspeler.Team | lowercase}}.png">
                 {{gekozenspeler.Name}} is {{deelnemers.length}}x gekozen</h4>
         </div>
         <div class="modal-body">
