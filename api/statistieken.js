@@ -229,7 +229,14 @@ apiRoutes.get("/welkedeelnemershebbendezespeler/:Id", function (req, res, next) 
                 handleError(res, err.message, "failed to get spelersoverzicht " + err.message)
             }
             else {
-                res.status(200).json(spelersoverzicht);
+                var maxRoundId = _.reduce(spelersoverzicht, function (max, deelnemer) {
+                    return deelnemer.LatestTeam.RoundId > max ? deelnemer.LatestTeam.RoundId : max
+                }, 1);
+
+                var filteredByMaxRoundId = _.filter(spelersoverzicht, function (deelnemer) {
+                    return deelnemer.LatestTeam.RoundId === maxRoundId
+                });
+                res.status(200).json(filteredByMaxRoundId);
             }
         });
 });
