@@ -90,7 +90,10 @@ apiRoutes.get("/spelerstotaalpunten/:RoundId", function (req, res, next) {
                     Cleansheet: {$cond: ["$Player.CleanSheet", 1, 0]},
                     Draw: {$cond: ["$Player.Draw", 1, 0]},
                     Win: {$cond: ["$Player.Win", 1, 0]},
-                    Played: {$cond: ["$Player.Played", 1, 0]}
+                    Played: {$cond: ["$Player.Played", 1, 0]},
+                    YellowCard: {$cond: ["$Player.Yellow", 1, 0]},
+                    SecondYellowCard: {$cond: ["$Player.SecondYellow", 1, 0]},
+                    RedCard: {$cond: ["$Player.Red", 1, 0]}
                 }
             },
             {
@@ -105,8 +108,9 @@ apiRoutes.get("/spelerstotaalpunten/:RoundId", function (req, res, next) {
                     OwnGoal: {$sum: "$Player.OwnGoal"},
                     PenaltyStopped: {$sum: "$Player.PenaltyStopped"},
                     PenaltyMissed: {$sum: "$Player.PenaltyMissed"},
-                    Red: {$sum: "$Player.Red"},
-                    Yellow: {$sum: "$Player.Yellow"},
+                    Red: {$sum: "$RedCard"},
+                    Yellow: {$sum: "$YellowCard"},
+                    SecondYellow: {$sum: "$SecondYellowCard"},
                     Assists: {$sum: "$Player.Assists"},
                     Goals: {$sum: "$Player.Goals"},
                     Position: {$first: "$Player.Position"},
