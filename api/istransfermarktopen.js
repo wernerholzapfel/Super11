@@ -47,7 +47,7 @@ apiRoutes.get("/istransfermarktopen", function (req, res, next) {
     speeldatums.push("2018-12-7", "2018-12-8", "2018-12-9");
     speeldatums.push("2018-12-14", "2018-12-15", "2018-12-16");
     speeldatums.push("2018-12-21", "2018-12-22", "2018-12-23");
-    speeldatums.push("2019-1-18", "2019-1-19", "2019-1-21");
+    speeldatums.push("2019-1-18", "2019-1-19", "2019-1-20");
     speeldatums.push("2019-1-25", "2019-1-26", "2019-1-27");
     speeldatums.push("2019-2-1", "2019-2-2", "2019-2-3");
     speeldatums.push("2019-2-8", "2019-2-9", "2019-2-10");
