@@ -203,6 +203,12 @@ angular.module('MetronicApp').controller('TransferApiController',
 
         SCOPE.$apply
 
+          var teamWithPlayerIDAsInt = [];
+          $scope.data.Team.forEach(function (item) {
+              item.PlayerId = parseInt(item.PlayerId);
+              teamWithPlayerIDAsInt.push(item);
+          });
+          $scope.data.Team = teamWithPlayerIDAsInt;
         var registration = savetransfersservice.post($scope.data);
 
         registration.success(function () {

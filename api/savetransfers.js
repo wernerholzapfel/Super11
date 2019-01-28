@@ -57,7 +57,7 @@ apiRoutes.post("/savetransfers", function (req, res) {
     speeldatums.push("2019-3-15", "2019-3-16", "2019-3-17");
     speeldatums.push("2019-3-30", "2019-3-31");
     speeldatums.push("2019-4-2", "2019-4-3", "2019-4-4");
-    speeldatums.push("2018-4-6", "2019-4-7");
+    speeldatums.push("2019-4-6", "2019-4-7");
     speeldatums.push("2019-4-12", "2019-4-13", "2019-4-14");
     speeldatums.push("2019-4-19", "2019-4-20", "2019-4-21");
     speeldatums.push("2019-4-23", "2019-4-24", "2019-4-25");
@@ -128,11 +128,9 @@ var saveTransfers = function (req, res) {
             },
             function (roundTable, maxRoundId, user, callback) {
                 if (roundTable && roundTable.TeamScores) {
-                    var numberOfPreviousTransfers = _.filter(roundTable.TeamScores, function (o) {
-                        return o.RoundId < maxRoundId;
-                    }).length;
-                    if (numberOfPreviousTransfers === 6) {
-                        return res.status(403).json("Je hebt al te veel transfers doorgevoerd");
+                    var allplayers = _.concat(roundTable.TeamScores, req.body.Team);
+                    if (_.uniqBy(allplayers, 'PlayerId').length > 17) {
+                        return res.status(403).json("Je kan nog maar maximaal " + (17 - roundTable.TeamScores.length) + " transfers doorvoeren");
                     } else {
                         callback(null, user);
                     }
