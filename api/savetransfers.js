@@ -63,6 +63,7 @@ apiRoutes.post("/savetransfers", function (req, res) {
     speeldatums.push("2019-4-23", "2019-4-24", "2019-4-25");
     speeldatums.push("2019-4-28");
     speeldatums.push("2019-5-12");
+    speeldatums.push("2019-5-15");
 
     var nu = moment(date).tz("Europe/Amsterdam");
     var nuInString = (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
