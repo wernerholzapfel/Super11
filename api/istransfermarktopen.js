@@ -28,7 +28,7 @@ apiRoutes.get("/isinschrijvingopen", function (req, res, next) {
 apiRoutes.get("/istransfermarktopen", function (req, res, next) {
     var date = new Date;
     var startdatum = moment("2018-09-16");
-    var einddatum = moment("2019-05-12");
+    var einddatum = moment("2019-05-15");
     var speeldatums = [];
     speeldatums.push("2018-8-10", "2018-8-11", "2018-8-12");
     speeldatums.push("2018-8-17", "2018-8-12", "2018-8-13");
