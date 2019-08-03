@@ -64,7 +64,7 @@ apiRoutes.get('/predictionform', function (req, res) {
                         "Table": [
                             {
                                 "Position": 1,
-                                "SelectedTeam": "Ado Den Haag",
+                                "SelectedTeam": "ADO Den Haag",
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 2,
@@ -77,7 +77,7 @@ apiRoutes.get('/predictionform', function (req, res) {
                             }
                             , {
                                 "Position": 4,
-                                "SelectedTeam": "Excelsior",
+                                "SelectedTeam": "FC Twente",
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 5,
@@ -85,7 +85,7 @@ apiRoutes.get('/predictionform', function (req, res) {
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 6,
-                                "SelectedTeam": "VVV Venlo",
+                                "SelectedTeam": "VVV",
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 7,
@@ -97,11 +97,11 @@ apiRoutes.get('/predictionform', function (req, res) {
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 9,
-                                "SelectedTeam": "Heracles Almelo",
+                                "SelectedTeam": "Heracles",
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 10,
-                                "SelectedTeam": "NAC Breda",
+                                "SelectedTeam": "RKC",
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 11,
@@ -121,7 +121,7 @@ apiRoutes.get('/predictionform', function (req, res) {
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 15,
-                                "SelectedTeam": "De Graafschap",
+                                "SelectedTeam": "Sparta",
                                 "SelectedTeamId": ""
                             }, {
                                 "Position": 16,

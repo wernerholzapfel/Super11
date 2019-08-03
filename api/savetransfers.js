@@ -26,11 +26,12 @@ apiRoutes.post("/saveteam", function (req, res) {
 
 apiRoutes.post("/savetransfers", function (req, res) {
     var date = new Date;
-    var startdatum = moment("2017-12-25");
-    var einddatum = moment("2019-05-12");
+
+    var startdatum = moment("2019-08-03");
+    var einddatum = moment("2019-05-10");
     var speeldatums = [];
-    speeldatums.push("2018-8-10", "2018-8-11", "2018-8-12");
-    speeldatums.push("2018-8-17", "2018-8-12", "2018-8-13");
+    speeldatums.push("2019-8-2", "2019-8-3", "2019-8-4");
+    speeldatums.push("2019-8-9", "2019-8-10", "2019-8-11");
     speeldatums.push("2018-8-24", "2018-8-12", "2018-8-13");
     speeldatums.push("2018-8-31", "2018-8-12", "2018-8-13");
     speeldatums.push("2018-9-15", "2018-9-16");

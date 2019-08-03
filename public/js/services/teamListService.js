@@ -18,7 +18,7 @@ angular.module('MetronicApp').factory('teamListService', function ($http) {
     PlayerSelected: false
   }, {
     Id: 4,
-    Team: "Excelsior",
+      Team: "FC Twente",
     Selected: false,
     PlayerSelected: false
   }, {
@@ -48,7 +48,7 @@ angular.module('MetronicApp').factory('teamListService', function ($http) {
     PlayerSelected: false
   }, {
     Id: 11,
-          Team: "NAC Breda",
+      Team: "RKC",
     Selected: false,
     PlayerSelected: false
   }, {
@@ -68,12 +68,12 @@ angular.module('MetronicApp').factory('teamListService', function ($http) {
     PlayerSelected: false
   }, {
     Id: 16,
-          Team: "Emmen",
+      Team: "FC Emmen",
     Selected: false,
     PlayerSelected: false
   }, {
     Id: 6,
-          Team: "De Graafschap",
+      Team: "Sparta",
     Selected: false,
     PlayerSelected: false
   }, {

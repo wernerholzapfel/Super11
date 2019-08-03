@@ -102,7 +102,7 @@ var determineifplayerisselected = require("../determineifplayerisselected");
 
 apiRoutes.post("/predictions", function (req, res) {
     var date = new Date;
-    var einddatum = moment("2018-09-15").tz("Europe/Amsterdam");
+    var einddatum = moment("2019-09-14").tz("Europe/Amsterdam");
     const uren = 18;
     const minuten = 30;
 
