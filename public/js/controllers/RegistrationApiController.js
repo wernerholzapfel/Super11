@@ -255,7 +255,7 @@
                 registration.success(function () {
                     $scope.alerts.push({
                         type: 'success',
-                        msg: 'Het opslaan is gelukt! Nadat het inschrijfgeld is ontvangen speel je definitief mee. Tot zaterdag 9 september 18:30 uur kun je jouw voorspellingen nog wijzigen. Veel plezier met Super 11!'
+                        msg: 'Het opslaan is gelukt! Nadat het inschrijfgeld is ontvangen speel je definitief mee. Tot zaterdag 14 september 18:30 uur kun je jouw voorspellingen nog wijzigen. Veel plezier met Super 11!'
                     });
                 });
 
